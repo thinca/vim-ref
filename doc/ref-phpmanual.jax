@@ -1,0 +1,42 @@
+*ref-phpmanual.txt*	PHP マニュアル用の ref ソース。
+
+Version: 0.0.1
+Author : thinca <http://d.hatena.ne.jp/thinca/>
+License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
+         <http://creativecommons.org/licenses/by/2.1/jp/>
+
+==============================================================================
+概要						*ref-phpmanual-introduction*
+
+*ref-phpmanual* は PHP マニュアル用の |ref| のソースです。
+
+要件:
+- PHP Manual (Many HTML files) (http://php.benscom.com/download-docs.php)
+
+
+==============================================================================
+カスタマイズ					*ref-phpmanual-customizing*
+
+g:ref_phpmanual_path				*g:ref_phpmanual_path*
+			PHP マニュアルのパスです。パスはローカルのディレクトリ
+			である必要があります。
+
+g:ref_phpmanual_cmd				*g:ref_phpmanual_cmd*
+			html を表示するためのコマンドです。%s は html ファイル
+			に置き換えられます。
+			デフォルト値は以下の物でコマンドが実行可能なものです。
+			- 'elinks -dump -no-numbering -no-references %s'
+			- 'w3m -dump %s'
+			- 'links -dump %s'
+			- 'lynx -dump -nonumbers %s'
+
+
+==============================================================================
+更新履歴					*ref-phpmanual-changelog*
+
+0.0.1	2009-08-09
+	- 初版。
+
+
+==============================================================================
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl

@@ -1,0 +1,46 @@
+*ref-refe.txt*	A ref source for ReFe.
+
+Version: 0.0.1
+Author : thinca <http://d.hatena.ne.jp/thinca/>
+License: Creative Commons Attribution 2.1 Japan License
+         <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
+
+==============================================================================
+INTRODUCTION					*ref-refe-introduction*
+
+*ref-refe* is a source for |ref| to refe command.  ReFe is a command line tool
+to view the reference manual of Ruby.
+
+
+Requirements:
+- ReFe (http://i.loveruby.net/en/projects/refe/)
+
+
+==============================================================================
+CUSTOMIZING					*ref-refe-customizing*
+
+g:ref_refe_cmd					*g:ref_refe_cmd*
+			Specifies the refe command.
+			The default value is "refe".
+
+g:ref_refe_encoding				*g:ref_refe_encoding*
+			Specifies the encoding of output of the refe command.
+			Conversion is not done when this variable was not
+			defined.
+
+
+==============================================================================
+BUGS						*ref-refe-bugs*
+
+- It is not assumed that a command line options of refe is specified.
+
+
+==============================================================================
+CHANGELOG					*ref-refe-changelog*
+
+0.0.1	2009-08-09
+	- Initial version.
+
+
+==============================================================================
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl

@@ -1,0 +1,161 @@
+*ref.txt*	Integrated reference viewer.
+
+Version: 0.0.1
+Author : thinca <http://d.hatena.ne.jp/thinca/>
+License: Creative Commons Attribution 2.1 Japan License
+         <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
+
+==============================================================================
+INTRODUCTION					*ref-introduction*
+
+*ref* is a Vim plugin to view the reference.  This plugin can be separated to
+core of viewer and sources of reference.  As a result, various references can
+be viewed by the same interface.
+
+Following sources are included in this plugin:
+- detect	(|ref-detect.txt|)
+- refe		(|ref-refe.txt|)
+- phpmanual	(|ref-phpmanual.txt|)
+
+
+==============================================================================
+REFERENCE VIEWER				*ref-viewer*
+
+|ref-viewer| is mere a buffer to view the reference.  This is opened by |:Ref|
+command or |<Plug>(ref-keyword)| key sequence like |:help|.  If |ref-viewer|
+is already opened in current tab page, it is used again.
+Each |ref-viewer| have a history of viewed pages, you can return at any time.
+
+
+==============================================================================
+INTERFACE					*ref-interface*
+
+------------------------------------------------------------------------------
+COMMANDS					*ref-command*
+
+:Ref {source} [query]				*:Ref*
+			Open the |ref-viewer|.  [query] is used by
+			|ref-source| as query.
+
+:RefHistory					*:RefHistory*
+			List the history in |ref-viewer|.  It is possible to
+			jump there by inputting the number.
+			This command is available only in the |ref-viewer|.
+
+
+------------------------------------------------------------------------------
+KEY MAPPINGS					*ref-key-mappings*
+
+<Plug>(ref-keyword)				*<Plug>(ref-keyword)*
+			Jump to reference of the keyword under the cursor.
+			When the source that should be used is not found, the
+			same behavior as |K|.
+
+
+The following key mappings are available in |ref-viewer|.
+
+[count] <Plug>(ref-forward)			*<Plug>(ref-forward)*
+[count] <Plug>(ref-back)			*<Plug>(ref-back)*
+			Follow the history in |ref-viewer|.
+
+
+					    *g:ref_no_default_key_mappings*
+The following key mappings will be also available unless
+g:ref_no_default_key_mappings is defined:
+
+(In global)
+{lhs}			{rhs}
+--------		-----------------------------
+K			<Plug>(ref-keyword)
+
+(In |ref-viewer|)
+{lhs}			{rhs}
+--------		-----------------------------
+<CR>			<Plug>(ref-keyword)
+<2-LeftMouse>		<Plug>(ref-keyword)
+<C-]>			<Plug>(ref-keyword)
+<C-t>			<Plug>(ref-back)
+<C-o>			<Plug>(ref-back)
+<C-i>			<Plug>(ref-forward)
+
+
+==============================================================================
+CUSTOMIZING					*ref-customizing*
+
+FileType ref					*filetype-ref*
+	This event occurs after the initialization of the |ref-viewer|.
+	Example: >
+	autocmd FileType ref call s:initialize_ref_viewer()
+	function! s:initialize_ref_viewer()
+	  nnoremap <buffer> b <Plug>(ref-back)
+	  nnoremap <buffer> f <Plug>(ref-forward)
+	  nnoremap <buffer> q <C-w>c
+	  setlocal nonumber
+	  " ... and more settings ...
+	endfunction
+<
+
+g:ref_split					*g:ref_split*
+	The Assistance command used when |ref-viewer| is opened.  For example,
+	|:vertical|, |:tab|, and so on.  The default value is empty string.
+
+
+==============================================================================
+SOURCES						*ref-sources*
+
+A source must provide the following functions.  The {query} is a string passed
+by |:Ref| command.
+
+ref#{source}#available()			*ref#{source}#available()*
+			Required.  Return true if this source is available.
+
+ref#{source}#get_body({query})			*ref#{source}#get_body()*
+			Required.  Return the body of reference by List of
+			line break delimitation or String.
+
+ref#{source}#opened({query})			*ref#{source}#opened()*
+			Optional.  When every reference page is opened, this
+			function is called.  You can edit the |ref-viewer|
+			buffer in this timing to initialization.
+
+ref#{source}#get_keyword()			*ref#{source}#get_keyword()*
+			Optional.  Pick up the keyword from current cursor
+			position.  If omitted, "expand('<cword>')" is used.
+			You can move the cursor because cursor position are
+			restored.
+
+ref#{source}#complete({query})			*ref#{source}#complete()*
+			Optional.  Return the completion list for command-line.
+
+ref#{source}#leave()				*ref#{source}#leave()*
+			Optional.  This function is called when move to other
+			source page.
+
+
+==============================================================================
+TODO						*ref-todo*
+
+- Implement a ku-source.
+- Append sources.
+  - href
+  - javadoc
+  - man
+  - perldoc
+  - pydoc
+  - refe2
+  - etc...
+- More customizable.
+- Global command line options.
+  - :Ref [-option ...] {source} ...
+  - Example: split
+
+
+==============================================================================
+CHANGELOG					*ref-changelog*
+
+0.0.1	2009-08-09
+	- Initial version.
+
+
+==============================================================================
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl

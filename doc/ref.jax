@@ -1,0 +1,144 @@
+*ref.txt*	総合リファレンスビューア。
+
+Version: 0.0.1
+Author : thinca <http://d.hatena.ne.jp/thinca/>
+License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
+         <http://creativecommons.org/licenses/by/2.1/jp/>
+
+==============================================================================
+概要						*ref-introduction*
+
+*ref* はリファレンスを見るための Vim プラグインです。このプラグインはビューア
+のコアの部分とリファレンスのソースに分かれています。これにより、同じインターフ
+ェースで複数のリファレンスを閲覧できます。
+
+このプラグインには以下のソースが含まれています:
+- detect	(|ref-detect.txt|)
+- refe		(|ref-refe.txt|)
+- phpmanual	(|ref-phpmanual.txt|)
+
+
+==============================================================================
+リファレンスビューア				*ref-viewer*
+
+|ref-viewer| は、リファレンスを見るための単なるバッファです。これは |:help| と
+同じように |:Ref| コマンドや |<Plug>(ref-keyword)| キーシーケンスによって開か
+れます。|ref-viewer| がカレントタブページ内で既に開かれていた場合はそれが再利
+用されます。
+|ref-viewer| はバッファ毎にそれぞれ表示したページの履歴を保持していて、いつで
+も戻ることができます。
+
+
+==============================================================================
+インターフェース				*ref-interface*
+
+------------------------------------------------------------------------------
+コマンド					*ref-commands*
+
+:Ref {source} [query]				*:Ref*
+			|ref-viewer| を開きます。 [query] は |ref-source| のク
+			エリに使われます。
+
+:RefHistory					*:RefHistory*
+			|ref-viewer| の履歴をリスト表示します。数字を入力する
+			ことでそこへジャンプできます。
+			|ref-viewer| 内でのみ使用できます。
+
+
+------------------------------------------------------------------------------
+キーマッピング 					*ref-key-mappings*
+
+<Plug>(ref-keyword)				*<Plug>(ref-keyword)*
+			カーソル位置のキーワードのリファレンスにジャンプしま
+			す。ソースが見つからなかった場合は |K| を押したのと同
+			じになります。
+
+
+以下のキーマッピングは |ref-viewer| 内で利用可能です。
+
+[count] <Plug>(ref-forward)			*<Plug>(ref-forward)*
+[count] <Plug>(ref-back)			*<Plug>(ref-back)*
+			|ref-viewer| 内での履歴を辿ります。
+
+
+					    *g:ref_no_default_key_mappings*
+以下のキーマッピングは g:ref_no_default_key_mappings を定義していなかった場合
+に利用可能です。
+
+(全体)
+{lhs}			{rhs}
+--------		-----------------------------
+K			<Plug>(ref-keyword)
+
+(|ref-viewer| 内)
+{lhs}			{rhs}
+--------		-----------------------------
+<CR>			<Plug>(ref-keyword)
+<2-LeftMouse>		<Plug>(ref-keyword)
+<C-]>			<Plug>(ref-keyword)
+<C-t>			<Plug>(ref-back)
+<C-o>			<Plug>(ref-back)
+<C-i>			<Plug>(ref-forward)
+
+
+==============================================================================
+カスタマイズ					*ref-customizing*
+
+FileType ref					*filetype-ref*
+	このイベントは |ref-viewer| の初期化後に発生します。
+	例: >
+	autocmd FileType ref call s:initialize_ref_viewer()
+	function! s:initialize_ref_viewer()
+	  nnoremap <buffer> b <Plug>(ref-back)
+	  nnoremap <buffer> f <Plug>(ref-forward)
+	  nnoremap <buffer> q <C-w>c
+	  setlocal nonumber
+	  " ... and more settings ...
+	endfunction
+<
+
+g:ref_split					*g:ref_split*
+	|ref-viewer| を開く際の補助コマンドです。例えば、|:vertical| や |:tab|
+	などを指定します。デフォルト値は空です。
+
+
+==============================================================================
+ソース						*ref-source*
+
+ソースは以下の関数を提供する必要があります。{query} は |:Ref| で渡される文字列
+です。
+
+ref#{source}#available()			*ref#{source}#available()*
+			必須。ソースが利用可能ならば真を返します。
+
+ref#{source}#get_body({query})			*ref#{source}#get_body()*
+			必須。リファレンスの本文を改行区切りのリストか文字列で
+			返します。
+
+ref#{source}#opened({query})			*ref#{source}#opened()*
+			任意。この関数はリファレンスページが開かれる度に呼ばれ
+			ます。このタイミングで |ref-viewer| を初期化のために
+			バッファを編集することができます。
+
+ref#{source}#get_keyword()			*ref#{source}#get_keyword()*
+			任意。現在のカーソル位置からキーワードを取得します。未
+			定義の場合は "expand('<cword>')" が使われます。カーソ
+			ル位置は復元されるので、カーソルを動かしても問題ありま
+			せん。
+
+ref#{source}#complete({query})			*ref#{source}#complete()*
+			任意。コマンドラインの補完リストを返します。
+
+ref#{source}#leave()				*ref#{source}#leave()*
+			任意。この関数は別のソースに移動する際に呼ばれます。
+
+
+==============================================================================
+更新履歴					*ref-changelog*
+
+0.0.1	2009-08-09
+	- 初版。
+
+
+==============================================================================
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
