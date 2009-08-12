@@ -1,0 +1,43 @@
+*ref-man.txt*	A ref source for manpage.
+
+Version: 0.0.1
+Author : thinca <http://d.hatena.ne.jp/thinca/>
+License: Creative Commons Attribution 2.1 Japan License
+         <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
+
+==============================================================================
+INTRODUCTION					*ref-man-introduction*
+
+*ref-man* is a source for |ref| to man command.  man is a command to view
+manual pages on UNIX-like operationg systems.
+
+
+Requirements:
+- man
+
+
+==============================================================================
+CUSTOMIZING					*ref-man-customizing*
+
+g:ref_man_cmd					*g:ref_man_cmd*
+			Specifies the man command.
+			The default value is "man".
+
+
+==============================================================================
+BUGS						*ref-refe-bugs*
+
+- The completion function for command line is very heavy in first.
+
+- The completion function for command line is not tested enough.
+
+
+==============================================================================
+CHANGELOG					*ref-man-changelog*
+
+0.0.1	2009-08-12
+	- Initial version.
+
+
+==============================================================================
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
