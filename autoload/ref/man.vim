@@ -49,7 +49,6 @@ function! ref#man#complete(query)  " {{{2
     for n in range(1, 9)
       let s:complcache[0] += s:complcache[n]
     endfor
-    let g:c = s:complcache
   endif
 
   return filter(copy(s:complcache[0]), 'v:val =~# "^\\V" . a:query')
