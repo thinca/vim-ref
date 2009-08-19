@@ -38,6 +38,8 @@ BUGS						*ref-man-bugs*
 
 - The completion function for command line is not tested enough.
 
+- It is not highlighted when following the history.
+
 
 ==============================================================================
 CHANGELOG					*ref-man-changelog*
