@@ -1,5 +1,5 @@
 " A ref source for manpage.
-" Version: 0.0.1
+" Version: 0.0.2
 " Author : thinca <http://d.hatena.ne.jp/thinca/>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -12,6 +12,12 @@ set cpo&vim
 if !exists('g:ref_man_cmd')
   let g:ref_man_cmd = 'man'
 endif
+
+
+if !exists('g:ref_man_highlight_limit')
+  let g:ref_man_highlight_limit = 1000
+endif
+
 
 
 function! ref#man#available()  " {{{2
@@ -27,39 +33,76 @@ endfunction
 
 
 function! ref#man#opened(query)  " {{{2
-  call s:highlight_escape_sequence()
+  if g:ref_man_highlight_limit < line('$')
+    execute "% substitute/\<ESC>\\[[0-9;]*m//g"
+    call histdel('/', -1)
+  else
+    call s:highlight_escape_sequence()
+  endif
 endfunction
 
 
 
+let s:complcache = {}
 function! ref#man#complete(query)  " {{{2
-  if !exists('s:complcache')
-    let s:complcache = [[], [], [], [], [], [], [], [], [], []]
+  let sec = matchstr(a:query, '^\d') - 0
+  let query = matchstr(a:query, '\v^%(\d\s+)?\zs.*')
 
+  if query == ''
+    return []
+  endif
+
+  let head = query[0]
+  if !has_key(s:complcache, head)
+    let c = map(range(10), '[]')
     for path in split(system('manpath')[0 : -2], ':')
       for n in range(1, 9)
         let dir = path . '/man' . n
         if isdirectory(dir)
-          let s:complcache[n] += map(split(glob(dir . '*/*'),
+          let c[n] += map(split(glob(printf('%s*/%s*', dir, head)),
           \   "\n"), 'matchstr(v:val, ".*/\\zs[^/.]*\\ze\\.")')
         endif
       endfor
     endfor
 
     for n in range(1, 9)
-      let s:complcache[0] += s:complcache[n]
+      let c[n] = s:uniq(c[n])
+      let c[0] += c[n]
     endfor
+    let c[0] = s:uniq(c[0])
+
+    let s:complcache[head] = c
   endif
 
-  return filter(copy(s:complcache[0]), 'v:val =~# "^\\V" . a:query')
+  return filter(copy(s:complcache[head][sec]), 'v:val =~# "^\\V" . query')
 endfunction
 
 
 
+function! s:uniq(list)
+  let d = {}
+  for i in a:list
+    let d[i] = 0
+  endfor
+  return sort(keys(d))
+endfunction
+
+
+
+" Got this function from vimshell. Thanks Shougo!
+" Original function: interactive#highlight_escape_sequence()
 function! s:highlight_escape_sequence()  " {{{2
   syntax clear
   1
   let [reg_save, reg_save_type] = [getreg(), getregtype()]
+
+  let l:color_table = [ 0x00, 0x5F, 0x87, 0xAF, 0xD7, 0xFF ]
+  let l:grey_table = [
+  \0x08, 0x12, 0x1C, 0x26, 0x30, 0x3A, 0x44, 0x4E, 
+  \0x58, 0x62, 0x6C, 0x76, 0x80, 0x8A, 0x94, 0x9E, 
+  \0xA8, 0xB2, 0xBC, 0xC6, 0xD0, 0xDA, 0xE4, 0xEE
+  \]
+
   while search("\<ESC>\\[[0-9;]*m", 'c')
     normal! dfm
 
@@ -72,7 +115,7 @@ function! s:highlight_escape_sequence()  " {{{2
 
     let highlight = ''
     for color_code in split(matchstr(@", '[0-9;]\+'), ';')
-      if color_code == 0  "{{{
+      if color_code == 0"{{{
         let highlight .= ' cterm=NONE ctermfg=NONE ctermbg=NONE gui=NONE guifg=NONE guibg=NONE'
       elseif color_code == 1
         let highlight .= ' cterm=BOLD gui=BOLD'
@@ -89,26 +132,16 @@ function! s:highlight_escape_sequence()  " {{{2
         " Foreground 256 colors.
         let l:color = split(matchstr(@", '[0-9;]\+'), ';')[2]
         if l:color >= 232
-          let l:gcolor = (l:color - 232) * 11
-          if l:gcolor != 0
-            let l:gcolor += 2
-          endif
+          " Grey scale.
+          let l:gcolor = l:grey_table[(l:color - 232)]
           let highlight .= printf(' ctermfg=%d guifg=#%02x%02x%02x', l:color, l:gcolor, l:gcolor, l:gcolor)
         elseif l:color >= 16
+          " RGB.
           let l:gcolor = l:color - 16
-          let l:red = l:gcolor / 36 * 40
-          let l:green = (l:gcolor - l:gcolor/36 * 36) / 6 * 40
-          let l:blue = l:gcolor % 6 * 40
+          let l:red = l:color_table[l:gcolor / 36]
+          let l:green = l:color_table[(l:gcolor % 36) / 6]
+          let l:blue = l:color_table[l:gcolor % 6]
 
-          if l:red != 0
-            let l:red += 15
-          endif
-          if l:blue != 0
-            let l:blue += 15
-          endif
-          if l:green != 0
-            let l:green += 15
-          endif
           let highlight .= printf(' ctermfg=%d guifg=#%02x%02x%02x', l:color, l:red, l:green, l:blue)
         else
           let highlight .= printf(' ctermfg=%d guifg=%s', l:color, g:Interactive_EscapeColors[l:color])
@@ -123,26 +156,16 @@ function! s:highlight_escape_sequence()  " {{{2
         " Background 256 colors.
         let l:color = split(matchstr(@", '[0-9;]\+'), ';')[2]
         if l:color >= 232
-          let l:gcolor = (l:color - 232) * 11
-          if l:gcolor != 0
-            let l:gcolor += 2
-          endif
+          " Grey scale.
+          let l:gcolor = l:grey_table[(l:color - 232)]
           let highlight .= printf(' ctermbg=%d guibg=#%02x%02x%02x', l:color, l:gcolor, l:gcolor, l:gcolor)
         elseif l:color >= 16
+          " RGB.
           let l:gcolor = l:color - 16
-          let l:red = l:gcolor / 36 * 40
-          let l:green = (l:gcolor - l:gcolor/36 * 36) / 6 * 40
-          let l:blue = l:gcolor % 6 * 40
+          let l:red = l:color_table[l:gcolor / 36]
+          let l:green = l:color_table[(l:gcolor % 36) / 6]
+          let l:blue = l:color_table[l:gcolor % 6]
 
-          if l:red != 0
-            let l:red += 15
-          endif
-          if l:blue != 0
-            let l:blue += 15
-          endif
-          if l:green != 0
-            let l:green += 15
-          endif
           let highlight .= printf(' ctermbg=%d guibg=#%02x%02x%02x', l:color, l:red, l:green, l:blue)
         else
           let highlight .= printf(' ctermbg=%d guibg=%s', l:color, g:Interactive_EscapeColors[l:color])
@@ -150,13 +173,13 @@ function! s:highlight_escape_sequence()  " {{{2
         break
       elseif color_code == 49
         " TODO
-      endif  "}}}
+      endif"}}}
     endfor
     if len(highlight)
       execute 'highlight' syntax_name highlight
     endif
   endwhile
-  call setreg(v:register,reg_save, reg_save_type)
+  call setreg(v:register, reg_save, reg_save_type)
 endfunction
 
 

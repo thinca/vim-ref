@@ -1,6 +1,6 @@
 *ref-man.txt*	A ref source for manpage.
 
-Version: 0.0.1
+Version: 0.0.2
 Author : thinca <http://d.hatena.ne.jp/thinca/>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -23,17 +23,32 @@ g:ref_man_cmd					*g:ref_man_cmd*
 			Specifies the man command.
 			The default value is "man".
 
+g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
+			If line number of body of man is greater than this
+			value, highlight is disabled.  Because highlight is
+			very heavy.
+			The default value is 1000.
+
 
 ==============================================================================
-BUGS						*ref-refe-bugs*
+BUGS						*ref-man-bugs*
 
-- The completion function for command line is very heavy in first.
+- The completion function for command line returns a empty list when a query
+  is empty.
 
 - The completion function for command line is not tested enough.
+
+- It is not highlighted when following the history.
 
 
 ==============================================================================
 CHANGELOG					*ref-man-changelog*
+
+0.0.2	2009-08-19
+	- Added g:ref_man_highlight_limit option.
+	- Improved the completion function.
+	  - For performance.
+	  - Removed duplication items.
 
 0.0.1	2009-08-12
 	- Initial version.
