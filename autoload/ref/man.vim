@@ -14,6 +14,12 @@ if !exists('g:ref_man_cmd')
 endif
 
 
+if !exists('g:ref_man_highlight_limit')
+  let g:ref_man_highlight_limit = 1000
+endif
+
+
+
 function! ref#man#available()  " {{{2
   return executable(matchstr(g:ref_man_cmd, '^\w*'))
 endfunction
@@ -27,7 +33,12 @@ endfunction
 
 
 function! ref#man#opened(query)  " {{{2
-  call s:highlight_escape_sequence()
+  if g:ref_man_highlight_limit < line('$')
+    execute "% substitute/\<ESC>\\[[0-9;]*m//g"
+    call histdel('/', -1)
+  else
+    call s:highlight_escape_sequence()
+  endif
 endfunction
 
 

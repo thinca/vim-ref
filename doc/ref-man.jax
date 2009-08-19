@@ -23,6 +23,11 @@ g:ref_man_cmd					*g:ref_man_cmd*
 			man コマンドを指定します。
 			デフォルト値は "man" です。
 
+g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
+			本文の行数がこの値を超えていた場合、ハイライトを行ない
+			ません。なぜならば、ハイライトは非常に重いからです。
+			デフォルト値は 1000 です。
+
 
 ==============================================================================
 バグ						*ref-man-bugs*
@@ -36,6 +41,7 @@ g:ref_man_cmd					*g:ref_man_cmd*
 更新履歴					*ref-man-changelog*
 
 x.x.x	xxxx-xx-xx
+	- g:ref_man_highlight_limit オプションを追加。
 	- 補完関数を改良。
 	  - パフォーマンス。
 	  - 重複した項目を取り除くようにした。
