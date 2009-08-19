@@ -1,6 +1,6 @@
 *ref-man.txt*	manpage 用の ref ソース。
 
-Version: 0.0.1
+Version: 0.0.2
 Author : thinca <http://d.hatena.ne.jp/thinca/>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -42,7 +42,7 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 ==============================================================================
 更新履歴					*ref-man-changelog*
 
-x.x.x	xxxx-xx-xx
+0.0.2	2009-08-19
 	- g:ref_man_highlight_limit オプションを追加。
 	- 補完関数を改良。
 	  - パフォーマンス。

@@ -1,6 +1,6 @@
 *ref-man.txt*	A ref source for manpage.
 
-Version: 0.0.1
+Version: 0.0.2
 Author : thinca <http://d.hatena.ne.jp/thinca/>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -44,7 +44,7 @@ BUGS						*ref-man-bugs*
 ==============================================================================
 CHANGELOG					*ref-man-changelog*
 
-x.x.x	xxxx-xx-xx
+0.0.2	2009-08-19
 	- Added g:ref_man_highlight_limit option.
 	- Improved the completion function.
 	  - For performance.
