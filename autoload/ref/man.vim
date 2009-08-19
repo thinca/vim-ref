@@ -55,13 +55,25 @@ function! ref#man#complete(query)  " {{{2
     endfor
 
     for n in range(1, 9)
+      let c[n] = s:uniq(c[n])
       let c[0] += c[n]
     endfor
+    let c[0] = s:uniq(c[0])
 
     let s:complcache[head] = c
   endif
 
   return filter(copy(s:complcache[head][sec]), 'v:val =~# "^\\V" . query')
+endfunction
+
+
+
+function! s:uniq(list)
+  let d = {}
+  for i in a:list
+    let d[i] = 0
+  endfor
+  return sort(keys(d))
 endfunction
 
 

@@ -25,7 +25,7 @@ g:ref_man_cmd					*g:ref_man_cmd*
 
 
 ==============================================================================
-BUGS						*ref-refe-bugs*
+BUGS						*ref-man-bugs*
 
 - The completion function for command line returns a empty list when a query
   is empty.
@@ -39,6 +39,7 @@ CHANGELOG					*ref-man-changelog*
 x.x.x	xxxx-xx-xx
 	- Improved the completion function.
 	  - For performance.
+	  - Removed duplication items.
 
 0.0.1	2009-08-12
 	- Initial version.
