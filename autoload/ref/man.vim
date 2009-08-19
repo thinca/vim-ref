@@ -32,26 +32,36 @@ endfunction
 
 
 
+let s:complcache = {}
 function! ref#man#complete(query)  " {{{2
-  if !exists('s:complcache')
-    let s:complcache = [[], [], [], [], [], [], [], [], [], []]
+  let sec = matchstr(a:query, '^\d') - 0
+  let query = matchstr(a:query, '\v^%(\d\s+)?\zs.*')
 
+  if query == ''
+    return []
+  endif
+
+  let head = query[0]
+  if !has_key(s:complcache, head)
+    let c = map(range(10), '[]')
     for path in split(system('manpath')[0 : -2], ':')
       for n in range(1, 9)
         let dir = path . '/man' . n
         if isdirectory(dir)
-          let s:complcache[n] += map(split(glob(dir . '*/*'),
+          let c[n] += map(split(glob(printf('%s*/%s*', dir, head)),
           \   "\n"), 'matchstr(v:val, ".*/\\zs[^/.]*\\ze\\.")')
         endif
       endfor
     endfor
 
     for n in range(1, 9)
-      let s:complcache[0] += s:complcache[n]
+      let c[0] += c[n]
     endfor
+
+    let s:complcache[head] = c
   endif
 
-  return filter(copy(s:complcache[0]), 'v:val =~# "^\\V" . a:query')
+  return filter(copy(s:complcache[head][sec]), 'v:val =~# "^\\V" . query')
 endfunction
 
 
