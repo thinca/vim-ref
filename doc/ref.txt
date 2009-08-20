@@ -14,6 +14,7 @@ be viewed by the same interface.
 
 Following sources are included in this plugin:
 - detect	(|ref-detect.txt|)
+- man		(|ref-man.txt|)
 - refe		(|ref-refe.txt|)
 - phpmanual	(|ref-phpmanual.txt|)
 
@@ -135,7 +136,6 @@ ref#{source}#leave()				*ref#{source}#leave()*
 ==============================================================================
 TODO						*ref-todo*
 
-- Implement a ku-source.
 - Append sources.
   - href
   - javadoc

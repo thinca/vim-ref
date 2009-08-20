@@ -14,6 +14,7 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 
 このプラグインには以下のソースが含まれています:
 - detect	(|ref-detect.txt|)
+- man		(|ref-man.txt|)
 - refe		(|ref-refe.txt|)
 - phpmanual	(|ref-phpmanual.txt|)
 
