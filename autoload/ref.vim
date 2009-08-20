@@ -24,13 +24,10 @@ endfunction
 
 function! ref#complete(lead, cmd, pos)  " {{{2
   let list = matchlist(a:cmd, '^\v.{-}R%[ef]\s+(\w+)\s+(.*)$')
-  let g:cmd = a:cmd
-  let g:list = list
   if list == []
     return filter(ref#list(), 'v:val =~ "^".a:lead')
   endif
   let [subcmd, query] = list[1 : 2]
-  let [g:subcmd, g:query] = [subcmd, query]
   if exists('*ref#{subcmd}#complete')
     return ref#{subcmd}#complete(query)
   endif
