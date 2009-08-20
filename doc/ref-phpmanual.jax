@@ -1,6 +1,6 @@
 *ref-phpmanual.txt*	PHP マニュアル用の ref ソース。
 
-Version: 0.0.1
+Version: 0.0.2
 Author : thinca <http://d.hatena.ne.jp/thinca/>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -33,6 +33,10 @@ g:ref_phpmanual_cmd				*g:ref_phpmanual_cmd*
 
 ==============================================================================
 更新履歴					*ref-phpmanual-changelog*
+
+0.0.2	2009-08-20
+	- 補完用にキャッシュを行うようにした。
+	- キーワードのマッチを改善。
 
 0.0.1	2009-08-09
 	- 初版。
