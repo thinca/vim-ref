@@ -139,6 +139,7 @@ ref#{source}#leave()				*ref#{source}#leave()*
 x.x.x	xxxx-xx-xx
 	- g:ref_split の名前と意味を変更。
 	  - g:ref_open へ変更。
+	- ソースの補完時に同じ項目が出ることがあるバグを修正。
 
 0.0.1	2009-08-09
 	- 初版。

@@ -156,6 +156,7 @@ CHANGELOG					*ref-changelog*
 x.x.x	xxxx-xx-xx
 	- Changed the name and the means of g:ref_split.
 	  - Changed to g:ref_open.
+	- Fixed the bug that same items appears in completion of source.
 
 0.0.1	2009-08-09
 	- Initial version.

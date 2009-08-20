@@ -42,8 +42,8 @@ endfunction
 " Get available reference list.
 function! ref#list()  " {{{2
   let list = split(globpath(&runtimepath, 'autoload/ref/*.vim'), "\n")
-  return filter(map(list, 'fnamemodify(v:val, ":t:r")'),
-  \             'ref#{v:val}#available()')
+  return s:uniq(filter(map(list, 'fnamemodify(v:val, ":t:r")'),
+  \             'ref#{v:val}#available()'))
 endfunction
 
 
@@ -227,6 +227,16 @@ function! s:dump_history()  " {{{2
   if i =~ '\d\+'
     call s:move_history(i - b:ref_history_pos - 1)
   endif
+endfunction
+
+
+
+function! s:uniq(list)
+  let d = {}
+  for i in a:list
+    let d[i] = 0
+  endfor
+  return sort(keys(d))
 endfunction
 
 
