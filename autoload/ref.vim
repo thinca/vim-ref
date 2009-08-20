@@ -7,8 +7,8 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-if !exists('g:ref_split')
-  let g:ref_split = ''
+if !exists('g:ref_open')
+  let g:ref_open = 'split'
 endif
 
 
@@ -86,7 +86,8 @@ function! ref#open(source, query)  " {{{2
   endfo
 
   if bufnr == 0
-    silent! execute g:ref_split 'new'
+    silent! execute g:ref_open
+    enew
     call s:initialize_buffer(a:source)
   else
     setlocal modifiable noreadonly

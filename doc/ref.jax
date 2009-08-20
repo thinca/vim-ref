@@ -97,9 +97,9 @@ FileType ref					*filetype-ref*
 	endfunction
 <
 
-g:ref_split					*g:ref_split*
-	|ref-viewer| を開く際の補助コマンドです。例えば、|:vertical| や |:tab|
-	などを指定します。デフォルト値は空です。
+g:ref_open					*g:ref_open*
+	|ref-viewer| を開く際の補助コマンドです。例えば、|:vsplit| や
+	|:tabnew|などを指定します。デフォルト値は "split" です。
 
 
 ==============================================================================
@@ -135,6 +135,10 @@ ref#{source}#leave()				*ref#{source}#leave()*
 
 ==============================================================================
 更新履歴					*ref-changelog*
+
+x.x.x	xxxx-xx-xx
+	- g:ref_split の名前と意味を変更。
+	  - g:ref_open へ変更。
 
 0.0.1	2009-08-09
 	- 初版。
