@@ -48,7 +48,7 @@ endfunction
 
 
 
-function! ref#open(source, query)  " {{{2
+function! ref#open(source, query, ...)  " {{{2
   if index(ref#list(), a:source) < 0 || !exists('*ref#{a:source}#available')
   \   || !ref#{a:source}#available()
     echoerr 'Reference unavailable:' a:source
@@ -86,7 +86,7 @@ function! ref#open(source, query)  " {{{2
   endfo
 
   if bufnr == 0
-    silent! execute g:ref_open
+    silent! execute (a:0 ? a:1 : g:ref_open)
     enew
     call s:initialize_buffer(a:source)
   else
