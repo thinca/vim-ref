@@ -139,7 +139,6 @@ TODO						*ref-todo*
 - Append sources.
   - href
   - javadoc
-  - man
   - perldoc
   - pydoc
   - refe2
