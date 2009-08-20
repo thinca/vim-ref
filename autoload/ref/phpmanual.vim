@@ -30,17 +30,26 @@ endfunction
 
 
 function! ref#phpmanual#get_body(query)  " {{{2
-  let name = substitute(a:query, '_', '-', 'g')
+  let name = substitute(tolower(a:query), '_', '-', 'g')
+  let pre = g:ref_phpmanual_path . '/'
+
+  if name =~ '::'
+    let file = pre . substitute(name, '::', '.', 'g') . '.html'
+    if filereadable(file)
+      return system(printf(g:ref_phpmanual_cmd, file))
+    endif
+    let name = substitute(name, '::', '-', 'g')
+  endif
 
   for section in ['function.', 'ref.', 'class.', '']
-    let file = g:ref_phpmanual_path . '/' . section . name . '.html'
+    let file = pre . section . name . '.html'
     if filereadable(file)
       return system(printf(g:ref_phpmanual_cmd, file))
     endif
   endfor
 
   for pat in ['%s.*', '*.%s.*', 'function.*%s*.html']
-    let file = glob(g:ref_phpmanual_path . '/' . printf(pat, name))
+    let file = glob(pre . printf(pat, name))
     if file != ''
       let files = split(file, "\n")
       if len(files) == 1
@@ -64,7 +73,7 @@ endfunction
 
 
 function! ref#phpmanual#complete(query)  " {{{2
-  let name = substitute(a:query, '_', '-', 'g')
+  let name = substitute(tolower(a:query), '::', '_', 'g')
   let pre = g:ref_phpmanual_path . '/'
 
   for kind in ['function', 'ref', 'class']
@@ -80,7 +89,7 @@ endfunction
 
 function! ref#phpmanual#get_keyword()  " {{{2
   let isk = &l:isk
-  setlocal isk& isk+=- isk+=.
+  setlocal isk& isk+=- isk+=. isk+=:
   let kwd = expand('<cword>')
   let &l:isk = isk
   return kwd
