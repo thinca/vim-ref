@@ -1,5 +1,5 @@
 " A ref source for ReFe.
-" Version: 0.0.1
+" Version: 0.0.2
 " Author : thinca <http://d.hatena.ne.jp/thinca/>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -51,6 +51,12 @@ endfunction
 
 function! ref#refe#complete(query)  " {{{2
   return split(system(g:ref_refe_cmd . ' -l -s ' . a:query), "\n")
+endfunction
+
+
+
+function! ref#refe#special_char_p(ch)
+  return a:ch == '#'
 endfunction
 
 
