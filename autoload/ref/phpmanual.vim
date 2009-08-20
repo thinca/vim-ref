@@ -67,14 +67,10 @@ function! ref#phpmanual#complete(query)  " {{{2
   let name = substitute(a:query, '_', '-', 'g')
   let pre = g:ref_phpmanual_path . '/'
 
-  for [globpat, retpat] in [
-  \   ['function.%s*', 'function\.\zs.*\ze\.html$'],
-  \   ['ref.%s*', 'ref\.\zs.*\ze\.html$'],
-  \   ['class.%s*', 'class\.\zs.*\ze\.html$']]
-    let file = glob(pre . printf(globpat, name) . '.html')
-    if file != ''
-      return map(split(file, "\n"),
-      \ 'substitute(matchstr(v:val, retpat), "-", "_", "g")')
+  for kind in ['function', 'ref', 'class']
+    let list = filter(copy(s:ref_list(kind)), 'v:val =~# name')
+    if list != []
+      return list
     endif
   endfor
   return []
@@ -115,6 +111,18 @@ function! s:syntax()  " {{{2
   highlight default link refPhpmanualFunc phpFunctions
 
   let b:current_syntax = 'ref-phpmanual'
+endfunction
+
+
+
+function! s:ref_list(kind)
+  if !exists('s:{a:kind}_list')
+    let list = glob(g:ref_phpmanual_path . '/' . a:kind . '.*.html')
+    let pat = a:kind . '\.\zs.*\ze\.html$'
+    let s:{a:kind}_list = map(split(list, "\n"),
+    \                     'substitute(matchstr(v:val, pat), "-", "_", "g")')
+  endif
+  return s:{a:kind}_list
 endfunction
 
 
