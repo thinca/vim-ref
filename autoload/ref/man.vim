@@ -1,5 +1,5 @@
 " A ref source for manpage.
-" Version: 0.0.2
+" Version: 0.1.0
 " Author : thinca <http://d.hatena.ne.jp/thinca/>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -12,6 +12,12 @@ set cpo&vim
 if !exists('g:ref_man_cmd')
   let g:ref_man_cmd = 'man'
 endif
+
+
+if !exists('g:ref_man_use_escape_sequence')
+  let g:ref_man_use_escape_sequence = 0
+endif
+
 
 
 if !exists('g:ref_man_highlight_limit')
@@ -33,12 +39,30 @@ endfunction
 
 
 function! ref#man#opened(query)  " {{{2
-  if g:ref_man_highlight_limit < line('$')
-    execute "% substitute/\<ESC>\\[[0-9;]*m//g"
-    call histdel('/', -1)
-  else
+  if g:ref_man_use_escape_sequence && line ('$') <= g:ref_man_highlight_limit
     call s:highlight_escape_sequence()
+  else
+    silent! execute "% substitute/\<ESC>\\[[0-9;]*m//ge"
+    call histdel('/', -1)
+
+    call s:syntax()
   endif
+endfunction
+
+
+
+function! ref#man#get_keyword()  " {{{2
+  let isk = &l:iskeyword
+  setlocal isk& isk+=. isk+=( isk+=)
+  let word = expand('<cword>')
+  setlocal isk& isk+=.
+  let m = matchlist(word, '\(\k\+\)\%((\(\d\))\)\?')
+  let keyword = m[1]
+  if m[2] != ''
+    let keyword = m[2] . ' ' . keyword
+  endif
+  let &l:iskeyword = isk
+  return keyword
 endfunction
 
 
@@ -79,12 +103,33 @@ endfunction
 
 
 
-function! s:uniq(list)
+function! ref#man#leave()  " {{{2
+  syntax clear
+  unlet! b:current_syntax
+endfunction
+
+
+
+function! s:uniq(list)  " {{{2
   let d = {}
   for i in a:list
     let d[i] = 0
   endfor
   return sort(keys(d))
+endfunction
+
+
+
+function! s:syntax()  " {{{2
+  if exists('b:current_syntax') && b:current_syntax == 'man'
+    return
+  endif
+
+  syntax clear
+
+  unlet! b:current_syntax
+
+  runtime! syntax/man.vim
 endfunction
 
 
