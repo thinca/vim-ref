@@ -44,6 +44,9 @@ BUGS						*ref-man-bugs*
 ==============================================================================
 CHANGELOG					*ref-man-changelog*
 
+x.x.x	xxxx-xx-xx
+	- Improved the matching of keyword.
+
 0.0.2	2009-08-19
 	- Added g:ref_man_highlight_limit option.
 	- Improved the completion function.

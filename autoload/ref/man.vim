@@ -43,6 +43,22 @@ endfunction
 
 
 
+function! ref#man#get_keyword()  " {{{2
+  let isk = &l:iskeyword
+  setlocal isk& isk+=. isk+=( isk+=)
+  let word = expand('<cword>')
+  setlocal isk& isk+=.
+  let m = matchlist(word, '\(\k\+\)\%((\(\d\))\)\?')
+  let keyword = m[1]
+  if m[2] != ''
+    let keyword = m[2] . ' ' . keyword
+  endif
+  let &l:iskeyword = isk
+  return keyword
+endfunction
+
+
+
 let s:complcache = {}
 function! ref#man#complete(query)  " {{{2
   let sec = matchstr(a:query, '^\d') - 0
@@ -79,7 +95,7 @@ endfunction
 
 
 
-function! s:uniq(list)
+function! s:uniq(list)  " {{{2
   let d = {}
   for i in a:list
     let d[i] = 0
