@@ -23,9 +23,14 @@ g:ref_man_cmd					*g:ref_man_cmd*
 			man コマンドを指定します。
 			デフォルト値は "man" です。
 
+g:ref_man_use_escape_sequence			*g:ref_man_use_escape_sequence*
+			エスケープシーケンスを使用してハイライトを行います。
+			デフォルト値は 0 です。
+
 g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
-			本文の行数がこの値を超えていた場合、ハイライトを行ない
-			ません。なぜならば、ハイライトは非常に重いからです。
+			本文の行数がこの値を超えていた場合、エスケープシーケン
+			スを用いたハイライトを行ないません。なぜならば、非常に
+			重いからです。
 			デフォルト値は 1000 です。
 
 
@@ -36,7 +41,8 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 
 - コマンドライン用の補完関数は十分にテストされていません。
 
-- 履歴を辿った場合はハイライトされません。
+- |g:ref_man_use_escape_sequence| を有効にしていた場合、履歴を辿った場合はハ
+  イライトされません。
 
 
 ==============================================================================
@@ -45,9 +51,10 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 x.x.x	xxxx-xx-xx
 	- キーワードのマッチを改善。
 	- ページを移動した際にエラーが発生することがあるバグを修正。
+	- |g:ref_man_use_escape_sequence| オプションを追加。
 
 0.0.2	2009-08-19
-	- g:ref_man_highlight_limit オプションを追加。
+	- |g:ref_man_highlight_limit| オプションを追加。
 	- 補完関数を改良。
 	  - パフォーマンス。
 	  - 重複した項目を取り除くようにした。

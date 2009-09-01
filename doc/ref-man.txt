@@ -23,10 +23,14 @@ g:ref_man_cmd					*g:ref_man_cmd*
 			Specifies the man command.
 			The default value is "man".
 
+g:ref_man_use_escape_sequence			*g:ref_man_use_escape_sequence*
+			Highlight using escape sequence.
+			The default value is 0.
+
 g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 			If line number of body of man is greater than this
-			value, highlight is disabled.  Because highlight is
-			very heavy.
+			value, highlight with escape sequence is disabled.
+			Because very heavy.
 			The default value is 1000.
 
 
@@ -38,7 +42,8 @@ BUGS						*ref-man-bugs*
 
 - The completion function for command line is not tested enough.
 
-- It is not highlighted when following the history.
+- If you enabled |g:ref_man_use_escape_sequence|, it is not highlighted when
+  following the history.
 
 
 ==============================================================================
@@ -47,9 +52,10 @@ CHANGELOG					*ref-man-changelog*
 x.x.x	xxxx-xx-xx
 	- Improved the matching of keyword.
 	- Fixed a bug that an error might occur when a page is moved.
+	- Added |g:ref_man_use_escape_sequence| option.
 
 0.0.2	2009-08-19
-	- Added g:ref_man_highlight_limit option.
+	- Added |g:ref_man_highlight_limit| option.
 	- Improved the completion function.
 	  - For performance.
 	  - Removed duplication items.

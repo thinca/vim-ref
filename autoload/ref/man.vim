@@ -14,6 +14,12 @@ if !exists('g:ref_man_cmd')
 endif
 
 
+if !exists('g:ref_man_use_escape_sequence')
+  let g:ref_man_use_escape_sequence = 0
+endif
+
+
+
 if !exists('g:ref_man_highlight_limit')
   let g:ref_man_highlight_limit = 1000
 endif
@@ -33,11 +39,13 @@ endfunction
 
 
 function! ref#man#opened(query)  " {{{2
-  if g:ref_man_highlight_limit < line('$')
+  if g:ref_man_use_escape_sequence && line ('$') <= g:ref_man_highlight_limit
+    call s:highlight_escape_sequence()
+  else
     silent! execute "% substitute/\<ESC>\\[[0-9;]*m//ge"
     call histdel('/', -1)
-  else
-    call s:highlight_escape_sequence()
+
+    call s:syntax()
   endif
 endfunction
 
@@ -95,12 +103,33 @@ endfunction
 
 
 
+function! ref#man#leave()  " {{{2
+  syntax clear
+  unlet! b:current_syntax
+endfunction
+
+
+
 function! s:uniq(list)  " {{{2
   let d = {}
   for i in a:list
     let d[i] = 0
   endfor
   return sort(keys(d))
+endfunction
+
+
+
+function! s:syntax()  " {{{2
+  if exists('b:current_syntax') && b:current_syntax == 'man'
+    return
+  endif
+
+  syntax clear
+
+  unlet! b:current_syntax
+
+  runtime! syntax/man.vim
 endfunction
 
 
