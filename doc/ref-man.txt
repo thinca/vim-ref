@@ -1,6 +1,6 @@
 *ref-man.txt*	A ref source for manpage.
 
-Version: 0.0.2
+Version: 0.1.0
 Author : thinca <http://d.hatena.ne.jp/thinca/>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -49,7 +49,7 @@ BUGS						*ref-man-bugs*
 ==============================================================================
 CHANGELOG					*ref-man-changelog*
 
-x.x.x	xxxx-xx-xx
+0.1.0	2009-09-01
 	- Improved the matching of keyword.
 	- Fixed a bug that an error might occur when a page is moved.
 	- Added |g:ref_man_use_escape_sequence| option.
