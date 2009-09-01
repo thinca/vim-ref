@@ -34,7 +34,7 @@ endfunction
 
 function! ref#man#opened(query)  " {{{2
   if g:ref_man_highlight_limit < line('$')
-    execute "% substitute/\<ESC>\\[[0-9;]*m//g"
+    silent! execute "% substitute/\<ESC>\\[[0-9;]*m//ge"
     call histdel('/', -1)
   else
     call s:highlight_escape_sequence()

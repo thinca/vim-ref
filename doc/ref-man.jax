@@ -44,6 +44,7 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 
 x.x.x	xxxx-xx-xx
 	- キーワードのマッチを改善。
+	- ページを移動した際にエラーが発生することがあるバグを修正。
 
 0.0.2	2009-08-19
 	- g:ref_man_highlight_limit オプションを追加。
