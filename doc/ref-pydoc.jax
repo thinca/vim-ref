@@ -1,4 +1,4 @@
-*ref-pydoc.txt*	**要約**
+*ref-pydoc.txt*	pydoc 用の ref ソース。
 
 Version: 0.1.0
 Author : thinca <http://d.hatena.ne.jp/thinca/>
@@ -17,7 +17,7 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 
 
 ==============================================================================
-CUSTOMIZING					*ref-pydoc-customizing*
+カスタマイズ					*ref-pydoc-customizing*
 
 g:ref_pydoc_cmd					*g:ref_pydoc_cmd*
 			pydoc コマンドを指定します。
@@ -25,7 +25,7 @@ g:ref_pydoc_cmd					*g:ref_pydoc_cmd*
 
 
 ==============================================================================
-BUGS						*ref-pydoc-bugs*
+バグ						*ref-pydoc-bugs*
 
 - キーワードの抽出が不完全。
 
