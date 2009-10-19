@@ -5,14 +5,14 @@ Author : thinca <thinca@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
 
+==============================================================================
 CONTENTS					*ku-ref-contents*
 
-Introduction		|ku-ref-introduction|
-Action Table		|ku-ref-action-table|
-Key Table		|ku-ref-key-table|
-For ref sources		|ku-ref-for-ref-sources|
-Bugs			|ku-ref-bugs|
-Changelog		|ku-ref-changelog|
+INTRODUCTION			|ku-ref-introduction|
+ACTION TABLE			|ku-ref-action-table|
+KEY TABLE			|ku-ref-key-table|
+FOR REF SOURCES			|ku-ref-for-ref-sources|
+CHANGELOG			|ku-ref-changelog|
 
 
 ==============================================================================

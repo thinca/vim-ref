@@ -6,6 +6,16 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
 
 ==============================================================================
+目次						*ref-detect-contents*
+
+概要				|ref-detect-introduction|
+インターフェース		|ref-detect-interface|
+  関数				  |ref-detect-functions|
+カスタマイズ			|ref-detect-customizing|
+更新履歴			|ref-detect-changelog|
+
+
+==============================================================================
 概要						*ref-detect-introduction*
 
 *ref-detect* は適切なソースを検出してそれを使う |ref| ソースです。

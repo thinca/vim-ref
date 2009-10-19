@@ -6,6 +6,15 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
 
 ==============================================================================
+目次						*ref-man-contents*
+
+概要				|ref-man-introduction|
+カスタマイズ			|ref-man-customizing|
+バグ				|ref-man-bugs|
+更新履歴			|ref-man-changelog|
+
+
+==============================================================================
 概要						*ref-man-introduction*
 
 *ref-man* は man コマンド用の |ref| ソースです。man は Unix 系 OS でオンライン

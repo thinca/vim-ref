@@ -6,6 +6,15 @@ License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
 
 ==============================================================================
+CONTENTS					*ref-man-contents*
+
+INTRODUCTION			|ref-man-introduction|
+CUSTOMIZING			|ref-man-customizing|
+BUGS				|ref-man-bugs|
+CHANGELOG			|ref-man-changelog|
+
+
+==============================================================================
 INTRODUCTION					*ref-man-introduction*
 
 *ref-man* is a source for |ref| to man command.  man is a command to view

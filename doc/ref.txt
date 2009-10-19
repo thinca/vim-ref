@@ -6,6 +6,20 @@ License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
 
 ==============================================================================
+CONTENTS					*ref-contents*
+
+INTRODUCTION			|ref-introduction|
+REFERENCE VIEWER		|ref-viewer|
+INTERFACE			|ref-interface|
+  COMMANDS			  |ref-command|
+  KEY MAPPINGS			  |ref-key-mappings|
+CUSTOMIZING			|ref-customizing|
+SOURCES				|ref-sources|
+TODO				|ref-todo|
+CHANGELOG			|ref-changelog|
+
+
+==============================================================================
 INTRODUCTION					*ref-introduction*
 
 *ref* is a Vim plugin to view the reference.  This plugin can be separated to

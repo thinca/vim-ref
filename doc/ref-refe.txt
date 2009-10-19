@@ -6,6 +6,15 @@ License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
 
 ==============================================================================
+CONTENTS					*ref-refe-contents*
+
+INTRODUCTION			|ref-refe-introduction|
+CUSTOMIZING			|ref-refe-customizing|
+BUGS				|ref-refe-bugs|
+CHANGELOG			|ref-refe-changelog|
+
+
+==============================================================================
 INTRODUCTION					*ref-refe-introduction*
 
 *ref-refe* is a source for |ref| to refe command.  ReFe is a command line tool

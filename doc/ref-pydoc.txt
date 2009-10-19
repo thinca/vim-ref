@@ -6,6 +6,15 @@ License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
 
 ==============================================================================
+CONTENTS					*ref-pydoc-contents*
+
+INTRODUCTION			|ref-pydoc-introduction|
+CUSTOMIZING			|ref-pydoc-customizing|
+BUGS				|ref-pydoc-bugs|
+CHANGELOG			|ref-pydoc-changelog|
+
+
+==============================================================================
 INTRODUCTION					*ref-pydoc-introduction*
 
 *ref-pydoc* is a source for |ref| to pydoc command.  pydoc is a command line

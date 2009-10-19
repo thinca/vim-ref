@@ -6,6 +6,14 @@ License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
 
 ==============================================================================
+CONTENTS					*ref-phpmanual-contents*
+
+INTRODUCTION			|ref-phpmanual-introduction|
+CUSTOMIZING			|ref-phpmanual-customizing|
+CHANGELOG			|ref-phpmanual-changelog|
+
+
+==============================================================================
 INTRODUCTION					*ref-phpmanual-introduction*
 
 *ref-phpmanual* is a source for |ref| for PHP manual.

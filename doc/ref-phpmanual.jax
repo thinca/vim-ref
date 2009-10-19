@@ -6,6 +6,14 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
 
 ==============================================================================
+目次						*ref-phpmanual-contents*
+
+概要				|ref-phpmanual-introduction|
+カスタマイズ			|ref-phpmanual-customizing|
+更新履歴			|ref-phpmanual-changelog|
+
+
+==============================================================================
 概要						*ref-phpmanual-introduction*
 
 *ref-phpmanual* は PHP マニュアル用の |ref| のソースです。

@@ -6,6 +6,15 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
 
 ==============================================================================
+目次						*ref-refe-contents*
+
+概要				|ref-refe-introduction|
+カスタマイズ			|ref-refe-customizing|
+バグ				|ref-refe-bugs|
+更新履歴			|ref-refe-changelog|
+
+
+==============================================================================
 概要						*ref-refe-introduction*
 
 *ref-refe* は refe コマンド用の |ref| のソースです。ReFe は Ruby のリファ

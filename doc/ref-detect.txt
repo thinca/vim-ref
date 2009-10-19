@@ -6,6 +6,16 @@ License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
 
 ==============================================================================
+CONTENTS					*ref-detect-contents*
+
+INTRODUCTION			|ref-detect-introduction|
+INTERFACE			|ref-detect-interface|
+  FUNCTIONS			  |ref-detect-functions|
+CUSTOMIZING			|ref-detect-customizing|
+CHANGELOG			|ref-detect-changelog|
+
+
+==============================================================================
 INTRODUCTION					*ref-detect-introduction*
 
 *ref-detect* is a source for |ref| to detect and use the appropriate source.

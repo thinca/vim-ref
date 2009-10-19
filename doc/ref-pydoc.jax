@@ -6,6 +6,15 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
 
 ==============================================================================
+目次						*ref-pydoc-contents*
+
+概要				|ref-pydoc-introduction|
+カスタマイズ			|ref-pydoc-customizing|
+バグ				|ref-pydoc-bugs|
+更新履歴			|ref-pydoc-changelog|
+
+
+==============================================================================
 概要						*ref-pydoc-introduction*
 
 *ref-pydoc* は pydoc コマンド用の |ref| のソースです。pydoc は Python のリファ
