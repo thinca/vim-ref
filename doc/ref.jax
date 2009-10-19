@@ -114,13 +114,13 @@ ref#{source}#available()			*ref#{source}#available()*
 			必須。ソースが利用可能ならば真を返します。
 
 ref#{source}#get_body({query})			*ref#{source}#get_body()*
-			必須。リファレンスの本文を改行区切りのリストか文字列で
+			必須。リファレンスの本文を改行区切りの文字列かリストで
 			返します。
 
 ref#{source}#opened({query})			*ref#{source}#opened()*
 			任意。この関数はリファレンスページが開かれる度に呼ばれ
 			ます。このタイミングで |ref-viewer| を初期化のために
-			バッファを編集することができます。
+			編集することができます。
 
 ref#{source}#get_keyword()			*ref#{source}#get_keyword()*
 			任意。現在のカーソル位置からキーワードを取得します。未
