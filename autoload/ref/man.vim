@@ -53,9 +53,9 @@ endfunction
 
 function! ref#man#get_keyword()  " {{{2
   let isk = &l:iskeyword
-  setlocal isk& isk+=. isk+=( isk+=)
+  setlocal isk& isk+=. isk+=- isk+=( isk+=)
   let word = expand('<cword>')
-  setlocal isk& isk+=.
+  setlocal isk& isk+=. isk+=-
   let m = matchlist(word, '\(\k\+\)\%((\(\d\))\)\?')
   let keyword = m[1]
   if m[2] != ''
