@@ -1,6 +1,6 @@
 *ref-man.txt*	manpage 用の ref ソース。
 
-Version: 0.1.0
+Version: 0.1.1
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -56,6 +56,9 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 
 ==============================================================================
 更新履歴					*ref-man-changelog*
+
+0.1.1	2009-12-16
+	- キーワードのマッチを改善。
 
 0.1.0	2009-09-01
 	- キーワードのマッチを改善。
