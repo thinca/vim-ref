@@ -1,5 +1,5 @@
 " A ref source for manpage.
-" Version: 0.1.0
+" Version: 0.1.1
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -53,9 +53,9 @@ endfunction
 
 function! ref#man#get_keyword()  " {{{2
   let isk = &l:iskeyword
-  setlocal isk& isk+=. isk+=( isk+=)
+  setlocal isk& isk+=. isk+=- isk+=( isk+=)
   let word = expand('<cword>')
-  setlocal isk& isk+=.
+  setlocal isk& isk+=. isk+=-
   let m = matchlist(word, '\(\k\+\)\%((\(\d\))\)\?')
   let keyword = m[1]
   if m[2] != ''
