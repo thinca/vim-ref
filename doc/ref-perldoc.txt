@@ -1,0 +1,87 @@
+*ref-perldoc.txt*	A ref source for perldoc.
+
+Version: 0.1.0
+Author : thinca <thinca+vim@gmail.com>
+License: Creative Commons Attribution 2.1 Japan License
+         <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
+
+==============================================================================
+CONTENTS					*ref-perldoc-contents*
+
+INTRODUCTION			|ref-perldoc-introduction|
+CUSTOMIZING			|ref-perldoc-customizing|
+ARGUMENTS			|ref-perldoc-arguments|
+CHANGELOG			|ref-perldoc-changelog|
+
+
+==============================================================================
+INTRODUCTION					*ref-perldoc-introduction*
+
+*ref-perldoc* is a source for |ref| to perldoc command.  perldoc is a command
+line tool to view the reference manual on Perl.
+
+
+Requirements:
+- perldoc
+
+
+
+==============================================================================
+CUSTOMIZING					*ref-perldoc-customizing*
+
+g:ref_perldoc_cmd				*g:ref_perldoc_cmd*
+			Specifies the perldoc command.
+			The default value is "perldoc".
+
+
+
+==============================================================================
+ARGUMENTS					*ref-perldoc-arguments*
+
+As for this source, the following options can be used for the argument.
+
+-f			The built-in function is targeted.  It looks for the
+			function when the module is not found even if this
+			option doesn't exist.
+
+-m			Show the source of the module.
+
+
+
+==============================================================================
+VARIABLES					*ref-perldoc-variables*
+
+While showing this source, the following variables are defined in
+|ref-viewer|.
+
+b:ref_perldoc_mode				*b:ref_perldoc_mode*
+			Display mode.  Which is one of the following.
+			"perl"		Perl core document.
+			"module"	The module.
+			"func"		Built-in function.
+			"source"	Source code of module.
+			"list"		Matched list.
+
+b:ref_perldoc_word				*b:ref_perldoc_word*
+			The current word.  It is module name, function name,
+			or search word.
+
+
+
+==============================================================================
+BUGS					*ref-perldoc-bugs*
+
+- The detection of the Perl code splinter for highlight is imperfect.
+ - It simply judges it from the amount of the indent now.
+
+
+
+==============================================================================
+CHANGELOG					*ref-perldoc-changelog*
+
+0.1.0	2009-12-17
+	- Initial version.
+
+
+==============================================================================
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
