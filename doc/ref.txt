@@ -32,6 +32,7 @@ Following sources are included in this plugin:
 - refe		(|ref-refe.txt|)
 - phpmanual	(|ref-phpmanual.txt|)
 - pydoc		(|ref-pydoc.txt|)
+- perldoc	(|ref-perldoc.txt|)
 
 
 ==============================================================================
@@ -154,7 +155,6 @@ TODO						*ref-todo*
 - Append sources.
   - href
   - javadoc
-  - perldoc
   - refe2
   - etc...
 - More customizable.
