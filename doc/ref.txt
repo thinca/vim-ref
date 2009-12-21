@@ -129,6 +129,8 @@ ref#{source}#available()			*ref#{source}#available()*
 ref#{source}#get_body({query})			*ref#{source}#get_body()*
 			Required.  Return the body of reference by List of
 			line break delimitation or String.
+			Throws an exception with an error message if body is
+			not found.
 
 ref#{source}#opened({query})			*ref#{source}#opened()*
 			Optional.  When every reference page is opened, this

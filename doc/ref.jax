@@ -129,6 +129,8 @@ ref#{source}#available()			*ref#{source}#available()*
 ref#{source}#get_body({query})			*ref#{source}#get_body()*
 			必須。リファレンスの本文を改行区切りの文字列かリストで
 			返します。
+			本文が見つからない場合はエラーメッセージと共に例外を投
+			げます。
 
 ref#{source}#opened({query})			*ref#{source}#opened()*
 			任意。この関数はリファレンスページが開かれる度に呼ばれ
