@@ -11,6 +11,10 @@ if !exists('g:ref_open')
   let g:ref_open = 'split'
 endif
 
+if !exists('g:ref_cache_dir')
+  let g:ref_cache_dir = expand('~/.vim_ref_cache')
+endif
+
 
 " {{{1
 
@@ -134,6 +138,42 @@ function! ref#jump(...)  " {{{2
     call ref#open(source, query)
   endif
 endfunction
+
+
+
+
+
+" Helper functions for source. {{{1
+let s:cache = {}
+function! ref#cache(source, name, gather)  " {{{2
+  if !exists('s:cache[a:source][a:name]')
+    if !has_key(s:cache, a:source)
+      let s:cache[a:source] = {}
+    endif
+
+    let file = printf('%s/%s/%s', g:ref_cache_dir, a:source, a:name)
+    if filereadable(file)
+      let s:cache[a:source][a:name] = readfile(file)
+    else
+      let s:cache[a:source][a:name] =
+      \  type(a:gather) == type(function('function')) ? a:gather() :
+      \  type(a:gather) == type({}) && has_key(a:gather, 'call') &&
+      \  type(a:gather.call) == type(function('function')) ? a:gather.call() :
+      \  type(a:gather) == type('') ? eval(a:gather) : []
+
+      if g:ref_cache_dir != ''
+        let dir = printf('%s/%s', g:ref_cache_dir, a:source)
+        if !isdirectory(dir)
+          call mkdir(dir, 'p')
+        endif
+        call writefile(s:cache[a:source][a:name], file)
+      endif
+    endif
+  endif
+
+  return s:cache[a:source][a:name]
+endfunction
+
 
 
 
