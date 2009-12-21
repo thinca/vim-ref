@@ -104,8 +104,8 @@ FileType ref					*filetype-ref*
 	例: >
 	autocmd FileType ref call s:initialize_ref_viewer()
 	function! s:initialize_ref_viewer()
-	  nnoremap <buffer> b <Plug>(ref-back)
-	  nnoremap <buffer> f <Plug>(ref-forward)
+	  nmap <buffer> b <Plug>(ref-back)
+	  nmap <buffer> f <Plug>(ref-forward)
 	  nnoremap <buffer> q <C-w>c
 	  setlocal nonumber
 	  " ... and more settings ...
