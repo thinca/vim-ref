@@ -52,8 +52,8 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 コマンド					*ref-commands*
 
 :Ref {source} [query]				*:Ref*
-			|ref-viewer| を開きます。 [query] は |ref-source| のク
-			エリに使われます。
+			|ref-viewer| を開きます。 [query] は |ref-sources| の
+			クエリに使われます。
 
 :RefHistory					*:RefHistory*
 			|ref-viewer| の履歴をリスト表示します。数字を入力する

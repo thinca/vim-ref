@@ -48,11 +48,11 @@ Each |ref-viewer| have a history of viewed pages, you can return at any time.
 INTERFACE					*ref-interface*
 
 ------------------------------------------------------------------------------
-COMMANDS					*ref-command*
+COMMANDS					*ref-commands*
 
 :Ref {source} [query]				*:Ref*
 			Open the |ref-viewer|.  [query] is used by
-			|ref-source| as query.
+			|ref-sources| as query.
 
 :RefHistory					*:RefHistory*
 			List the history in |ref-viewer|.  It is possible to
