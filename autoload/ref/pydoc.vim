@@ -22,9 +22,18 @@ endfunction
 
 
 function! ref#pydoc#get_body(query)  " {{{2
-  let args = join(map(split(a:query), 'shellescape(v:val)'), ' ')
-  let content = system(g:ref_pydoc_cmd . ' ' . args)
-  if content =~ 'no Python documentation found'
+  let matchedlist = 0
+  if a:query == ''
+    let matchedlist = 1
+  else
+    let args = join(map(split(a:query), 'shellescape(v:val)'), ' ')
+    let content = system(g:ref_pydoc_cmd . ' ' . args)
+    if content =~ 'no Python documentation found'
+      let matchedlist = 1
+    endif
+  endif
+
+  if matchedlist
     let list = ref#pydoc#complete(a:query)
     if list == []
       throw split(content, "\n")[0]
