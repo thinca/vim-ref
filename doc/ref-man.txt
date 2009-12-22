@@ -46,9 +46,6 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 ==============================================================================
 BUGS						*ref-man-bugs*
 
-- The completion function for command line returns a empty list when a query
-  is empty.
-
 - The completion function for command line is not tested enough.
 
 - If you enabled |g:ref_man_use_escape_sequence|, it is not highlighted when

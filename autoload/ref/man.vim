@@ -33,7 +33,15 @@ endfunction
 
 
 function! ref#man#get_body(query)  " {{{2
-  return system(g:ref_man_cmd . ' ' . a:query)
+  let body = system(g:ref_man_cmd . ' ' . a:query)
+  if !v:shell_error
+    return body
+  endif
+  let list = ref#man#complete(a:query)
+  if !empty(list)
+    return list
+  endif
+  throw matchstr(body, '^\_s*\zs.\{-}\ze\_s*$')
 endfunction
 
 
