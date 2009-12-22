@@ -30,7 +30,8 @@ CUSTOMIZING					*ref-pydoc-customizing*
 
 g:ref_pydoc_cmd					*g:ref_pydoc_cmd*
 			Specifies the pydoc command.
-			The default value is "pydoc".
+			The default value is "pydoc" if it is executable.
+			Otherwise, it is "".
 
 
 ==============================================================================

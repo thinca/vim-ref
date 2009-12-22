@@ -10,13 +10,13 @@ set cpo&vim
 
 
 if !exists('g:ref_pydoc_cmd')
-  let g:ref_pydoc_cmd = 'pydoc'
+  let g:ref_pydoc_cmd = executable('pydoc') ? 'pydoc' : ''
 endif
 
 
 
 function! ref#pydoc#available()  " {{{2
-  return executable(g:ref_pydoc_cmd)
+  return g:ref_pydoc_cmd != ''
 endfunction
 
 
