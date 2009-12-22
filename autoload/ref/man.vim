@@ -105,7 +105,8 @@ endfunction
 
 
 function! s:syntax()  " {{{2
-  if exists('b:current_syntax') && b:current_syntax == 'man'
+  let list = !search('^\s', 'wn')
+  if exists('b:current_syntax') ? (b:current_syntax ==# 'man' && !list) : list
     return
   endif
 
@@ -113,7 +114,9 @@ function! s:syntax()  " {{{2
 
   unlet! b:current_syntax
 
-  runtime! syntax/man.vim
+  if !list
+    runtime! syntax/man.vim
+  endif
 endfunction
 
 
