@@ -48,6 +48,26 @@ Each |ref-viewer| have a history of viewed pages, you can return at any time.
 INTERFACE					*ref-interface*
 
 ------------------------------------------------------------------------------
+FUNCTIONS					*ref-functions*
+
+The following functions are used by |ref-sources| mainly.
+
+ref#cache({source}, {name}, {gather})		*ref#cache()*
+			It is a function to cache a time-consuming list to
+			acquisition.  The list is cached in the automatic
+			operation in using this function. The cached list is
+			returned at the following.
+			{source} is a name of source.
+			{name} is a arbitrary name for identification.
+			{gather} is one of the following.
+			- A |Funcref| for getting the list.
+			- A evaluatable string by |eval()|.  (Note scope.)
+			- A dictionary with dictionary function "call" in
+			  member.
+			In any case, it is necessary to return the list.
+
+
+------------------------------------------------------------------------------
 COMMANDS					*ref-commands*
 
 :Ref {source} [query]				*:Ref*
