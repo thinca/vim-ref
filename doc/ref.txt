@@ -136,6 +136,11 @@ g:ref_open					*g:ref_open*
 	The Assistance command used when |ref-viewer| is opened.  For example,
 	|:vsplit|, |:tabnew|, and so on.  The default value is "split".
 
+g:ref_cache_dir					*g:ref_cache_dir*
+	The directory for caching complete list.  Some sources uses this via
+	|ref#cache()|.  The default value is "~/.vim_ref_cache".  ~ means home
+	directory.
+
 
 ==============================================================================
 SOURCES						*ref-sources*
