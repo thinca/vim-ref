@@ -72,34 +72,10 @@ function! ref#man#complete(query)  " {{{2
   let sec = matchstr(a:query, '^\d') - 0
   let query = matchstr(a:query, '\v^%(\d\s+)?\zs.*')
 
-  if query == ''
-    return []
-  endif
-
-  let head = query[0]
-  if !has_key(s:complcache, head)
-    let c = map(range(10), '[]')
-    for path in split(system('manpath')[0 : -2], ':')
-      for n in range(1, 9)
-        let dir = path . '/man' . n
-        if isdirectory(dir)
-          let c[n] += map(split(glob(printf('%s*/%s*', dir, head)),
-          \   "\n"), 'matchstr(v:val, ".*/\\zs[^/.]*\\ze\\.")')
-        endif
-      endfor
-    endfor
-
-    for n in range(1, 9)
-      let c[n] = s:uniq(c[n])
-      let c[0] += c[n]
-    endfor
-    let c[0] = s:uniq(c[0])
-
-    let s:complcache[head] = c
-  endif
-
-  return filter(copy(s:complcache[head][sec]), 'v:val =~# "^\\V" . query')
+  return filter(copy(ref#cache('man', sec, s:gathers[sec])),
+  \             'v:val =~# "^\\V" . query')
 endfunction
+
 
 
 
@@ -226,6 +202,35 @@ function! s:highlight_escape_sequence()  " {{{2
   endwhile
   call setreg(v:register, reg_save, reg_save_type)
 endfunction
+
+
+
+function! s:build_gathers()
+  let d = {}
+  function! d.call()
+    let list = []
+    if self.sec is 0
+      for n in range(1, 9)
+        let list += ref#cache('man', n, s:gathers[n])
+      endfor
+
+    else
+      for path in split(system('manpath')[0 : -2], ':')
+        let dir = path . '/man' . self.sec
+        if isdirectory(dir)
+          let list += map(split(glob(dir . '*/*'), "\n"),
+          \                  'matchstr(v:val, ".*/\\zs[^/.]*\\ze\\.")')
+        endif
+      endfor
+    endif
+
+    return s:uniq(list)
+  endfunction
+
+  return map(range(10), 'extend({"sec": v:val}, d)')
+endfunction
+
+let s:gathers = s:build_gathers()
 
 
 
