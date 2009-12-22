@@ -1,6 +1,6 @@
 *ref-perldoc.txt*	A ref source for perldoc.
 
-Version: 0.1.0
+Version: 0.1.1
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -11,6 +11,8 @@ CONTENTS					*ref-perldoc-contents*
 INTRODUCTION			|ref-perldoc-introduction|
 CUSTOMIZING			|ref-perldoc-customizing|
 ARGUMENTS			|ref-perldoc-arguments|
+VARIABLES			|ref-perldoc-variables|
+BUGS				|ref-perldoc-bugs|
 CHANGELOG			|ref-perldoc-changelog|
 
 
@@ -69,7 +71,7 @@ b:ref_perldoc_word				*b:ref_perldoc_word*
 
 
 ==============================================================================
-BUGS					*ref-perldoc-bugs*
+BUGS						*ref-perldoc-bugs*
 
 - The detection of the Perl code splinter for highlight is imperfect.
  - It simply judges it from the amount of the indent now.
@@ -78,6 +80,9 @@ BUGS					*ref-perldoc-bugs*
 
 ==============================================================================
 CHANGELOG					*ref-perldoc-changelog*
+
+0.1.1	2009-12-22
+	- Using |ref#cache()|.
 
 0.1.0	2009-12-17
 	- Initial version.

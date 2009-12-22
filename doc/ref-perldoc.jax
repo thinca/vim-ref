@@ -1,6 +1,6 @@
 *ref-perldoc.txt*	perldoc 用の ref ソース。
 
-Version: 0.1.0
+Version: 0.1.1
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -11,6 +11,8 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 概要				|ref-perldoc-introduction|
 カスタマイズ			|ref-perldoc-customizing|
 引数				|ref-perldoc-arguments|
+変数				|ref-perldoc-variables|
+バグ				|ref-perldoc-bugs|
 更新履歴			|ref-perldoc-changelog|
 
 
@@ -48,7 +50,7 @@ g:ref_perldoc_cmd				*g:ref_perldoc_cmd*
 
 
 ==============================================================================
-変数					*ref-perldoc-variables*
+変数						*ref-perldoc-variables*
 
 このソースが表示されている間、|ref-viewer| には以下の変数が定義されます。
 
@@ -67,7 +69,7 @@ b:ref_perldoc_word				*b:ref_perldoc_word*
 
 
 ==============================================================================
-バグ					*ref-perldoc-bugs*
+バグ						*ref-perldoc-bugs*
 
 - ハイライトのための Perl コード片の検出が不完全です。
   - 現在は、単純にインデント量で判断しています。
@@ -76,6 +78,9 @@ b:ref_perldoc_word				*b:ref_perldoc_word*
 
 ==============================================================================
 更新履歴					*ref-perldoc-changelog*
+
+0.1.1	2009-12-22
+	- |ref#cache()| を使うようにした。
 
 0.1.0	2009-12-17
 	- 初版。
