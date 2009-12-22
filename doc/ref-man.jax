@@ -1,6 +1,6 @@
 *ref-man.txt*	manpage 用の ref ソース。
 
-Version: 0.1.1
+Version: 0.1.2
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -30,7 +30,8 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 
 g:ref_man_cmd					*g:ref_man_cmd*
 			man コマンドを指定します。
-			デフォルト値は "man" です。
+			デフォルト値は、実行可能ならば "man" です。そうでな
+			ければ "" です。
 
 g:ref_man_use_escape_sequence			*g:ref_man_use_escape_sequence*
 			エスケープシーケンスを使用してハイライトを行います。
@@ -46,8 +47,6 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 ==============================================================================
 バグ						*ref-man-bugs*
 
-- コマンドライン用の補完関数はクエリが空の時は空のリストを返します。
-
 - コマンドライン用の補完関数は十分にテストされていません。
 
 - |g:ref_man_use_escape_sequence| を有効にしていた場合、履歴を辿った場合はハ
@@ -56,6 +55,10 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 
 ==============================================================================
 更新履歴					*ref-man-changelog*
+
+0.1.2	2009-12-22
+	- |ref#cache()| を使うようにした。
+	- キーワードのマッチを改善。
 
 0.1.1	2009-12-16
 	- キーワードのマッチを改善。

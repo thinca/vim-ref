@@ -1,5 +1,5 @@
 " A ref source for manpage.
-" Version: 0.1.1
+" Version: 0.1.2
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -10,7 +10,7 @@ set cpo&vim
 
 
 if !exists('g:ref_man_cmd')
-  let g:ref_man_cmd = 'man'
+  let g:ref_man_cmd = executable('man') ? 'man' : ''
 endif
 
 
@@ -27,13 +27,21 @@ endif
 
 
 function! ref#man#available()  " {{{2
-  return executable(matchstr(g:ref_man_cmd, '^\w*'))
+  return g:ref_man_cmd != ''
 endfunction
 
 
 
 function! ref#man#get_body(query)  " {{{2
-  return system(g:ref_man_cmd . ' ' . a:query)
+  let body = system(g:ref_man_cmd . ' ' . a:query)
+  if !v:shell_error
+    return body
+  endif
+  let list = ref#man#complete(a:query)
+  if !empty(list)
+    return list
+  endif
+  throw matchstr(body, '^\_s*\zs.\{-}\ze\_s*$')
 endfunction
 
 
@@ -53,9 +61,9 @@ endfunction
 
 function! ref#man#get_keyword()  " {{{2
   let isk = &l:iskeyword
-  setlocal isk& isk+=. isk+=- isk+=( isk+=)
+  setlocal isk& isk+=. isk+=- isk+=: isk+=( isk+=)
   let word = expand('<cword>')
-  setlocal isk& isk+=. isk+=-
+  setlocal isk& isk+=. isk+=- isk+=:
   let m = matchlist(word, '\(\k\+\)\%((\(\d\))\)\?')
   let keyword = m[1]
   if m[2] != ''
@@ -72,34 +80,10 @@ function! ref#man#complete(query)  " {{{2
   let sec = matchstr(a:query, '^\d') - 0
   let query = matchstr(a:query, '\v^%(\d\s+)?\zs.*')
 
-  if query == ''
-    return []
-  endif
-
-  let head = query[0]
-  if !has_key(s:complcache, head)
-    let c = map(range(10), '[]')
-    for path in split(system('manpath')[0 : -2], ':')
-      for n in range(1, 9)
-        let dir = path . '/man' . n
-        if isdirectory(dir)
-          let c[n] += map(split(glob(printf('%s*/%s*', dir, head)),
-          \   "\n"), 'matchstr(v:val, ".*/\\zs[^/.]*\\ze\\.")')
-        endif
-      endfor
-    endfor
-
-    for n in range(1, 9)
-      let c[n] = s:uniq(c[n])
-      let c[0] += c[n]
-    endfor
-    let c[0] = s:uniq(c[0])
-
-    let s:complcache[head] = c
-  endif
-
-  return filter(copy(s:complcache[head][sec]), 'v:val =~# "^\\V" . query')
+  return filter(copy(ref#cache('man', sec, s:gathers[sec])),
+  \             'v:val =~# "^\\V" . query')
 endfunction
+
 
 
 
@@ -121,7 +105,8 @@ endfunction
 
 
 function! s:syntax()  " {{{2
-  if exists('b:current_syntax') && b:current_syntax == 'man'
+  let list = !search('^\s', 'wn')
+  if exists('b:current_syntax') ? (b:current_syntax ==# 'man' && !list) : list
     return
   endif
 
@@ -129,7 +114,9 @@ function! s:syntax()  " {{{2
 
   unlet! b:current_syntax
 
-  runtime! syntax/man.vim
+  if !list
+    runtime! syntax/man.vim
+  endif
 endfunction
 
 
@@ -226,6 +213,35 @@ function! s:highlight_escape_sequence()  " {{{2
   endwhile
   call setreg(v:register, reg_save, reg_save_type)
 endfunction
+
+
+
+function! s:build_gathers()
+  let d = {}
+  function! d.call()
+    let list = []
+    if self.sec is 0
+      for n in range(1, 9)
+        let list += ref#cache('man', n, s:gathers[n])
+      endfor
+
+    else
+      for path in split(system('manpath')[0 : -2], ':')
+        let dir = path . '/man' . self.sec
+        if isdirectory(dir)
+          let list += map(split(glob(dir . '*/*'), "\n"),
+          \                  'matchstr(v:val, ".*/\\zs[^/.]*\\ze\\.")')
+        endif
+      endfor
+    endif
+
+    return s:uniq(list)
+  endfunction
+
+  return map(range(10), 'extend({"sec": v:val}, d)')
+endfunction
+
+let s:gathers = s:build_gathers()
 
 
 
