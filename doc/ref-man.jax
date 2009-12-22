@@ -30,7 +30,8 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 
 g:ref_man_cmd					*g:ref_man_cmd*
 			man コマンドを指定します。
-			デフォルト値は "man" です。
+			デフォルト値は、実行可能ならば "man" です。そうでな
+			ければ "" です。
 
 g:ref_man_use_escape_sequence			*g:ref_man_use_escape_sequence*
 			エスケープシーケンスを使用してハイライトを行います。

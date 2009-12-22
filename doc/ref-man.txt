@@ -30,7 +30,8 @@ CUSTOMIZING					*ref-man-customizing*
 
 g:ref_man_cmd					*g:ref_man_cmd*
 			Specifies the man command.
-			The default value is "man".
+			The default value is "man" if it is executable.
+			Otherwise, it is "".
 
 g:ref_man_use_escape_sequence			*g:ref_man_use_escape_sequence*
 			Highlight using escape sequence.

@@ -10,7 +10,7 @@ set cpo&vim
 
 
 if !exists('g:ref_man_cmd')
-  let g:ref_man_cmd = 'man'
+  let g:ref_man_cmd = executable('man') ? 'man' : ''
 endif
 
 
@@ -27,7 +27,7 @@ endif
 
 
 function! ref#man#available()  " {{{2
-  return executable(matchstr(g:ref_man_cmd, '^\w*'))
+  return g:ref_man_cmd != ''
 endfunction
 
 
