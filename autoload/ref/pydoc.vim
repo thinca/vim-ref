@@ -47,11 +47,10 @@ endfunction
 
 
 function! ref#pydoc#complete(query)  " {{{2
-  if a:query == ''
-    return []
-  endif
-  return map(split(system(g:ref_pydoc_cmd . ' -k ' . a:query), "\n"),
-  \          'matchstr(v:val, "^\\S*")')
+  let cmd = g:ref_pydoc_cmd . ' -k .'
+  let mapexpr = 'matchstr(v:val, "^\\S*")'
+  return ref#cache('pydoc', 'list', printf('map(split(system(%s), "\n"), %s)',
+  \                                        string(cmd), string(mapexpr)))
 endfunction
 
 
