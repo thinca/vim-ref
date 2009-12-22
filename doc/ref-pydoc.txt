@@ -38,6 +38,8 @@ g:ref_pydoc_cmd					*g:ref_pydoc_cmd*
 BUGS						*ref-pydoc-bugs*
 
 - The extraction of a keyword is imperfect.
+- The first time of command line completion or displaying the matched list is
+  very heavy.
 
 
 ==============================================================================
