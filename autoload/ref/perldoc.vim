@@ -22,38 +22,20 @@ endfunction
 
 
 function! ref#perldoc#get_body(query)  " {{{2
-  let args = split(a:query)
-  let a = remove(args, 0)
-  let func = 0
   let cmdarg = '-T'
-  while a =~ '^-'
-    if a ==# '-f'
-      let func = 1
-    elseif a ==# '-m'
-      let cmdarg = a
-    else
-      throw 'Unknown option: ' . a
-    endif
+  let q = matchstr(a:query, '\v%(^|\s)\zs[^-]\S*')
+  let func = a:query =~# '-f\>'
 
-    if empty(args)
-      throw 'No arguments'
+  let cand = s:appropriate_list(a:query)
+  if index(cand, q) < 0
+    let list = s:match(cand, q)
+    if empty(list)
+      throw printf('No documentation found for "%s".', q)
     endif
-    let a = remove(args, 0)
-  endwhile
-
-  if !func && index(s:list('basepod') + s:list('modules'), a) < 0
-      if 0 <= index(s:list('func'), a)
-        let func = 1
-      else
-        let list = ref#perldoc#complete(a:query)
-        if empty(list)
-          throw printf('No documentation found for "%s".', a)
-        endif
-        return list
-      endif
+    return list
   endif
 
-  if func
+  if func || index(s:list('modules') + s:list('basepod'), q) < 0
     let cmdarg = '-T -f'
   endif
 
@@ -62,13 +44,13 @@ function! ref#perldoc#get_body(query)  " {{{2
   let &shellredir = '>%s'
   try
     let res = system(printf('%s -o text %s %s',
-    \                    g:ref_perldoc_cmd ,cmdarg ,a))
+    \                    g:ref_perldoc_cmd ,cmdarg ,q))
   finally
     let &shellredir = save_srr
   endtry
 
   if res == ''
-    throw printf('No documentation found for "%s".', a)
+    throw printf('No documentation found for "%s".', q)
   endif
   return res
 endfunction
@@ -96,12 +78,7 @@ function! ref#perldoc#complete(query)  " {{{2
     return ['-f', '-m']
   endif
 
-  let list = a:query =~# '-f\>' ? s:list('func') : s:list('all')
-  call filter(list, 'v:val =~? "^" . q')
-  if !empty(list)
-    return list
-  endif
-  return filter(s:list('all'), 'v:val =~? q')
+  return s:match(s:appropriate_list(a:query), q)
 endfunction
 
 
@@ -193,6 +170,24 @@ endfunction
 
 
 
+function! s:appropriate_list(query)
+  return a:query =~# '-f\>' ? s:list('func'):
+  \      a:query =~# '-m\>' ? s:list('modules'):
+  \                           s:list('all')
+endfunction
+
+
+
+function! s:match(list, str)
+  let matched = filter(copy(a:list), 'v:val =~? "^\\V" . a:str')
+  if empty(matched)
+    let matched = filter(copy(a:list), 'v:val =~? "\\V" . a:str')
+  endif
+  return matched
+endfunction
+
+
+
 function! s:list(name)
   if a:name ==# 'all'
     return s:list('basepod') + s:list('modules') + s:list('func')
@@ -271,7 +266,7 @@ endfunction
 
 
 
-function s:func(name)
+function s:func(name)  "{{{2
   return function(matchstr(expand('<sfile>'), '<SNR>\d\+_\zefunc$') . a:name)
 endfunction
 
