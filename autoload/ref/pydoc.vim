@@ -57,7 +57,7 @@ endfunction
 
 function! ref#pydoc#complete(query)  " {{{2
   let cmd = g:ref_pydoc_cmd . ' -k .'
-  let mapexpr = 'matchstr(v:val, "^\\S*")'
+  let mapexpr = 'matchstr(v:val, "^[[:alnum:]._]*")'
   return ref#cache('pydoc', 'list', printf('map(split(system(%s), "\n"), %s)',
   \                                        string(cmd), string(mapexpr)))
 endfunction
