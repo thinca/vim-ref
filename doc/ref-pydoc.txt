@@ -1,6 +1,6 @@
 *ref-pydoc.txt*	A ref source for pydoc.
 
-jersion: 0.1.0
+jersion: 0.1.1
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -30,17 +30,23 @@ CUSTOMIZING					*ref-pydoc-customizing*
 
 g:ref_pydoc_cmd					*g:ref_pydoc_cmd*
 			Specifies the pydoc command.
-			The default value is "pydoc".
+			The default value is "pydoc" if it is executable.
+			Otherwise, it is "".
 
 
 ==============================================================================
 BUGS						*ref-pydoc-bugs*
 
 - The extraction of a keyword is imperfect.
+- The first time of command line completion or displaying the matched list is
+  very heavy.
 
 
 ==============================================================================
 CHANGELOG					*ref-pydoc-changelog*
+
+0.1.1	2009-12-22
+	- Using |ref#cache()|.
 
 0.1.0	2009-08-21
 	- Initial version.
