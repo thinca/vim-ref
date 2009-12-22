@@ -58,8 +58,14 @@ endfunction
 function! ref#pydoc#complete(query)  " {{{2
   let cmd = g:ref_pydoc_cmd . ' -k .'
   let mapexpr = 'matchstr(v:val, "^[[:alnum:]._]*")'
-  return ref#cache('pydoc', 'list', printf('map(split(system(%s), "\n"), %s)',
-  \                                        string(cmd), string(mapexpr)))
+  let all_list = ref#cache('pydoc', 'list',
+  \                    printf('map(split(system(%s), "\n"), %s)',
+  \                           string(cmd), string(mapexpr)))
+  let list = filter(copy(all_list), 'v:val =~ "^\\V" . a:query')
+  if !empty(list)
+    return list
+  endif
+  return filter(copy(all_list), 'v:val =~ "\\V" . a:query')
 endfunction
 
 
