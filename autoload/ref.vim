@@ -176,6 +176,18 @@ endfunction
 
 
 
+let s:available_vimproc = exists('*vimproc#system')
+function! ref#system(args, ...)
+  if s:available_vimproc
+    return a:0 ? vimproc#system(a:args, a:1) : vimproc#system(a:args)
+  endif
+
+  let cmd = join(map(a:args, 'shellescape(v:val)'))
+  return a:0 ? system(cmd, a:1) : system(cmd)
+endfunction
+
+
+
 
 
 

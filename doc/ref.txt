@@ -29,10 +29,10 @@ be viewed by the same interface.
 Following sources are included in this plugin:
 - detect	(|ref-detect.txt|)
 - man		(|ref-man.txt|)
-- refe		(|ref-refe.txt|)
+- perldoc	(|ref-perldoc.txt|)
 - phpmanual	(|ref-phpmanual.txt|)
 - pydoc		(|ref-pydoc.txt|)
-- perldoc	(|ref-perldoc.txt|)
+- refe		(|ref-refe.txt|)
 
 
 ==============================================================================
@@ -65,6 +65,13 @@ ref#cache({source}, {name}, {gather})		*ref#cache()*
 			- A dictionary with dictionary function "call" in
 			  member.
 			In any case, it is necessary to return the list.
+
+ref#system({expr} [, {input}])			*ref#system()*
+			Like |system()|, but {expr} takes a |List|.  Each
+			items are processed by |shellescape()|.
+			This function uses |vimproc#system()| instead if
+			available.
+			vimproc: http://github.com/Shougo/vimproc
 
 
 ------------------------------------------------------------------------------
