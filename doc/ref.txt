@@ -70,7 +70,7 @@ ref#system({expr} [, {input}])			*ref#system()*
 			Like |system()|, but {expr} takes a |List|.  Each
 			items are processed by |shellescape()|.
 			This function uses |vimproc#system()| instead if
-			available.
+			g:ref_use_vimproc is true.
 			vimproc: http://github.com/Shougo/vimproc
 
 
@@ -147,6 +147,10 @@ g:ref_cache_dir					*g:ref_cache_dir*
 	The directory for caching complete list.  Some sources uses this via
 	|ref#cache()|.  The default value is "~/.vim_ref_cache".  ~ means home
 	directory.
+
+g:ref_use_vimproc				*g:ref_use_vimproc*
+	When true, |ref#system()| use |vimproc|.  When |vimproc#system()|
+	exists, the default value is true, and otherwise false.
 
 
 ==============================================================================

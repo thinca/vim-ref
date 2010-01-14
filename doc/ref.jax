@@ -68,8 +68,8 @@ ref#cache({source}, {name}, {gather})		*ref#cache()*
 ref#system({expr} [, {input}])			*ref#system()*
 			|system()| と同じですが、{expr} はリスト|List|を取りま
 			す。各要素は |shellescape()| で処理されます。
-			この関数は、もし利用可能ならば、代わりに
-			|vimproc#system()| を使用します。
+			この関数は、|g:ref_use_vimproc| が真の時は代わり
+			に |vimproc#system()| を使用します。
 			vimproc: http://github.com/Shougo/vimproc
 
 
@@ -146,6 +146,10 @@ g:ref_cache_dir					*g:ref_cache_dir*
 	補完のキャッシュを保持しておくためのディレクトリです。|ref#cache()| は
 	この値を参照してキャッシュファイルを生成します。。デフォルト値は
 	"~/.vim_ref_cache" です。~ はホームディレクトリを表します。
+
+g:ref_use_vimproc				*g:ref_use_vimproc*
+	真の時、|ref#system()| は |vimproc| を使います。デフォルト値は、
+	|vimproc#system()| が存在する場合は真、そうでない場合は偽です。
 
 
 ==============================================================================

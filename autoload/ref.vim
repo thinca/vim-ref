@@ -15,6 +15,10 @@ if !exists('g:ref_cache_dir')
   let g:ref_cache_dir = expand('~/.vim_ref_cache')
 endif
 
+if !exists('g:ref_use_vimproc')
+  let g:ref_use_vimproc = exists('*vimproc#system')
+endif
+
 
 " {{{1
 
@@ -176,9 +180,8 @@ endfunction
 
 
 
-let s:available_vimproc = exists('*vimproc#system')
 function! ref#system(args, ...)
-  if s:available_vimproc
+  if g:ref_use_vimproc
     return a:0 ? vimproc#system(a:args, a:1) : vimproc#system(a:args)
   endif
 
