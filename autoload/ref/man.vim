@@ -50,8 +50,13 @@ function! ref#man#opened(query)  " {{{2
   if g:ref_man_use_escape_sequence && line ('$') <= g:ref_man_highlight_limit
     call s:highlight_escape_sequence()
   else
-    silent! execute "% substitute/\<ESC>\\[[0-9;]*m//ge"
-    call histdel('/', -1)
+    let body = join(getline(1, '$'), "\n")
+    let body = substitute(body, '.\b', '', 'g')
+    let body = substitute(body, '\e\[[0-9;]*m', '', 'g')
+    silent! % delete _
+    silent! 0put =body
+    silent! $ delete _
+
 
     call s:syntax()
   endif
