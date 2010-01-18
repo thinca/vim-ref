@@ -68,6 +68,8 @@ ref#cache({source}, {name}, {gather})		*ref#cache()*
 ref#system({expr} [, {input}])			*ref#system()*
 			|system()| と同じですが、{expr} はリスト|List|を取りま
 			す。各要素は |shellescape()| で処理されます。
+			加えて、標準エラー出力は結果に含まれません。代わりに、
+			|ref#last_stderr()| から取得することができます。
 			この関数は、|g:ref_use_vimproc| が真の時は代わり
 			に |vimproc#system()| を使用します。
 			vimproc: http://github.com/Shougo/vimproc
@@ -75,6 +77,10 @@ ref#system({expr} [, {input}])			*ref#system()*
 ref#shell_error()				*ref#shell_error()*
 			|ref#system()| を使う場合は、|v:shell_error| の代わり
 			にこれを使用してください。
+
+ref#last_stderr()				*ref#last_stderr()*
+			|ref#system()| を最後に実行した際の標準エラーを取得し
+			ます。
 
 
 ------------------------------------------------------------------------------

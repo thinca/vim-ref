@@ -19,6 +19,8 @@ if !exists('g:ref_use_vimproc')
   let g:ref_use_vimproc = exists('*vimproc#system')
 endif
 
+let s:last_stderr = ''
+
 
 " {{{1
 
@@ -186,13 +188,30 @@ function! ref#system(args, ...)
   endif
 
   let cmd = join(map(a:args, 'shellescape(v:val)'))
-  return a:0 ? system(cmd, a:1) : system(cmd)
+  let save_shellredir = &shellredir
+  let stderr = tempname()
+  let &shellredir = '>%s 2>' . shellescape(stderr)
+  let result = a:0 ? system(cmd, a:1) : system(cmd)
+  let &shellredir = save_shellredir
+  if filereadable(stderr)
+    let s:last_stderr = join(readfile(stderr, 'b'), "\n")
+    call delete(stderr)
+  else
+    let s:last_stderr = ''
+  endif
+  return result
 endfunction
 
 
 
 function! ref#shell_error()
   return g:ref_use_vimproc ? vimproc#get_last_status() : v:shell_error
+endfunction
+
+
+
+function! ref#last_stderr()
+  return g:ref_use_vimproc ? vimproc#get_last_errmsg() : s:last_stderr
 endfunction
 
 
