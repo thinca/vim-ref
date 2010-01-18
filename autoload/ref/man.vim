@@ -35,6 +35,12 @@ endfunction
 function! ref#man#get_body(query)  " {{{2
   let body = ref#system(s:to_array(g:ref_man_cmd) + split(a:query))
   if !ref#shell_error()
+    if &termencoding != '' && &encoding != '' && &termencoding !=# &encoding
+      let encoded = iconv(body, &termencoding, &encoding)
+      if encoded != ''
+        let body = encoded
+      endif
+    endif
     return body
   endif
   let list = ref#man#complete(a:query)
