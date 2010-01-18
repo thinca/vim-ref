@@ -73,6 +73,10 @@ ref#system({expr} [, {input}])			*ref#system()*
 			g:ref_use_vimproc is true.
 			vimproc: http://github.com/Shougo/vimproc
 
+ref#shell_error()				*ref#shell_error()*
+			If you use |ref#system()|, use this instead of
+			|v:shell_error|.
+
 
 ------------------------------------------------------------------------------
 COMMANDS					*ref-commands*

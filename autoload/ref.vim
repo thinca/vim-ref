@@ -191,6 +191,13 @@ endfunction
 
 
 
+function! ref#shell_error()
+  return g:ref_use_vimproc ? vimproc#get_last_status() : v:shell_error
+endfunction
+
+
+
+
 
 
 

@@ -72,6 +72,10 @@ ref#system({expr} [, {input}])			*ref#system()*
 			に |vimproc#system()| を使用します。
 			vimproc: http://github.com/Shougo/vimproc
 
+ref#shell_error()				*ref#shell_error()*
+			|ref#system()| を使う場合は、|v:shell_error| の代わり
+			にこれを使用してください。
+
 
 ------------------------------------------------------------------------------
 コマンド					*ref-commands*
