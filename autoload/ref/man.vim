@@ -244,7 +244,7 @@ function! s:build_gathers()
       endfor
 
     else
-      for path in split(ref#system('manpath')[0 : -2], ':')
+      for path in split(matchstr(ref#system('manpath'), '^.\{-}\ze\s*$'), ':')
         let dir = path . '/man' . self.sec
         if isdirectory(dir)
           let list += map(split(glob(dir . '*/*'), "\n"),
