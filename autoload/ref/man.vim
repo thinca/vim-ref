@@ -33,15 +33,15 @@ endfunction
 
 
 function! ref#man#get_body(query)  " {{{2
-  let body = system(g:ref_man_cmd . ' ' . a:query)
-  if !v:shell_error
+  let body = ref#system(s:to_array(g:ref_man_cmd) + split(a:query))
+  if !ref#shell_error()
     return body
   endif
   let list = ref#man#complete(a:query)
   if !empty(list)
     return list
   endif
-  throw matchstr(body, '^\_s*\zs.\{-}\ze\_s*$')
+  throw matchstr(ref#last_stderr(), '^\_s*\zs.\{-}\ze\_s*$')
 endfunction
 
 
@@ -101,6 +101,13 @@ function! s:uniq(list)  " {{{2
   endfor
   return sort(keys(d))
 endfunction
+
+
+
+function! s:to_array(expr)
+  return type(a:expr) != type([]) ? [a:expr] : a:expr
+endfunction
+
 
 
 
@@ -226,7 +233,7 @@ function! s:build_gathers()
       endfor
 
     else
-      for path in split(system('manpath')[0 : -2], ':')
+      for path in split(ref#system('manpath')[0 : -2], ':')
         let dir = path . '/man' . self.sec
         if isdirectory(dir)
           let list += map(split(glob(dir . '*/*'), "\n"),
