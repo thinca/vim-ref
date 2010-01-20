@@ -200,6 +200,9 @@ ref#{source}#leave()				*ref#{source}#leave()*
 ==============================================================================
 更新履歴					*ref-changelog*
 
+x.x.x	xxxx-xx-xx
+	- |ref#system()| を追加。
+
 0.1.0	2009-12-22
 	- |ref#cache()| を追加。
 

@@ -216,6 +216,9 @@ TODO						*ref-todo*
 ==============================================================================
 CHANGELOG					*ref-changelog*
 
+x.x.x	xxxx-xx-xx
+	- Added |ref#system()|.
+
 0.1.0	2009-12-22
 	- Added |ref#cache()|.
 
