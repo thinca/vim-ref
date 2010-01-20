@@ -1,6 +1,6 @@
 *ref-perldoc.txt*	A ref source for perldoc.
 
-Version: 0.1.1
+Version: 0.1.2
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -83,7 +83,7 @@ BUGS						*ref-perldoc-bugs*
 ==============================================================================
 CHANGELOG					*ref-perldoc-changelog*
 
-x.x.x	xxxx-xx-xx
+0.1.2	2010-01-20
 	- Using |ref#system()|.
 	- Fixed a bug that doesn't work the -m option.
 
