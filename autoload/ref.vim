@@ -192,14 +192,19 @@ function! ref#system(args, ...)
   let save_shellredir = &shellredir
   let stderr = tempname()
   let &shellredir = '>%s 2>' . shellescape(stderr)
-  let result = a:0 ? system(cmd, a:1) : system(cmd)
-  let &shellredir = save_shellredir
-  if filereadable(stderr)
-    let s:last_stderr = join(readfile(stderr, 'b'), "\n")
-    call delete(stderr)
-  else
-    let s:last_stderr = ''
-  endif
+  let result = ''
+  try
+    let result = a:0 ? system(cmd, a:1) : system(cmd)
+  finally
+    if filereadable(stderr)
+      let s:last_stderr = join(readfile(stderr, 'b'), "\n")
+      call delete(stderr)
+    else
+      let s:last_stderr = ''
+    endif
+    let &shellredir = save_shellredir
+  endtry
+
   return result
 endfunction
 
