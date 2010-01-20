@@ -42,7 +42,7 @@ function! ref#perldoc#get_body(query)  " {{{2
 
   let cmdarg += ['-o', 'text']
   let res = ref#system((type(g:ref_perldoc_cmd) == type('') ?
-  \   [g:ref_perldoc_cmd] : g:ref_perldoc_cmd) + cmdarg + [q])
+  \   split(g:ref_perldoc_cmd, '\s\+') : g:ref_perldoc_cmd) + cmdarg + [q])
 
   if res == ''
     throw printf('No documentation found for "%s".', q)
