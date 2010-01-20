@@ -183,11 +183,12 @@ endfunction
 
 
 function! ref#system(args, ...)
+  let args = type(a:args) == type('') ? split(a:args, '\s\+') : a:args
   if g:ref_use_vimproc
-    return a:0 ? vimproc#system(a:args, a:1) : vimproc#system(a:args)
+    return a:0 ? vimproc#system(args, a:1) : vimproc#system(args)
   endif
 
-  let cmd = join(map(a:args, 'shellescape(v:val)'))
+  let cmd = join(map(args, 'shellescape(v:val)'))
   let save_shellredir = &shellredir
   let stderr = tempname()
   let &shellredir = '>%s 2>' . shellescape(stderr)

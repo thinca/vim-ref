@@ -69,6 +69,8 @@ ref#cache({source}, {name}, {gather})		*ref#cache()*
 ref#system({expr} [, {input}])			*ref#system()*
 			Like |system()|, but {expr} takes a |List|.  Each
 			items are processed by |shellescape()|.
+			If {expr} is a string, it is simply separated by
+			whitespaces.
 			In addition, standard error is not included in result.
 			You can get it from |ref#last_stderr()| instead.
 			This function uses |vimproc#system()| instead if

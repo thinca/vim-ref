@@ -68,6 +68,8 @@ ref#cache({source}, {name}, {gather})		*ref#cache()*
 ref#system({expr} [, {input}])			*ref#system()*
 			|system()| と同じですが、{expr} はリスト|List|を取りま
 			す。各要素は |shellescape()| で処理されます。
+			{expr} が文字列の場合、空白文字によって単純に分割され
+			ます。
 			加えて、標準エラー出力は結果に含まれません。代わりに、
 			|ref#last_stderr()| から取得することができます。
 			この関数は、|g:ref_use_vimproc| が真の時は代わり
