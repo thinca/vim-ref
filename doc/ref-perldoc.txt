@@ -83,6 +83,7 @@ CHANGELOG					*ref-perldoc-changelog*
 
 x.x.x	xxxx-xx-xx
 	- Using |ref#system()|.
+	- Fixed a bug that doesn't work the -m option.
 
 0.1.1	2009-12-22
 	- Using |ref#cache()|.

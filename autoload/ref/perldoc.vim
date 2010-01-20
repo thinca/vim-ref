@@ -24,7 +24,6 @@ endfunction
 function! ref#perldoc#get_body(query)  " {{{2
   let cmdarg = ['-T']
   let q = matchstr(a:query, '\v%(^|\s)\zs[^-]\S*')
-  let func = a:query =~# '-f\>'
 
   let cand = s:appropriate_list(a:query)
   if index(cand, q) < 0
@@ -35,8 +34,10 @@ function! ref#perldoc#get_body(query)  " {{{2
     return list
   endif
 
-  if func || index(s:list('modules') + s:list('basepod'), q) < 0
-    let cmdarg = ['-T', '-f']
+  if a:query =~# '-f\>' || index(s:list('modules') + s:list('basepod'), q) < 0
+    let cmdarg += ['-f']
+  elseif a:query =~# '-m\>'
+    let cmdarg += ['-m']
   endif
 
   let cmdarg += ['-o', 'text']
