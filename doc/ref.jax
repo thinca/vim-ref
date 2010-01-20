@@ -65,6 +65,25 @@ ref#cache({source}, {name}, {gather})		*ref#cache()*
 			- 辞書関数 "call" をメンバに持つ辞書。
 			いずれの場合もリストを返す必要があります。
 
+ref#system({expr} [, {input}])			*ref#system()*
+			|system()| と同じですが、{expr} はリスト|List|を取りま
+			す。各要素は |shellescape()| で処理されます。
+			{expr} が文字列の場合、空白文字によって単純に分割され
+			ます。
+			加えて、標準エラー出力は結果に含まれません。代わりに、
+			|ref#last_stderr()| から取得することができます。
+			この関数は、|g:ref_use_vimproc| が真の時は代わり
+			に |vimproc#system()| を使用します。
+			vimproc: http://github.com/Shougo/vimproc
+
+ref#shell_error()				*ref#shell_error()*
+			|ref#system()| を使う場合は、|v:shell_error| の代わり
+			にこれを使用してください。
+
+ref#last_stderr()				*ref#last_stderr()*
+			|ref#system()| を最後に実行した際の標準エラーを取得し
+			ます。
+
 
 ------------------------------------------------------------------------------
 コマンド					*ref-commands*
@@ -140,6 +159,10 @@ g:ref_cache_dir					*g:ref_cache_dir*
 	この値を参照してキャッシュファイルを生成します。。デフォルト値は
 	"~/.vim_ref_cache" です。~ はホームディレクトリを表します。
 
+g:ref_use_vimproc				*g:ref_use_vimproc*
+	真の時、|ref#system()| は |vimproc| を使います。デフォルト値は、
+	|vimproc#system()| が存在する場合は真、そうでない場合は偽です。
+
 
 ==============================================================================
 ソース						*ref-sources*
@@ -176,6 +199,9 @@ ref#{source}#leave()				*ref#{source}#leave()*
 
 ==============================================================================
 更新履歴					*ref-changelog*
+
+x.x.x	xxxx-xx-xx
+	- |ref#system()| を追加。
 
 0.1.0	2009-12-22
 	- |ref#cache()| を追加。
