@@ -32,8 +32,10 @@ Requirements:
 CUSTOMIZING					*ref-perldoc-customizing*
 
 g:ref_perldoc_cmd				*g:ref_perldoc_cmd*
-			Specifies the perldoc command.
-			The default value is "perldoc".
+			Specifies the perldoc command.  This allows a |List|
+			that includes command and arguments.
+			The default value is "perldoc" if it is executable.
+			Otherwise, it is "".
 
 
 
@@ -74,7 +76,7 @@ b:ref_perldoc_word				*b:ref_perldoc_word*
 BUGS						*ref-perldoc-bugs*
 
 - The detection of the Perl code splinter for highlight is imperfect.
- - It simply judges it from the amount of the indent now.
+  - It simply judges it from the amount of the indent now.
 
 
 

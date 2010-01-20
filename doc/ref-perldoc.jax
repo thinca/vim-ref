@@ -32,8 +32,10 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 カスタマイズ					*ref-perldoc-customizing*
 
 g:ref_perldoc_cmd				*g:ref_perldoc_cmd*
-			perldoc コマンドを指定します。
-			デフォルト値は "perldoc" です。
+			perldoc コマンドを指定します。コマンドとその引数を含む
+			|List| も指定できます。
+			デフォルト値は、実行可能ならば "perldoc" です。そうで
+			なければ "" です。
 
 
 
