@@ -79,6 +79,9 @@ b:ref_perldoc_word				*b:ref_perldoc_word*
 ==============================================================================
 更新履歴					*ref-perldoc-changelog*
 
+x.x.x	xxxx-xx-xx
+	- |ref#system()| を使うようにした。
+
 0.1.1	2009-12-22
 	- |ref#cache()| を使うようにした。
 

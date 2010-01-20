@@ -22,7 +22,7 @@ endfunction
 
 
 function! ref#perldoc#get_body(query)  " {{{2
-  let cmdarg = '-T'
+  let cmdarg = ['-T']
   let q = matchstr(a:query, '\v%(^|\s)\zs[^-]\S*')
   let func = a:query =~# '-f\>'
 
@@ -36,18 +36,12 @@ function! ref#perldoc#get_body(query)  " {{{2
   endif
 
   if func || index(s:list('modules') + s:list('basepod'), q) < 0
-    let cmdarg = '-T -f'
+    let cmdarg = ['-T', '-f']
   endif
 
-  " Drop the stderr.
-  let save_srr = &shellredir
-  let &shellredir = '>%s'
-  try
-    let res = system(printf('%s -o text %s %s',
-    \                    g:ref_perldoc_cmd ,cmdarg ,q))
-  finally
-    let &shellredir = save_srr
-  endtry
+  let cmdarg += ['-o', 'text']
+  let res = ref#system((type(g:ref_perldoc_cmd) == type('') ?
+  \   [g:ref_perldoc_cmd] : g:ref_perldoc_cmd) + cmdarg + [q])
 
   if res == ''
     throw printf('No documentation found for "%s".', q)
@@ -199,8 +193,8 @@ endfunction
 
 function! s:basepod_list()
   let basepods = []
-  let base = system('perl -MConfig -e ' .
-  \                 shellescape('print $Config{installprivlib}'))
+  let base = ref#system(['perl', '-MConfig', '-e',
+  \                      'print $Config{installprivlib}'])
   for dir in ['pod', 'pods']
     if filereadable(printf('%s/%s/perl.pod', base, dir))
       let base .= '/' . dir
@@ -219,7 +213,7 @@ endfunction
 
 
 function! s:modules_list()
-  let inc = system('perl -e ' . shellescape('print join('':'', @INC)'))
+  let inc = ref#system(['perl', '-e', 'print join('':'', @INC)'])
   let sep = '[/\\]'
   let files = {}
   let modules = []
@@ -240,7 +234,7 @@ endfunction
 
 
 function! s:func_list()
-  let doc = system('perldoc -u perlfunc')
+  let doc = ref#system('perldoc -u perlfunc')
   let i = 0
   let funcs = []
   while 1
