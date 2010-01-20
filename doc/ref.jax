@@ -1,6 +1,6 @@
 *ref.txt*	総合リファレンスビューア。
 
-Version: 0.1.0
+Version: 0.1.1
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -200,7 +200,7 @@ ref#{source}#leave()				*ref#{source}#leave()*
 ==============================================================================
 更新履歴					*ref-changelog*
 
-x.x.x	xxxx-xx-xx
+0.1.1	2010-01-20
 	- |ref#system()| を追加。
 
 0.1.0	2009-12-22

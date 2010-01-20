@@ -1,6 +1,6 @@
 *ref.txt*	Integrated reference viewer.
 
-Version: 0.1.0
+Version: 0.1.1
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -216,7 +216,7 @@ TODO						*ref-todo*
 ==============================================================================
 CHANGELOG					*ref-changelog*
 
-x.x.x	xxxx-xx-xx
+0.1.1	2010-01-20
 	- Added |ref#system()|.
 
 0.1.0	2009-12-22
