@@ -30,7 +30,8 @@ CUSTOMIZING					*ref-refe-customizing*
 
 g:ref_refe_cmd					*g:ref_refe_cmd*
 			Specifies the refe command.
-			The default value is "refe".
+			The default value is "refe" if it is executable.
+			Otherwise, it is "".
 
 g:ref_refe_encoding				*g:ref_refe_encoding*
 			Specifies the encoding of output of the refe command.

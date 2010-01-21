@@ -30,7 +30,8 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 
 g:ref_refe_cmd					*g:ref_refe_cmd*
 			refe コマンドを指定します。
-			デフォルト値は "refe" です。
+			デフォルト値は、実行可能ならば "refe" です。そうでなけ
+			れば "" です。
 
 g:ref_refe_encoding				*g:ref_refe_encoding*
 			refe コマンドの出力のエンコードを指定します。

@@ -7,14 +7,16 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+
+
 if !exists('g:ref_refe_cmd')
-  let g:ref_refe_cmd = 'refe'
+  let g:ref_refe_cmd = executable('refe') ? 'refe' : ''
 endif
 
 
 
 function! ref#refe#available()  " {{{2
-  return executable(g:ref_refe_cmd)
+  return g:ref_refe_cmd != ''
 endfunction
 
 
