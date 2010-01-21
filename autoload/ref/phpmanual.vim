@@ -76,8 +76,8 @@ function! ref#phpmanual#complete(query)  " {{{2
   let name = substitute(tolower(a:query), '::', '_', 'g')
   let pre = g:ref_phpmanual_path . '/'
 
-  for kind in ['function', 'ref', 'class']
-    let list = filter(copy(s:ref_list(kind)), 'v:val =~# name')
+  for g in s:gathers
+    let list = filter(copy(ref#cache('phpmanual', g.kind, g)), 'v:val =~# name')
     if list != []
       return list
     endif
@@ -124,18 +124,6 @@ endfunction
 
 
 
-function! s:ref_list(kind)
-  if !exists('s:{a:kind}_list')
-    let list = glob(g:ref_phpmanual_path . '/' . a:kind . '.*.html')
-    let pat = a:kind . '\.\zs.*\ze\.html$'
-    let s:{a:kind}_list = map(split(list, "\n"),
-    \                     'substitute(matchstr(v:val, pat), "-", "_", "g")')
-  endif
-  return s:{a:kind}_list
-endfunction
-
-
-
 function! s:execute(file)
   if type(g:ref_phpmanual_cmd) == type('')
     let cmd = split(g:ref_phpmanual_cmd, '\s\+')
@@ -147,6 +135,22 @@ function! s:execute(file)
 
   return ref#system(map(cmd, 'substitute(v:val, "%s", a:file, "g")'))
 endfunction
+
+
+
+function! s:build_gathers()
+  let d = {}
+  function! d.call()
+    let list = glob(g:ref_phpmanual_path . '/' . self.kind . '.*.html')
+    let pat = self.kind . '\.\zs.*\ze\.html$'
+    return map(split(list, "\n"),
+    \      'substitute(matchstr(v:val, pat), "-", "_", "g")')
+  endfunction
+
+  return map(['function', 'ref', 'class'], 'extend({"kind": v:val}, d)')
+endfunction
+
+let s:gathers = s:build_gathers()
 
 
 

@@ -43,6 +43,7 @@ g:ref_phpmanual_cmd				*g:ref_phpmanual_cmd*
 更新履歴					*ref-phpmanual-changelog*
 
 x.x.x	xxxx-xx-xx
+	- |ref#cache()| を使うようにした。
 	- |ref#system()| を使うようにした。
 
 0.0.2	2009-08-20
