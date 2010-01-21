@@ -24,7 +24,7 @@ endfunction
 function! ref#refe#get_body(query)  " {{{2
   let content = ref#system(s:to_a(g:ref_refe_cmd) + s:to_a(a:query))
   let err = ref#last_stderr()
-  if err =~ '\v' . join(['^not match: .', '^unmatched .',
+  if err =~# '\v' . join(['^not match: .', '^unmatched .',
     \ '^premature end of regular expression:',
     \ '^invalid regular expression;'], '|')
     throw matchstr(err, '^.\+\ze\n')
@@ -41,9 +41,9 @@ endfunction
 
 function! ref#refe#opened(query)  " {{{2
   let type = s:detect_type()
-  if type == 'list'
+  if type ==# 'list'
     silent! %s/ /\r/ge
-  elseif type == 'class'
+  elseif type ==# 'class'
     silent! %s/[^[:return:]]\n\zs\ze----/\r/ge
   endif
   call s:syntax(type)
@@ -66,12 +66,12 @@ endfunction
 
 function! ref#refe#get_keyword()  " {{{2
   let pos = getpos('.')[1:]
-  if &l:filetype == 'ref'
+  if &l:filetype ==# 'ref'
     let type = s:detect_type()
-    if type == 'list'
+    if type ==# 'list'
       return getline(pos[0])
     endif
-    if type == 'class'
+    if type ==# 'class'
       if getline('.') =~ '^----'
         return ''
       endif
@@ -130,15 +130,15 @@ function! s:syntax(type)  " {{{2
   unlet! b:current_syntax
   syntax include @refRefeRuby syntax/ruby.vim
 
-  if a:type == 'list'
+  if a:type ==# 'list'
     syntax match refRefeClassOrMethod '^.*$' contains=@refRefeClassSepMethod
-  elseif a:type == 'class'
+  elseif a:type ==# 'class'
     syntax region refRefeRubyCodeBlock start="^  " end="$" contains=@refRefeRuby
     syntax region refRefeClass matchgroup=refRefeLine start="^====" end="====$" keepend oneline
     syntax region refRefeMethods start="^---- \w* methods .*----$" end="^$" fold contains=refRefeMethod,refRefeMethodHeader
     syntax match refRefeMethod '\S\+' contained
     syntax region refRefeMethodHeader matchgroup=refRefeLine start="^----" end="----$" keepend oneline contained
-  elseif a:type == 'method'
+  elseif a:type ==# 'method'
     syntax region refRefeRubyCodeBlock start="^      " end="$" contains=@refRefeRuby
     syntax match refRefeClassOrMethod '\%1l.*$' contains=@refRefeClassSepMethod
     syntax region refRefeRubyCodeInline matchgroup=refRefeLine start="^---" end="$" contains=@refRefeRuby oneline
