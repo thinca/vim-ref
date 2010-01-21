@@ -1,5 +1,5 @@
 " A ref source for pydoc.
-" Version: 0.1.1
+" Version: 0.1.2
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
