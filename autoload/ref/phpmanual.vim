@@ -36,7 +36,7 @@ function! ref#phpmanual#get_body(query)  " {{{2
   if name =~ '::'
     let file = pre . substitute(name, '::', '.', 'g') . '.html'
     if filereadable(file)
-      return system(printf(g:ref_phpmanual_cmd, file))
+      return s:execute(file)
     endif
     let name = substitute(name, '::', '-', 'g')
   endif
@@ -44,7 +44,7 @@ function! ref#phpmanual#get_body(query)  " {{{2
   for section in ['function.', 'ref.', 'class.', '']
     let file = pre . section . name . '.html'
     if filereadable(file)
-      return system(printf(g:ref_phpmanual_cmd, file))
+      return s:execute(file)
     endif
   endfor
 
@@ -53,7 +53,7 @@ function! ref#phpmanual#get_body(query)  " {{{2
     if file != ''
       let files = split(file, "\n")
       if len(files) == 1
-        return system(printf(g:ref_phpmanual_cmd, files[0]))
+        return s:execute(files[0])
       endif
       return substitute(join(
       \      map(files, 'matchstr(v:val, ".*[/\\\\]\\zs\\S*\\ze\\.html$")'),
@@ -132,6 +132,20 @@ function! s:ref_list(kind)
     \                     'substitute(matchstr(v:val, pat), "-", "_", "g")')
   endif
   return s:{a:kind}_list
+endfunction
+
+
+
+function! s:execute(file)
+  if type(g:ref_phpmanual_cmd) == type('')
+    let cmd = split(g:ref_phpmanual_cmd, '\s\+')
+  elseif type(g:ref_phpmanual_cmd) == type([])
+    let cmd = copy(g:ref_phpmanual_cmd)
+  else
+    return ''
+  endif
+
+  return ref#system(map(cmd, 'substitute(v:val, "%s", a:file, "g")'))
 endfunction
 
 
