@@ -97,7 +97,6 @@ endfunction
 
 function! ref#refe#leave()
   syntax clear
-  unlet! b:current_syntax
 endfunction
 
 
@@ -127,7 +126,6 @@ function! s:syntax(type)  " {{{2
 
   syntax clear
 
-  unlet! b:current_syntax
   syntax include @refRefeRuby syntax/ruby.vim
 
   if a:type ==# 'list'
