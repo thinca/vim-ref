@@ -35,8 +35,8 @@ g:ref_refe_cmd					*g:ref_refe_cmd*
 
 g:ref_refe_encoding				*g:ref_refe_encoding*
 			Specifies the encoding of output of the refe command.
-			Conversion is not done when this variable was not
-			defined.
+			Conversion is not done when this variable is empty.
+			The default value is 'termencoding'.
 
 
 ==============================================================================

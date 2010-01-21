@@ -13,6 +13,10 @@ if !exists('g:ref_refe_cmd')
   let g:ref_refe_cmd = executable('refe') ? 'refe' : ''
 endif
 
+if !exists('g:ref_refe_encoding')
+  let g:ref_refe_encoding = &termencoding
+endif
+
 
 
 function! ref#refe#available()  " {{{2
@@ -30,7 +34,8 @@ function! ref#refe#get_body(query)  " {{{2
     throw matchstr(err, '^.\+\ze\n')
   endif
 
-  if exists('g:ref_refe_encoding')
+  if exists('g:ref_refe_encoding') &&
+  \  !empty(g:ref_refe_encoding) && g:ref_refe_encoding != &encoding
     let converted = iconv(content, g:ref_refe_encoding, &encoding)
     if converted != ''
       let content = converted
