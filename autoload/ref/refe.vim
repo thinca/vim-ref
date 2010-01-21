@@ -31,7 +31,10 @@ function! ref#refe#get_body(query)  " {{{2
   endif
 
   if exists('g:ref_refe_encoding')
-    let content = iconv(content, g:ref_refe_encoding, &encoding)
+    let converted = iconv(content, g:ref_refe_encoding, &encoding)
+    if converted != ''
+      let content = converted
+    endif
   endif
 
   return content
