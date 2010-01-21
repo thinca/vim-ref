@@ -20,12 +20,12 @@ endfunction
 
 
 function! ref#refe#get_body(query)  " {{{2
-  let args = join(map(split(a:query), 'shellescape(v:val)'), ' ')
-  let content = system(g:ref_refe_cmd . ' ' . args)
-  if content =~ '\v' . join(['^not match: .', '^unmatched .',
+  let content = ref#system(s:to_a(g:ref_refe_cmd) + s:to_a(a:query))
+  let err = ref#last_stderr()
+  if err =~ '\v' . join(['^not match: .', '^unmatched .',
     \ '^premature end of regular expression:',
     \ '^invalid regular expression;'], '|')
-    throw matchstr(content, '^.\+\ze\n')
+    throw matchstr(err, '^.\+\ze\n')
   endif
 
   if exists('g:ref_refe_encoding')
@@ -50,7 +50,8 @@ endfunction
 
 
 function! ref#refe#complete(query)  " {{{2
-  return split(system(g:ref_refe_cmd . ' -l -s ' . a:query), "\n")
+  return split(ref#system(s:to_a(g:ref_refe_cmd) +
+  \            ['-l', '-s'] + s:to_a(a:query)), "\n")
 endfunction
 
 
@@ -158,6 +159,13 @@ function! s:syntax(type)  " {{{2
   highlight default link refRefeCommonMethod rubyFunction
 
   let b:current_syntax = 'ref-refe-' . a:type
+endfunction
+
+
+
+function! s:to_a(expr)
+  return type(a:expr) == type('') ? split(a:expr, '\s\+') :
+  \      type(a:expr) != type([]) ? [a:expr] : a:expr
 endfunction
 
 

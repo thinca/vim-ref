@@ -47,6 +47,9 @@ BUGS						*ref-refe-bugs*
 ==============================================================================
 CHANGELOG					*ref-refe-changelog*
 
+x.x.x	xxxx-xx-xx
+	- Using |ref#system()|.
+
 0.0.2	2009-08-20
 	- Improved the behavior for |ku-ref|.
 
