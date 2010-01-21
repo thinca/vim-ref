@@ -1,6 +1,6 @@
 *ref-pydoc.txt*	pydoc 用の ref ソース。
 
-Version: 0.1.1
+Version: 0.1.2
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -43,6 +43,9 @@ g:ref_pydoc_cmd					*g:ref_pydoc_cmd*
 
 ==============================================================================
 更新履歴					*ref-pydoc-changelog*
+
+0.1.2	2010-01-21
+	- |ref#system()| を使うようにした。
 
 0.1.1	2009-12-22
 	- |ref#cache()| を使うようにした。

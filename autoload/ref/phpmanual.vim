@@ -1,5 +1,5 @@
 " A ref source for php manual.
-" Version: 0.0.2
+" Version: 0.1.0
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -24,7 +24,7 @@ endif
 
 function! ref#phpmanual#available()  " {{{2
   return isdirectory(g:ref_phpmanual_path) &&
-  \      executable(matchstr(g:ref_phpmanual_cmd, '^\w*'))
+  \      g:ref_phpmanual_cmd != ''
 endfunction
 
 
@@ -36,7 +36,7 @@ function! ref#phpmanual#get_body(query)  " {{{2
   if name =~ '::'
     let file = pre . substitute(name, '::', '.', 'g') . '.html'
     if filereadable(file)
-      return system(printf(g:ref_phpmanual_cmd, file))
+      return s:execute(file)
     endif
     let name = substitute(name, '::', '-', 'g')
   endif
@@ -44,7 +44,7 @@ function! ref#phpmanual#get_body(query)  " {{{2
   for section in ['function.', 'ref.', 'class.', '']
     let file = pre . section . name . '.html'
     if filereadable(file)
-      return system(printf(g:ref_phpmanual_cmd, file))
+      return s:execute(file)
     endif
   endfor
 
@@ -53,7 +53,7 @@ function! ref#phpmanual#get_body(query)  " {{{2
     if file != ''
       let files = split(file, "\n")
       if len(files) == 1
-        return system(printf(g:ref_phpmanual_cmd, files[0]))
+        return s:execute(files[0])
       endif
       return substitute(join(
       \      map(files, 'matchstr(v:val, ".*[/\\\\]\\zs\\S*\\ze\\.html$")'),
@@ -76,8 +76,8 @@ function! ref#phpmanual#complete(query)  " {{{2
   let name = substitute(tolower(a:query), '::', '_', 'g')
   let pre = g:ref_phpmanual_path . '/'
 
-  for kind in ['function', 'ref', 'class']
-    let list = filter(copy(s:ref_list(kind)), 'v:val =~# name')
+  for g in s:gathers
+    let list = filter(copy(ref#cache('phpmanual', g.kind, g)), 'v:val =~# name')
     if list != []
       return list
     endif
@@ -124,15 +124,33 @@ endfunction
 
 
 
-function! s:ref_list(kind)
-  if !exists('s:{a:kind}_list')
-    let list = glob(g:ref_phpmanual_path . '/' . a:kind . '.*.html')
-    let pat = a:kind . '\.\zs.*\ze\.html$'
-    let s:{a:kind}_list = map(split(list, "\n"),
-    \                     'substitute(matchstr(v:val, pat), "-", "_", "g")')
+function! s:execute(file)
+  if type(g:ref_phpmanual_cmd) == type('')
+    let cmd = split(g:ref_phpmanual_cmd, '\s\+')
+  elseif type(g:ref_phpmanual_cmd) == type([])
+    let cmd = copy(g:ref_phpmanual_cmd)
+  else
+    return ''
   endif
-  return s:{a:kind}_list
+
+  return ref#system(map(cmd, 'substitute(v:val, "%s", a:file, "g")'))
 endfunction
+
+
+
+function! s:build_gathers()
+  let d = {}
+  function! d.call()
+    let list = glob(g:ref_phpmanual_path . '/' . self.kind . '.*.html')
+    let pat = self.kind . '\.\zs.*\ze\.html$'
+    return map(split(list, "\n"),
+    \      'substitute(matchstr(v:val, pat), "-", "_", "g")')
+  endfunction
+
+  return map(['function', 'ref', 'class'], 'extend({"kind": v:val}, d)')
+endfunction
+
+let s:gathers = s:build_gathers()
 
 
 
