@@ -1,6 +1,6 @@
 *ref-phpmanual.txt*	A ref source for PHP manual.
 
-Version: 0.0.2
+Version: 0.1.0
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -44,7 +44,7 @@ g:ref_phpmanual_cmd				*g:ref_phpmanual_cmd*
 ==============================================================================
 CHANGELOG					*ref-phpmanual-changelog*
 
-x.x.x	xxxx-xx-xx
+0.1.0	2010-01-21
 	- Uisng |ref#cache()|.
 	- Uisng |ref#system()|.
 
