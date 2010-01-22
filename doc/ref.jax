@@ -200,6 +200,9 @@ ref#{source}#leave()				*ref#{source}#leave()*
 ==============================================================================
 更新履歴					*ref-changelog*
 
+x.x.x	xxxx-xx-xx
+	- |g:ref_use_vimproc| = 0 の時、MS Windows 上で動作しないバグを修正。
+
 0.1.1	2010-01-20
 	- |ref#system()| を追加。
 

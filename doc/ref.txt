@@ -216,6 +216,10 @@ TODO						*ref-todo*
 ==============================================================================
 CHANGELOG					*ref-changelog*
 
+x.x.x	xxxx-xx-xx
+	- Fixed a bug that doesn't work on MS Windows when |g:ref_use_vimproc|
+	  = 0.
+
 0.1.1	2010-01-20
 	- Added |ref#system()|.
 
