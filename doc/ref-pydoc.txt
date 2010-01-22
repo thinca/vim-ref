@@ -1,6 +1,6 @@
 *ref-pydoc.txt*	A ref source for pydoc.
 
-jersion: 0.1.1
+Version: 0.1.2
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -44,6 +44,9 @@ BUGS						*ref-pydoc-bugs*
 
 ==============================================================================
 CHANGELOG					*ref-pydoc-changelog*
+
+0.1.2	2010-01-21
+	- Using |ref#system()|.
 
 0.1.1	2009-12-22
 	- Using |ref#cache()|.

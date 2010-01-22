@@ -1,6 +1,6 @@
 *ref-perldoc.txt*	perldoc 用の ref ソース。
 
-Version: 0.1.1
+Version: 0.1.2
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -32,8 +32,10 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 カスタマイズ					*ref-perldoc-customizing*
 
 g:ref_perldoc_cmd				*g:ref_perldoc_cmd*
-			perldoc コマンドを指定します。
-			デフォルト値は "perldoc" です。
+			perldoc コマンドを指定します。コマンドとその引数を含む
+			|List| も指定できます。
+			デフォルト値は、実行可能ならば "perldoc" です。そうで
+			なければ "" です。
 
 
 
@@ -78,6 +80,10 @@ b:ref_perldoc_word				*b:ref_perldoc_word*
 
 ==============================================================================
 更新履歴					*ref-perldoc-changelog*
+
+0.1.2	2010-01-20
+	- |ref#system()| を使うようにした。
+	- -m オプションが使えないバグを修正。
 
 0.1.1	2009-12-22
 	- |ref#cache()| を使うようにした。

@@ -1,6 +1,6 @@
 *ref-perldoc.txt*	A ref source for perldoc.
 
-Version: 0.1.1
+Version: 0.1.2
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -32,8 +32,10 @@ Requirements:
 CUSTOMIZING					*ref-perldoc-customizing*
 
 g:ref_perldoc_cmd				*g:ref_perldoc_cmd*
-			Specifies the perldoc command.
-			The default value is "perldoc".
+			Specifies the perldoc command.  This allows a |List|
+			that includes command and arguments.
+			The default value is "perldoc" if it is executable.
+			Otherwise, it is "".
 
 
 
@@ -74,12 +76,16 @@ b:ref_perldoc_word				*b:ref_perldoc_word*
 BUGS						*ref-perldoc-bugs*
 
 - The detection of the Perl code splinter for highlight is imperfect.
- - It simply judges it from the amount of the indent now.
+  - It simply judges it from the amount of the indent now.
 
 
 
 ==============================================================================
 CHANGELOG					*ref-perldoc-changelog*
+
+0.1.2	2010-01-20
+	- Using |ref#system()|.
+	- Fixed a bug that doesn't work the -m option.
 
 0.1.1	2009-12-22
 	- Using |ref#cache()|.

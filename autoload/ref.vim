@@ -1,5 +1,5 @@
 " Integrated reference viewer.
-" Version: 0.1.0
+" Version: 0.1.1
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -14,6 +14,12 @@ endif
 if !exists('g:ref_cache_dir')
   let g:ref_cache_dir = expand('~/.vim_ref_cache')
 endif
+
+if !exists('g:ref_use_vimproc')
+  let g:ref_use_vimproc = exists('*vimproc#system')
+endif
+
+let s:last_stderr = ''
 
 
 " {{{1
@@ -173,6 +179,47 @@ function! ref#cache(source, name, gather)  " {{{2
 
   return s:cache[a:source][a:name]
 endfunction
+
+
+
+function! ref#system(args, ...)
+  let args = type(a:args) == type('') ? split(a:args, '\s\+') : a:args
+  if g:ref_use_vimproc
+    return a:0 ? vimproc#system(args, a:1) : vimproc#system(args)
+  endif
+
+  let cmd = join(map(args, 'shellescape(v:val)'))
+  let save_shellredir = &shellredir
+  let stderr = tempname()
+  let &shellredir = '>%s 2>' . shellescape(stderr)
+  let result = ''
+  try
+    let result = a:0 ? system(cmd, a:1) : system(cmd)
+  finally
+    if filereadable(stderr)
+      let s:last_stderr = join(readfile(stderr, 'b'), "\n")
+      call delete(stderr)
+    else
+      let s:last_stderr = ''
+    endif
+    let &shellredir = save_shellredir
+  endtry
+
+  return result
+endfunction
+
+
+
+function! ref#shell_error()
+  return g:ref_use_vimproc ? vimproc#get_last_status() : v:shell_error
+endfunction
+
+
+
+function! ref#last_stderr()
+  return g:ref_use_vimproc ? vimproc#get_last_errmsg() : s:last_stderr
+endfunction
+
 
 
 

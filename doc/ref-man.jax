@@ -1,6 +1,6 @@
 *ref-man.txt*	manpage 用の ref ソース。
 
-Version: 0.1.2
+Version: 0.1.3
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -55,6 +55,12 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 
 ==============================================================================
 更新履歴					*ref-man-changelog*
+
+0.1.3	2010-01-18
+	- |ref#system()| を使うようにした。
+	- エスケープシーケンスの除去を改善。
+	- manpage のエンコーディングを 'termencoding' から 'encoding' に変換す
+	  るようにした。
 
 0.1.2	2009-12-22
 	- |ref#cache()| を使うようにした。

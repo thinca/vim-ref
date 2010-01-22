@@ -1,6 +1,6 @@
 *ref.txt*	Integrated reference viewer.
 
-Version: 0.1.0
+Version: 0.1.1
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -29,10 +29,10 @@ be viewed by the same interface.
 Following sources are included in this plugin:
 - detect	(|ref-detect.txt|)
 - man		(|ref-man.txt|)
-- refe		(|ref-refe.txt|)
+- perldoc	(|ref-perldoc.txt|)
 - phpmanual	(|ref-phpmanual.txt|)
 - pydoc		(|ref-pydoc.txt|)
-- perldoc	(|ref-perldoc.txt|)
+- refe		(|ref-refe.txt|)
 
 
 ==============================================================================
@@ -65,6 +65,25 @@ ref#cache({source}, {name}, {gather})		*ref#cache()*
 			- A dictionary with dictionary function "call" in
 			  member.
 			In any case, it is necessary to return the list.
+
+ref#system({expr} [, {input}])			*ref#system()*
+			Like |system()|, but {expr} takes a |List|.  Each
+			items are processed by |shellescape()|.
+			If {expr} is a string, it is simply separated by
+			whitespaces.
+			In addition, standard error is not included in result.
+			You can get it from |ref#last_stderr()| instead.
+			This function uses |vimproc#system()| instead if
+			g:ref_use_vimproc is true.
+			vimproc: http://github.com/Shougo/vimproc
+
+ref#shell_error()				*ref#shell_error()*
+			If you use |ref#system()|, use this instead of
+			|v:shell_error|.
+
+ref#last_stderr()				*ref#last_stderr()*
+			Get the standard error when |ref#system()| is executed
+			at last time.
 
 
 ------------------------------------------------------------------------------
@@ -141,6 +160,10 @@ g:ref_cache_dir					*g:ref_cache_dir*
 	|ref#cache()|.  The default value is "~/.vim_ref_cache".  ~ means home
 	directory.
 
+g:ref_use_vimproc				*g:ref_use_vimproc*
+	When true, |ref#system()| use |vimproc|.  When |vimproc#system()|
+	exists, the default value is true, and otherwise false.
+
 
 ==============================================================================
 SOURCES						*ref-sources*
@@ -192,6 +215,9 @@ TODO						*ref-todo*
 
 ==============================================================================
 CHANGELOG					*ref-changelog*
+
+0.1.1	2010-01-20
+	- Added |ref#system()|.
 
 0.1.0	2009-12-22
 	- Added |ref#cache()|.

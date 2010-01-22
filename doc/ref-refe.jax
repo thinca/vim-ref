@@ -1,6 +1,6 @@
 *ref-refe.txt*	ReFe 用の ref ソース。
 
-Version: 0.0.2
+Version: 0.1.0
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -30,11 +30,13 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 
 g:ref_refe_cmd					*g:ref_refe_cmd*
 			refe コマンドを指定します。
-			デフォルト値は "refe" です。
+			デフォルト値は、実行可能ならば "refe" です。そうでなけ
+			れば "" です。
 
 g:ref_refe_encoding				*g:ref_refe_encoding*
 			refe コマンドの出力のエンコードを指定します。
-			この変数が未定義の場合、出力は変換されません。
+			この変数が空の場合、出力は変換されません。
+			デフォルト値は 'termencoding' です。
 
 
 ==============================================================================
@@ -45,6 +47,9 @@ g:ref_refe_encoding				*g:ref_refe_encoding*
 
 ==============================================================================
 更新履歴					*ref-refe-changelog*
+
+0.1.0	2010-01-21
+	- |ref#system()| を使うようにした。
 
 0.0.2	2009-08-20
 	- |ku-ref| のために挙動を改良。
