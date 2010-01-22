@@ -35,6 +35,7 @@ Following sources are included in this plugin:
 - refe		(|ref-refe.txt|)
 
 
+
 ==============================================================================
 REFERENCE VIEWER				*ref-viewer*
 
@@ -42,6 +43,7 @@ REFERENCE VIEWER				*ref-viewer*
 command or |<Plug>(ref-keyword)| key sequence like |:help|.  If |ref-viewer|
 is already opened in current tab page, it is used again.
 Each |ref-viewer| have a history of viewed pages, you can return at any time.
+
 
 
 ==============================================================================
@@ -135,6 +137,7 @@ K			<Plug>(ref-keyword)
 <C-i>			<Plug>(ref-forward)
 
 
+
 ==============================================================================
 CUSTOMIZING					*ref-customizing*
 
@@ -163,6 +166,7 @@ g:ref_cache_dir					*g:ref_cache_dir*
 g:ref_use_vimproc				*g:ref_use_vimproc*
 	When true, |ref#system()| use |vimproc|.  When |vimproc#system()|
 	exists, the default value is true, and otherwise false.
+
 
 
 ==============================================================================
@@ -199,6 +203,7 @@ ref#{source}#leave()				*ref#{source}#leave()*
 			source page.
 
 
+
 ==============================================================================
 TODO						*ref-todo*
 
@@ -211,6 +216,7 @@ TODO						*ref-todo*
 - Global command line options.
   - :Ref [-option ...] {source} ...
   - Example: split
+
 
 
 ==============================================================================
