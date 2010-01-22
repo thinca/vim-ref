@@ -34,6 +34,9 @@ Following sources are included in this plugin:
 - pydoc		(|ref-pydoc.txt|)
 - refe		(|ref-refe.txt|)
 
+Requirements:
+- Vim 7.2 or later
+
 
 
 ==============================================================================

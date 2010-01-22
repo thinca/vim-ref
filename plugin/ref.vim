@@ -4,7 +4,7 @@
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
 
-if exists('g:loaded_ref') || v:version < 702
+if exists('g:loaded_ref')
   finish
 endif
 let g:loaded_ref = 1
