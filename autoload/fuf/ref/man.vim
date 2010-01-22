@@ -17,7 +17,6 @@ endfunction
 
 "
 function fuf#ref#man#renewCache()
-  call fuf#ref#deleteCache(s:FILE_NAME)
 endfunction
 
 "

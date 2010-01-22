@@ -12,30 +12,6 @@ function fuf#ref#createHandler(base)
   return a:base.concretize(copy(s:handler))
 endfunction
 
-"
-"function fuf#ref#getSwitchOrder()
-"  return g:fuf_line_switchOrder
-"endfunction
-"
-""
-"function fuf#ref#renewCache()
-"endfunction
-"
-""
-"function fuf#ref#requiresOnCommandPre()
-"  return 0
-"endfunction
-"
-""
-"function fuf#ref#onInit()
-"  call fuf#defineLaunchCommand(s:handler.command, s:MODE_NAME, '""')
-"endfunction
-
-function! fuf#ref#deleteCache(menu)
-  let cacheFile = expand(g:fuf_ref_cache_dir) . "/". a:menu
-  call delete(cacheFile)
-endfunction
-
 " }}}1
 "=============================================================================
 " LOCAL FUNCTIONS/VARIABLES {{{1
@@ -43,26 +19,6 @@ endfunction
 let s:MODE_NAME = expand('<sfile>:t:r')
 "let s:OPEN_TYPE_DELETE = -1
 
-function! s:get_cache(menu)
-
-  if isdirectory(expand(g:fuf_ref_cache_dir)) == 0
-    call mkdir(expand(g:fuf_ref_cache_dir), 'p')
-  endif
-
-  let cacheFile = expand(g:fuf_ref_cache_dir) . "/". a:menu
-  if filereadable(cacheFile)
-    let items = readfile(cacheFile)
-  else
-    let items = ref#{a:menu}#complete('')
-    call writefile(items, cacheFile)
-  endif
-
-  call map(items, 'fuf#makeNonPathItem(v:val, "")')
-  call fuf#mapToSetSerialIndex(items, 1)
-  call map(items, 'fuf#setAbbrWithFormattedWord(v:val, 1)')
-
-  return items
-endfunction
 
 " }}}1
 "=============================================================================
@@ -125,7 +81,10 @@ endfunction
 
 "
 function s:handler.onModeEnterPre()
-  let self.items = s:get_cache(self.menu)
+  let self.items = ref#{self.menu}#complete('')
+  call map(self.items, 'fuf#makeNonPathItem(v:val, "")')
+  call fuf#mapToSetSerialIndex(self.items, 1)
+  call map(self.items, 'fuf#setAbbrWithFormattedWord(v:val, 1)')
 endfunction
 
 "
