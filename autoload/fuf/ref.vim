@@ -1,3 +1,13 @@
+"
+" add your .vimrc this setting.
+" let g:fuf_modes = ['buffer', 'file', 'dir', 'mrufile', 'mrucmd',
+"        \   'bookmark', 'tag', 'taggedfile',
+"        \   'jumplist', 'changelist', 'quickfix', 'line', 'help',
+"        \   'givenfile', 'givendir', 'givencmd',
+"        \   'callbackfile', 'callbackitem',
+"        \   'ref#phpmanual', 'ref#refe', 'ref#pydoc', 'ref#perldoc', 'ref#man']
+"
+
 if exists('g:loaded_autoload_fuf_ref') || v:version < 702
   finish
 endif
