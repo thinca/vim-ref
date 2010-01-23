@@ -5,8 +5,8 @@ if !exists('g:ref_alc_start_linenumber')
   let g:ref_alc_start_linenumber = 33
 endif
 
-if !exists('g:ref_alc_open_cmd')
-  let g:ref_alc_open_cmd = 
+if !exists('g:ref_alc_cmd')
+  let g:ref_alc_cmd = 
   \ executable('elinks') ? 'elinks -dump -no-numbering -no-references %s' :
   \ executable('w3m')    ? 'w3m -dump %s' :
   \ executable('links')  ? 'links -dump %s' :
@@ -15,11 +15,11 @@ if !exists('g:ref_alc_open_cmd')
 endif
 
 function! ref#alc#available()
-  return g:ref_alc_open_cmd != '' 
+  return g:ref_alc_cmd != '' 
 endfunction
 
 function! ref#alc#get_body(query)
-  return ref#system(printf(g:ref_alc_open_cmd, '"http://eow.alc.co.jp/'.a:query.'/UTF-8/?ref=sa"'))
+  return ref#system(printf(g:ref_alc_cmd, '"http://eow.alc.co.jp/'.a:query.'/UTF-8/?ref=sa"'))
 endfunction
 
 function! ref#alc#opened(query)
