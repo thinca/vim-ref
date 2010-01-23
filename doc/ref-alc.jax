@@ -1,0 +1,51 @@
+*ref-alc.txt*	alc 用の ref ソース。
+
+Version: 0.0.1
+Author : soh335 <sugarbabe335@gmail.com>
+License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
+         <http://creativecommons.org/licenses/by/2.1/jp/>
+
+==============================================================================
+目次						*ref-alc-contents*
+
+概要				|ref-alc-introduction|
+カスタマイズ			|ref-alc-customizing|
+バグ				|ref-alc-bugs|
+更新履歴			|ref-alc-changelog|
+
+
+==============================================================================
+概要						*ref-alc-introduction*
+
+*ref-alc* は 株式会社スペースアルク社が提供する英辞郎 on the WEB を利用するため
+の |ref| ソースです。
+
+
+
+==============================================================================
+カスタマイズ					*ref-alc-customizing*
+
+g:ref_alc_cmd				        *g:ref_alc_cmd*
+			英辞郎 on the WEB を表示するためのコマンドです。%s は
+                        単語を引くためのurl に置き換えられます。
+			デフォルト値は以下の物でコマンドが実行可能なものです。
+			- 'elinks -dump -no-numbering -no-references %s'
+			- 'w3m -dump %s'
+			- 'links -dump %s'
+			- 'lynx -dump -nonumbers %s'
+
+g:ref_alc_start_linenumber                      *g:ref_alc_start_linenumber*
+                        英辞郎 on the WEB を使い単語を引いた後、画面表示を開始
+                        する行数です。
+                        デフォルト値は33 になっています。
+==============================================================================
+バグ						*ref-alc-bugs*
+
+==============================================================================
+更新履歴					*ref-alc-changelog*
+
+0.0.1	2010-01-23
+	- 初版。
+
+==============================================================================
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
