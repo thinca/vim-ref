@@ -1,5 +1,5 @@
 " Integrated reference viewer.
-" Version: 0.1.1
+" Version: 0.1.2
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -20,6 +20,8 @@ if !exists('g:ref_use_vimproc')
 endif
 
 let s:last_stderr = ''
+
+let s:is_win = has('win16') || has('win32') || has('win64')
 
 
 " {{{1
@@ -188,7 +190,49 @@ function! ref#system(args, ...)
     return a:0 ? vimproc#system(args, a:1) : vimproc#system(args)
   endif
 
-  let cmd = join(map(args, 'shellescape(v:val)'))
+  if s:is_win
+    " Here is a command that want to execute.
+    "   something.bat keyword
+    "
+    " The command is executed by following form in fact.
+    "   cmd.exe /c something.bat keyword
+    "
+    " Any arguments may including whitespace and other character needs escape.
+    " So, quote each arguments.
+    "   cmd.exe /c "something.bat" "keyword"
+    "
+    " But, cmd.exe handle it as one argument like ``something.bat" "keyword''.
+    " So, quote the command again.
+    "   cmd.exe /c ""something.bat" "keyword""
+    "
+    " Here, cmd.exe do strange behavior.  When the command is .bat file,
+    " %~dp0 in the file is expanded to current directory.
+    " For example
+    "   C:\Program Files\some\example.bat: (in $PATH)
+    "   @echo %~f0
+    "
+    "   (in cmd.exe)
+    "   C:\>example.bat
+    "   C:\Program Files\some\example.bat
+    "
+    "   C:\>cmd.exe /c example.bat
+    "   C:\Program Files\some\example.bat
+    "
+    "   C:\>cmd.exe /c ""example.bat""
+    "   C:\example.bat
+    "
+    "   C:\>cmd.exe /c ""C:\Program Files\some\example.bat""
+    "   C:\Program Files\some\example.bat
+    "
+    " By occasion of above, the command should be converted to fullpath.
+    let args[0] = s:cmdpath(args[0])
+    let q = '"'
+    let cmd = q . join(map(args,
+    \   'q . substitute(escape(v:val, q), "[<>^|&]", "^\\0", "g") . q'),
+    \   ' ') . q
+  else
+    let cmd = join(map(args, 'shellescape(v:val)'))
+  endif
   let save_shellredir = &shellredir
   let stderr = tempname()
   let &shellredir = '>%s 2>' . shellescape(stderr)
@@ -262,7 +306,7 @@ function! s:open(query, open_cmd)  " {{{2
   setlocal modifiable noreadonly
 
   let bufname = printf('[ref-%s:%s]', b:ref_source, a:query)
-  if has('win16') || has('win32') || has('win64')
+  if s:is_win
     " In Windows, '*' cannot be used for a buffer name.
     let bufname = substitute(bufname, '\*', '', 'g')
   endif
@@ -312,6 +356,32 @@ function! s:dump_history()  " {{{2
     call s:move_history(i - b:ref_history_pos - 1)
   endif
 endfunction
+
+
+
+function! s:cmdpath(cmd)
+  " Search the fullpath of command for MS Windows.
+  let full = glob(a:cmd)
+  if a:cmd ==? full
+    " Already fullpath.
+    return a:cmd
+  endif
+
+  let extlist = split($PATHEXT, ';')
+  if a:cmd =~? '\V\%(' . substitute($PATHEXT, ';', '\\|', 'g') . '\)\$'
+    call insert(extlist, '', 0)
+  endif
+  for dir in split($PATH, ';')
+    for ext in extlist
+      let full = glob(dir . '\' . a:cmd . ext)
+      if full != ''
+        return full
+      endif
+    endfor
+  endfor
+  return ''
+endfunction
+
 
 
 
