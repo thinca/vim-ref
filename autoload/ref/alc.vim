@@ -24,6 +24,7 @@ endfunction
 
 function! ref#alc#opened(query)
   execute "normal! ".g:ref_alc_start_linenumber."z\<CR>"
+  call s:syntax(a:query)
 endfunction
 
 function! ref#alc#complete(query)
@@ -34,9 +35,22 @@ function! ref#alc#get_keyword()
 endfunction
 
 function! ref#alc#leave()
+  syntax clear
+  unlet! b:current_syntax
 endfunction
 
 call ref#detect#register('alc', 'alc')
+
+function! s:syntax(query)
+  if exists('b:current_syntax') && b:current_syntax == 'ref-alc'
+    return
+  endif
+
+  syntax clear
+  unlet! b:current_syntax
+  execute 'syntax match refAlcKeyword "\<'.a:query.'\>"'
+  highlight default link refAlcKeyword Special
+endfunction
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
