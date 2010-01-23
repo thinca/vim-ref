@@ -5,14 +5,6 @@ if !exists('g:ref_alc_start_linenumber')
   let g:ref_alc_start_linenumber = 33
 endif
 
-if !exists('g:ref_alc_open')
-  let g:ref_alc_open = 'split'
-endif
-
-if !exists('g:ref_alc_history_num')
-  let g:ref_alc_history_num = 5
-endif
-
 if !exists('g:ref_alc_open_cmd')
   let g:ref_alc_open_cmd = 
   \ executable('elinks') ? 'elinks -dump -no-numbering -no-references %s' :
