@@ -27,7 +27,7 @@ function! ref#alc#available()
 endfunction
 
 function! ref#alc#get_body(query)
-  return system(printf(g:ref_alc_open_cmd, '"http://eow.alc.co.jp/'.a:query.'/UTF-8/?ref=sa"'))
+  return ref#system(printf(g:ref_alc_open_cmd, '"http://eow.alc.co.jp/'.a:query.'/UTF-8/?ref=sa"'))
 endfunction
 
 function! ref#alc#opened(query)
