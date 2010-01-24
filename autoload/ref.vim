@@ -314,12 +314,13 @@ function! s:open(query, open_cmd)  " {{{2
 
   execute a:open_cmd
 
+  1  " Move the cursor to the first line.
+
   if exists('*ref#{b:ref_source}#opened')
     call ref#{b:ref_source}#opened(a:query)
   endif
 
   setlocal nomodifiable readonly
-  1  " Move the cursor to the first line.
 endfunction
 
 
