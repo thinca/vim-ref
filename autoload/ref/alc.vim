@@ -50,7 +50,7 @@ function! s:syntax(query)
   syntax clear
   unlet! b:current_syntax
   let str = substitute(a:query, '\s', '\\|', 'g')
-  execute 'syntax match refAlcKeyword "\<'.str.'\>"'
+  execute 'syntax match refAlcKeyword "\c\<'.str.'\>"'
   highlight default link refAlcKeyword Special
 endfunction
 
