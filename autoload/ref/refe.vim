@@ -55,6 +55,7 @@ function! ref#refe#opened(query)  " {{{2
     silent! %s/[^[:return:]]\n\zs\ze----/\r/ge
   endif
   call s:syntax(type)
+  1
 endfunction
 
 

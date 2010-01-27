@@ -66,6 +66,7 @@ function! ref#man#opened(query)  " {{{2
 
     call s:syntax()
   endif
+  1
 endfunction
 
 
