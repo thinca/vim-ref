@@ -1,6 +1,6 @@
 *ref-alc.txt*	alc 用の ref ソース。
 
-Version: 0.0.1
+Version: 0.0.2
 Author : soh335 <sugarbabe335@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -44,6 +44,8 @@ g:ref_alc_start_linenumber                      *g:ref_alc_start_linenumber*
 ==============================================================================
 更新履歴					*ref-alc-changelog*
 
+0.0.2   2010-01-28
+        - バグ修正
 0.0.1	2010-01-23
 	- 初版。
 
