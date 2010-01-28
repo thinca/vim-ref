@@ -54,6 +54,7 @@ x.x.x	xxxx-xx-xx
 	- Fixed a bug that doesn't work when |g:ref_phpmanual_cmd| is a
 	  |List|.
 	- Show the list when query is empty.
+	- Fixed a bug to which the execution of the command might not work.
 
 0.1.0	2010-01-21
 	- Uisng |ref#cache()|.

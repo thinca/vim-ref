@@ -137,7 +137,8 @@ function! s:execute(file)  "{{{2
     return ''
   endif
 
-  return ref#system(map(cmd, 'substitute(v:val, "%s", a:file, "g")'))
+  let file = escape(a:file, '\')
+  return ref#system(map(cmd, 'substitute(v:val, "%s", file, "g")'))
 endfunction
 
 
