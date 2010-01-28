@@ -16,7 +16,7 @@ endif
 
 
 function! ref#perldoc#available()  " {{{2
-  return g:ref_perldoc_cmd != ''
+  return len(g:ref_perldoc_cmd)
 endfunction
 
 
