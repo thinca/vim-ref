@@ -24,6 +24,7 @@ line tool to view the reference manual on Perl.
 
 
 Requirements:
+- |ref| 0.2.0 or later
 - perldoc
 
 
