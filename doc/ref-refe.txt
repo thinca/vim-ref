@@ -48,6 +48,9 @@ BUGS						*ref-refe-bugs*
 ==============================================================================
 CHANGELOG					*ref-refe-changelog*
 
+x.x.x	xxxx-xx-xx
+	- Fixed a bug that doesn't work when |g:ref_refe_cmd| is a |List|.
+
 0.1.0	2010-01-21
 	- Using |ref#system()|.
 

@@ -20,7 +20,7 @@ endif
 
 
 function! ref#refe#available()  " {{{2
-  return g:ref_refe_cmd != ''
+  return len(g:ref_refe_cmd)
 endfunction
 
 

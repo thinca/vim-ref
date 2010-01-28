@@ -48,6 +48,9 @@ g:ref_refe_encoding				*g:ref_refe_encoding*
 ==============================================================================
 更新履歴					*ref-refe-changelog*
 
+x.x.x	xxxx-xx-xx
+	- |g:ref_refe_cmd| が |List| だと動作しないバグを修正。
+
 0.1.0	2010-01-21
 	- |ref#system()| を使うようにした。
 
