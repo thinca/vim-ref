@@ -34,7 +34,9 @@ g:ref_phpmanual_path				*g:ref_phpmanual_path*
 
 g:ref_phpmanual_cmd				*g:ref_phpmanual_cmd*
 			A command to view the html file.  %s is replaced by
-			the html file name.
+			the html file name.  This allows a |List| that
+			includes command and arguments.
+
 			The default value is the executable one of the
 			following:
 			- 'elinks -dump -no-numbering -no-references %s'

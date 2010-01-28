@@ -34,7 +34,8 @@ g:ref_phpmanual_path				*g:ref_phpmanual_path*
 
 g:ref_phpmanual_cmd				*g:ref_phpmanual_cmd*
 			html を表示するためのコマンドです。%s は html ファイル
-			に置き換えられます。
+			に置き換えられます。コマンドとその引数を含む |List| も
+			指定できます。
 			デフォルト値は以下の物でコマンドが実行可能なものです。
 			- 'elinks -dump -no-numbering -no-references %s'
 			- 'w3m -dump %s'
