@@ -30,7 +30,8 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 カスタマイズ					*ref-pydoc-customizing*
 
 g:ref_pydoc_cmd					*g:ref_pydoc_cmd*
-			pydoc コマンドを指定します。
+			pydoc コマンドを指定します。コマンドとその引数を含む
+			|List| も指定できます。
 			デフォルト値は、実行可能ならば "pydoc" です。そうでな
 			ければ "" です。
 

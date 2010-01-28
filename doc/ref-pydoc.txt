@@ -30,7 +30,8 @@ Requirements:
 CUSTOMIZING					*ref-pydoc-customizing*
 
 g:ref_pydoc_cmd					*g:ref_pydoc_cmd*
-			Specifies the pydoc command.
+			Specifies the pydoc command.  This allows a |List|
+			that includes command and arguments.
 			The default value is "pydoc" if it is executable.
 			Otherwise, it is "".
 
