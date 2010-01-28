@@ -87,7 +87,6 @@ endfunction
 
 
 
-let s:complcache = {}
 function! ref#man#complete(query)  " {{{2
   let sec = matchstr(a:query, '^\d') - 0
   let query = matchstr(a:query, '\v^%(\d\s+)?\zs.*')
