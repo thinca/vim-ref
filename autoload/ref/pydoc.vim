@@ -16,7 +16,7 @@ endif
 
 
 function! ref#pydoc#available()  " {{{2
-  return g:ref_pydoc_cmd != ''
+  return len(g:ref_pydoc_cmd)
 endfunction
 
 

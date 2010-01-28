@@ -45,6 +45,9 @@ BUGS						*ref-pydoc-bugs*
 ==============================================================================
 CHANGELOG					*ref-pydoc-changelog*
 
+x.x.x	xxxx-xx-xx
+	- Fixed a bug that doesn't work when |g:ref_pydoc_cmd| is a |List|.
+
 0.1.2	2010-01-21
 	- Using |ref#system()|.
 
