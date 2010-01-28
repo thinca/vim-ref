@@ -56,6 +56,9 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 ==============================================================================
 更新履歴					*ref-man-changelog*
 
+x.x.x	xxxx-xx-xx
+	- |ref| 0.2.0 に対応。
+
 0.1.3	2010-01-18
 	- |ref#system()| を使うようにした。
 	- エスケープシーケンスの除去を改善。

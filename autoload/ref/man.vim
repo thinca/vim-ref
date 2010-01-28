@@ -237,7 +237,7 @@ endfunction
 
 function! s:build_gathers()
   let d = {}
-  function! d.call()
+  function! d.call(name)
     let list = []
     if self.sec is 0
       for n in range(1, 9)
