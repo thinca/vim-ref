@@ -55,6 +55,7 @@ x.x.x	xxxx-xx-xx
 	  |List|.
 	- Show the list when query is empty.
 	- Fixed a bug to which the execution of the command might not work.
+	- The encoding of the output was converted.
 
 0.1.0	2010-01-21
 	- Uisng |ref#cache()|.

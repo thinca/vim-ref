@@ -138,7 +138,14 @@ function! s:execute(file)  "{{{2
   endif
 
   let file = escape(a:file, '\')
-  return ref#system(map(cmd, 'substitute(v:val, "%s", file, "g")'))
+  let res = ref#system(map(cmd, 'substitute(v:val, "%s", file, "g")'))
+  if &termencoding != '' && &termencoding !=# &encoding
+    let converted = iconv(res, &termencoding, &encoding)
+    if converted != ''
+      let res = converted
+    endif
+  endif
+  return res
 endfunction
 
 
