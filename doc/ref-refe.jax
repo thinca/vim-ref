@@ -30,7 +30,8 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 カスタマイズ					*ref-refe-customizing*
 
 g:ref_refe_cmd					*g:ref_refe_cmd*
-			refe コマンドを指定します。
+			refe コマンドを指定します。コマンドとその引数を含む
+			|List| も指定できます。
 			デフォルト値は、実行可能ならば "refe" です。そうでなけ
 			れば "" です。
 

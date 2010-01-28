@@ -30,7 +30,8 @@ Requirements:
 CUSTOMIZING					*ref-refe-customizing*
 
 g:ref_refe_cmd					*g:ref_refe_cmd*
-			Specifies the refe command.
+			Specifies the refe command.  This allows a |List| that
+			includes command and arguments.
 			The default value is "refe" if it is executable.
 			Otherwise, it is "".
 
