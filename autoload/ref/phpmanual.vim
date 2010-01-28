@@ -48,6 +48,10 @@ function! ref#phpmanual#get_body(query)  " {{{2
     endif
   endfor
 
+  if name == ''
+    return s:cache('function') + s:cache('ref') + s:cache('class')
+  endif
+
   for pat in ['%s.*', '*.%s.*', 'function.*%s*.html']
     let file = glob(pre . printf(pat, name))
     if file != ''
@@ -77,8 +81,7 @@ function! ref#phpmanual#complete(query)  " {{{2
   let pre = g:ref_phpmanual_path . '/'
 
   for kind in ['function', 'ref', 'class']
-    let list = filter(copy(ref#cache('phpmanual', kind, s:gather)),
-    \                 'v:val =~# name')
+    let list = filter(copy(s:cache(kind)), 'v:val =~# name')
     if list != []
       return list
     endif
@@ -154,7 +157,9 @@ endfunction
 
 
 
-let s:gather = s:func('gather_func')
+function! s:cache(kind)
+  return ref#cache('phpmanual', a:kind, s:func('gather_func'))
+endfunction
 
 
 
