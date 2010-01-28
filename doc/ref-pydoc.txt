@@ -1,6 +1,6 @@
 *ref-pydoc.txt*	A ref source for pydoc.
 
-Version: 0.1.2
+Version: 0.2.0
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -26,6 +26,7 @@ Requirements:
 - pydoc
 
 
+
 ==============================================================================
 CUSTOMIZING					*ref-pydoc-customizing*
 
@@ -36,6 +37,7 @@ g:ref_pydoc_cmd					*g:ref_pydoc_cmd*
 			Otherwise, it is "".
 
 
+
 ==============================================================================
 BUGS						*ref-pydoc-bugs*
 
@@ -44,10 +46,11 @@ BUGS						*ref-pydoc-bugs*
   very heavy.
 
 
+
 ==============================================================================
 CHANGELOG					*ref-pydoc-changelog*
 
-x.x.x	xxxx-xx-xx
+0.2.0	2010-01-28
 	- Fixed a bug that doesn't work when |g:ref_pydoc_cmd| is a |List|.
 
 0.1.2	2010-01-21
