@@ -1,5 +1,5 @@
 " A ref source for ReFe.
-" Version: 0.1.0
+" Version: 0.2.0
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -20,7 +20,7 @@ endif
 
 
 function! ref#refe#available()  " {{{2
-  return g:ref_refe_cmd != ''
+  return len(g:ref_refe_cmd)
 endfunction
 
 

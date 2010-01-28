@@ -1,6 +1,6 @@
 *ref-refe.txt*	ReFe 用の ref ソース。
 
-Version: 0.1.0
+Version: 0.2.0
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -22,14 +22,17 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 
 
 要件:
+- |ref| 0.2.0 以降
 - ReFe (http://i.loveruby.net/ja/prog/refe.html)
+
 
 
 ==============================================================================
 カスタマイズ					*ref-refe-customizing*
 
 g:ref_refe_cmd					*g:ref_refe_cmd*
-			refe コマンドを指定します。
+			refe コマンドを指定します。コマンドとその引数を含む
+			|List| も指定できます。
 			デフォルト値は、実行可能ならば "refe" です。そうでなけ
 			れば "" です。
 
@@ -39,14 +42,19 @@ g:ref_refe_encoding				*g:ref_refe_encoding*
 			デフォルト値は 'termencoding' です。
 
 
+
 ==============================================================================
 バグ						*ref-refe-bugs*
 
 - refe のコマンドラインオプションが指定されることは想定されていません。
 
 
+
 ==============================================================================
 更新履歴					*ref-refe-changelog*
+
+0.2.0	2010-01-28
+	- |g:ref_refe_cmd| が |List| だと動作しないバグを修正。
 
 0.1.0	2010-01-21
 	- |ref#system()| を使うようにした。

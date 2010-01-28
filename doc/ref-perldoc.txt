@@ -1,6 +1,6 @@
 *ref-perldoc.txt*	A ref source for perldoc.
 
-Version: 0.1.2
+Version: 0.2.0
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -24,6 +24,7 @@ line tool to view the reference manual on Perl.
 
 
 Requirements:
+- |ref| 0.2.0 or later
 - perldoc
 
 
@@ -82,6 +83,11 @@ BUGS						*ref-perldoc-bugs*
 
 ==============================================================================
 CHANGELOG					*ref-perldoc-changelog*
+
+0.2.0	2010-01-28
+	- Updated for |ref| 0.2.0.
+	- Fixed a bug that doesn't work the -f option.
+	- Fixed a bug that doesn't work when |g:ref_perldoc_cmd| is a |List|.
 
 0.1.2	2010-01-20
 	- Using |ref#system()|.

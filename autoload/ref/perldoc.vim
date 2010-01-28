@@ -1,5 +1,5 @@
 " A ref source for perldoc.
-" Version: 0.1.2
+" Version: 0.2.0
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -16,7 +16,7 @@ endif
 
 
 function! ref#perldoc#available()  " {{{2
-  return g:ref_perldoc_cmd != ''
+  return len(g:ref_perldoc_cmd)
 endfunction
 
 
@@ -34,13 +34,13 @@ function! ref#perldoc#get_body(query)  " {{{2
     return list
   endif
 
+  let cmdarg += ['-o', 'text']
   if a:query =~# '-f\>' || index(s:list('modules') + s:list('basepod'), q) < 0
     let cmdarg += ['-f']
   elseif a:query =~# '-m\>'
     let cmdarg += ['-m']
   endif
 
-  let cmdarg += ['-o', 'text']
   let res = ref#system((type(g:ref_perldoc_cmd) == type('') ?
   \   split(g:ref_perldoc_cmd, '\s\+') : g:ref_perldoc_cmd) + cmdarg + [q])
 
@@ -192,7 +192,7 @@ endfunction
 
 
 
-function! s:basepod_list()
+function! s:basepod_list(name)
   let basepods = []
   let base = ref#system(['perl', '-MConfig', '-e',
   \                      'print $Config{installprivlib}'])
@@ -213,7 +213,7 @@ endfunction
 
 
 
-function! s:modules_list()
+function! s:modules_list(name)
   let inc = ref#system(['perl', '-e', 'print join('':'', @INC)'])
   let sep = '[/\\]'
   let files = {}
@@ -234,7 +234,7 @@ endfunction
 
 
 
-function! s:func_list()
+function! s:func_list(name)
   let doc = ref#system('perldoc -u perlfunc')
   let i = 0
   let funcs = []
@@ -261,7 +261,7 @@ endfunction
 
 
 
-function s:func(name)  "{{{2
+function! s:func(name)  "{{{2
   return function(matchstr(expand('<sfile>'), '<SNR>\d\+_\zefunc$') . a:name)
 endfunction
 

@@ -1,6 +1,6 @@
 *ref-phpmanual.txt*	A ref source for PHP manual.
 
-Version: 0.1.0
+Version: 0.2.0
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -20,7 +20,9 @@ INTRODUCTION					*ref-phpmanual-introduction*
 
 
 Requirements:
+- |ref| 0.2.0 or later
 - PHP Manual (Many HTML files) (http://php.benscom.com/download-docs.php)
+
 
 
 ==============================================================================
@@ -32,7 +34,9 @@ g:ref_phpmanual_path				*g:ref_phpmanual_path*
 
 g:ref_phpmanual_cmd				*g:ref_phpmanual_cmd*
 			A command to view the html file.  %s is replaced by
-			the html file name.
+			the html file name.  This allows a |List| that
+			includes command and arguments.
+
 			The default value is the executable one of the
 			following:
 			- 'elinks -dump -no-numbering -no-references %s'
@@ -41,8 +45,17 @@ g:ref_phpmanual_cmd				*g:ref_phpmanual_cmd*
 			- 'lynx -dump -nonumbers %s'
 
 
+
 ==============================================================================
 CHANGELOG					*ref-phpmanual-changelog*
+
+0.2.0	2010-01-28
+	- Updated for |ref| 0.2.0.
+	- Fixed a bug that doesn't work when |g:ref_phpmanual_cmd| is a
+	  |List|.
+	- Show the list when query is empty.
+	- Fixed a bug to which the execution of the command might not work.
+	- The encoding of the output was converted.
 
 0.1.0	2010-01-21
 	- Uisng |ref#cache()|.

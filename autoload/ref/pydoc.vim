@@ -1,5 +1,5 @@
 " A ref source for pydoc.
-" Version: 0.1.2
+" Version: 0.2.0
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -16,7 +16,7 @@ endif
 
 
 function! ref#pydoc#available()  " {{{2
-  return g:ref_pydoc_cmd != ''
+  return len(g:ref_pydoc_cmd)
 endfunction
 
 

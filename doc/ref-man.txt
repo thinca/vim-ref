@@ -1,6 +1,6 @@
 *ref-man.txt*	A ref source for manpage.
 
-Version: 0.1.3
+Version: 0.2.0
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -22,14 +22,17 @@ manual pages on UNIX-like operationg systems.
 
 
 Requirements:
+- |ref| 0.2.0 or later
 - man
+
 
 
 ==============================================================================
 CUSTOMIZING					*ref-man-customizing*
 
 g:ref_man_cmd					*g:ref_man_cmd*
-			Specifies the man command.
+			Specifies the man command.  This allows a |List| that
+			includes command and arguments.
 			The default value is "man" if it is executable.
 			Otherwise, it is "".
 
@@ -44,6 +47,7 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 			The default value is 1000.
 
 
+
 ==============================================================================
 BUGS						*ref-man-bugs*
 
@@ -53,8 +57,13 @@ BUGS						*ref-man-bugs*
   following the history.
 
 
+
 ==============================================================================
 CHANGELOG					*ref-man-changelog*
+
+0.2.0	2010-01-28
+	- Updated for |ref| 0.2.0.
+	- Fixed a bug that doesn't work when |g:ref_man_cmd| is a |List|.
 
 0.1.3	2010-01-18
 	- Using |ref#system()|.

@@ -1,6 +1,6 @@
 *ref-refe.txt*	A ref source for ReFe.
 
-Version: 0.1.0
+Version: 0.2.0
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -22,14 +22,17 @@ to view the reference manual of Ruby.
 
 
 Requirements:
+- |ref| 0.2.0 or later
 - ReFe (http://i.loveruby.net/en/projects/refe/)
+
 
 
 ==============================================================================
 CUSTOMIZING					*ref-refe-customizing*
 
 g:ref_refe_cmd					*g:ref_refe_cmd*
-			Specifies the refe command.
+			Specifies the refe command.  This allows a |List| that
+			includes command and arguments.
 			The default value is "refe" if it is executable.
 			Otherwise, it is "".
 
@@ -39,14 +42,19 @@ g:ref_refe_encoding				*g:ref_refe_encoding*
 			The default value is 'termencoding'.
 
 
+
 ==============================================================================
 BUGS						*ref-refe-bugs*
 
 - It is not assumed that a command line options of refe is specified.
 
 
+
 ==============================================================================
 CHANGELOG					*ref-refe-changelog*
+
+0.2.0	2010-01-28
+	- Fixed a bug that doesn't work when |g:ref_refe_cmd| is a |List|.
 
 0.1.0	2010-01-21
 	- Using |ref#system()|.

@@ -1,6 +1,6 @@
 *ref-man.txt*	manpage 用の ref ソース。
 
-Version: 0.1.3
+Version: 0.2.0
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -22,14 +22,17 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 
 
 要件:
+- |ref| 0.2.0 以降
 - man
+
 
 
 ==============================================================================
 カスタマイズ					*ref-man-customizing*
 
 g:ref_man_cmd					*g:ref_man_cmd*
-			man コマンドを指定します。
+			man コマンドを指定します。コマンドとその引数を含む
+			|List| も指定できます。
 			デフォルト値は、実行可能ならば "man" です。そうでな
 			ければ "" です。
 
@@ -44,6 +47,7 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 			デフォルト値は 1000 です。
 
 
+
 ==============================================================================
 バグ						*ref-man-bugs*
 
@@ -53,8 +57,13 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
   イライトされません。
 
 
+
 ==============================================================================
 更新履歴					*ref-man-changelog*
+
+0.2.0	2010-01-28
+	- |ref| 0.2.0 に対応。
+	- |g:ref_man_cmd| が |List| だと動作しないバグを修正。
 
 0.1.3	2010-01-18
 	- |ref#system()| を使うようにした。

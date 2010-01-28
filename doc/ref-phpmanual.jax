@@ -1,6 +1,6 @@
 *ref-phpmanual.txt*	PHP マニュアル用の ref ソース。
 
-Version: 0.1.0
+Version: 0.2.0
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -18,8 +18,11 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 
 *ref-phpmanual* は PHP マニュアル用の |ref| のソースです。
 
+
 要件:
+- |ref| 0.2.0 以降
 - PHP Manual (Many HTML files) (http://php.benscom.com/download-docs.php)
+
 
 
 ==============================================================================
@@ -31,7 +34,8 @@ g:ref_phpmanual_path				*g:ref_phpmanual_path*
 
 g:ref_phpmanual_cmd				*g:ref_phpmanual_cmd*
 			html を表示するためのコマンドです。%s は html ファイル
-			に置き換えられます。
+			に置き換えられます。コマンドとその引数を含む |List| も
+			指定できます。
 			デフォルト値は以下の物でコマンドが実行可能なものです。
 			- 'elinks -dump -no-numbering -no-references %s'
 			- 'w3m -dump %s'
@@ -39,8 +43,16 @@ g:ref_phpmanual_cmd				*g:ref_phpmanual_cmd*
 			- 'lynx -dump -nonumbers %s'
 
 
+
 ==============================================================================
 更新履歴					*ref-phpmanual-changelog*
+
+0.2.0	2010-01-28
+	- |ref| 0.2.0 に対応。
+	- |g:ref_phpmanual_cmd| が |List| だと動作しないバグを修正。
+	- クエリが空の際にリストを表示するようにした。
+	- コマンドの実行がうまくいかないことがあるバグを修正。
+	- 出力のエンコーディングを変換するようにした。
 
 0.1.0	2010-01-21
 	- |ref#cache()| を使うようにした。

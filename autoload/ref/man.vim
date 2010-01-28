@@ -1,5 +1,5 @@
 " A ref source for manpage.
-" Version: 0.1.3
+" Version: 0.2.0
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -27,7 +27,7 @@ endif
 
 
 function! ref#man#available()  " {{{2
-  return g:ref_man_cmd != ''
+  return len(g:ref_man_cmd)
 endfunction
 
 
@@ -87,7 +87,6 @@ endfunction
 
 
 
-let s:complcache = {}
 function! ref#man#complete(query)  " {{{2
   let sec = matchstr(a:query, '^\d') - 0
   let query = matchstr(a:query, '\v^%(\d\s+)?\zs.*')
@@ -237,7 +236,7 @@ endfunction
 
 function! s:build_gathers()
   let d = {}
-  function! d.call()
+  function! d.call(name)
     let list = []
     if self.sec is 0
       for n in range(1, 9)
