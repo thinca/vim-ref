@@ -44,6 +44,9 @@ g:ref_phpmanual_cmd				*g:ref_phpmanual_cmd*
 ==============================================================================
 CHANGELOG					*ref-phpmanual-changelog*
 
+x.x.x	xxxx-xx-xx
+	- Updated for |ref| 0.2.0.
+
 0.1.0	2010-01-21
 	- Uisng |ref#cache()|.
 	- Uisng |ref#system()|.

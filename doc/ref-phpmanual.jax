@@ -42,6 +42,9 @@ g:ref_phpmanual_cmd				*g:ref_phpmanual_cmd*
 ==============================================================================
 更新履歴					*ref-phpmanual-changelog*
 
+x.x.x	xxxx-xx-xx
+	- |ref| 0.2.0 に対応。
+
 0.1.0	2010-01-21
 	- |ref#cache()| を使うようにした。
 	- |ref#system()| を使うようにした。

@@ -76,8 +76,9 @@ function! ref#phpmanual#complete(query)  " {{{2
   let name = substitute(tolower(a:query), '::', '_', 'g')
   let pre = g:ref_phpmanual_path . '/'
 
-  for g in s:gathers
-    let list = filter(copy(ref#cache('phpmanual', g.kind, g)), 'v:val =~# name')
+  for kind in ['function', 'ref', 'class']
+    let list = filter(copy(ref#cache('phpmanual', kind, s:gather)),
+    \                 'v:val =~# name')
     if list != []
       return list
     endif
@@ -124,7 +125,7 @@ endfunction
 
 
 
-function! s:execute(file)
+function! s:execute(file)  "{{{2
   if type(g:ref_phpmanual_cmd) == type('')
     let cmd = split(g:ref_phpmanual_cmd, '\s\+')
   elseif type(g:ref_phpmanual_cmd) == type([])
@@ -138,19 +139,22 @@ endfunction
 
 
 
-function! s:build_gathers()
-  let d = {}
-  function! d.call()
-    let list = glob(g:ref_phpmanual_path . '/' . self.kind . '.*.html')
-    let pat = self.kind . '\.\zs.*\ze\.html$'
-    return map(split(list, "\n"),
-    \      'substitute(matchstr(v:val, pat), "-", "_", "g")')
-  endfunction
-
-  return map(['function', 'ref', 'class'], 'extend({"kind": v:val}, d)')
+function! s:gather_func(name)  "{{{2
+  let list = glob(g:ref_phpmanual_path . '/' . a:name . '.*.html')
+  let pat = a:name . '\.\zs.*\ze\.html$'
+  return map(split(list, "\n"),
+  \      'substitute(matchstr(v:val, pat), "-", "_", "g")')
 endfunction
 
-let s:gathers = s:build_gathers()
+
+
+function! s:func(name)  "{{{2
+  return function(matchstr(expand('<sfile>'), '<SNR>\d\+_\zefunc$') . a:name)
+endfunction
+
+
+
+let s:gather = s:func('gather_func')
 
 
 
