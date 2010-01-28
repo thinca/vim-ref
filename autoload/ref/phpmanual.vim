@@ -24,7 +24,7 @@ endif
 
 function! ref#phpmanual#available()  " {{{2
   return isdirectory(g:ref_phpmanual_path) &&
-  \      g:ref_phpmanual_cmd != ''
+  \      len(g:ref_phpmanual_cmd)
 endfunction
 
 
