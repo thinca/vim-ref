@@ -192,7 +192,7 @@ endfunction
 
 
 
-function! s:basepod_list()
+function! s:basepod_list(name)
   let basepods = []
   let base = ref#system(['perl', '-MConfig', '-e',
   \                      'print $Config{installprivlib}'])
@@ -213,7 +213,7 @@ endfunction
 
 
 
-function! s:modules_list()
+function! s:modules_list(name)
   let inc = ref#system(['perl', '-e', 'print join('':'', @INC)'])
   let sep = '[/\\]'
   let files = {}
@@ -234,7 +234,7 @@ endfunction
 
 
 
-function! s:func_list()
+function! s:func_list(name)
   let doc = ref#system('perldoc -u perlfunc')
   let i = 0
   let funcs = []
@@ -261,7 +261,7 @@ endfunction
 
 
 
-function s:func(name)  "{{{2
+function! s:func(name)  "{{{2
   return function(matchstr(expand('<sfile>'), '<SNR>\d\+_\zefunc$') . a:name)
 endfunction
 
