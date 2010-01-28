@@ -20,7 +20,9 @@ INTRODUCTION					*ref-phpmanual-introduction*
 
 
 Requirements:
+- |ref| 0.2.0 or later
 - PHP Manual (Many HTML files) (http://php.benscom.com/download-docs.php)
+
 
 
 ==============================================================================
@@ -39,6 +41,7 @@ g:ref_phpmanual_cmd				*g:ref_phpmanual_cmd*
 			- 'w3m -dump %s'
 			- 'links -dump %s'
 			- 'lynx -dump -nonumbers %s'
+
 
 
 ==============================================================================
