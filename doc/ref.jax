@@ -1,6 +1,6 @@
 *ref.txt*	総合リファレンスビューア。
 
-Version: 0.1.2
+Version: 0.2.0
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -210,7 +210,7 @@ ref#{source}#leave()				*ref#{source}#leave()*
 ==============================================================================
 更新履歴					*ref-changelog*
 
-x.x.x	xxxx-xx-xx
+0.2.0	2010-01-28
 	- |ref#cache()| の {gather} に渡す関数が、引数として {name} を受け取る
 	  ように変更。
 	- 選択テキストの取得方法を改善。

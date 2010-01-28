@@ -1,6 +1,6 @@
 *ref.txt*	Integrated reference viewer.
 
-Version: 0.1.2
+Version: 0.2.0
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -227,7 +227,7 @@ TODO						*ref-todo*
 ==============================================================================
 CHANGELOG					*ref-changelog*
 
-x.x.x	xxxx-xx-xx
+0.2.0	2010-01-28
 	- A function of {gather} in |ref#cache()| takes {name} as an argument.
 	- Improved the way to get selected text.
 
