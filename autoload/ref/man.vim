@@ -27,7 +27,7 @@ endif
 
 
 function! ref#man#available()  " {{{2
-  return g:ref_man_cmd != ''
+  return len(g:ref_man_cmd)
 endfunction
 
 
