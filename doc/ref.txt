@@ -65,10 +65,12 @@ ref#cache({source}, {name}, {gather})		*ref#cache()*
 			{source} is a name of source.
 			{name} is a arbitrary name for identification.
 			{gather} is one of the following.
-			- A |Funcref| for getting the list.
-			- A evaluatable string by |eval()|.  (Note scope.)
-			- A dictionary with dictionary function "call" in
-			  member.
+			1. A |Funcref| for getting the list.
+			2. A evaluatable string by |eval()|.  (Note scope.)
+			3. A dictionary with dictionary function "call" in
+			   member.
+			A function of 1 and 3 is received {name} as argument.
+			a:name can be referred by 2.
 			In any case, it is necessary to return the list.
 
 ref#system({expr} [, {input}])			*ref#system()*
@@ -224,6 +226,9 @@ TODO						*ref-todo*
 
 ==============================================================================
 CHANGELOG					*ref-changelog*
+
+x.x.x	xxxx-xx-xx
+	- A function of {gather} in |ref#cache()| takes {name} as an argument.
 
 0.1.2	2010-01-22
 	- Fixed a bug that doesn't work on MS Windows when |g:ref_use_vimproc|

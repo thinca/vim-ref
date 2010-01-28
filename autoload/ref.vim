@@ -164,9 +164,10 @@ function! ref#cache(source, name, gather)  " {{{2
       let s:cache[a:source][a:name] = readfile(file)
     else
       let s:cache[a:source][a:name] =
-      \  type(a:gather) == type(function('function')) ? a:gather() :
-      \  type(a:gather) == type({}) && has_key(a:gather, 'call') &&
-      \  type(a:gather.call) == type(function('function')) ? a:gather.call() :
+      \  type(a:gather) == type(function('function')) ? a:gather(a:name) :
+      \  type(a:gather) == type({}) && has_key(a:gather, 'call')
+      \    &&  type(a:gather.call) == type(function('function')) ?
+      \        a:gather.call(a:name) :
       \  type(a:gather) == type('') ? eval(a:gather) : []
 
       if g:ref_cache_dir != ''

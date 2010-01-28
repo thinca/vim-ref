@@ -65,9 +65,11 @@ ref#cache({source}, {name}, {gather})		*ref#cache()*
 			{source} はソース名です。
 			{name} は識別のための任意の名前です。
 			{gather} は以下のうちのいずれかです。
-			- リストを取得するための |Funcref|。
-			- |eval()| によって評価可能な文字列。(スコープに注意。)
-			- 辞書関数 "call" をメンバに持つ辞書。
+			1. リストを取得するための |Funcref|。
+			2. |eval()| で評価可能な文字列。(スコープに注意。)
+			3. 辞書関数 "call" をメンバに持つ辞書。
+			1 と 3 は関数の引数に {name} を受け取ります。
+			2 は a:name を参照できます。
 			いずれの場合もリストを返す必要があります。
 
 ref#system({expr} [, {input}])			*ref#system()*
@@ -207,6 +209,10 @@ ref#{source}#leave()				*ref#{source}#leave()*
 
 ==============================================================================
 更新履歴					*ref-changelog*
+
+x.x.x	xxxx-xx-xx
+	- |ref#cache()| の {gather} に渡す関数が、引数として {name} を受け取る
+	  ように変更。
 
 0.1.2	2010-01-22
 	- |g:ref_use_vimproc| = 0 の時、MS Windows 上で動作しないバグを修正。
