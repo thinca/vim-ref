@@ -22,6 +22,7 @@ tool to view the reference manual on Python.
 
 
 Requirements:
+- |ref| 0.2.0 or later
 - pydoc
 
 
