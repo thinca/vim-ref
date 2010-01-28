@@ -1,6 +1,6 @@
 *ref-man.txt*	manpage 用の ref ソース。
 
-Version: 0.1.3
+Version: 0.2.0
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -61,7 +61,7 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 ==============================================================================
 更新履歴					*ref-man-changelog*
 
-x.x.x	xxxx-xx-xx
+0.2.0	2010-01-28
 	- |ref| 0.2.0 に対応。
 	- |g:ref_man_cmd| が |List| だと動作しないバグを修正。
 
