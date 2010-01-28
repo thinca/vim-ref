@@ -22,6 +22,7 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 
 
 要件:
+- |ref| 0.2.0 以降
 - ReFe (http://i.loveruby.net/ja/prog/refe.html)
 
 
