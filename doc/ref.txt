@@ -229,6 +229,7 @@ CHANGELOG					*ref-changelog*
 
 x.x.x	xxxx-xx-xx
 	- A function of {gather} in |ref#cache()| takes {name} as an argument.
+	- Improved the way to get selected text.
 
 0.1.2	2010-01-22
 	- Fixed a bug that doesn't work on MS Windows when |g:ref_use_vimproc|

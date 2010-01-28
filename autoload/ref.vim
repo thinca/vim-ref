@@ -131,10 +131,11 @@ function! ref#jump(...)  " {{{2
   endif
 
   if a:0 && a:1
-    let reg = @@
-    normal! gvy
-    let query = @@
-    let @@ = reg
+    let [reg_save, reg_save_type] = [getreg(), getregtype()]
+    silent normal! gvy
+    let query = @"
+    call setreg(v:register, reg_save, reg_save_type)
+
   elseif exists('*ref#{source}#get_keyword')
     let pos = getpos('.')
     let query = ref#{source}#get_keyword()

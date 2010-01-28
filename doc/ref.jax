@@ -213,6 +213,7 @@ ref#{source}#leave()				*ref#{source}#leave()*
 x.x.x	xxxx-xx-xx
 	- |ref#cache()| の {gather} に渡す関数が、引数として {name} を受け取る
 	  ように変更。
+	- 選択テキストの取得方法を改善。
 
 0.1.2	2010-01-22
 	- |g:ref_use_vimproc| = 0 の時、MS Windows 上で動作しないバグを修正。
