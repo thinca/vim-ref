@@ -83,6 +83,7 @@ b:ref_perldoc_word				*b:ref_perldoc_word*
 
 x.x.x	xxxx-xx-xx
 	- |ref| 0.2.0 に対応。
+	- -f オプションが使えないバグを修正。
 
 0.1.2	2010-01-20
 	- |ref#system()| を使うようにした。

@@ -85,6 +85,7 @@ CHANGELOG					*ref-perldoc-changelog*
 
 x.x.x	xxxx-xx-xx
 	- Updated for |ref| 0.2.0.
+	- Fixed a bug that doesn't work the -f option.
 
 0.1.2	2010-01-20
 	- Using |ref#system()|.

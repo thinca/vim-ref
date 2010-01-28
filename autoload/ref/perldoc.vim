@@ -34,13 +34,13 @@ function! ref#perldoc#get_body(query)  " {{{2
     return list
   endif
 
+  let cmdarg += ['-o', 'text']
   if a:query =~# '-f\>' || index(s:list('modules') + s:list('basepod'), q) < 0
     let cmdarg += ['-f']
   elseif a:query =~# '-m\>'
     let cmdarg += ['-m']
   endif
 
-  let cmdarg += ['-o', 'text']
   let res = ref#system((type(g:ref_perldoc_cmd) == type('') ?
   \   split(g:ref_perldoc_cmd, '\s\+') : g:ref_perldoc_cmd) + cmdarg + [q])
 
