@@ -25,11 +25,13 @@ Requirements:
 - man
 
 
+
 ==============================================================================
 CUSTOMIZING					*ref-man-customizing*
 
 g:ref_man_cmd					*g:ref_man_cmd*
-			Specifies the man command.
+			Specifies the man command.  This allows a |List| that
+			includes command and arguments.
 			The default value is "man" if it is executable.
 			Otherwise, it is "".
 
@@ -44,6 +46,7 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 			The default value is 1000.
 
 
+
 ==============================================================================
 BUGS						*ref-man-bugs*
 
@@ -51,6 +54,7 @@ BUGS						*ref-man-bugs*
 
 - If you enabled |g:ref_man_use_escape_sequence|, it is not highlighted when
   following the history.
+
 
 
 ==============================================================================
