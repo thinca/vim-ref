@@ -1,3 +1,10 @@
+" A ref source for alc.
+" Version: 0.1.0
+" Author : soh335 <sugarbabe335@gmail.com>
+"        : thinca <thinca+vim@gmail.com>
+" License: Creative Commons Attribution 2.1 Japan License
+"          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
+
 let s:save_cpo = &cpo
 set cpo&vim
 

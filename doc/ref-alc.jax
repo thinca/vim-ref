@@ -1,6 +1,6 @@
 *ref-alc.txt*	alc 用の ref ソース。
 
-Version: 0.0.2
+Version: 0.1.0
 Author : soh335 <sugarbabe335@gmail.com>
        : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
@@ -49,6 +49,10 @@ g:ref_alc_start_linenumber			*g:ref_alc_start_linenumber*
 
 ==============================================================================
 更新履歴					*ref-alc-changelog*
+
+0.1.0	2010-02-28
+	- URL エンコードを行うように変更。
+	- 複数の単語で検索した場合でも個々の単語をハイライトしないように変更。
 
 0.0.2	2010-01-28
 	- バグ修正
