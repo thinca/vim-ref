@@ -19,8 +19,24 @@ function! ref#alc#available()
 endfunction
 
 function! ref#alc#get_body(query)
-  let str = substitute(a:query, '\s', '+', 'g')
-  return ref#system(printf(g:ref_alc_cmd, 'http://eow.alc.co.jp/'.str.'/UTF-8/?ref=sa'))
+  if type(g:ref_phpmanual_cmd) == type('')
+    let cmd = split(g:ref_phpmanual_cmd, '\s\+')
+  elseif type(g:ref_phpmanual_cmd) == type([])
+    let cmd = copy(g:ref_phpmanual_cmd)
+  else
+    return ''
+  endif
+
+  let org = s:iconv(a:query, &encoding, 'utf-8')
+  let str = ''
+  for i in range(strlen(org))
+    let c = org[i]
+    let str .= c =~ '\w' ? c : printf('%%%02X', char2nr(c))
+  endfor
+
+  let url = 'http://eow.alc.co.jp/' . str . '/UTF-8/'
+  let res = ref#system(map(cmd, 'substitute(v:val, "%s", url, "g")'))
+  return s:iconv(res, &termencoding, &encoding)
 endfunction
 
 function! ref#alc#opened(query)
@@ -43,6 +59,17 @@ function! s:syntax(query)
   let str = substitute(a:query, '\s\+', '\\|', 'g')
   execute 'syntax match refAlcKeyword "\c\<'.str.'\>"'
   highlight default link refAlcKeyword Special
+endfunction
+
+
+
+" iconv() wrapper for safety.
+function! s:iconv(expr, from, to)  " {{{2
+  if a:from == '' || a:to == '' || a:from ==# a:to
+    return a:expr
+  endif
+  let result = iconv(a:expr, a:from, a:to)
+  return result != '' ? result : a:expr
 endfunction
 
 let &cpo = s:save_cpo
