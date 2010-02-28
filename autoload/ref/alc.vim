@@ -48,8 +48,6 @@ function! ref#alc#leave()
   syntax clear
 endfunction
 
-call ref#detect#register('alc', 'alc')
-
 function! s:syntax(query)
   if exists('b:current_syntax') && b:current_syntax == 'ref-alc'
     return
