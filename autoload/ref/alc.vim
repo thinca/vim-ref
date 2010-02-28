@@ -15,7 +15,7 @@ if !exists('g:ref_alc_cmd')
 endif
 
 function! ref#alc#available()
-  return len(g:ref_alc_cmd)
+  return g:ref_alc_cmd != ''
 endfunction
 
 function! ref#alc#get_body(query)
