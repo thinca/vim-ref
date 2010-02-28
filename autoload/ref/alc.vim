@@ -6,7 +6,7 @@ if !exists('g:ref_alc_start_linenumber')
 endif
 
 if !exists('g:ref_alc_cmd')
-  let g:ref_alc_cmd = 
+  let g:ref_alc_cmd =
   \ executable('elinks') ? 'elinks -dump -no-numbering -no-references %s' :
   \ executable('w3m')    ? 'w3m -dump %s' :
   \ executable('links')  ? 'links -dump %s' :
@@ -15,7 +15,7 @@ if !exists('g:ref_alc_cmd')
 endif
 
 function! ref#alc#available()
-  return g:ref_alc_cmd != '' 
+  return len(g:ref_alc_cmd)
 endfunction
 
 function! ref#alc#get_body(query)
@@ -28,16 +28,8 @@ function! ref#alc#opened(query)
   call s:syntax(a:query)
 endfunction
 
-function! ref#alc#complete(query)
-endfunction
-
-function! ref#alc#get_keyword()
-  return expand('<cword>')
-endfunction
-
 function! ref#alc#leave()
   syntax clear
-  unlet! b:current_syntax
 endfunction
 
 call ref#detect#register('alc', 'alc')
@@ -48,7 +40,6 @@ function! s:syntax(query)
   endif
 
   syntax clear
-  unlet! b:current_syntax
   let str = substitute(a:query, '\s\+', '\\|', 'g')
   execute 'syntax match refAlcKeyword "\c\<'.str.'\>"'
   highlight default link refAlcKeyword Special
