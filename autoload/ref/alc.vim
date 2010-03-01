@@ -1,5 +1,5 @@
 " A ref source for alc.
-" Version: 0.1.0
+" Version: 0.1.1
 " Author : soh335 <sugarbabe335@gmail.com>
 "        : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
@@ -21,8 +21,12 @@ if !exists('g:ref_alc_cmd')
   \ ''
 endif
 
+if !exists('g:ref_alc_encoding')
+  let g:ref_alc_encoding = &termencoding
+endif
+
 function! ref#alc#available()
-  return g:ref_alc_cmd != ''
+  return !empty(g:ref_alc_cmd)
 endfunction
 
 function! ref#alc#get_body(query)
@@ -43,7 +47,7 @@ function! ref#alc#get_body(query)
 
   let url = 'http://eow.alc.co.jp/' . str . '/UTF-8/'
   let res = ref#system(map(cmd, 'substitute(v:val, "%s", url, "g")'))
-  return s:iconv(res, &termencoding, &encoding)
+  return s:iconv(res, g:ref_alc_encoding, &encoding)
 endfunction
 
 function! ref#alc#opened(query)
@@ -61,7 +65,7 @@ function! s:syntax(query)
   endif
 
   syntax clear
-  let str = substitute(a:query, '\s\+', '\\_s\\+', 'g')
+  let str = escape(substitute(a:query, '\s\+', '\\_s\\+', 'g'), '"')
   execute 'syntax match refAlcKeyword "\c\<'.str.'\>"'
   highlight default link refAlcKeyword Special
 endfunction

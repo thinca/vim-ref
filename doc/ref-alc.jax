@@ -1,6 +1,6 @@
 *ref-alc.txt*	alc 用の ref ソース。
 
-Version: 0.1.0
+Version: 0.1.1
 Author : soh335 <sugarbabe335@gmail.com>
        : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
@@ -41,21 +41,32 @@ g:ref_alc_cmd					*g:ref_alc_cmd*
 			- 'lynx -dump -nonumbers %s'
 
 g:ref_alc_start_linenumber			*g:ref_alc_start_linenumber*
-                        英辞郎 on the WEB を使い単語を引いた後、画面表示を開始
-                        する行数です。
-                        デフォルト値は 33 になっています。
+			英辞郎 on the WEB を使い単語を引いた後、画面表示を開始
+			する行数です。
+			デフォルト値は 33 になっています。
+
+g:ref_alc_encoding				*g:ref_alc_encoding*
+			|g:ref_alc_cmd| で指定したコマンドの出力のエンコードを
+			指定します。この変数が空の場合、出力は変換されません。
+			デフォルト値は 'termencoding' です。
 
 
 
 ==============================================================================
 更新履歴					*ref-alc-changelog*
 
+0.1.1	2010-03-01
+	- |g:ref_alc_encoding| を追加。
+	- |g:ref_alc_cmd| が |List| だった場合動作しないバグを修正。
+	- キーワードに " が含まれているとエラーが出るバグを修正。
+
 0.1.0	2010-02-28
+	- |g:ref_alc_cmd| に |List| を指定できるようにした。
 	- URL エンコードを行うように変更。
 	- 複数の単語で検索した場合でも個々の単語をハイライトしないように変更。
 
 0.0.2	2010-01-28
-	- バグ修正
+	- バグ修正。
 
 0.0.1	2010-01-23
 	- 初版。
