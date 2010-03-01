@@ -45,12 +45,18 @@ g:ref_alc_start_linenumber			*g:ref_alc_start_linenumber*
                         する行数です。
                         デフォルト値は 33 になっています。
 
+g:ref_alc_encoding				*g:ref_alc_encoding*
+			|g:ref_alc_cmd| で指定したコマンドの出力のエンコードを
+			指定します。この変数が空の場合、出力は変換されません。
+			デフォルト値は 'termencoding' です。
+
 
 
 ==============================================================================
 更新履歴					*ref-alc-changelog*
 
 x.x.x	xxxx-xx-xx
+	- |g:ref_alc_encoding| を追加。
 	- |g:ref_alc_cmd| が |List| だった場合動作しないバグを修正。
 	- キーワードに " が含まれているとエラーが出るバグを修正。
 

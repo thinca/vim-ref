@@ -21,6 +21,10 @@ if !exists('g:ref_alc_cmd')
   \ ''
 endif
 
+if !exists('g:ref_alc_encoding')
+  let g:ref_alc_encoding = &termencoding
+endif
+
 function! ref#alc#available()
   return !empty(g:ref_alc_cmd)
 endfunction
@@ -43,7 +47,7 @@ function! ref#alc#get_body(query)
 
   let url = 'http://eow.alc.co.jp/' . str . '/UTF-8/'
   let res = ref#system(map(cmd, 'substitute(v:val, "%s", url, "g")'))
-  return s:iconv(res, &termencoding, &encoding)
+  return s:iconv(res, g:ref_alc_encoding, &encoding)
 endfunction
 
 function! ref#alc#opened(query)
