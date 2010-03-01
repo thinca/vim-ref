@@ -22,7 +22,7 @@ if !exists('g:ref_alc_cmd')
 endif
 
 function! ref#alc#available()
-  return g:ref_alc_cmd != ''
+  return !empty(g:ref_alc_cmd)
 endfunction
 
 function! ref#alc#get_body(query)
