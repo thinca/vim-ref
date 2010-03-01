@@ -61,7 +61,7 @@ function! s:syntax(query)
   endif
 
   syntax clear
-  let str = substitute(a:query, '\s\+', '\\_s\\+', 'g')
+  let str = escape(substitute(a:query, '\s\+', '\\_s\\+', 'g'), '"')
   execute 'syntax match refAlcKeyword "\c\<'.str.'\>"'
   highlight default link refAlcKeyword Special
 endfunction

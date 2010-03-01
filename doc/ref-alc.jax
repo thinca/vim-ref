@@ -52,6 +52,7 @@ g:ref_alc_start_linenumber			*g:ref_alc_start_linenumber*
 
 x.x.x	xxxx-xx-xx
 	- |g:ref_alc_cmd| が |List| だった場合動作しないバグを修正。
+	- キーワードに " が含まれているとエラーが出るバグを修正。
 
 0.1.0	2010-02-28
 	- |g:ref_alc_cmd| に |List| を指定できるようにした。
