@@ -11,10 +11,12 @@ CONTENTS					*ref-contents*
 INTRODUCTION			|ref-introduction|
 REFERENCE VIEWER		|ref-viewer|
 INTERFACE			|ref-interface|
-  COMMANDS			  |ref-command|
+  FUNCTIONS			  |ref-functions|
+  COMMANDS			  |ref-commands|
   KEY MAPPINGS			  |ref-key-mappings|
 CUSTOMIZING			|ref-customizing|
 SOURCES				|ref-sources|
+  AUTOLOAD			  |ref-autoload|
 TODO				|ref-todo|
 CHANGELOG			|ref-changelog|
 
@@ -55,14 +57,18 @@ INTERFACE					*ref-interface*
 ------------------------------------------------------------------------------
 FUNCTIONS					*ref-functions*
 
+ref#register({source})				*ref#register()*
+			Register a new source.  See |ref-sources| about
+			{source}.
+
 The following functions are used by |ref-sources| mainly.
 
-ref#cache({source}, {name}, {gather})		*ref#cache()*
+ref#cache({source-name}, {name}, {gather})	*ref#cache()*
 			It is a function to cache a time-consuming list to
 			acquisition.  The list is cached in the automatic
 			operation in using this function. The cached list is
 			returned at the following.
-			{source} is a name of source.
+			{source-name} is a name of source.
 			{name} is a arbitrary name for identification.
 			{gather} is one of the following.
 			1. A |Funcref| for getting the list.
@@ -96,7 +102,7 @@ ref#last_stderr()				*ref#last_stderr()*
 ------------------------------------------------------------------------------
 COMMANDS					*ref-commands*
 
-:Ref {source} [query]				*:Ref*
+:Ref {source-name} [query]			*:Ref*
 			Open the |ref-viewer|.  [query] is used by
 			|ref-sources| as query.
 
@@ -177,35 +183,45 @@ g:ref_use_vimproc				*g:ref_use_vimproc*
 ==============================================================================
 SOURCES						*ref-sources*
 
-A source must provide the following functions.  The {query} is a string passed
-by |:Ref| command.
+A source is a |Dictionary|.  A source have the following attributes.  A
+function is a |Dictionary-function|.  The {query} is a string passed by |:Ref|
+command.
 
-ref#{source}#available()			*ref#{source}#available()*
+name					*ref-source-attr-name*
+			Required.  The name for this source.
+
+available()				*ref-source-attr-available()*
 			Required.  Return true if this source is available.
 
-ref#{source}#get_body({query})			*ref#{source}#get_body()*
+get_body({query})			*ref-source-attr-get_body()*
 			Required.  Return the body of reference by List of
 			line break delimitation or String.
 			Throws an exception with an error message if body is
 			not found.
 
-ref#{source}#opened({query})			*ref#{source}#opened()*
+opened({query})				*ref-source-attr-opened()*
 			Optional.  When every reference page is opened, this
 			function is called.  You can edit the |ref-viewer|
 			buffer in this timing to initialization.
 
-ref#{source}#get_keyword()			*ref#{source}#get_keyword()*
+get_keyword()				*ref-source-attr-get_keyword()*
 			Optional.  Pick up the keyword from current cursor
 			position.  If omitted, "expand('<cword>')" is used.
 			You can move the cursor because cursor position are
 			restored.
 
-ref#{source}#complete({query})			*ref#{source}#complete()*
+complete({query})			*ref-source-attr-complete()*
 			Optional.  Return the completion list for command-line.
 
-ref#{source}#leave()				*ref#{source}#leave()*
+leave()					*ref-source-attr-leave()*
 			Optional.  This function is called when move to other
 			source page.
+
+------------------------------------------------------------------------------
+AUTOLOAD					*ref-autoload*
+
+A auto load function ref#{source-name}#define() is called automatically when
+autoload/ref.vim is loaded, and the return value is registered as source.
 
 
 
@@ -219,13 +235,17 @@ TODO						*ref-todo*
   - etc...
 - More customizable.
 - Global command line options.
-  - :Ref [-option ...] {source} ...
+  - :Ref [-option ...] {source-name} ...
   - Example: split
 
 
 
 ==============================================================================
 CHANGELOG					*ref-changelog*
+
+x.x.x	xxxx-xx-xx
+	- Changed the specification of |ref-sources|.
+	  - It has no compatibility with any previous versions.
 
 0.2.0	2010-01-28
 	- A function of {gather} in |ref#cache()| takes {name} as an argument.
