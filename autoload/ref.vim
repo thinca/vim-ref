@@ -23,6 +23,21 @@ let s:last_stderr = ''
 
 let s:is_win = has('win16') || has('win32') || has('win64')
 
+let s:sources = {}
+
+let s:prototype = {}
+function! s:prototype.opened(query)
+endfunction
+function! s:prototype.get_keyword()
+  return expand('<cword>')
+endfunction
+function! s:prototype.complete(query)
+  return []
+endfunction
+function! s:prototype.leave()
+endfunction
+
+
 
 " {{{1
 
@@ -39,33 +54,44 @@ function! ref#complete(lead, cmd, pos)  " {{{2
   if list == []
     return filter(ref#list(), 'v:val =~ "^".a:lead')
   endif
-  let [subcmd, query] = list[1 : 2]
-  if exists('*ref#{subcmd}#complete')
-    return ref#{subcmd}#complete(query)
+  let [source, query] = list[1 : 2]
+  if has_key(s:sources, source)
+    return s:sources[source].complete(query)
   endif
   return []
 endfunction
 
 
 
-" Get available reference list.
+function! ref#register(source)
+  if type(a:source) != type({})
+    throw 'ref: {source} should be a Dictionary.'
+  endif
+  " TODO: Check the source is valid.
+  let s:sources[a:source.name] = extend(copy(s:prototype), a:source)
+endfunction
+
+
+
 function! ref#list()  " {{{2
-  let list = split(globpath(&runtimepath, 'autoload/ref/*.vim'), "\n")
-  return s:uniq(filter(map(list, 'fnamemodify(v:val, ":t:r")'),
-  \             'ref#{v:val}#available()'))
+  return keys(s:sources)
 endfunction
 
 
 
 function! ref#open(source, query, ...)  " {{{2
-  if index(ref#list(), a:source) < 0 || !exists('*ref#{a:source}#available')
-  \   || !ref#{a:source}#available()
-    echoerr 'Reference unavailable:' a:source
+  if !has_key(s:sources, a:source)
+    echoerr 'ref: source is not registered:' a:source
+    return
+  endif
+  let source = s:sources[a:source]
+  if !source.available()
+    echoerr 'ref: this source is unavailable:' a:source
     return
   endif
 
   try
-    let res = ref#{a:source}#get_body(a:query)
+    let res = source.get_body(a:query)
   catch
     echohl ErrorMsg
     echo v:exception
@@ -101,8 +127,8 @@ function! ref#open(source, query, ...)  " {{{2
   else
     setlocal modifiable noreadonly
     % delete _
-    if b:ref_source != a:source && exists('*ref#{b:ref_source}#leave')
-      call ref#{b:ref_source}#leave()
+    if b:ref_source != a:source
+      call source.leave()
     endif
   endif
   let b:ref_source = a:source
@@ -125,7 +151,7 @@ endfunction
 " A function for key mapping for K.
 function! ref#jump(...)  " {{{2
   let source = ref#detect#detect()
-  if source == ''
+  if !has_key(s:sources, source)
     call feedkeys('K', 'n')
     return
   endif
@@ -136,12 +162,10 @@ function! ref#jump(...)  " {{{2
     let query = @"
     call setreg(v:register, reg_save, reg_save_type)
 
-  elseif exists('*ref#{source}#get_keyword')
-    let pos = getpos('.')
-    let query = ref#{source}#get_keyword()
-    call setpos('.', pos)
   else
-    let query = expand('<cword>')
+    let pos = getpos('.')
+    let query = s:sources[source].get_keyword()
+    call setpos('.', pos)
   endif
   if type(query) == type('') && query != ''
     call ref#open(source, query)
@@ -318,9 +342,7 @@ function! s:open(query, open_cmd)  " {{{2
 
   1  " Move the cursor to the first line.
 
-  if exists('*ref#{b:ref_source}#opened')
-    call ref#{b:ref_source}#opened(a:query)
-  endif
+  call s:sources[b:ref_source].opened(a:query)
 
   setlocal nomodifiable readonly
 endfunction
@@ -395,6 +417,21 @@ function! s:uniq(list)
   endfor
   return sort(keys(d))
 endfunction
+
+
+
+" Register the default sources.
+function! s:register_defaults()
+  let list = split(globpath(&runtimepath, 'autoload/ref/*.vim'), "\n")
+  for name in map(list, 'fnamemodify(v:val, ":t:r")')
+    try
+      call ref#register(ref#{name}#define())
+    catch /:E\%(117\|716\):/
+    endtry
+  endfor
+endfunction
+
+call s:register_defaults()
 
 
 
