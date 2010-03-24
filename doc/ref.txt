@@ -91,19 +91,14 @@ ref#system({expr} [, {input}])			*ref#system()*
 			items are processed by |shellescape()|.
 			If {expr} is a string, it is simply separated by
 			whitespaces.
-			In addition, standard error is not included in result.
-			You can get it from |ref#last_stderr()| instead.
+			In addition, this function returns a |Dictionary| that
+			has following entries.
+			result: Return code.
+			stdout: Standard output.
+			stderr: Standard error.
 			This function uses |vimproc#system()| instead if
-			g:ref_use_vimproc is true.
+			|g:ref_use_vimproc| is true.
 			vimproc: http://github.com/Shougo/vimproc
-
-ref#shell_error()				*ref#shell_error()*
-			If you use |ref#system()|, use this instead of
-			|v:shell_error|.
-
-ref#last_stderr()				*ref#last_stderr()*
-			Get the standard error when |ref#system()| is executed
-			at last time.
 
 
 ------------------------------------------------------------------------------

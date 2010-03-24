@@ -90,19 +90,14 @@ ref#system({expr} [, {input}])			*ref#system()*
 			す。各要素は |shellescape()| で処理されます。
 			{expr} が文字列の場合、空白文字によって単純に分割され
 			ます。
-			加えて、標準エラー出力は結果に含まれません。代わりに、
-			|ref#last_stderr()| から取得することができます。
+			加えて、この関数は以下の要素を持つ辞書(|Dictionary|)を
+			返します。
+			result: リターンコード。
+			stdout: 標準出力。
+			stderr: 標準エラー出力。
 			この関数は、|g:ref_use_vimproc| が真の時は代わり
 			に |vimproc#system()| を使用します。
 			vimproc: http://github.com/Shougo/vimproc
-
-ref#shell_error()				*ref#shell_error()*
-			|ref#system()| を使う場合は、|v:shell_error| の代わり
-			にこれを使用してください。
-
-ref#last_stderr()				*ref#last_stderr()*
-			|ref#system()| を最後に実行した際の標準エラーを取得し
-			ます。
 
 
 ------------------------------------------------------------------------------

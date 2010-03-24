@@ -19,8 +19,6 @@ if !exists('g:ref_use_vimproc')
   let g:ref_use_vimproc = exists('*vimproc#system')
 endif
 
-let s:last_stderr = ''
-
 let s:is_win = has('win16') || has('win32') || has('win64')
 
 let s:sources = {}
@@ -220,7 +218,12 @@ endfunction
 function! ref#system(args, ...)
   let args = type(a:args) == type('') ? split(a:args, '\s\+') : a:args
   if g:ref_use_vimproc
-    return a:0 ? vimproc#system(args, a:1) : vimproc#system(args)
+    let stdout = a:0 ? vimproc#system(args, a:1) : vimproc#system(args)
+    return {
+    \ 'result': vimproc#get_last_status(),
+    \ 'stdout': stdout,
+    \ 'stderr': vimproc#get_last_errmsg(),
+    \ }
   endif
 
   if s:is_win
@@ -267,34 +270,26 @@ function! ref#system(args, ...)
     let cmd = join(map(args, 'shellescape(v:val)'))
   endif
   let save_shellredir = &shellredir
-  let stderr = tempname()
-  let &shellredir = '>%s 2>' . shellescape(stderr)
-  let result = ''
+  let stderr_file = tempname()
+  let &shellredir = '>%s 2>' . shellescape(stderr_file)
+  let stdout = ''
   try
-    let result = a:0 ? system(cmd, a:1) : system(cmd)
+    let stdout = a:0 ? system(cmd, a:1) : system(cmd)
   finally
-    if filereadable(stderr)
-      let s:last_stderr = join(readfile(stderr, 'b'), "\n")
-      call delete(stderr)
+    if filereadable(stderr_file)
+      let stderr = join(readfile(stderr_file, 'b'), "\n")
+      call delete(stderr_file)
     else
-      let s:last_stderr = ''
+      let stderr = ''
     endif
     let &shellredir = save_shellredir
   endtry
 
-  return result
-endfunction
-
-
-
-function! ref#shell_error()
-  return g:ref_use_vimproc ? vimproc#get_last_status() : v:shell_error
-endfunction
-
-
-
-function! ref#last_stderr()
-  return g:ref_use_vimproc ? vimproc#get_last_errmsg() : s:last_stderr
+  return {
+  \ 'result': v:shell_error,
+  \ 'stdout': stdout,
+  \ 'stderr': stderr
+  \ }
 endfunction
 
 
