@@ -79,6 +79,13 @@ endfunction
 
 
 
+function! ref#available_sources(...)  " {{{2
+  return !a:0                    ? values(s:sources) :
+  \      has_key(s:sources, a:1) ? s:sources[a:1]    : 0
+endfunction
+
+
+
 function! ref#open(source, query, ...)  " {{{2
   if !has_key(s:sources, a:source)
     echoerr 'ref: source is not registered:' a:source

@@ -62,6 +62,13 @@ ref#register({source})				*ref#register()*
 			新しいソースを登録します。{source} に関しては
 			|ref-sources|を参照してください。
 
+ref#available_sources([{source-name}])		*ref#available_sources()*
+			すでに登録されているソースのリスト(|List|)を返します。
+			{name} が指定されてその名前のソースが登録されていた場
+			合はそのソースを返します。そうでない場合は 0 を返しま
+			す。ソースを変更した場合、内部に影響を与えます。
+
+
 以下の関数は主に |ref-sources| によって使われます。
 
 ref#cache({source-name}, {name}, {gather})	*ref#cache()*

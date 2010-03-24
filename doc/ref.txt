@@ -61,6 +61,13 @@ ref#register({source})				*ref#register()*
 			Register a new source.  See |ref-sources| about
 			{source}.
 
+ref#available_sources([{source-name}])		*ref#available_sources()*
+			Returns the |List| of sources already registered.
+			If the {name} of a source is specified and it is
+			registered, it is returned, otherwise 0 is returned.
+			If you changed a source, it influences internally.
+
+
 The following functions are used by |ref-sources| mainly.
 
 ref#cache({source-name}, {name}, {gather})	*ref#cache()*
