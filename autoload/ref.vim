@@ -23,7 +23,7 @@ let s:is_win = has('win16') || has('win32') || has('win64')
 
 let s:sources = {}
 
-let s:prototype = {}
+let s:prototype = {}  " {{{1
 function! s:prototype.opened(query)
 endfunction
 function! s:prototype.get_keyword()
@@ -58,7 +58,7 @@ endfunction
 
 
 
-function! ref#register(source)
+function! ref#register(source)  " {{{2
   if type(a:source) != type({})
     throw 'ref: {source} should be a Dictionary.'
   endif
@@ -212,7 +212,7 @@ endfunction
 
 
 
-function! ref#system(args, ...)
+function! ref#system(args, ...)  " {{{2
   let args = type(a:args) == type('') ? split(a:args, '\s\+') : a:args
   if g:ref_use_vimproc
     let stdout = a:0 ? vimproc#system(args, a:1) : vimproc#system(args)
@@ -383,7 +383,7 @@ endfunction
 
 
 
-function! s:cmdpath(cmd)
+function! s:cmdpath(cmd)  " {{{2
   " Search the fullpath of command for MS Windows.
   let full = glob(a:cmd)
   if a:cmd ==? full
@@ -409,7 +409,7 @@ endfunction
 
 
 
-function! s:uniq(list)
+function! s:uniq(list)  " {{{2
   let d = {}
   for i in a:list
     let d[i] = 0
@@ -420,7 +420,7 @@ endfunction
 
 
 " Register the default sources.
-function! s:register_defaults()
+function! s:register_defaults()  " {{{2
   let list = split(globpath(&runtimepath, 'autoload/ref/*.vim'), "\n")
   for name in map(list, 'fnamemodify(v:val, ":t:r")')
     try
