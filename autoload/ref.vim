@@ -53,10 +53,7 @@ function! ref#complete(lead, cmd, pos)  " {{{2
     return filter(ref#list(), 'v:val =~ "^".a:lead')
   endif
   let [source, query] = list[1 : 2]
-  if has_key(s:sources, source)
-    return s:sources[source].complete(query)
-  endif
-  return []
+  return get(s:sources, source, s:prototype).complete(query)
 endfunction
 
 
