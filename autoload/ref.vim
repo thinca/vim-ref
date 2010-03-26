@@ -186,7 +186,12 @@ function! ref#cache(source, name, gather)  " {{{2
       let s:cache[a:source] = {}
     endif
 
-    let file = printf('%s/%s/%s', g:ref_cache_dir, a:source, a:name)
+    let fname = s:is_win
+    \ ? substitute(a:name, '[:*?"<>|%]',
+    \              '\=printf("%%%02x", char2nr(submatch(0)))', 'g')
+    \ : a:name
+
+    let file = printf('%s/%s/%s', g:ref_cache_dir, a:source, fname)
     if filereadable(file)
       let s:cache[a:source][a:name] = readfile(file)
     else
@@ -198,7 +203,7 @@ function! ref#cache(source, name, gather)  " {{{2
       \  type(a:gather) == type('') ? eval(a:gather) : []
 
       if g:ref_cache_dir != ''
-        let dir = printf('%s/%s', g:ref_cache_dir, a:source)
+        let dir = fnamemodify(file, ':h')
         if !isdirectory(dir)
           call mkdir(dir, 'p')
         endif
