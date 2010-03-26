@@ -9,8 +9,8 @@ set cpo&vim
 
 
 function! ku#ref#available_sources()
-  return map(filter(ref#list(), 'exists("*ref#{v:val}#complete")'),
-  \          '"ref/" . v:val')
+  return map(filter(ref#available_source_names(),
+  \                 'exists("*ref#{v:val}#complete")'), '"ref/" . v:val')
 endfunction
 
 
