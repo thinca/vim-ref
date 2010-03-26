@@ -50,7 +50,7 @@ endfunction
 function! ref#complete(lead, cmd, pos)  " {{{2
   let list = matchlist(a:cmd, '^\v.{-}R%[ef]\s+(\w+)\s+(.*)$')
   if list == []
-    return filter(ref#list(), 'v:val =~ "^".a:lead')
+    return filter(ref#available_source_names(), 'v:val =~ "^".a:lead')
   endif
   let [source, query] = list[1 : 2]
   return get(s:sources, source, s:prototype).complete(query)
@@ -68,7 +68,7 @@ endfunction
 
 
 
-function! ref#list()  " {{{2
+function! ref#available_source_names()  " {{{2
   return keys(s:sources)
 endfunction
 
