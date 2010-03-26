@@ -75,7 +75,7 @@ endfunction
 
 
 function! ref#available_sources(...)  " {{{2
-  return !a:0                    ? values(s:sources) :
+  return !a:0                    ? copy(s:sources) :
   \      has_key(s:sources, a:1) ? s:sources[a:1]    : 0
 endfunction
 

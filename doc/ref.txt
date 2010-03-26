@@ -66,10 +66,11 @@ ref#available_source_names()			*ref#available_source_names()*
 			registered.
 
 ref#available_sources([{source-name}])		*ref#available_sources()*
-			Returns the |List| of sources already registered.
-			If the {name} of a source is specified and it is
-			registered, it is returned, otherwise 0 is returned.
-			If you changed a source, it influences internally.
+			Returns the view of source that has already registered
+			as a |Dictionary|.  If the {source-name} of a source
+			is specified and it is registered, it is returned,
+			otherwise 0 is returned.  If you changed the source,
+			it influences internally.
 
 
 The following functions are used by |ref-sources| mainly.

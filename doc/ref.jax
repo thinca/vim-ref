@@ -67,10 +67,11 @@ ref#available_source_names()			*ref#available_source_names()*
 			ます。
 
 ref#available_sources([{source-name}])		*ref#available_sources()*
-			すでに登録されているソースのリスト(|List|)を返します。
-			{name} が指定されてその名前のソースが登録されていた場
-			合はそのソースを返します。そうでない場合は 0 を返しま
-			す。ソースを変更した場合、内部に影響を与えます。
+			すでに登録されているソースの一覧を辞書(|Dictionary|)で
+			返します。{source-name} が指定されてその名前のソースが
+			登録されていた場合はそのソースを返します。そうでない場
+			合は 0 を返します。ソースを変更した場合、内部に影響を
+			与えます。
 
 
 以下の関数は主に |ref-sources| によって使われます。
