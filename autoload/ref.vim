@@ -166,8 +166,13 @@ function! ref#jump(...)  " {{{2
 
   else
     let pos = getpos('.')
-    let query = s:sources[source].get_keyword()
+    let res = s:sources[source].get_keyword()
     call setpos('.', pos)
+    if type(res) == type([]) && len(res) == 2
+      let [source, query] = res
+    else
+      let query = res
+    endif
   endif
   if type(query) == type('') && query != ''
     call ref#open(source, query)

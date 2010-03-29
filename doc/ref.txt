@@ -216,6 +216,9 @@ get_keyword()				*ref-source-attr-get_keyword()*
 			position.  If omitted, "expand('<cword>')" is used.
 			You can move the cursor because cursor position are
 			restored.
+			The list of the form of [{source-name}, {keyword}] can
+			be returned.  In this case, the keyword is opened by
+			the specified source.
 
 complete({query})			*ref-source-attr-complete()*
 			Optional.  Return the completion list for command-line.

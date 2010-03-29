@@ -214,6 +214,9 @@ get_keyword()				*ref-source-attr-get_keyword()*
 			定義の場合は "expand('<cword>')" が使われます。カーソ
 			ル位置は復元されるので、カーソルを動かしても問題ありま
 			せん。
+			[{source-name}, {keyword}] の形式のリストを返すことも
+			できます。この場合指定されたソースでキーワードが開かれ
+			ます。
 
 complete({query})			*ref-source-attr-complete()*
 			任意。コマンドラインの補完リストを返します。
