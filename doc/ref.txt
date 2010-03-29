@@ -256,6 +256,9 @@ CHANGELOG					*ref-changelog*
 0.3.0	xxxx-xx-xx
 	- Changed the specification of |ref-sources|.
 	  - It has no compatibility with any previous versions.
+	- Changed returns value of |ref#system()|.
+	- get_keyword() can specify the source with list.
+	- The name for cache allows a lot of kinds of characters.
 
 0.2.0	2010-01-28
 	- A function of {gather} in |ref#cache()| takes {name} as an argument.
