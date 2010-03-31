@@ -21,6 +21,15 @@ endif
 
 let s:is_win = has('win16') || has('win32') || has('win64')
 
+let s:TYPES = {
+\     'number': type(0),
+\     'string': type(''),
+\     'function': type(function('function')),
+\     'list': type([]),
+\     'dictionary': type({}),
+\     'float': type(0.0),
+\   }
+
 let s:sources = {}
 
 let s:prototype = {}  " {{{1
@@ -60,10 +69,16 @@ endfunction
 
 function! ref#register(source)  " {{{2
   if type(a:source) != type({})
-    throw 'ref: {source} should be a Dictionary.'
+    throw 'ref: Invalid source: The source should be a Dictionary.'
   endif
-  " TODO: Check the source is valid.
-  let s:sources[a:source.name] = extend(copy(s:prototype), a:source)
+  let source = extend(copy(s:prototype), a:source)
+  call s:validate(source, 'name', 'string')
+  call s:validate(source, 'get_body', 'function')
+  call s:validate(source, 'opened', 'function')
+  call s:validate(source, 'get_keyword', 'function')
+  call s:validate(source, 'complete', 'function')
+  call s:validate(source, 'leave', 'function')
+  let s:sources[source.name] = source
 endfunction
 
 
@@ -76,7 +91,7 @@ endfunction
 
 function! ref#available_sources(...)  " {{{2
   return !a:0                    ? copy(s:sources) :
-  \      has_key(s:sources, a:1) ? s:sources[a:1]    : 0
+  \      has_key(s:sources, a:1) ? s:sources[a:1]  : 0
 endfunction
 
 
@@ -201,9 +216,9 @@ function! ref#cache(source, name, gather)  " {{{2
       let s:cache[a:source][a:name] = readfile(file)
     else
       let s:cache[a:source][a:name] =
-      \  type(a:gather) == type(function('function')) ? a:gather(a:name) :
+      \  type(a:gather) == s:TYPES.function ? a:gather(a:name) :
       \  type(a:gather) == type({}) && has_key(a:gather, 'call')
-      \    &&  type(a:gather.call) == type(function('function')) ?
+      \    &&  type(a:gather.call) == s:TYPES.function ?
       \        a:gather.call(a:name) :
       \  type(a:gather) == type('') ? eval(a:gather) : []
 
@@ -388,6 +403,17 @@ function! s:dump_history()  " {{{2
   let i = input('Enter nr of choice (CR to abort):')
   if i =~ '\d\+'
     call s:move_history(i - b:ref_history_pos - 1)
+  endif
+endfunction
+
+
+
+function! s:validate(source, key, type)  " {{{2
+  if !has_key(a:source, a:key)
+    throw 'ref: Invalid source: Without key ' . string(a:key)
+  elseif type(a:source[a:key]) != s:TYPES[a:type]
+    throw 'ref: Invalid source: Key ' . key . ' must be ' . a:type . ', ' .
+    \     'but given value is' string(a:source[a:key])
   endif
 endfunction
 
