@@ -167,7 +167,7 @@ endfunction
 
 " A function for key mapping for K.
 function! ref#jump(...)  " {{{2
-  let source = ref#detect#detect()
+  let source = ref#detect()
   if !has_key(s:sources, source)
     call feedkeys('K', 'n')
     return
@@ -191,6 +191,32 @@ function! ref#jump(...)  " {{{2
   endif
   if type(query) == type('') && query != ''
     call ref#open(source, query)
+  endif
+endfunction
+
+
+
+function! ref#detect()
+  let source = ''
+  if exists('b:ref_source')
+    let source = b:ref_source
+  elseif exists('g:ref_detect_filetype[&l:filetype]')
+    let source = g:ref_detect_filetype[&l:filetype]
+  endif
+  if source == 'detect'
+    let source = ''
+  endif
+  return source
+endfunction
+
+
+
+function! ref#register_detection(ft, source)
+  if !exists('g:ref_detect_filetype')
+    let g:ref_detect_filetype = {}
+  endif
+  if !has_key(g:ref_detect_filetype, a:ft)
+    let g:ref_detect_filetype[a:ft] = a:source
   endif
 endfunction
 
