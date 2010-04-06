@@ -56,6 +56,16 @@ INTERFACE					*ref-interface*
 ------------------------------------------------------------------------------
 FUNCTIONS					*ref-functions*
 
+ref#open({source-name}, {query})		*ref#open()*
+			A function version of |:Ref|.
+
+ref#jump([{source-name} [, {is-visual}]])	*ref#jump()*
+			Open the source with looking for query from the cursor
+			position.  When the {source-name} is omitted,
+			|ref#detect()| is used.  When {is-visual} is true, the
+			string within the range selected immediately before is
+			used as query.
+
 ref#register({source})				*ref#register()*
 			Register a new source.  See |ref-sources| about
 			{source}.
