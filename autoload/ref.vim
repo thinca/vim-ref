@@ -166,14 +166,20 @@ endfunction
 
 
 " A function for key mapping for K.
+function! ref#K(source, is_visual)  " {{{2
+  return has_key(s:sources, a:source) ? ref#jump(a:source, a:is_visual)
+  \                                   : feedkeys('K', 'n')
+endfunction
+
+
+
 function! ref#jump(...)  " {{{2
-  let source = ref#detect()
+  let source = a:0 ? a:1 : ref#detect()
   if !has_key(s:sources, source)
-    call feedkeys('K', 'n')
     return
   endif
 
-  if a:0 && a:1
+  if 2 <= a:0 && a:2
     let [reg_save, reg_save_type] = [getreg(), getregtype()]
     silent normal! gvy
     let query = @"
