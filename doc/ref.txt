@@ -29,7 +29,6 @@ core of viewer and sources of reference.  As a result, various references can
 be viewed by the same interface.
 
 Following sources are included in this plugin:
-- detect	(|ref-detect.txt|)
 - man		(|ref-man.txt|)
 - perldoc	(|ref-perldoc.txt|)
 - phpmanual	(|ref-phpmanual.txt|)
@@ -71,6 +70,14 @@ ref#available_sources([{source-name}])		*ref#available_sources()*
 			is specified and it is registered, it is returned,
 			otherwise 0 is returned.  If you changed the source,
 			it influences internally.
+
+ref#detect()					*ref#detect()*
+			Detect the appropriate source on current buffer.
+			Return empty string when detection failed.
+
+ref#register_detection({ft}, {source})		*ref#register_detection()*
+			Register the entry to |g:ref_detect_filetype|.  If
+			the entry already exists, do nothing.
 
 
 The following functions are used by |ref-sources| mainly.
@@ -185,6 +192,11 @@ g:ref_use_vimproc				*g:ref_use_vimproc*
 	When true, |ref#system()| use |vimproc|.  When |vimproc#system()|
 	exists, the default value is true, and otherwise false.
 
+g:ref_detect_filetype				*g:ref_detect_filetype*
+			Specifies the |Dictionary| to detect the using source
+			from |filetype|.
+			Some sources register the appropriate entry on loaded.
+
 
 
 ==============================================================================
@@ -259,6 +271,8 @@ CHANGELOG					*ref-changelog*
 	- Changed returns value of |ref#system()|.
 	- get_keyword() can specify the source with list.
 	- The name for cache allows a lot of kinds of characters.
+	- The detection feature was merged to core.
+	  - Removed the detect source.
 
 0.2.0	2010-01-28
 	- A function of {gather} in |ref#cache()| takes {name} as an argument.

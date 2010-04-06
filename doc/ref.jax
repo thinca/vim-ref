@@ -28,7 +28,6 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 ェースで複数のリファレンスを閲覧できます。
 
 このプラグインには以下のソースが含まれています:
-- detect	(|ref-detect.txt|)
 - man		(|ref-man.txt|)
 - refe		(|ref-refe.txt|)
 - phpmanual	(|ref-phpmanual.txt|)
@@ -72,6 +71,14 @@ ref#available_sources([{source-name}])		*ref#available_sources()*
 			登録されていた場合はそのソースを返します。そうでない場
 			合は 0 を返します。ソースを変更した場合、内部に影響を
 			与えます。
+
+ref#detect()					*ref#detect()*
+			カレントバッファに適切なソースを検出します。検出に失敗
+			した場合は空の文字列を返します。
+
+ref#register_detection({ft}, {source})		*ref#register_detection()*
+			|g:ref_detect_filetype| にエントリを登録します。すでに
+			登録済みの場合は何もしません。
 
 
 以下の関数は主に |ref-sources| によって使われます。
@@ -184,6 +191,11 @@ g:ref_use_vimproc				*g:ref_use_vimproc*
 	真の時、|ref#system()| は |vimproc| を使います。デフォルト値は、
 	|vimproc#system()| が存在する場合は真、そうでない場合は偽です。
 
+g:ref_detect_filetype				*g:ref_detect_filetype*
+			|filetype| からソースを検出するための |Dictionary| を
+			指定します。
+			いくつかのソースはロード時にエントリを登録します。
+
 
 
 ==============================================================================
@@ -241,6 +253,8 @@ leave()					*ref-source-attr-leave()*
 	- |ref#system()| の戻り値を変更。
 	- get_keyword() はリストを返すことでソースを指定できるようにした。
 	- キャッシュで使用する名前により多くの種類の文字を許容するようにした。
+	- 検出機能を本体に結合。
+	  - detect ソースを削除。
 
 0.2.0	2010-01-28
 	- |ref#cache()| の {gather} に渡す関数が、引数として {name} を受け取る
