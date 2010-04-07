@@ -1,6 +1,6 @@
 *ref.txt*	Integrated reference viewer.
 
-Version: 0.2.0
+Version: 0.3.0
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -11,10 +11,12 @@ CONTENTS					*ref-contents*
 INTRODUCTION			|ref-introduction|
 REFERENCE VIEWER		|ref-viewer|
 INTERFACE			|ref-interface|
-  COMMANDS			  |ref-command|
+  FUNCTIONS			  |ref-functions|
+  COMMANDS			  |ref-commands|
   KEY MAPPINGS			  |ref-key-mappings|
 CUSTOMIZING			|ref-customizing|
 SOURCES				|ref-sources|
+  AUTOLOAD			  |ref-autoload|
 TODO				|ref-todo|
 CHANGELOG			|ref-changelog|
 
@@ -27,7 +29,6 @@ core of viewer and sources of reference.  As a result, various references can
 be viewed by the same interface.
 
 Following sources are included in this plugin:
-- detect	(|ref-detect.txt|)
 - man		(|ref-man.txt|)
 - perldoc	(|ref-perldoc.txt|)
 - phpmanual	(|ref-phpmanual.txt|)
@@ -55,14 +56,48 @@ INTERFACE					*ref-interface*
 ------------------------------------------------------------------------------
 FUNCTIONS					*ref-functions*
 
+ref#open({source-name}, {query})		*ref#open()*
+			A function version of |:Ref|.
+
+ref#jump([{source-name} [, {is-visual}]])	*ref#jump()*
+			Open the source with looking for query from the cursor
+			position.  When the {source-name} is omitted,
+			|ref#detect()| is used.  When {is-visual} is true, the
+			string within the range selected immediately before is
+			used as query.
+
+ref#register({source})				*ref#register()*
+			Register a new source.  See |ref-sources| about
+			{source}.
+
+ref#available_source_names()			*ref#available_source_names()*
+			Returns the |List| of names of sources already
+			registered.
+
+ref#available_sources([{source-name}])		*ref#available_sources()*
+			Returns the view of source that has already registered
+			as a |Dictionary|.  If the {source-name} of a source
+			is specified and it is registered, it is returned,
+			otherwise 0 is returned.  If you changed the source,
+			it influences internally.
+
+ref#detect()					*ref#detect()*
+			Detect the appropriate source on current buffer.
+			Return empty string when detection failed.
+
+ref#register_detection({ft}, {source})		*ref#register_detection()*
+			Register the entry to |g:ref_detect_filetype|.  If
+			the entry already exists, do nothing.
+
+
 The following functions are used by |ref-sources| mainly.
 
-ref#cache({source}, {name}, {gather})		*ref#cache()*
+ref#cache({source-name}, {name}, {gather})	*ref#cache()*
 			It is a function to cache a time-consuming list to
 			acquisition.  The list is cached in the automatic
 			operation in using this function. The cached list is
 			returned at the following.
-			{source} is a name of source.
+			{source-name} is a name of source.
 			{name} is a arbitrary name for identification.
 			{gather} is one of the following.
 			1. A |Funcref| for getting the list.
@@ -78,25 +113,20 @@ ref#system({expr} [, {input}])			*ref#system()*
 			items are processed by |shellescape()|.
 			If {expr} is a string, it is simply separated by
 			whitespaces.
-			In addition, standard error is not included in result.
-			You can get it from |ref#last_stderr()| instead.
+			In addition, this function returns a |Dictionary| that
+			has following entries.
+			result: Return code.
+			stdout: Standard output.
+			stderr: Standard error.
 			This function uses |vimproc#system()| instead if
-			g:ref_use_vimproc is true.
+			|g:ref_use_vimproc| is true.
 			vimproc: http://github.com/Shougo/vimproc
-
-ref#shell_error()				*ref#shell_error()*
-			If you use |ref#system()|, use this instead of
-			|v:shell_error|.
-
-ref#last_stderr()				*ref#last_stderr()*
-			Get the standard error when |ref#system()| is executed
-			at last time.
 
 
 ------------------------------------------------------------------------------
 COMMANDS					*ref-commands*
 
-:Ref {source} [query]				*:Ref*
+:Ref {source-name} [query]			*:Ref*
 			Open the |ref-viewer|.  [query] is used by
 			|ref-sources| as query.
 
@@ -172,40 +202,58 @@ g:ref_use_vimproc				*g:ref_use_vimproc*
 	When true, |ref#system()| use |vimproc|.  When |vimproc#system()|
 	exists, the default value is true, and otherwise false.
 
+g:ref_detect_filetype				*g:ref_detect_filetype*
+			Specifies the |Dictionary| to detect the using source
+			from |filetype|.
+			Some sources register the appropriate entry on loaded.
+
 
 
 ==============================================================================
 SOURCES						*ref-sources*
 
-A source must provide the following functions.  The {query} is a string passed
-by |:Ref| command.
+A source is a |Dictionary|.  A source have the following attributes.  A
+function is a |Dictionary-function|.  The {query} is a string passed by |:Ref|
+command.
 
-ref#{source}#available()			*ref#{source}#available()*
+name					*ref-source-attr-name*
+			Required.  The name for this source.
+
+available()				*ref-source-attr-available()*
 			Required.  Return true if this source is available.
 
-ref#{source}#get_body({query})			*ref#{source}#get_body()*
+get_body({query})			*ref-source-attr-get_body()*
 			Required.  Return the body of reference by List of
 			line break delimitation or String.
 			Throws an exception with an error message if body is
 			not found.
 
-ref#{source}#opened({query})			*ref#{source}#opened()*
+opened({query})				*ref-source-attr-opened()*
 			Optional.  When every reference page is opened, this
 			function is called.  You can edit the |ref-viewer|
 			buffer in this timing to initialization.
 
-ref#{source}#get_keyword()			*ref#{source}#get_keyword()*
+get_keyword()				*ref-source-attr-get_keyword()*
 			Optional.  Pick up the keyword from current cursor
 			position.  If omitted, "expand('<cword>')" is used.
 			You can move the cursor because cursor position are
 			restored.
+			The list of the form of [{source-name}, {keyword}] can
+			be returned.  In this case, the keyword is opened by
+			the specified source.
 
-ref#{source}#complete({query})			*ref#{source}#complete()*
+complete({query})			*ref-source-attr-complete()*
 			Optional.  Return the completion list for command-line.
 
-ref#{source}#leave()				*ref#{source}#leave()*
+leave()					*ref-source-attr-leave()*
 			Optional.  This function is called when move to other
 			source page.
+
+------------------------------------------------------------------------------
+AUTOLOAD					*ref-autoload*
+
+A auto load function ref#{source-name}#define() is called automatically when
+autoload/ref.vim is loaded, and the return value is registered as source.
 
 
 
@@ -219,13 +267,22 @@ TODO						*ref-todo*
   - etc...
 - More customizable.
 - Global command line options.
-  - :Ref [-option ...] {source} ...
+  - :Ref [-option ...] {source-name} ...
   - Example: split
 
 
 
 ==============================================================================
 CHANGELOG					*ref-changelog*
+
+0.3.0	xxxx-xx-xx
+	- Changed the specification of |ref-sources|.
+	  - It has no compatibility with any previous versions.
+	- Changed returns value of |ref#system()|.
+	- get_keyword() can specify the source with list.
+	- The name for cache allows a lot of kinds of characters.
+	- The detection feature was merged to core.
+	  - Removed the detect source.
 
 0.2.0	2010-01-28
 	- A function of {gather} in |ref#cache()| takes {name} as an argument.

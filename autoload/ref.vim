@@ -1,5 +1,5 @@
 " Integrated reference viewer.
-" Version: 0.2.0
+" Version: 0.3.0
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -19,9 +19,31 @@ if !exists('g:ref_use_vimproc')
   let g:ref_use_vimproc = exists('*vimproc#system')
 endif
 
-let s:last_stderr = ''
-
 let s:is_win = has('win16') || has('win32') || has('win64')
+
+let s:TYPES = {
+\     'number': type(0),
+\     'string': type(''),
+\     'function': type(function('function')),
+\     'list': type([]),
+\     'dictionary': type({}),
+\     'float': type(0.0),
+\   }
+
+let s:sources = {}
+
+let s:prototype = {}  " {{{1
+function! s:prototype.opened(query)
+endfunction
+function! s:prototype.get_keyword()
+  return expand('<cword>')
+endfunction
+function! s:prototype.complete(query)
+  return []
+endfunction
+function! s:prototype.leave()
+endfunction
+
 
 
 " {{{1
@@ -37,35 +59,56 @@ endfunction
 function! ref#complete(lead, cmd, pos)  " {{{2
   let list = matchlist(a:cmd, '^\v.{-}R%[ef]\s+(\w+)\s+(.*)$')
   if list == []
-    return filter(ref#list(), 'v:val =~ "^".a:lead')
+    return filter(ref#available_source_names(), 'v:val =~ "^".a:lead')
   endif
-  let [subcmd, query] = list[1 : 2]
-  if exists('*ref#{subcmd}#complete')
-    return ref#{subcmd}#complete(query)
-  endif
-  return []
+  let [source, query] = list[1 : 2]
+  return get(s:sources, source, s:prototype).complete(query)
 endfunction
 
 
 
-" Get available reference list.
-function! ref#list()  " {{{2
-  let list = split(globpath(&runtimepath, 'autoload/ref/*.vim'), "\n")
-  return s:uniq(filter(map(list, 'fnamemodify(v:val, ":t:r")'),
-  \             'ref#{v:val}#available()'))
+function! ref#register(source)  " {{{2
+  if type(a:source) != type({})
+    throw 'ref: Invalid source: The source should be a Dictionary.'
+  endif
+  let source = extend(copy(s:prototype), a:source)
+  call s:validate(source, 'name', 'string')
+  call s:validate(source, 'get_body', 'function')
+  call s:validate(source, 'opened', 'function')
+  call s:validate(source, 'get_keyword', 'function')
+  call s:validate(source, 'complete', 'function')
+  call s:validate(source, 'leave', 'function')
+  let s:sources[source.name] = source
+endfunction
+
+
+
+function! ref#available_source_names()  " {{{2
+  return keys(s:sources)
+endfunction
+
+
+
+function! ref#available_sources(...)  " {{{2
+  return !a:0                    ? copy(s:sources) :
+  \      has_key(s:sources, a:1) ? s:sources[a:1]  : 0
 endfunction
 
 
 
 function! ref#open(source, query, ...)  " {{{2
-  if index(ref#list(), a:source) < 0 || !exists('*ref#{a:source}#available')
-  \   || !ref#{a:source}#available()
-    echoerr 'Reference unavailable:' a:source
+  if !has_key(s:sources, a:source)
+    echoerr 'ref: source is not registered:' a:source
+    return
+  endif
+  let source = s:sources[a:source]
+  if !source.available()
+    echoerr 'ref: this source is unavailable:' a:source
     return
   endif
 
   try
-    let res = ref#{a:source}#get_body(a:query)
+    let res = source.get_body(a:query)
   catch
     echohl ErrorMsg
     echo v:exception
@@ -101,8 +144,8 @@ function! ref#open(source, query, ...)  " {{{2
   else
     setlocal modifiable noreadonly
     % delete _
-    if b:ref_source != a:source && exists('*ref#{b:ref_source}#leave')
-      call ref#{b:ref_source}#leave()
+    if b:ref_source != a:source
+      call source.leave()
     endif
   endif
   let b:ref_source = a:source
@@ -123,28 +166,63 @@ endfunction
 
 
 " A function for key mapping for K.
+function! ref#K(source, is_visual)  " {{{2
+  return has_key(s:sources, a:source) ? ref#jump(a:source, a:is_visual)
+  \                                   : feedkeys('K', 'n')
+endfunction
+
+
+
 function! ref#jump(...)  " {{{2
-  let source = ref#detect#detect()
-  if source == ''
-    call feedkeys('K', 'n')
+  let source = a:0 ? a:1 : ref#detect()
+  if !has_key(s:sources, source)
     return
   endif
 
-  if a:0 && a:1
+  if 2 <= a:0 && a:2
     let [reg_save, reg_save_type] = [getreg(), getregtype()]
     silent normal! gvy
     let query = @"
     call setreg(v:register, reg_save, reg_save_type)
 
-  elseif exists('*ref#{source}#get_keyword')
-    let pos = getpos('.')
-    let query = ref#{source}#get_keyword()
-    call setpos('.', pos)
   else
-    let query = expand('<cword>')
+    let pos = getpos('.')
+    let res = s:sources[source].get_keyword()
+    call setpos('.', pos)
+    if type(res) == type([]) && len(res) == 2
+      let [source, query] = res
+    else
+      let query = res
+    endif
   endif
   if type(query) == type('') && query != ''
     call ref#open(source, query)
+  endif
+endfunction
+
+
+
+function! ref#detect()
+  let source = ''
+  if exists('b:ref_source')
+    let source = b:ref_source
+  elseif exists('g:ref_detect_filetype[&l:filetype]')
+    let source = g:ref_detect_filetype[&l:filetype]
+  endif
+  if source == 'detect'
+    let source = ''
+  endif
+  return source
+endfunction
+
+
+
+function! ref#register_detection(ft, source)
+  if !exists('g:ref_detect_filetype')
+    let g:ref_detect_filetype = {}
+  endif
+  if !has_key(g:ref_detect_filetype, a:ft)
+    let g:ref_detect_filetype[a:ft] = a:source
   endif
 endfunction
 
@@ -160,19 +238,24 @@ function! ref#cache(source, name, gather)  " {{{2
       let s:cache[a:source] = {}
     endif
 
-    let file = printf('%s/%s/%s', g:ref_cache_dir, a:source, a:name)
+    let fname = s:is_win
+    \ ? substitute(a:name, '[:*?"<>|%]',
+    \              '\=printf("%%%02x", char2nr(submatch(0)))', 'g')
+    \ : a:name
+
+    let file = printf('%s/%s/%s', g:ref_cache_dir, a:source, fname)
     if filereadable(file)
       let s:cache[a:source][a:name] = readfile(file)
     else
       let s:cache[a:source][a:name] =
-      \  type(a:gather) == type(function('function')) ? a:gather(a:name) :
+      \  type(a:gather) == s:TYPES.function ? a:gather(a:name) :
       \  type(a:gather) == type({}) && has_key(a:gather, 'call')
-      \    &&  type(a:gather.call) == type(function('function')) ?
+      \    &&  type(a:gather.call) == s:TYPES.function ?
       \        a:gather.call(a:name) :
       \  type(a:gather) == type('') ? eval(a:gather) : []
 
       if g:ref_cache_dir != ''
-        let dir = printf('%s/%s', g:ref_cache_dir, a:source)
+        let dir = fnamemodify(file, ':h')
         if !isdirectory(dir)
           call mkdir(dir, 'p')
         endif
@@ -186,10 +269,15 @@ endfunction
 
 
 
-function! ref#system(args, ...)
+function! ref#system(args, ...)  " {{{2
   let args = type(a:args) == type('') ? split(a:args, '\s\+') : a:args
   if g:ref_use_vimproc
-    return a:0 ? vimproc#system(args, a:1) : vimproc#system(args)
+    let stdout = a:0 ? vimproc#system(args, a:1) : vimproc#system(args)
+    return {
+    \ 'result': vimproc#get_last_status(),
+    \ 'stdout': stdout,
+    \ 'stderr': vimproc#get_last_errmsg(),
+    \ }
   endif
 
   if s:is_win
@@ -236,34 +324,26 @@ function! ref#system(args, ...)
     let cmd = join(map(args, 'shellescape(v:val)'))
   endif
   let save_shellredir = &shellredir
-  let stderr = tempname()
-  let &shellredir = '>%s 2>' . shellescape(stderr)
-  let result = ''
+  let stderr_file = tempname()
+  let &shellredir = '>%s 2>' . shellescape(stderr_file)
+  let stdout = ''
   try
-    let result = a:0 ? system(cmd, a:1) : system(cmd)
+    let stdout = a:0 ? system(cmd, a:1) : system(cmd)
   finally
-    if filereadable(stderr)
-      let s:last_stderr = join(readfile(stderr, 'b'), "\n")
-      call delete(stderr)
+    if filereadable(stderr_file)
+      let stderr = join(readfile(stderr_file, 'b'), "\n")
+      call delete(stderr_file)
     else
-      let s:last_stderr = ''
+      let stderr = ''
     endif
     let &shellredir = save_shellredir
   endtry
 
-  return result
-endfunction
-
-
-
-function! ref#shell_error()
-  return g:ref_use_vimproc ? vimproc#get_last_status() : v:shell_error
-endfunction
-
-
-
-function! ref#last_stderr()
-  return g:ref_use_vimproc ? vimproc#get_last_errmsg() : s:last_stderr
+  return {
+  \ 'result': v:shell_error,
+  \ 'stdout': stdout,
+  \ 'stderr': stderr
+  \ }
 endfunction
 
 
@@ -318,9 +398,7 @@ function! s:open(query, open_cmd)  " {{{2
 
   1  " Move the cursor to the first line.
 
-  if exists('*ref#{b:ref_source}#opened')
-    call ref#{b:ref_source}#opened(a:query)
-  endif
+  call s:sources[b:ref_source].opened(a:query)
 
   setlocal nomodifiable readonly
 endfunction
@@ -362,7 +440,18 @@ endfunction
 
 
 
-function! s:cmdpath(cmd)
+function! s:validate(source, key, type)  " {{{2
+  if !has_key(a:source, a:key)
+    throw 'ref: Invalid source: Without key ' . string(a:key)
+  elseif type(a:source[a:key]) != s:TYPES[a:type]
+    throw 'ref: Invalid source: Key ' . key . ' must be ' . a:type . ', ' .
+    \     'but given value is' string(a:source[a:key])
+  endif
+endfunction
+
+
+
+function! s:cmdpath(cmd)  " {{{2
   " Search the fullpath of command for MS Windows.
   let full = glob(a:cmd)
   if a:cmd ==? full
@@ -388,13 +477,28 @@ endfunction
 
 
 
-function! s:uniq(list)
+function! s:uniq(list)  " {{{2
   let d = {}
   for i in a:list
     let d[i] = 0
   endfor
   return sort(keys(d))
 endfunction
+
+
+
+" Register the default sources.
+function! s:register_defaults()  " {{{2
+  let list = split(globpath(&runtimepath, 'autoload/ref/*.vim'), "\n")
+  for name in map(list, 'fnamemodify(v:val, ":t:r")')
+    try
+      call ref#register(ref#{name}#define())
+    catch /:E\%(117\|716\):/
+    endtry
+  endfor
+endfunction
+
+call s:register_defaults()
 
 
 

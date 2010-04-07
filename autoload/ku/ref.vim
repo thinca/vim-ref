@@ -1,5 +1,5 @@
 " ku source: ref
-" Version: 0.1.0
+" Version: 0.2.0
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -9,8 +9,7 @@ set cpo&vim
 
 
 function! ku#ref#available_sources()
-  return map(filter(ref#list(), 'exists("*ref#{v:val}#complete")'),
-  \          '"ref/" . v:val')
+  return map(ref#available_source_names(), '"ref/" . v:val')
 endfunction
 
 
@@ -34,53 +33,43 @@ endfunction
 
 
 function! ku#ref#gather_items(ext, pattern)
-  return map(ref#{a:ext}#complete(a:pattern),
+  return map(ref#available_sources(a:ext).complete(a:pattern),
   \          '{"word": v:val, "menu": a:ext}')
 endfunction
 
 
 
 function! ku#ref#acc_valid_p(ext, item, sep)
-  if exists('*ref#{a:ext}#acc_valid_p')
-    return ref#{a:ext}#acc_valid_p(a:item, a:sep)
-  endif
-  return 0
+  let s = ref#available_sources(a:ext)
+  return has_key(s, 'acc_valid_p') ? s.acc_valid_p(a:item, a:sep) : 0
 endfunction
 
 
 
 function! ku#ref#special_char_p(ext, ch)
-  if exists('*ref#{a:ext}#special_char_p')
-    return ref#{a:ext}#special_char_p(a:ch)
-  endif
-  return 0
+  let s = ref#available_sources(a:ext)
+  return has_key(s, 'special_char_p') ? s.special_char_p(a:ch) : 0
 endfunction
 
 
 
 function! ku#ref#on_before_action(ext, item)
-  if exists('*ref#{a:ext}#on_before_action')
-    return ref#{a:ext}#on_before_action(a:item)
-  endif
-  return a:item
+  let s = ref#available_sources(a:ext)
+  return has_key(s, 'on_before_action') ? s.on_before_action(a:item) : a:item
 endfunction
 
 
 
 function! ku#ref#on_source_enter(ext)
-  if exists('*ref#{a:ext}#on_source_enter')
-    return ref#{a:ext}#on_source_enter()
-  endif
-  return 0
+  let s = ref#available_sources(a:ext)
+  return has_key(s, 'on_source_enter') ? s.on_source_enter() : 0
 endfunction
 
 
 
 function! ku#ref#on_source_leave(ext)
-  if exists('*ref#{a:ext}#on_source_leave')
-    return ref#{a:ext}#on_source_leave()
-  endif
-  return 0
+  let s = ref#available_sources(a:ext)
+  return has_key(s, 'on_source_leave') ? s.on_source_leave() : 0
 endfunction
 
 

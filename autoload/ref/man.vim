@@ -26,15 +26,18 @@ endif
 
 
 
-function! ref#man#available()  " {{{2
+let s:source = {'name': 'man'}
+
+function! s:source.available()  " {{{2
   return len(g:ref_man_cmd)
 endfunction
 
 
 
-function! ref#man#get_body(query)  " {{{2
-  let body = ref#system(s:to_array(g:ref_man_cmd) + split(a:query))
-  if !ref#shell_error()
+function! s:source.get_body(query)  " {{{2
+  let res = ref#system(s:to_array(g:ref_man_cmd) + split(a:query))
+  if !res.result
+    let body = res.stdout
     if &termencoding != '' && &encoding != '' && &termencoding !=# &encoding
       let encoded = iconv(body, &termencoding, &encoding)
       if encoded != ''
@@ -43,16 +46,16 @@ function! ref#man#get_body(query)  " {{{2
     endif
     return body
   endif
-  let list = ref#man#complete(a:query)
+  let list = self.complete(a:query)
   if !empty(list)
     return list
   endif
-  throw matchstr(ref#last_stderr(), '^\_s*\zs.\{-}\ze\_s*$')
+  throw matchstr(res.stderr, '^\_s*\zs.\{-}\ze\_s*$')
 endfunction
 
 
 
-function! ref#man#opened(query)  " {{{2
+function! s:source.opened(query)  " {{{2
   if g:ref_man_use_escape_sequence && line ('$') <= g:ref_man_highlight_limit
     call s:highlight_escape_sequence()
   else
@@ -71,7 +74,7 @@ endfunction
 
 
 
-function! ref#man#get_keyword()  " {{{2
+function! s:source.get_keyword()  " {{{2
   let isk = &l:iskeyword
   setlocal isk& isk+=. isk+=- isk+=: isk+=( isk+=)
   let word = expand('<cword>')
@@ -87,7 +90,7 @@ endfunction
 
 
 
-function! ref#man#complete(query)  " {{{2
+function! s:source.complete(query)  " {{{2
   let sec = matchstr(a:query, '^\d') - 0
   let query = matchstr(a:query, '\v^%(\d\s+)?\zs.*')
 
@@ -98,7 +101,7 @@ endfunction
 
 
 
-function! ref#man#leave()  " {{{2
+function! s:source.leave()  " {{{2
   syntax clear
   unlet! b:current_syntax
 endfunction
@@ -244,7 +247,8 @@ function! s:build_gathers()
       endfor
 
     else
-      for path in split(matchstr(ref#system('manpath'), '^.\{-}\ze\s*$'), ':')
+      let manpath = ref#system('manpath').stdout
+      for path in split(matchstr(manpath, '^.\{-}\ze\s*$'), ':')
         let dir = path . '/man' . self.sec
         if isdirectory(dir)
           let list += map(split(glob(dir . '*/*'), "\n"),
@@ -260,6 +264,12 @@ function! s:build_gathers()
 endfunction
 
 let s:gathers = s:build_gathers()
+
+
+
+function! ref#man#define()  " {{{2
+  return s:source
+endfunction
 
 
 

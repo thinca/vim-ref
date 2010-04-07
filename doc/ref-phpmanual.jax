@@ -20,7 +20,7 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 
 
 要件:
-- |ref| 0.2.0 以降
+- |ref| 0.3.0 以降
 - PHP Manual (Many HTML files) (http://php.benscom.com/download-docs.php)
 
 
@@ -46,6 +46,9 @@ g:ref_phpmanual_cmd				*g:ref_phpmanual_cmd*
 
 ==============================================================================
 更新履歴					*ref-phpmanual-changelog*
+
+x.x.x	xxxx-xx-xx
+	- |ref| 0.3.0 に対応。
 
 0.2.0	2010-01-28
 	- |ref| 0.2.0 に対応。

@@ -1,5 +1,5 @@
 " Integrated reference viewer.
-" Version: 0.1.2
+" Version: 0.3.0
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -15,8 +15,8 @@ set cpo&vim
 
 command! -nargs=+ -complete=customlist,ref#complete Ref call ref#ref(<q-args>)
 
-nnoremap <silent> <Plug>(ref-keyword) :<C-u>call ref#jump(0)<CR>
-vnoremap <silent> <Plug>(ref-keyword) :<C-u>call ref#jump(1)<CR>
+nnoremap <silent> <Plug>(ref-keyword) :<C-u>call ref#K(ref#detect(), 0)<CR>
+vnoremap <silent> <Plug>(ref-keyword) :<C-u>call ref#K(ref#detect(), 1)<CR>
 
 if !exists('g:ref_no_default_key_mappings') || !g:ref_no_default_key_mappings
   silent! nmap <silent> <unique> K <Plug>(ref-keyword)

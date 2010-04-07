@@ -1,6 +1,6 @@
 *ref.txt*	総合リファレンスビューア。
 
-Version: 0.2.0
+Version: 0.3.0
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -11,10 +11,12 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 概要				|ref-introduction|
 リファレンスビューア		|ref-viewer|
 インターフェース		|ref-interface|
+  関数				  |ref-functions|
   コマンド			  |ref-commands|
   キーマッピング		  |ref-key-mappings|
 カスタマイズ			|ref-customizing|
 ソース				|ref-sources|
+  オートロード			  |ref-autoload|
 更新履歴			|ref-changelog|
 
 
@@ -26,7 +28,6 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 ェースで複数のリファレンスを閲覧できます。
 
 このプラグインには以下のソースが含まれています:
-- detect	(|ref-detect.txt|)
 - man		(|ref-man.txt|)
 - refe		(|ref-refe.txt|)
 - phpmanual	(|ref-phpmanual.txt|)
@@ -56,13 +57,46 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 ------------------------------------------------------------------------------
 関数						*ref-functions*
 
+ref#open({source-name}, {query})		*ref#open()*
+			|:Ref| の関数版です。
+
+ref#jump([{source-name} [, {is-visual}]])	*ref#jump()*
+			カーソル位置からクエリを探してソースを開きます。ソース
+			名が省略された場合、|ref#detect()| が使われます。
+			{is-visual} が真の場合、直前に選択された範囲の文字列が
+			クエリとして使われます。
+
+ref#register({source})				*ref#register()*
+			新しいソースを登録します。{source} に関しては
+			|ref-sources|を参照してください。
+
+ref#available_source_names()			*ref#available_source_names()*
+			すでに登録されているソースの名前のリスト(|List|)を返し
+			ます。
+
+ref#available_sources([{source-name}])		*ref#available_sources()*
+			すでに登録されているソースの一覧を辞書(|Dictionary|)で
+			返します。{source-name} が指定されてその名前のソースが
+			登録されていた場合はそのソースを返します。そうでない場
+			合は 0 を返します。ソースを変更した場合、内部に影響を
+			与えます。
+
+ref#detect()					*ref#detect()*
+			カレントバッファに適切なソースを検出します。検出に失敗
+			した場合は空の文字列を返します。
+
+ref#register_detection({ft}, {source})		*ref#register_detection()*
+			|g:ref_detect_filetype| にエントリを登録します。すでに
+			登録済みの場合は何もしません。
+
+
 以下の関数は主に |ref-sources| によって使われます。
 
-ref#cache({source}, {name}, {gather})		*ref#cache()*
+ref#cache({source-name}, {name}, {gather})	*ref#cache()*
 			取得に時間のかかるリストをキャッシュするための関数で
 			す。この関数を介することでリストは自動でキャッシュされ
 			ます。以降はキャッシュされたリストを返します。
-			{source} はソース名です。
+			{source-name} はソース名です。
 			{name} は識別のための任意の名前です。
 			{gather} は以下のうちのいずれかです。
 			1. リストを取得するための |Funcref|。
@@ -77,25 +111,20 @@ ref#system({expr} [, {input}])			*ref#system()*
 			す。各要素は |shellescape()| で処理されます。
 			{expr} が文字列の場合、空白文字によって単純に分割され
 			ます。
-			加えて、標準エラー出力は結果に含まれません。代わりに、
-			|ref#last_stderr()| から取得することができます。
+			加えて、この関数は以下の要素を持つ辞書(|Dictionary|)を
+			返します。
+			result: リターンコード。
+			stdout: 標準出力。
+			stderr: 標準エラー出力。
 			この関数は、|g:ref_use_vimproc| が真の時は代わり
 			に |vimproc#system()| を使用します。
 			vimproc: http://github.com/Shougo/vimproc
-
-ref#shell_error()				*ref#shell_error()*
-			|ref#system()| を使う場合は、|v:shell_error| の代わり
-			にこれを使用してください。
-
-ref#last_stderr()				*ref#last_stderr()*
-			|ref#system()| を最後に実行した際の標準エラーを取得し
-			ます。
 
 
 ------------------------------------------------------------------------------
 コマンド					*ref-commands*
 
-:Ref {source} [query]				*:Ref*
+:Ref {source-name} [query]			*:Ref*
 			|ref-viewer| を開きます。 [query] は |ref-sources| の
 			クエリに使われます。
 
@@ -171,44 +200,70 @@ g:ref_use_vimproc				*g:ref_use_vimproc*
 	真の時、|ref#system()| は |vimproc| を使います。デフォルト値は、
 	|vimproc#system()| が存在する場合は真、そうでない場合は偽です。
 
+g:ref_detect_filetype				*g:ref_detect_filetype*
+			|filetype| からソースを検出するための |Dictionary| を
+			指定します。
+			いくつかのソースはロード時にエントリを登録します。
+
 
 
 ==============================================================================
 ソース						*ref-sources*
 
-ソースは以下の関数を提供する必要があります。{query} は |:Ref| で渡される文字列
-です。
+ソースは辞書(|Dictionary|)です。ソースは以下の属性を持ちます。関数は辞書関数
+(|Dictionary-function|)です。{query} は|:Ref| で渡される文字列です。
 
-ref#{source}#available()			*ref#{source}#available()*
+name					*ref-source-attr-name*
+			必須。このソースの名前です。
+
+available()				*ref-source-attr-available()*
 			必須。ソースが利用可能ならば真を返します。
 
-ref#{source}#get_body({query})			*ref#{source}#get_body()*
+get_body({query})			*ref-source-attr-get_body()*
 			必須。リファレンスの本文を改行区切りの文字列かリストで
 			返します。
 			本文が見つからない場合はエラーメッセージと共に例外を投
 			げます。
 
-ref#{source}#opened({query})			*ref#{source}#opened()*
+opened({query})				*ref-source-attr-opened()*
 			任意。この関数はリファレンスページが開かれる度に呼ばれ
 			ます。このタイミングで |ref-viewer| を初期化のために
 			編集することができます。
 
-ref#{source}#get_keyword()			*ref#{source}#get_keyword()*
+get_keyword()				*ref-source-attr-get_keyword()*
 			任意。現在のカーソル位置からキーワードを取得します。未
 			定義の場合は "expand('<cword>')" が使われます。カーソ
 			ル位置は復元されるので、カーソルを動かしても問題ありま
 			せん。
+			[{source-name}, {keyword}] の形式のリストを返すことも
+			できます。この場合指定されたソースでキーワードが開かれ
+			ます。
 
-ref#{source}#complete({query})			*ref#{source}#complete()*
+complete({query})			*ref-source-attr-complete()*
 			任意。コマンドラインの補完リストを返します。
 
-ref#{source}#leave()				*ref#{source}#leave()*
+leave()					*ref-source-attr-leave()*
 			任意。この関数は別のソースに移動する際に呼ばれます。
+
+------------------------------------------------------------------------------
+オートロード					*ref-autoload*
+
+オートロード関数 ref#{source-name}#define() は、autoload/ref.vim が読み込まれ
+る際に自動的に呼ばれ、戻り値がソースとして登録されます。
 
 
 
 ==============================================================================
 更新履歴					*ref-changelog*
+
+0.3.0	xxxx-xx-xx
+	- |ref-sources| の仕様を変更。
+	  - 以前のバージョンとの互換性はありません。
+	- |ref#system()| の戻り値を変更。
+	- get_keyword() はリストを返すことでソースを指定できるようにした。
+	- キャッシュで使用する名前により多くの種類の文字を許容するようにした。
+	- 検出機能を本体に結合。
+	  - detect ソースを削除。
 
 0.2.0	2010-01-28
 	- |ref#cache()| の {gather} に渡す関数が、引数として {name} を受け取る
