@@ -23,7 +23,7 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 (*) http://www.alc.co.jp/
 
 要件:
-- |ref| 0.2.0 以降
+- |ref| 0.3.0 以降
 
 
 
@@ -54,6 +54,9 @@ g:ref_alc_encoding				*g:ref_alc_encoding*
 
 ==============================================================================
 更新履歴					*ref-alc-changelog*
+
+x.x.x	xxxx-xx-xx
+	- |ref| 0.3.0 に対応。
 
 0.1.1	2010-03-01
 	- |g:ref_alc_encoding| を追加。

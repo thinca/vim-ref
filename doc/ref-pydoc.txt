@@ -22,7 +22,7 @@ tool to view the reference manual on Python.
 
 
 Requirements:
-- |ref| 0.2.0 or later
+- |ref| 0.3.0 or later
 - pydoc
 
 
@@ -49,6 +49,9 @@ BUGS						*ref-pydoc-bugs*
 
 ==============================================================================
 CHANGELOG					*ref-pydoc-changelog*
+
+x.x.x	xxxx-xx-xx
+	- Updated for |ref| 0.3.0.
 
 0.2.0	2010-01-28
 	- Fixed a bug that doesn't work when |g:ref_pydoc_cmd| is a |List|.

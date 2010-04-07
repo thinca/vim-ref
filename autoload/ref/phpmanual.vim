@@ -12,7 +12,7 @@ if !exists('g:ref_phpmanual_path')
 endif
 
 if !exists('g:ref_phpmanual_cmd')
-  let g:ref_phpmanual_cmd = 
+  let g:ref_phpmanual_cmd =
   \ executable('elinks') ? 'elinks -dump -no-numbering -no-references %s' :
   \ executable('w3m')    ? 'w3m -dump %s' :
   \ executable('links')  ? 'links -dump %s' :
@@ -22,14 +22,16 @@ endif
 
 
 
-function! ref#phpmanual#available()  " {{{2
+let s:source = {'name': 'phpmanual'}
+
+function! s:source.available()  " {{{2
   return isdirectory(g:ref_phpmanual_path) &&
   \      len(g:ref_phpmanual_cmd)
 endfunction
 
 
 
-function! ref#phpmanual#get_body(query)  " {{{2
+function! s:source.get_body(query)  " {{{2
   let name = substitute(tolower(a:query), '_', '-', 'g')
   let pre = g:ref_phpmanual_path . '/'
 
@@ -70,13 +72,13 @@ endfunction
 
 
 
-function! ref#phpmanual#opened(query)  " {{{2
+function! s:source.opened(query)  " {{{2
   call s:syntax()
 endfunction
 
 
 
-function! ref#phpmanual#complete(query)  " {{{2
+function! s:source.complete(query)  " {{{2
   let name = substitute(tolower(a:query), '::', '_', 'g')
   let pre = g:ref_phpmanual_path . '/'
 
@@ -91,7 +93,7 @@ endfunction
 
 
 
-function! ref#phpmanual#get_keyword()  " {{{2
+function! s:source.get_keyword()  " {{{2
   let isk = &l:isk
   setlocal isk& isk+=- isk+=. isk+=:
   let kwd = expand('<cword>')
@@ -101,7 +103,7 @@ endfunction
 
 
 
-function! ref#phpmanual#leave()  " {{{2
+function! s:source.leave()  " {{{2
   syntax clear
   unlet! b:current_syntax
 endfunction
@@ -138,7 +140,7 @@ function! s:execute(file)  "{{{2
   endif
 
   let file = escape(a:file, '\')
-  let res = ref#system(map(cmd, 'substitute(v:val, "%s", file, "g")'))
+  let res = ref#system(map(cmd, 'substitute(v:val, "%s", file, "g")')).stdout
   if &termencoding != '' && &termencoding !=# &encoding
     let converted = iconv(res, &termencoding, &encoding)
     if converted != ''
@@ -171,7 +173,10 @@ endfunction
 
 
 
-call ref#detect#register('php', 'phpmanual')
+function! ref#phpmanual#define()  " {{{2
+  return s:source
+endfunction
+call ref#register_detection('php', 'phpmanual')
 
 
 

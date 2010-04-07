@@ -15,30 +15,32 @@ endif
 
 
 
-function! ref#pydoc#available()  " {{{2
+let s:source = {'name': 'pydoc'}
+
+function! s:source.available()  " {{{2
   return len(g:ref_pydoc_cmd)
 endfunction
 
 
 
-function! ref#pydoc#get_body(query)  " {{{2
+function! s:source.get_body(query)  " {{{2
   let matchedlist = 0
   if a:query == ''
     let matchedlist = 1
   else
-    let content = ref#system(s:to_a(g:ref_pydoc_cmd) + s:to_a(a:query))
+    let content = ref#system(s:to_a(g:ref_pydoc_cmd) + s:to_a(a:query)).stdout
     if content =~ 'no Python documentation found'
       let matchedlist = 1
     endif
   endif
 
   if matchedlist
-    let list = ref#pydoc#complete(a:query)
+    let list = s:source.complete(a:query)
     if list == []
       throw split(content, "\n")[0]
     endif
     if len(list) == 1
-      return ref#system(s:to_a(g:ref_pydoc_cmd) + list)
+      return ref#system(s:to_a(g:ref_pydoc_cmd) + list).stdout
     endif
     return list
   endif
@@ -48,17 +50,17 @@ endfunction
 
 
 
-function! ref#pydoc#opened(query)  " {{{2
+function! s:source.opened(query)  " {{{2
   call s:syntax(s:get_info()[0])
 endfunction
 
 
 
-function! ref#pydoc#complete(query)  " {{{2
+function! s:source.complete(query)  " {{{2
   let cmd = s:to_a(g:ref_pydoc_cmd) + ['-k', '.']
   let mapexpr = 'matchstr(v:val, "^[[:alnum:]._]*")'
   let all_list = ref#cache('pydoc', 'list',
-  \                    printf('map(split(ref#system(%s), "\n"), %s)',
+  \                    printf('map(split(ref#system(%s).stdout, "\n"), %s)',
   \                           string(cmd), string(mapexpr)))
   let list = filter(copy(all_list), 'v:val =~ "^\\V" . a:query')
   if !empty(list)
@@ -69,7 +71,7 @@ endfunction
 
 
 
-function! ref#pydoc#get_keyword()  " {{{2
+function! s:source.get_keyword()  " {{{2
   if &l:filetype == 'ref'
     let [type, name, scope] = s:get_info()
 
@@ -147,7 +149,7 @@ endfunction
 
 
 
-function! ref#pydoc#leave()
+function! s:source.leave()
   syntax clear
   unlet! b:current_syntax
 endfunction
@@ -221,8 +223,11 @@ endfunction
 
 
 
+function! ref#pydoc#define()  " {{{2
+  return s:source
+endfunction
 
-call ref#detect#register('python', 'pydoc')
+call ref#register_detection('python', 'pydoc')
 
 
 

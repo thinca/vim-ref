@@ -20,7 +20,7 @@ INTRODUCTION					*ref-phpmanual-introduction*
 
 
 Requirements:
-- |ref| 0.2.0 or later
+- |ref| 0.3.0 or later
 - PHP Manual (Many HTML files) (http://php.benscom.com/download-docs.php)
 
 
@@ -36,7 +36,6 @@ g:ref_phpmanual_cmd				*g:ref_phpmanual_cmd*
 			A command to view the html file.  %s is replaced by
 			the html file name.  This allows a |List| that
 			includes command and arguments.
-
 			The default value is the executable one of the
 			following:
 			- 'elinks -dump -no-numbering -no-references %s'
@@ -48,6 +47,9 @@ g:ref_phpmanual_cmd				*g:ref_phpmanual_cmd*
 
 ==============================================================================
 CHANGELOG					*ref-phpmanual-changelog*
+
+x.x.x	xxxx-xx-xx
+	- Updated for |ref| 0.3.0.
 
 0.2.0	2010-01-28
 	- Updated for |ref| 0.2.0.

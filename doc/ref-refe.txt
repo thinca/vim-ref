@@ -22,7 +22,7 @@ to view the reference manual of Ruby.
 
 
 Requirements:
-- |ref| 0.2.0 or later
+- |ref| 0.3.0 or later
 - ReFe (http://i.loveruby.net/en/projects/refe/)
 
 
@@ -52,6 +52,9 @@ BUGS						*ref-refe-bugs*
 
 ==============================================================================
 CHANGELOG					*ref-refe-changelog*
+
+x.x.x	xxxx-xx-xx
+	- Updated for |ref| 0.3.0.
 
 0.2.0	2010-01-28
 	- Fixed a bug that doesn't work when |g:ref_refe_cmd| is a |List|.
