@@ -8,11 +8,12 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-if !exists('g:ref_alc_start_linenumber')
+" options. {{{1
+if !exists('g:ref_alc_start_linenumber')  " {{{2
   let g:ref_alc_start_linenumber = 33
 endif
 
-if !exists('g:ref_alc_cmd')
+if !exists('g:ref_alc_cmd')  " {{{2
   let g:ref_alc_cmd =
   \ executable('elinks') ? 'elinks -dump -no-numbering -no-references %s' :
   \ executable('w3m')    ? 'w3m -dump %s' :
@@ -21,19 +22,19 @@ if !exists('g:ref_alc_cmd')
   \ ''
 endif
 
-if !exists('g:ref_alc_encoding')
+if !exists('g:ref_alc_encoding')  " {{{2
   let g:ref_alc_encoding = &termencoding
 endif
 
 
 
-let s:source = {'name': 'alc'}
+let s:source = {'name': 'alc'}  " {{{1
 
-function! s:source.available()
+function! s:source.available()  " {{{2
   return !empty(g:ref_alc_cmd)
 endfunction
 
-function! s:source.get_body(query)
+function! s:source.get_body(query)  " {{{2
   if type(g:ref_phpmanual_cmd) == type('')
     let cmd = split(g:ref_phpmanual_cmd, '\s\+')
   elseif type(g:ref_phpmanual_cmd) == type([])
@@ -54,16 +55,19 @@ function! s:source.get_body(query)
   return s:iconv(res.stdout, g:ref_alc_encoding, &encoding)
 endfunction
 
-function! s:source.opened(query)
+function! s:source.opened(query)  " {{{2
   execute "normal! ".g:ref_alc_start_linenumber."z\<CR>"
   call s:syntax(a:query)
 endfunction
 
-function! s:source.leave()
+function! s:source.leave()  " {{{2
   syntax clear
 endfunction
 
-function! s:syntax(query)
+
+
+" misc. {{{1
+function! s:syntax(query)  " {{{2
   if exists('b:current_syntax') && b:current_syntax == 'ref-alc'
     return
   endif
