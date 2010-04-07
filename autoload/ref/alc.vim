@@ -35,10 +35,10 @@ function! s:source.available()  " {{{2
 endfunction
 
 function! s:source.get_body(query)  " {{{2
-  if type(g:ref_phpmanual_cmd) == type('')
-    let cmd = split(g:ref_phpmanual_cmd, '\s\+')
-  elseif type(g:ref_phpmanual_cmd) == type([])
-    let cmd = copy(g:ref_phpmanual_cmd)
+  if type(g:ref_alc_cmd) == type('')
+    let cmd = split(g:ref_alc_cmd, '\s\+')
+  elseif type(g:ref_alc_cmd) == type([])
+    let cmd = copy(g:ref_alc_cmd)
   else
     return ''
   endif
