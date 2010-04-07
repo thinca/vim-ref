@@ -54,13 +54,9 @@ function! ref#ref(args)  " {{{2
     let [source, query] = matchlist(a:args, '\v^(\w+)\s*(.*)$')[1:2]
     return ref#open(source, query)
   catch /^Vim(let):E688:/
-    echohl ErrorMsg
-    echomsg 'ref: Invalid argument: ' . a:args
-    echohl None
+    call s:echoerr('ref: Invalid argument: ' . a:args)
   catch /^ref:/
-    echohl ErrorMsg
-    echomsg v:exception
-    echohl None
+    call s:echoerr(v:exception)
   endtry
 endfunction
 
@@ -118,9 +114,7 @@ function! ref#open(source, query, ...)  " {{{2
   try
     let res = source.get_body(a:query)
   catch
-    echohl ErrorMsg
-    echo v:exception
-    echohl None
+    call s:echoerr(v:exception)
     return
   endtry
 
@@ -482,6 +476,13 @@ function! s:cmdpath(cmd)  " {{{2
   return ''
 endfunction
 
+
+
+function! s:echoerr(msg)  " {{{2
+  echohl ErrorMsg
+  echomsg a:msg
+  echohl None
+endfunction
 
 
 
