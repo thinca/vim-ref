@@ -19,21 +19,24 @@ endif
 
 
 
-function! ref#refe#available()  " {{{2
+let s:source = {'name': 'refe'}
+
+function! s:source.available()  " {{{2
   return len(g:ref_refe_cmd)
 endfunction
 
 
 
-function! ref#refe#get_body(query)  " {{{2
-  let content = ref#system(s:to_a(g:ref_refe_cmd) + s:to_a(a:query))
-  let err = ref#last_stderr()
+function! s:source.get_body(query)  " {{{2
+  let res = ref#system(s:to_a(g:ref_refe_cmd) + s:to_a(a:query))
+  let err = res.stderr
   if err =~# '\v' . join(['^not match: .', '^unmatched .',
     \ '^premature end of regular expression:',
     \ '^invalid regular expression;'], '|')
     throw matchstr(err, '^.\+\ze\n')
   endif
 
+  let content = res.stdout
   if exists('g:ref_refe_encoding') &&
   \  !empty(g:ref_refe_encoding) && g:ref_refe_encoding != &encoding
     let converted = iconv(content, g:ref_refe_encoding, &encoding)
@@ -47,7 +50,7 @@ endfunction
 
 
 
-function! ref#refe#opened(query)  " {{{2
+function! s:source.opened(query)  " {{{2
   let type = s:detect_type()
   if type ==# 'list'
     silent! %s/ /\r/ge
@@ -60,20 +63,20 @@ endfunction
 
 
 
-function! ref#refe#complete(query)  " {{{2
+function! s:source.complete(query)  " {{{2
   return split(ref#system(s:to_a(g:ref_refe_cmd) +
-  \            ['-l', '-s'] + s:to_a(a:query)), "\n")
+  \            ['-l', '-s'] + s:to_a(a:query)).stdout, "\n")
 endfunction
 
 
 
-function! ref#refe#special_char_p(ch)
+function! s:source.special_char_p(ch)
   return a:ch == '#'
 endfunction
 
 
 
-function! ref#refe#get_keyword()  " {{{2
+function! s:source.get_keyword()  " {{{2
   let pos = getpos('.')[1:]
   if &l:filetype ==# 'ref'
     let type = s:detect_type()
@@ -104,7 +107,7 @@ endfunction
 
 
 
-function! ref#refe#leave()
+function! s:source.leave()
   syntax clear
 endfunction
 
@@ -179,7 +182,11 @@ endfunction
 
 
 
-call ref#detect#register('ruby', 'refe')
+function! ref#refe#define()  " {{{2
+  return s:source
+endfunction
+
+call ref#register_detection('ruby', 'refe')
 
 
 
