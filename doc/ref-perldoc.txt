@@ -24,7 +24,7 @@ line tool to view the reference manual on Perl.
 
 
 Requirements:
-- |ref| 0.2.0 or later
+- |ref| 0.3.0 or later
 - perldoc
 
 
@@ -83,6 +83,9 @@ BUGS						*ref-perldoc-bugs*
 
 ==============================================================================
 CHANGELOG					*ref-perldoc-changelog*
+
+x.x.x	xxxx-xx-xx
+	- Updated for |ref| 0.3.0.
 
 0.2.0	2010-01-28
 	- Updated for |ref| 0.2.0.

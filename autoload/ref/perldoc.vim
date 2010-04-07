@@ -15,13 +15,15 @@ endif
 
 
 
-function! ref#perldoc#available()  " {{{2
+let s:source = {'name': 'perldoc'}
+
+function! s:source.available()  " {{{2
   return len(g:ref_perldoc_cmd)
 endfunction
 
 
 
-function! ref#perldoc#get_body(query)  " {{{2
+function! s:source.get_body(query)  " {{{2
   let cmdarg = ['-T']
   let q = matchstr(a:query, '\v%(^|\s)\zs[^-]\S*')
 
@@ -44,15 +46,15 @@ function! ref#perldoc#get_body(query)  " {{{2
   let res = ref#system((type(g:ref_perldoc_cmd) == type('') ?
   \   split(g:ref_perldoc_cmd, '\s\+') : g:ref_perldoc_cmd) + cmdarg + [q])
 
-  if res == ''
+  if res.stdout == ''
     throw printf('No documentation found for "%s".', q)
   endif
-  return res
+  return res.stdout
 endfunction
 
 
 
-function! ref#perldoc#opened(query)  " {{{2
+function! s:source.opened(query)  " {{{2
   let b:ref_perldoc_word = matchstr(a:query, '-\@<![^-[:space:]]\+')
   let mode = getline(1) ==# 'NAME' ? (
   \            0 <= index(s:list('basepod'), b:ref_perldoc_word) ? 'perl'
@@ -67,7 +69,7 @@ endfunction
 
 
 
-function! ref#perldoc#complete(query)  " {{{2
+function! s:source.complete(query)  " {{{2
   let q = a:query == '' || a:query =~ '\s$' ? '' : split(a:query)[-1]
   if q =~ '-'
     return ['-f', '-m']
@@ -78,7 +80,7 @@ endfunction
 
 
 
-function! ref#perldoc#get_keyword()  " {{{2
+function! s:source.get_keyword()  " {{{2
   let isk = &l:iskeyword
   setlocal isk& isk+=:
   let kwd = expand('<cword>')
@@ -88,7 +90,7 @@ endfunction
 
 
 
-function! ref#perldoc#leave()
+function! s:source.leave()
   syntax clear
   unlet! b:current_syntax
   unlet! b:ref_perldoc_mode b:ref_perldoc_word
@@ -195,7 +197,7 @@ endfunction
 function! s:basepod_list(name)
   let basepods = []
   let base = ref#system(['perl', '-MConfig', '-e',
-  \                      'print $Config{installprivlib}'])
+  \                      'print $Config{installprivlib}']).stdout
   for dir in ['pod', 'pods']
     if filereadable(printf('%s/%s/perl.pod', base, dir))
       let base .= '/' . dir
@@ -214,7 +216,7 @@ endfunction
 
 
 function! s:modules_list(name)
-  let inc = ref#system(['perl', '-e', 'print join('':'', @INC)'])
+  let inc = ref#system(['perl', '-e', 'print join('':'', @INC)']).stdout
   let sep = '[/\\]'
   let files = {}
   let modules = []
@@ -235,7 +237,7 @@ endfunction
 
 
 function! s:func_list(name)
-  let doc = ref#system('perldoc -u perlfunc')
+  let doc = ref#system('perldoc -u perlfunc').stdout
   let i = 0
   let funcs = []
   while 1
@@ -267,7 +269,13 @@ endfunction
 
 
 
-call ref#detect#register('perl', 'perldoc')
+function! ref#perldoc#define()  " {{{2
+  return s:source
+endfunction
+
+
+
+call ref#register_detection('perl', 'perldoc')
 
 
 
