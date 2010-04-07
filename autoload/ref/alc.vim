@@ -25,11 +25,15 @@ if !exists('g:ref_alc_encoding')
   let g:ref_alc_encoding = &termencoding
 endif
 
-function! ref#alc#available()
+
+
+let s:source = {'name': 'alc'}
+
+function! s:source.available()
   return !empty(g:ref_alc_cmd)
 endfunction
 
-function! ref#alc#get_body(query)
+function! s:source.get_body(query)
   if type(g:ref_phpmanual_cmd) == type('')
     let cmd = split(g:ref_phpmanual_cmd, '\s\+')
   elseif type(g:ref_phpmanual_cmd) == type([])
@@ -47,15 +51,15 @@ function! ref#alc#get_body(query)
 
   let url = 'http://eow.alc.co.jp/' . str . '/UTF-8/'
   let res = ref#system(map(cmd, 'substitute(v:val, "%s", url, "g")'))
-  return s:iconv(res, g:ref_alc_encoding, &encoding)
+  return s:iconv(res.stdout, g:ref_alc_encoding, &encoding)
 endfunction
 
-function! ref#alc#opened(query)
+function! s:source.opened(query)
   execute "normal! ".g:ref_alc_start_linenumber."z\<CR>"
   call s:syntax(a:query)
 endfunction
 
-function! ref#alc#leave()
+function! s:source.leave()
   syntax clear
 endfunction
 
@@ -80,6 +84,14 @@ function! s:iconv(expr, from, to)  " {{{2
   let result = iconv(a:expr, a:from, a:to)
   return result != '' ? result : a:expr
 endfunction
+
+
+
+function! ref#alc#define()  " {{{2
+  return s:source
+endfunction
+
+
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
