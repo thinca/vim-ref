@@ -1,6 +1,6 @@
 *ku-ref.txt*	ku source: ref
 
-Version: 0.1.0
+Version: 0.2.0
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -20,15 +20,13 @@ INTRODUCTION					*ku-ref-introduction*
 
 *ku-ref* is a source for |ku| to treat the completion list of |ref|.
 
-- Only |ref-sources| from which |ref#{source}#complete| is being offered can
-  be used.
 - There is a heavy possibility according to |ref-sources|.
 
 
 Requirements:
 - Vim 7.2 or later
 - |ku| 0.2.0 or later (vimscript#2337)
-- |ref| 0.0.1 or later
+- |ref| 0.3.0 or later
 
 
 ==============================================================================
@@ -54,20 +52,23 @@ o		open		|ku-ref-action-open|
 ==============================================================================
 FOR REF SOURCES					*ku-ref-for-ref-sources*
 
-The following functions are called like a wrapper if defined.  However, {ext}
-is omitted.
+The following functions are called like a wrapper if defined in source.
+However, {ext} is omitted.
 
 function				ku function  ~
 --------------				-----------------
-ref#{source}#acc_valid_p({item}, {sep})	|ku#{source}#acc_valid_p()|
-ref#{source}#special_char_p({char})	|ku#{source}#special_char_p()|
-ref#{source}#on_before_action({item})	|ku#{source}#on_before_action()|
-ref#{source}#on_source_enter()		|ku#{source}#on_source_enter()|
-ref#{source}#on_source_leave()		|ku#{source}#on_source_leave()|
+acc_valid_p({item}, {sep})		|ku#{source}#acc_valid_p()|
+special_char_p({char})			|ku#{source}#special_char_p()|
+on_before_action({item})		|ku#{source}#on_before_action()|
+on_source_enter()			|ku#{source}#on_source_enter()|
+on_source_leave()			|ku#{source}#on_source_leave()|
 
 
 ==============================================================================
 CHANGELOG					*ku-ref-changelog*
+
+0.2.0	2010-04-07
+	- Updated for |ref| 0.3.0.
 
 0.1.0	2009-08-20
 	- Initial version.
