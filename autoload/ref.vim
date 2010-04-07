@@ -50,8 +50,18 @@ endfunction
 
 " A function for main command.
 function! ref#ref(args)  " {{{2
-  let [source, query] = matchlist(a:args, '\v^(\w+)\s*(.*)$')[1:2]
-  return ref#open(source, query)
+  try
+    let [source, query] = matchlist(a:args, '\v^(\w+)\s*(.*)$')[1:2]
+    return ref#open(source, query)
+  catch /^Vim(let):E688:/
+    echohl ErrorMsg
+    echomsg 'ref: Invalid argument: ' . a:args
+    echohl None
+  catch /^ref:/
+    echohl ErrorMsg
+    echomsg v:exception
+    echohl None
+  endtry
 endfunction
 
 
@@ -98,13 +108,11 @@ endfunction
 
 function! ref#open(source, query, ...)  " {{{2
   if !has_key(s:sources, a:source)
-    echoerr 'ref: source is not registered:' a:source
-    return
+    throw 'ref: source is not registered: ' . a:source
   endif
   let source = s:sources[a:source]
   if !source.available()
-    echoerr 'ref: this source is unavailable:' a:source
-    return
+    throw 'ref: this source is unavailable: ' . a:source
   endif
 
   try
