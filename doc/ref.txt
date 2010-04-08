@@ -59,12 +59,21 @@ FUNCTIONS					*ref-functions*
 ref#open({source-name}, {query})		*ref#open()*
 			A function version of |:Ref|.
 
-ref#jump([{source-name} [, {is-visual}]])	*ref#jump()*
+ref#jump({mode} [, {source-name}])		*ref#jump()*
 			Open the source with looking for query from the cursor
 			position.  When the {source-name} is omitted,
-			|ref#detect()| is used.  When {is-visual} is true, the
-			string within the range selected immediately before is
-			used as query.
+			|ref#detect()| is used.
+			How query is acquired is specified by {mode}.
+			Any of the following is specified.
+
+			"normal"	The query is acquired from the cursor
+					position.  This is default.
+			"visual"	The query is acquired from the string
+					within the range selected immediately
+					before.
+			"line"/"char"/"block"
+					This function can be used for
+					'operatorfunc'.
 
 ref#register({source})				*ref#register()*
 			Register a new source.  See |ref-sources| about

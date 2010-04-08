@@ -60,11 +60,19 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 ref#open({source-name}, {query})		*ref#open()*
 			|:Ref| の関数版です。
 
-ref#jump([{source-name} [, {is-visual}]])	*ref#jump()*
+ref#jump([{mode} [, {source-name}]])		*ref#jump()*
 			カーソル位置からクエリを探してソースを開きます。ソース
 			名が省略された場合、|ref#detect()| が使われます。
-			{is-visual} が真の場合、直前に選択された範囲の文字列が
-			クエリとして使われます。
+			{mode} にはクエリをどのように取得するかを指定します。
+			以下のうちのいずれかを指定します。
+
+			"normal"	カーソル下からクエリを取得します。これ
+					がデフォルトです。
+			"visual"	直前に選択された範囲の文字列がクエリと
+					して使われます。
+			"line"/"char"/"block"
+					これによりこの関数は 'operatorfunc' と
+					して機能します。
 
 ref#register({source})				*ref#register()*
 			新しいソースを登録します。{source} に関しては

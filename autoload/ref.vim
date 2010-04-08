@@ -168,27 +168,23 @@ endfunction
 
 
 " A function for key mapping for K.
-function! ref#K(is_visual)  " {{{2
+function! ref#K(mode)  " {{{2
   let source = ref#detect()
-  return has_key(s:sources, source) ? ref#jump(source, a:is_visual)
+  return has_key(s:sources, source) ? ref#jump(a:mode, source)
   \                                 : feedkeys('K', 'n')
 endfunction
 
 
 
 function! ref#jump(...)  " {{{2
-  let source = a:0 ? a:1 : ref#detect()
+  let source = 2 <= a:0 ? a:2 : ref#detect()
   if !has_key(s:sources, source)
     return
   endif
 
-  if 2 <= a:0 && a:2
-    let [reg_save, reg_save_type] = [getreg(), getregtype()]
-    silent normal! gvy
-    let query = @"
-    call setreg(v:register, reg_save, reg_save_type)
-
-  else
+  let mode = a:0 ? a:1 : 'normal'
+  let query = ''
+  if mode ==# 'normal'
     let pos = getpos('.')
     let res = s:sources[source].get_keyword()
     call setpos('.', pos)
@@ -197,6 +193,30 @@ function! ref#jump(...)  " {{{2
     else
       let query = res
     endif
+
+  elseif mode =~# '^\v%(visual|line|char|block)$'
+    let vm = {
+    \ 'visual': visualmode(),
+    \ 'line': 'V',
+    \ 'char': 'v',
+    \ 'block': "\<C-v>" }[mode]
+    let [sm, em] = mode ==# 'visual' ? ['<', '>'] : ['[', ']']
+
+    let [reg_save, reg_save_type] = [getreg(), getregtype()]
+    let [pos_c, pos_s, pos_e] = [getpos('.'), getpos("'<"), getpos("'>")]
+
+    execute 'silent normal! `' . sm . vm . '`' . em . 'y'
+    let query = @"
+
+    " Restore '< '>
+    call setpos('.', pos_s)
+    execute 'normal!' vm
+    call setpos('.', pos_e)
+    execute 'normal!' vm
+    call setpos('.', pos_c)
+
+    call setreg(v:register, reg_save, reg_save_type)
+
   endif
   if type(query) == type('') && query != ''
     call ref#open(source, query)
