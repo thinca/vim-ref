@@ -169,9 +169,11 @@ endfunction
 
 " A function for key mapping for K.
 function! ref#K(mode)  " {{{2
-  let source = ref#detect()
-  return has_key(s:sources, source) ? ref#jump(a:mode, source)
-  \                                 : feedkeys('K', 'n')
+  try
+    call ref#jump(a:mode)
+  catch /^ref:/
+    call feedkeys('K', 'n')
+  endtry
 endfunction
 
 
