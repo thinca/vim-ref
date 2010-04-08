@@ -104,11 +104,11 @@ endfunction
 
 function! ref#open(source, query, ...)  " {{{2
   if !has_key(s:sources, a:source)
-    throw 'ref: source is not registered: ' . a:source
+    throw 'ref: The source is not registered: ' . a:source
   endif
   let source = s:sources[a:source]
   if !source.available()
-    throw 'ref: this source is unavailable: ' . a:source
+    throw 'ref: This source is unavailable: ' . a:source
   endif
 
   try
@@ -181,7 +181,7 @@ endfunction
 function! ref#jump(...)  " {{{2
   let source = 2 <= a:0 ? a:2 : ref#detect()
   if !has_key(s:sources, source)
-    throw 'ref: source is not registered: ' . source
+    throw 'ref: The source is not registered: ' . source
   endif
 
   let mode = a:0 ? a:1 : 'normal'
