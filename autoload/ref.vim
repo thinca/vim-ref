@@ -181,7 +181,7 @@ endfunction
 function! ref#jump(...)  " {{{2
   let source = 2 <= a:0 ? a:2 : ref#detect()
   if !has_key(s:sources, source)
-    return
+    throw 'ref: source is not registered: ' . source
   endif
 
   let mode = a:0 ? a:1 : 'normal'
