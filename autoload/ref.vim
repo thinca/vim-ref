@@ -228,13 +228,12 @@ endfunction
 
 
 function! ref#detect()
-  let source = ''
   if exists('b:ref_source')
-    let source = b:ref_source
+    return b:ref_source
   elseif exists('g:ref_detect_filetype[&l:filetype]')
-    let source = g:ref_detect_filetype[&l:filetype]
+    return g:ref_detect_filetype[&l:filetype]
   endif
-  return source
+  throw 'ref: Can not detect the source.'
 endfunction
 
 
