@@ -232,9 +232,6 @@ function! ref#detect()
   elseif exists('g:ref_detect_filetype[&l:filetype]')
     let source = g:ref_detect_filetype[&l:filetype]
   endif
-  if source == 'detect'
-    let source = ''
-  endif
   return source
 endfunction
 
