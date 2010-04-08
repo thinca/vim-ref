@@ -168,9 +168,10 @@ endfunction
 
 
 " A function for key mapping for K.
-function! ref#K(source, is_visual)  " {{{2
-  return has_key(s:sources, a:source) ? ref#jump(a:source, a:is_visual)
-  \                                   : feedkeys('K', 'n')
+function! ref#K(is_visual)  " {{{2
+  let source = ref#detect()
+  return has_key(s:sources, source) ? ref#jump(source, a:is_visual)
+  \                                 : feedkeys('K', 'n')
 endfunction
 
 
