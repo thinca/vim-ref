@@ -74,7 +74,10 @@ function! s:syntax(query)  " {{{2
 
   syntax clear
   let str = escape(substitute(a:query, '\s\+', '\\_s\\+', 'g'), '"')
-  execute 'syntax match refAlcKeyword "\c\<'.str.'\>"'
+  if str =~# '^[[:print:][:space:]]\+$'
+    let str = '\<' . str . '\>'
+  endif
+  execute 'syntax match refAlcKeyword "\c'.str.'"'
   highlight default link refAlcKeyword Special
 endfunction
 
