@@ -43,7 +43,7 @@ function! s:source.get_body(query)  " {{{2
     return ''
   endif
 
-  let org = s:iconv(a:query, &encoding, 'utf-8')
+  let org = s:iconv(s:normalize(a:query), &encoding, 'utf-8')
   let str = ''
   for i in range(strlen(org))
     let c = org[i]
@@ -57,7 +57,7 @@ endfunction
 
 function! s:source.opened(query)  " {{{2
   execute "normal! ".g:ref_alc_start_linenumber."z\<CR>"
-  call s:syntax(a:query)
+  call s:syntax(s:normalize(a:query))
 endfunction
 
 function! s:source.leave()  " {{{2
@@ -87,6 +87,12 @@ function! s:iconv(expr, from, to)  " {{{2
   endif
   let result = iconv(a:expr, a:from, a:to)
   return result != '' ? result : a:expr
+endfunction
+
+
+
+function! s:normalize(query)  " {{{2
+  return substitute(substitute(a:query, '\_s\+', ' ', 'g'), '^ \| $', '', 'g')
 endfunction
 
 
