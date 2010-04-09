@@ -13,15 +13,16 @@ if !exists('g:ref_man_cmd')
   let g:ref_man_cmd = executable('man') ? 'man' : ''
 endif
 
-
 if !exists('g:ref_man_use_escape_sequence')
   let g:ref_man_use_escape_sequence = 0
 endif
 
-
-
 if !exists('g:ref_man_highlight_limit')
   let g:ref_man_highlight_limit = 1000
+endif
+
+if !exists('g:ref_man_lang')
+  let g:ref_man_lang = ''
 endif
 
 
@@ -35,7 +36,14 @@ endfunction
 
 
 function! s:source.get_body(query)  " {{{2
+  if !empty(g:ref_man_lang)
+    let lang = $LANG
+    let $LANG = g:ref_man_lang
+  endif
   let res = ref#system(s:to_array(g:ref_man_cmd) + split(a:query))
+  if exists('lang')
+    let $LANG = lang
+  endif
   if !res.result
     let body = res.stdout
     if &termencoding != '' && &encoding != '' && &termencoding !=# &encoding

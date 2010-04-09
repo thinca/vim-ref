@@ -46,6 +46,9 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 			重いからです。
 			デフォルト値は 1000 です。
 
+g:ref_man_lang					*g:ref_man_lang*
+			空文字列以外を指定した場合、$LANG の値に使われます。
+
 
 
 ==============================================================================
@@ -63,6 +66,7 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 
 x.x.x	xxxx-xx-xx
 	- |ref| 0.3.0 に対応。
+	- |g:ref_man_lang| オプションを追加。
 
 0.2.0	2010-01-28
 	- |ref| 0.2.0 に対応。
