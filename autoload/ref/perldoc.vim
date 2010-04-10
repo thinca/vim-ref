@@ -13,6 +13,10 @@ if !exists('g:ref_perldoc_cmd')
   let g:ref_perldoc_cmd = executable('perldoc') ? 'perldoc' : ''
 endif
 
+if !exists('g:ref_perldoc_complete_head')
+  let g:ref_perldoc_complete_head = 0
+endif
+
 
 
 let s:source = {'name': 'perldoc'}
@@ -75,7 +79,8 @@ function! s:source.complete(query)  " {{{2
     return ['-f', '-m']
   endif
 
-  return s:match(s:appropriate_list(a:query), q)
+  let list = s:appropriate_list(a:query)
+  return g:ref_perldoc_complete_head ? s:head(list, q) : s:match(list, q)
 endfunction
 
 
@@ -181,6 +186,13 @@ function! s:match(list, str)
     let matched = filter(copy(a:list), 'v:val =~? "\\V" . a:str')
   endif
   return matched
+endfunction
+
+
+
+function! s:head(list, query)  " {{{2
+  let pat = '^\V' . a:query . '\w\*\v(::)?\zs.*$'
+  return s:uniq(map(filter(copy(a:list), 'v:val =~# pat'), 'substitute(v:val, pat, "", "")'))
 endfunction
 
 
