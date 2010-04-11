@@ -49,10 +49,12 @@ endfunction
 
 function! s:source.opened(query)  " {{{2
   let type = s:detect_type()
-  if type ==# 'list'
-    silent! %s/ /\r/ge
-  elseif type ==# 'class'
-    silent! %s/[^[:return:]]\n\zs\ze----/\r/ge
+  if s:refe_version() == 1
+    if type ==# 'list'
+      silent! %s/ /\r/ge
+    elseif type ==# 'class'
+      silent! %s/[^[:return:]]\n\zs\ze----/\r/ge
+    endif
   endif
   call s:syntax(type)
   1
@@ -61,8 +63,9 @@ endfunction
 
 
 function! s:source.complete(query)  " {{{2
+  let option = s:refe_version() == 2 ? ['-l'] : ['-l', '-s']
   return split(ref#system(s:to_a(g:ref_refe_cmd) +
-  \            ['-l', '-s'] + s:to_a(a:query)).stdout, "\n")
+  \            option + s:to_a(a:query)).stdout, "\n")
 endfunction
 
 
@@ -116,8 +119,14 @@ endfunction
 " - method (Detail of method)
 function! s:detect_type()  " {{{2
   let l1 = getline(1)
-  if l1 =~ '^===='
-    return 'class'
+  if s:refe_version() == 1
+    if l1 =~ '^===='
+      return 'class'
+    endif
+  else
+    if l1 =~# '^class'
+      return 'class'
+    endif
   endif
   let l2 = getline(2)
   if l2 =~ '^---' || l2 =~ '^:'
@@ -137,6 +146,12 @@ function! s:syntax(type)  " {{{2
 
   syntax include @refRefeRuby syntax/ruby.vim
 
+  call s:syntax_refe{s:refe_version()}(a:type)
+
+  let b:current_syntax = 'ref-refe-' . a:type
+endfunction
+
+function! s:syntax_refe1(type)  " {{{2
   if a:type ==# 'list'
     syntax match refRefeClassOrMethod '^.*$' contains=@refRefeClassSepMethod
   elseif a:type ==# 'class'
@@ -167,14 +182,43 @@ function! s:syntax(type)  " {{{2
   highlight default link refRefeCommonClass rubyClass
   highlight default link refRefeCommonMethod rubyFunction
 
-  let b:current_syntax = 'ref-refe-' . a:type
 endfunction
 
+function! s:syntax_refe2(type)  " {{{2
+  " Copy from syntax/ruby.vim
+  syn region rubyString start=+\%(\%(class\s*\|\%([]})"'.]\|::\)\)\_s*\|\w\)\@<!<<\z(\h\w*\)\ze+hs=s+2    matchgroup=rubyStringDelimiter end=+^ \{2}\z1$+ contains=rubyHeredocStart,@rubyStringSpecial fold keepend
+  syn region rubyString start=+\%(\%(class\s*\|\%([]})"'.]\|::\)\)\_s*\|\w\)\@<!<<"\z([^"]*\)"\ze+hs=s+2  matchgroup=rubyStringDelimiter end=+^ \{2}\z1$+ contains=rubyHeredocStart,@rubyStringSpecial fold keepend
+  syn region rubyString start=+\%(\%(class\s*\|\%([]})"'.]\|::\)\)\_s*\|\w\)\@<!<<'\z([^']*\)'\ze+hs=s+2  matchgroup=rubyStringDelimiter end=+^ \{2}\z1$+ contains=rubyHeredocStart		      fold keepend
+  syn region rubyString start=+\%(\%(class\s*\|\%([]})"'.]\|::\)\)\_s*\|\w\)\@<!<<`\z([^`]*\)`\ze+hs=s+2  matchgroup=rubyStringDelimiter end=+^ \{2}\z1$+ contains=rubyHeredocStart,@rubyStringSpecial fold keepend
+
+  syntax region refRefeRubyCodeBlock
+  \      start=/^ \{2}\ze\S/
+  \      end=/\n\+\ze \{,1}\S/ contains=@refRefeRuby
+
+  syntax keyword rubyClass class
+  syntax keyword rubyInclude include
+  syntax match refRefeTitle "^===.\+$"
+
+  highlight default link refRefeTitle Statement
+endfunction
 
 
 function! s:to_a(expr)
   return type(a:expr) == type('') ? split(a:expr, '\s\+') :
   \      type(a:expr) != type([]) ? [a:expr] : a:expr
+endfunction
+
+function! s:refe_version()  " {{{2
+  if !exists('s:cmd') || s:cmd !=# g:ref_refe_cmd
+    let s:cmd = g:ref_refe_cmd
+    unlet! g:ref_refe_version
+  endif
+  if !exists('g:ref_refe_version')
+    let g:ref_refe_version = ref#system(
+    \   s:to_a(g:ref_refe_cmd) + ['--version']
+    \ ).stdout =~# 'ReFe version 2' ? 2 : 1
+  endif
+  return g:ref_refe_version
 endfunction
 
 
