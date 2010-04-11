@@ -29,11 +29,8 @@ endfunction
 
 function! s:source.get_body(query)  " {{{2
   let res = ref#system(s:to_a(g:ref_refe_cmd) + s:to_a(a:query))
-  let err = res.stderr
-  if err =~# '\v' . join(['^not match: .', '^unmatched .',
-    \ '^premature end of regular expression:',
-    \ '^invalid regular expression;'], '|')
-    throw matchstr(err, '^.\+\ze\n')
+  if res.stderr != ''
+    throw matchstr(res.stderr, '^.\{-}\ze\n')
   endif
 
   let content = res.stdout
