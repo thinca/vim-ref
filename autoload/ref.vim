@@ -262,10 +262,14 @@ function! ref#cache(source, name, gather)  " {{{2
     let fname = substitute(a:name, '[:;*?"<>|/\\%]',
     \           '\=printf("%%%02x", char2nr(submatch(0)))', 'g')
 
-    let file = printf('%s/%s/%s', g:ref_cache_dir, a:source, fname)
-    if filereadable(file)
-      let s:cache[a:source][a:name] = readfile(file)
-    else
+    if g:ref_cache_dir != ''
+      let file = printf('%s/%s/%s', g:ref_cache_dir, a:source, fname)
+      if filereadable(file)
+        let s:cache[a:source][a:name] = readfile(file)
+      endif
+    endif
+
+    if !has_key(s:cache[a:source], a:name)
       let cache =
       \  type(a:gather) == s:TYPES.function ? a:gather(a:name) :
       \  type(a:gather) == type({}) && has_key(a:gather, 'call')
