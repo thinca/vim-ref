@@ -259,10 +259,8 @@ function! ref#cache(source, name, gather)  " {{{2
       let s:cache[a:source] = {}
     endif
 
-    let fname = s:is_win
-    \ ? substitute(a:name, '[:*?"<>|%]',
-    \              '\=printf("%%%02x", char2nr(submatch(0)))', 'g')
-    \ : a:name
+    let fname = substitute(a:name, '[:;*?"<>|/\\%]',
+    \           '\=printf("%%%02x", char2nr(submatch(0)))', 'g')
 
     let file = printf('%s/%s/%s', g:ref_cache_dir, a:source, fname)
     if filereadable(file)
