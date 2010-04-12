@@ -266,12 +266,20 @@ function! ref#cache(source, name, gather)  " {{{2
     if filereadable(file)
       let s:cache[a:source][a:name] = readfile(file)
     else
-      let s:cache[a:source][a:name] =
+      let cache =
       \  type(a:gather) == s:TYPES.function ? a:gather(a:name) :
       \  type(a:gather) == type({}) && has_key(a:gather, 'call')
-      \    &&  type(a:gather.call) == s:TYPES.function ?
-      \        a:gather.call(a:name) :
+      \    && type(a:gather.call) == s:TYPES.function ?
+      \       a:gather.call(a:name) :
       \  type(a:gather) == type('') ? eval(a:gather) : []
+
+      if type(cache) == s:TYPES.list
+        let s:cache[a:source][a:name] = cache
+      elseif type(cache) == s:TYPES.string
+        let s:cache[a:source][a:name] = split(cache, "\n")
+      else
+        throw 'ref: Invalid results of cache: ' . string(cache)
+      endif
 
       if g:ref_cache_dir != ''
         let dir = fnamemodify(file, ':h')
