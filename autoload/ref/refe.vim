@@ -9,17 +9,18 @@ set cpo&vim
 
 
 
-if !exists('g:ref_refe_cmd')
+" options. {{{1
+if !exists('g:ref_refe_cmd')  " {{{2
   let g:ref_refe_cmd = executable('refe') ? 'refe' : ''
 endif
 
-if !exists('g:ref_refe_encoding')
+if !exists('g:ref_refe_encoding')  " {{{2
   let g:ref_refe_encoding = &termencoding
 endif
 
 
 
-let s:source = {'name': 'refe'}
+let s:source = {'name': 'refe'}  " {{{1
 
 function! s:source.available()  " {{{2
   return len(g:ref_refe_cmd)
@@ -70,7 +71,7 @@ endfunction
 
 
 
-function! s:source.special_char_p(ch)
+function! s:source.special_char_p(ch)  " {{{2
   return a:ch == '#'
 endfunction
 
@@ -107,12 +108,13 @@ endfunction
 
 
 
-function! s:source.leave()
+function! s:source.leave()  " {{{2
   syntax clear
 endfunction
 
 
 
+" functions. {{{1
 " Detect the reference type from content.
 " - list (Matched list)
 " - class (Summary of class)
@@ -203,7 +205,7 @@ function! s:syntax_refe2(type)  " {{{2
 endfunction
 
 
-function! s:to_a(expr)
+function! s:to_a(expr)  " {{{2
   return type(a:expr) == type('') ? split(a:expr, '\s\+') :
   \      type(a:expr) != type([]) ? [a:expr] : a:expr
 endfunction
@@ -227,7 +229,7 @@ function! ref#refe#define()  " {{{2
   return s:source
 endfunction
 
-call ref#register_detection('ruby', 'refe')
+call ref#register_detection('ruby', 'refe')  " {{{1
 
 
 
