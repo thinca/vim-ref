@@ -1,6 +1,6 @@
 *ref-alc.txt*	alc 用の ref ソース。
 
-Version: 0.1.1
+Version: 0.2.0
 Author : soh335 <sugarbabe335@gmail.com>
        : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
@@ -59,7 +59,7 @@ g:ref_alc_use_cache				*g:ref_alc_use_cache*
 ==============================================================================
 更新履歴					*ref-alc-changelog*
 
-x.x.x	xxxx-xx-xx
+0.2.0	2010-04-12
 	- |ref| 0.3.0 に対応。
 	- |g:ref_alc_cmd| が機能していなかったバグを修正。
 	- |g:ref_alc_use_cache| オプションを追加。

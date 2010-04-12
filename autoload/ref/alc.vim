@@ -1,5 +1,5 @@
 " A ref source for alc.
-" Version: 0.1.1
+" Version: 0.2.0
 " Author : soh335 <sugarbabe335@gmail.com>
 "        : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
