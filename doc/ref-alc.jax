@@ -50,6 +50,10 @@ g:ref_alc_encoding				*g:ref_alc_encoding*
 			指定します。この変数が空の場合、出力は変換されません。
 			デフォルト値は 'termencoding' です。
 
+g:ref_alc_use_cache				*g:ref_alc_use_cache*
+			一度開いたページをキャッシュします。
+			デフォルト値は 0 です。
+
 
 
 ==============================================================================
@@ -58,6 +62,7 @@ g:ref_alc_encoding				*g:ref_alc_encoding*
 x.x.x	xxxx-xx-xx
 	- |ref| 0.3.0 に対応。
 	- |g:ref_alc_cmd| が機能していなかったバグを修正。
+	- |g:ref_alc_use_cache| オプションを追加。
 
 0.1.1	2010-03-01
 	- |g:ref_alc_encoding| を追加。

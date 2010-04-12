@@ -26,6 +26,10 @@ if !exists('g:ref_alc_encoding')  " {{{2
   let g:ref_alc_encoding = &termencoding
 endif
 
+if !exists('g:ref_alc_use_cache')  " {{{2
+  let g:ref_alc_use_cache = 0
+endif
+
 
 
 let s:source = {'name': 'alc'}  " {{{1
@@ -43,7 +47,8 @@ function! s:source.get_body(query)  " {{{2
     return ''
   endif
 
-  let org = s:iconv(s:normalize(a:query), &encoding, 'utf-8')
+  let query = s:normalize(a:query)
+  let org = s:iconv(query, &encoding, 'utf-8')
   let str = ''
   for i in range(strlen(org))
     let c = org[i]
@@ -51,8 +56,14 @@ function! s:source.get_body(query)  " {{{2
   endfor
 
   let url = 'http://eow.alc.co.jp/' . str . '/UTF-8/'
-  let res = ref#system(map(cmd, 'substitute(v:val, "%s", url, "g")'))
-  return s:iconv(res.stdout, g:ref_alc_encoding, &encoding)
+  call map(cmd, 'substitute(v:val, "%s", url, "g")')
+  if g:ref_alc_use_cache
+    let expr = 'ref#system(' . string(cmd) . ').stdout'
+    let res = join(ref#cache('alc', query, expr), "\n")
+  else
+    let res = ref#system(cmd).stdout
+  endif
+  return s:iconv(res, g:ref_alc_encoding, &encoding)
 endfunction
 
 function! s:source.opened(query)  " {{{2
