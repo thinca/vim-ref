@@ -125,14 +125,18 @@ function! s:detect_type()  " {{{2
     if l1 =~ '^===='
       return 'class'
     endif
-  else
-    if l1 =~# '^class'
-      return 'class'
+    let l2 = getline(2)
+    if l2 =~ '^---' || l2 =~ '^:'
+      return 'method'
     endif
-  endif
-  let l2 = getline(2)
-  if l2 =~ '^---' || l2 =~ '^:'
-    return 'method'
+  else
+    if l1 =~# '^require'
+      return getline(3) =~ '^---' ? 'method' : 'class'
+    elseif l1 =~# '^\%(class\|module\)'
+      return 'class'
+    elseif getline(2) =~ '^---'
+      return 'method'
+    endif
   endif
   return 'list'
 endfunction
