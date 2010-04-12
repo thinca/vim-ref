@@ -50,12 +50,15 @@ endfunction
 
 function! s:source.opened(query)  " {{{2
   let type = s:detect_type()
-  if s:refe_version() == 1
-    if type ==# 'list'
-      silent! %s/ /\r/ge
-    elseif type ==# 'class'
-      silent! %s/[^[:return:]]\n\zs\ze----/\r/ge
-    endif
+
+  let ver = s:refe_version()
+  if type ==# 'list'
+    silent! %s/ /\r/ge
+    silent! global/^\s*$/delete _
+  endif
+
+  if type ==# 'class' && ver == 1
+    silent! %s/[^[:return:]]\n\zs\ze----/\r/ge
   endif
   call s:syntax(type)
   1
