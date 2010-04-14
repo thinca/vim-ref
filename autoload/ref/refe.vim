@@ -115,9 +115,13 @@ function! s:source.get_keyword()  " {{{2
 
     if s:refe_version() == 2
       let isk = &l:isk
-      setlocal isk& isk+=: isk+=? isk+=! isk+=. isk+=#
+      setlocal isk& isk+=: isk+=? isk+=! isk+=. isk+=# isk+=( isk+=)
       let kwd = expand('<cword>')
       let &l:isk = isk
+
+      if kwd =~# '^man:'
+        return ['man', matchstr(kwd, '^man:\zs.*$')]
+      endif
       return matchstr(kwd, '^\%(\w:\)\?\zs.*$')
     endif
   else
