@@ -154,13 +154,16 @@ function! s:detect_type()  " {{{2
     if m != ''
       return ['method', m]
     endif
+
   else
     let require = l1 =~# '^require'
     let m = matchstr(require ? l3 : l1, '^\%(class\|module\) \zs\S\+')
     if m != ''
       return ['class', m]
     endif
-    let m = matchstr(require ? l3 : l2, '^--- \zs\w\+')
+
+    " include builtin variable.
+    let m = matchstr(require ? l3 : l2, '^--- \zs\S\+')
     if m != ''
       return ['method', m]
     endif
