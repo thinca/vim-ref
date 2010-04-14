@@ -203,7 +203,7 @@ function! s:syntax_refe2(type)  " {{{2
   syn region rubyString start=+\%(\%(class\s*\|\%([]})"'.]\|::\)\)\_s*\|\w\)\@<!<<`\z([^`]*\)`\ze+hs=s+2  matchgroup=rubyStringDelimiter end=+^ \{2}\z1$+ contains=rubyHeredocStart,@rubyStringSpecial fold keepend
 
   syntax region refRefeRubyCodeBlock
-  \      start=/^ \{2}\ze\S/
+  \      start=/^ \{2,4}\ze\S/
   \      end=/\n\+\ze \{,1}\S/ contains=@refRefeRuby
 
   syntax keyword rubyClass class
