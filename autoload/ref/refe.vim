@@ -96,9 +96,11 @@ function! s:source.get_keyword()  " {{{2
   let pos = getpos('.')[1:]
   if &l:filetype ==# 'ref'
     let [type, name] = s:detect_type()
+
     if type ==# 'list'
       return getline(pos[0])
     endif
+
     if type ==# 'class'
       if getline('.') =~ '^----'
         return ''
@@ -109,6 +111,14 @@ function! s:source.get_keyword()  " {{{2
         let sep = {'Singleton' : '.', 'Instance' : '#'}[sep]
         return name . sep . expand('<cWORD>')
       endif
+    endif
+
+    if s:refe_version() == 2
+      let isk = &l:isk
+      setlocal isk& isk+=: isk+=? isk+=! isk+=. isk+=#
+      let kwd = expand('<cword>')
+      let &l:isk = isk
+      return matchstr(kwd, '^\%(\w:\)\?\zs.*$')
     endif
   else
      " TODO: In the Ruby code.
