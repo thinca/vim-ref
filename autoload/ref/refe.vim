@@ -169,6 +169,31 @@ function! s:syntax(type)  " {{{2
 
   syntax include @refRefeRuby syntax/ruby.vim
 
+  if a:type ==# 'list'
+    syntax match refRefeClassOrMethod '^.*$' contains=@refRefeClassSepMethod
+  elseif a:type ==# 'class'
+    syntax region refRefeMethods start="^---- \w* methods .*----$" end="^$" fold contains=refRefeMethod,refRefeMethodHeader
+    syntax match refRefeMethod '\S\+' contained
+    syntax region refRefeMethodHeader matchgroup=refRefeLine start="^----" end="----$" keepend oneline contained
+  endif
+
+  syntax match refRefeClassAndMethod '\v%(\u\w*%(::|#))+\h\w*[?!=~]?' contains=@refRefeClassSepMethod
+  syntax cluster refRefeClassSepMethod contains=refRefeCommonClass,refRefeCommonMethod,refRefeCommonSep
+
+  syntax match refRefeCommonSep '::\|#' contained nextgroup=refRefeCommonClass,refRefeCommonMethod
+  syntax match refRefeCommonClass '\u\w*' contained nextgroup=refRefeCommonSep
+  syntax match refRefeCommonMethod '[[:lower:]_]\w*[?!=~]\?' contained
+
+
+  highlight default link refRefeMethodHeader rubyClass
+  highlight default link refRefeMethod rubyFunction
+  highlight default link refRefeLine rubyOperator
+
+  highlight default link refRefeCommonSep rubyOperator
+  highlight default link refRefeCommonClass rubyClass
+  highlight default link refRefeCommonMethod rubyFunction
+
+
   call s:syntax_refe{s:refe_version()}(a:type)
 
   let b:current_syntax = 'ref-refe-' . a:type
@@ -180,31 +205,13 @@ function! s:syntax_refe1(type)  " {{{2
   elseif a:type ==# 'class'
     syntax region refRefeRubyCodeBlock start="^  " end="$" contains=@refRefeRuby
     syntax region refRefeClass matchgroup=refRefeLine start="^====" end="====$" keepend oneline
-    syntax region refRefeMethods start="^---- \w* methods .*----$" end="^$" fold contains=refRefeMethod,refRefeMethodHeader
-    syntax match refRefeMethod '\S\+' contained
-    syntax region refRefeMethodHeader matchgroup=refRefeLine start="^----" end="----$" keepend oneline contained
   elseif a:type ==# 'method'
     syntax region refRefeRubyCodeBlock start="^      " end="$" contains=@refRefeRuby
     syntax match refRefeClassOrMethod '\%1l.*$' contains=@refRefeClassSepMethod
     syntax region refRefeRubyCodeInline matchgroup=refRefeLine start="^---" end="$" contains=@refRefeRuby oneline
-  end
-
-  syntax match refRefeClassAndMethod '\v%(\u\w*%(::|#))+\h\w*[?!=~]?' contains=@refRefeClassSepMethod
-  syntax cluster refRefeClassSepMethod contains=refRefeCommonClass,refRefeCommonMethod,refRefeCommonSep
-
-  syntax match refRefeCommonSep '::\|#' contained nextgroup=refRefeCommonClass,refRefeCommonMethod
-  syntax match refRefeCommonClass '\u\w*' contained nextgroup=refRefeCommonSep
-  syntax match refRefeCommonMethod '[[:lower:]_]\w*[?!=~]\?' contained
+  endif
 
   highlight default link refRefeClass rubyClass
-  highlight default link refRefeMethodHeader rubyClass
-  highlight default link refRefeMethod rubyFunction
-  highlight default link refRefeLine rubyOperator
-
-  highlight default link refRefeCommonSep rubyOperator
-  highlight default link refRefeCommonClass rubyClass
-  highlight default link refRefeCommonMethod rubyFunction
-
 endfunction
 
 function! s:syntax_refe2(type)  " {{{2
