@@ -1,6 +1,6 @@
 *ref-man.txt*	A ref source for manpage.
 
-Version: 0.2.0
+Version: 0.3.0
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -65,7 +65,7 @@ BUGS						*ref-man-bugs*
 ==============================================================================
 CHANGELOG					*ref-man-changelog*
 
-x.x.x	xxxx-xx-xx
+0.3.0	2010-04-15
 	- Updated for |ref| 0.3.0.
 	- Added |g:ref_man_lang| option.
 
