@@ -37,11 +37,14 @@ endfunction
 
 
 function! s:source.get_body(query)  " {{{2
+  let [query, sec] = s:parse(a:query)
+  let q = sec =~ '\d' ? [sec, query] : [query]
+
   if !empty(g:ref_man_lang)
     let lang = $LANG
     let $LANG = g:ref_man_lang
   endif
-  let res = ref#system(s:to_array(g:ref_man_cmd) + split(a:query))
+  let res = ref#system(s:to_array(g:ref_man_cmd) + q)
   if exists('lang')
     let $LANG = lang
   endif
@@ -88,20 +91,15 @@ function! s:source.get_keyword()  " {{{2
   setlocal isk& isk+=. isk+=- isk+=: isk+=( isk+=)
   let word = expand('<cword>')
   setlocal isk& isk+=. isk+=- isk+=:
-  let m = matchlist(word, '\(\k\+\)\%((\(\d\))\)\?')
-  let keyword = m[1]
-  if m[2] != ''
-    let keyword = m[2] . ' ' . keyword
-  endif
   let &l:iskeyword = isk
-  return keyword
+  return word
 endfunction
 
 
 
 function! s:source.complete(query)  " {{{2
-  let sec = matchstr(a:query, '^\d') - 0
-  let query = matchstr(a:query, '\v^%(\d\s+)?\zs.*')
+  let [query, sec] = s:parse(a:query)
+  let sec -= 0  " to number
 
   return filter(copy(ref#cache('man', sec, s:gathers[sec])),
   \             'v:val =~# "^\\V" . query')
@@ -129,6 +127,20 @@ endfunction
 
 function! s:to_array(expr)  " {{{2
   return type(a:expr) != type([]) ? [a:expr] : a:expr
+endfunction
+
+
+
+function! s:parse(query)  " {{{2
+  let l = matchlist(a:query, '\([^[:space:]()]\+\)\s*(\(\d\))$')
+  if !empty(l)
+    return l[1 : 2]
+  endif
+  let l = matchlist(a:query, '\(\d\)\s\+\(\S*\)')
+  if !empty(l)
+    return [l[2], l[1]]
+  endif
+  return [a:query, '']
 endfunction
 
 
