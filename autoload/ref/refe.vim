@@ -13,6 +13,7 @@ set cpo&vim
 if !exists('g:ref_refe_cmd')  " {{{2
   let g:ref_refe_cmd = executable('refe') ? 'refe' : ''
 endif
+let s:cmd = g:ref_refe_cmd
 
 if !exists('g:ref_refe_encoding')  " {{{2
   let g:ref_refe_encoding = &termencoding
@@ -226,7 +227,7 @@ endfunction
 
 
 function! s:refe_version()  " {{{2
-  if !exists('s:cmd') || s:cmd !=# g:ref_refe_cmd
+  if s:cmd !=# g:ref_refe_cmd
     let s:cmd = g:ref_refe_cmd
     unlet! g:ref_refe_version
   endif
