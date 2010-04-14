@@ -36,6 +36,18 @@ function! s:source.get_body(query)  " {{{2
   endif
 
   let content = res.stdout
+  if s:refe_version() == 2
+    " is class or module?
+    let class = matchstr(content, '^\v%(require\s+\S+\n\n)?%(class|module) \zs\S+')
+    if class != ''
+      for [type, sep] in [['Singleton', '.'], ['Instance', '#']]
+        let members = s:refe(class . sep).stdout
+        let members = substitute(members, '\V' . class . sep, '', 'g')
+        let content .= "\n\n---- " . type . " methods ----\n" . members
+      endfor
+    endif
+  endif
+
   if exists('g:ref_refe_encoding') &&
   \  !empty(g:ref_refe_encoding) && g:ref_refe_encoding != &encoding
     let converted = iconv(content, g:ref_refe_encoding, &encoding)
