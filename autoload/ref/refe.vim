@@ -50,9 +50,9 @@ endfunction
 
 
 function! s:source.opened(query)  " {{{2
-  let type = s:detect_type()
-
+  let [type, _] = s:detect_type()
   let ver = s:refe_version()
+
   if type ==# 'list'
     silent! %s/ /\r/ge
     silent! global/^\s*$/delete _
@@ -83,7 +83,7 @@ endfunction
 function! s:source.get_keyword()  " {{{2
   let pos = getpos('.')[1:]
   if &l:filetype ==# 'ref'
-    let type = s:detect_type()
+    let [type, name] = s:detect_type()
     if type ==# 'list'
       return getline(pos[0])
     endif
@@ -91,12 +91,11 @@ function! s:source.get_keyword()  " {{{2
       if getline('.') =~ '^----'
         return ''
       endif
-      let class = matchstr(getline(1), '^==== \zs\S*\ze ====$')
       let section = search('^---- \w* methods', 'bnW')
       if section != 0
         let sep = matchstr(getline(section), '^---- \zs\w*\ze methods')
         let sep = {'Singleton' : '.', 'Instance' : '#'}[sep]
-        return class . sep . expand('<cWORD>')
+        return name . sep . expand('<cWORD>')
       endif
     endif
   else
@@ -119,29 +118,32 @@ endfunction
 
 " functions. {{{1
 " Detect the reference type from content.
-" - list (Matched list)
-" - class (Summary of class)
-" - method (Detail of method)
+" - ['list', ''] (Matched list)
+" - ['class', class_name] (Summary of class)
+" - ['method', class_and_method_name] (Detail of method)
 function! s:detect_type()  " {{{2
-  let l1 = getline(1)
+  let [l1, l2, l3] = [getline(1), getline(2), getline(3)]
   if s:refe_version() == 1
-    if l1 =~ '^===='
-      return 'class'
+    let m = matchstr(l1, '^==== \zs\S\+\ze ====$')
+    if m != ''
+      return ['class', m]
     endif
-    let l2 = getline(2)
-    if l2 =~ '^---' || l2 =~ '^:'
-      return 'method'
+    let m = matchstr(l2, '^---s\+\zs\w\+')
+    if m != ''
+      return ['method', m]
     endif
   else
-    if l1 =~# '^require'
-      return getline(3) =~ '^---' ? 'method' : 'class'
-    elseif l1 =~# '^\%(class\|module\)'
-      return 'class'
-    elseif getline(2) =~ '^---'
-      return 'method'
+    let require = l1 =~# '^require'
+    let m = matchstr(require ? l3 : l1, '^\%(class\|module\) \zs\S\+')
+    if m != ''
+      return ['class', m]
+    endif
+    let m = matchstr(require ? l3 : l2, '^--- \zs\w\+')
+    if m != ''
+      return ['method', m]
     endif
   endif
-  return 'list'
+  return ['list', '']
 endfunction
 
 
