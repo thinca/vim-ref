@@ -29,7 +29,7 @@ endfunction
 
 
 function! s:source.get_body(query)  " {{{2
-  let res = ref#system(s:to_a(g:ref_refe_cmd) + s:to_a(a:query))
+  let res = s:refe(a:query)
   if res.stderr != ''
     throw matchstr(res.stderr, '^.\{-}\ze\n')
   endif
@@ -68,8 +68,7 @@ endfunction
 
 function! s:source.complete(query)  " {{{2
   let option = s:refe_version() == 2 ? ['-l'] : ['-l', '-s']
-  return split(ref#system(s:to_a(g:ref_refe_cmd) +
-  \            option + s:to_a(a:query)).stdout, "\n")
+  return split(s:refe(option + s:to_a(a:query)).stdout, "\n")
 endfunction
 
 
@@ -212,10 +211,19 @@ function! s:syntax_refe2(type)  " {{{2
 endfunction
 
 
+
 function! s:to_a(expr)  " {{{2
   return type(a:expr) == type('') ? split(a:expr, '\s\+') :
   \      type(a:expr) != type([]) ? [a:expr] : a:expr
 endfunction
+
+
+
+function! s:refe(args)  " {{{2
+  return ref#system(s:to_a(g:ref_refe_cmd) + s:to_a(a:args))
+endfunction
+
+
 
 function! s:refe_version()  " {{{2
   if !exists('s:cmd') || s:cmd !=# g:ref_refe_cmd
@@ -223,9 +231,8 @@ function! s:refe_version()  " {{{2
     unlet! g:ref_refe_version
   endif
   if !exists('g:ref_refe_version')
-    let g:ref_refe_version = ref#system(
-    \   s:to_a(g:ref_refe_cmd) + ['--version']
-    \ ).stdout =~# 'ReFe version 2' ? 2 : 1
+    let g:ref_refe_version =
+    \   s:refe('--version').stdout =~# 'ReFe version 2' ? 2 : 1
   endif
   return g:ref_refe_version
 endfunction
