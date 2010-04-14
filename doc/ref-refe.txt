@@ -41,6 +41,11 @@ g:ref_refe_encoding				*g:ref_refe_encoding*
 			Conversion is not done when this variable is empty.
 			The default value is 'termencoding'.
 
+g:ref_refe_version				*g:ref_refe_version*
+			The version of refe command.  The value is 1 or 2.
+			This option will be setted automatically by `refe
+			--version`.
+
 
 
 ==============================================================================

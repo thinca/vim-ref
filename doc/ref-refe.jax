@@ -41,6 +41,11 @@ g:ref_refe_encoding				*g:ref_refe_encoding*
 			この変数が空の場合、出力は変換されません。
 			デフォルト値は 'termencoding' です。
 
+g:ref_refe_version				*g:ref_refe_version*
+			refe コマンドのバージョンです。値は 1 か 2 です。この
+			オプションは `refe --version` によって自動的に設定され
+			ます。
+
 
 
 ==============================================================================
