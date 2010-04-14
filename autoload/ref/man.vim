@@ -9,25 +9,26 @@ set cpo&vim
 
 
 
-if !exists('g:ref_man_cmd')
+" config. {{{1
+if !exists('g:ref_man_cmd')  " {{{2
   let g:ref_man_cmd = executable('man') ? 'man' : ''
 endif
 
-if !exists('g:ref_man_use_escape_sequence')
+if !exists('g:ref_man_use_escape_sequence')  " {{{2
   let g:ref_man_use_escape_sequence = 0
 endif
 
-if !exists('g:ref_man_highlight_limit')
+if !exists('g:ref_man_highlight_limit')  " {{{2
   let g:ref_man_highlight_limit = 1000
 endif
 
-if !exists('g:ref_man_lang')
+if !exists('g:ref_man_lang')  " {{{2
   let g:ref_man_lang = ''
 endif
 
 
 
-let s:source = {'name': 'man'}
+let s:source = {'name': 'man'}  " {{{1
 
 function! s:source.available()  " {{{2
   return len(g:ref_man_cmd)
@@ -126,7 +127,7 @@ endfunction
 
 
 
-function! s:to_array(expr)
+function! s:to_array(expr)  " {{{2
   return type(a:expr) != type([]) ? [a:expr] : a:expr
 endfunction
 
@@ -245,7 +246,7 @@ endfunction
 
 
 
-function! s:build_gathers()
+function! s:build_gathers()  " {{{2
   let d = {}
   function! d.call(name)
     let list = []
