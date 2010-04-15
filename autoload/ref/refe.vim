@@ -135,17 +135,11 @@ function! s:source.get_keyword()  " {{{2
     if syn ==# 'rubyStringEscape'
       let syn = synIDattr(synstack(line('.'), col('.'))[0], 'name')
     endif
-    if syn =~# '^rubyString'
-      return 'String'
-    elseif syn =~# '^rubyRegexp'
-      return 'Regexp'
-    elseif syn =~# '^rubySymbol'
-      return 'Symbol'
-    elseif syn =~# '^rubyInteger'
-      return 'Integer'
-    elseif syn =~# '^rubyFloat'
-      return 'Float'
-    endif
+    for s in ['String', 'Regexp', 'Symbol', 'Integer', 'Float']
+      if syn =~# '^ruby' . s
+        return s
+      endif
+    endfor
 
     " RSense
     if !empty(g:ref_refe_rsense_cmd)
