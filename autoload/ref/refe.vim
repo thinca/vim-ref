@@ -128,8 +128,43 @@ function! s:source.get_keyword()  " {{{2
       endif
       return matchstr(kwd, '^\%(\w:\)\?\zs.*$')
     endif
+
   else
-     " TODO: In the Ruby code.
+    " TODO: In the Ruby code.
+
+    " RSense
+    if !empty(g:ref_refe_rsense_cmd)
+      let use_temp = &l:modified
+      if use_temp
+        let file = tempname()
+        call writefile(getline(1, '$'), file)
+      else
+        let file = expand('%:p')
+      endif
+
+      let pos = getpos('.')
+      let ve = &virtualedit
+      set virtualedit+=onemore
+      try
+        call search('\>', 'cW')  " Move to the end of keyword.
+        " To use the column of character base.
+        let col = len(substitute(getline('.')[: col('.') - 2], '.', '.', 'g'))
+        let res = ref#system(s:to_a(g:ref_refe_rsense_cmd) +
+        \ ['type-inference', '--file=' . file,
+        \ printf('--location=%s:%s', line('.'), col)])
+        let type = matchstr(res.stdout, '^type: \zs<\?\S\+>\?\ze\n')
+        if type != ''
+          return type
+        endif
+
+      finally
+        if use_temp
+          call delete(file)
+        endif
+        let &virtualedit = ve
+        call setpos('.', pos)
+      endtry
+    endif
   endif
   let isk = &l:isk
   setlocal isk& isk+=: isk+=? isk+=!
