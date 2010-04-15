@@ -118,15 +118,14 @@ function! s:source.get_keyword()  " {{{2
     endif
 
     if s:refe_version() == 2
-      let isk = &l:isk
-      setlocal isk& isk+=: isk+=? isk+=! isk+=. isk+=# isk+=( isk+=)
-      let kwd = expand('<cword>')
-      let &l:isk = isk
+      let kwd = s:get_word_on_cursor('\[\[\zs.\{-}\ze\]\]')
 
-      if kwd =~# '^man:'
-        return ['man', matchstr(kwd, '^man:\zs.*$')]
+      if kwd != ''
+        if kwd =~# '^man:'
+          return ['man', matchstr(kwd, '^man:\zs.*$')]
+        endif
+        return matchstr(kwd, '^\%(\w:\)\?\zs.*$')
       endif
-      return matchstr(kwd, '^\%(\w:\)\?\zs.*$')
     endif
 
   else
@@ -296,6 +295,24 @@ function! s:syntax_refe2(type)  " {{{2
   syntax match refRefeTitle "^===.\+$"
 
   highlight default link refRefeTitle Statement
+endfunction
+
+
+
+function! s:get_word_on_cursor(pat)  " {{{2
+  let line = getline('.')
+  let pos = col('.')
+  let s = 0
+  while s < pos
+    let [s, e] = [match(line, a:pat, s), matchend(line, a:pat, s)]
+    if s < 0
+      break
+    elseif s <= pos && pos <= e
+      return line[s : e - 1]
+    endif
+    let s += 1
+  endwhile
+  return ''
 endfunction
 
 
