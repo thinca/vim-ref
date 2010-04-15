@@ -28,6 +28,7 @@ Requirements:
 Optional:
 - |ref-man|
   - To open a keyword like [[man:page(1)]].
+- RSense (http://cx4a.org/software/rsense/)
 
 
 
@@ -49,6 +50,11 @@ g:ref_refe_version				*g:ref_refe_version*
 			The version of refe command.  The value is 1 or 2.
 			This option will be setted automatically by `refe
 			--version`.
+
+g:ref_refe_rsense_cmd				*g:ref_refe_rsense_cmd*
+			Specifies the command of RSense.   When this is empty,
+			RSense is not used.
+			The default value is empty.
 
 
 
