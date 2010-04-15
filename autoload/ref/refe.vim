@@ -143,7 +143,7 @@ function! s:source.get_keyword()  " {{{2
 
     " RSense
     if !empty(g:ref_refe_rsense_cmd)
-      let use_temp = &l:modified
+      let use_temp = &l:modified || !filereadable(expand('%'))
       if use_temp
         let file = tempname()
         call writefile(getline(1, '$'), file)
