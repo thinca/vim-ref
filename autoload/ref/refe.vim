@@ -130,7 +130,22 @@ function! s:source.get_keyword()  " {{{2
     endif
 
   else
-    " TODO: In the Ruby code.
+    " Literals
+    let syn = synIDattr(synID(line('.'), col('.'), 1), 'name')
+    if syn ==# 'rubyStringEscape'
+      let syn = synIDattr(synstack(line('.'), col('.'))[0], 'name')
+    endif
+    if syn =~# '^rubyString'
+      return 'String'
+    elseif syn =~# '^rubyRegexp'
+      return 'Regexp'
+    elseif syn =~# '^rubySymbol'
+      return 'Symbol'
+    elseif syn =~# '^rubyInteger'
+      return 'Integer'
+    elseif syn =~# '^rubyFloat'
+      return 'Float'
+    endif
 
     " RSense
     if !empty(g:ref_refe_rsense_cmd)
@@ -166,6 +181,7 @@ function! s:source.get_keyword()  " {{{2
       endtry
     endif
   endif
+
   let isk = &l:isk
   setlocal isk& isk+=: isk+=? isk+=!
   let kwd = expand('<cword>')
