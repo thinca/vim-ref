@@ -19,6 +19,10 @@ if !exists('g:ref_refe_encoding')  " {{{2
   let g:ref_refe_encoding = &termencoding
 endif
 
+if !exists('g:ref_refe_rsense_cmd')  " {{{2
+  let g:ref_refe_rsense_cmd = ''
+endif
+
 
 
 let s:source = {'name': 'refe'}  " {{{1
