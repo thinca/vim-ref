@@ -25,6 +25,10 @@ Requirements:
 - |ref| 0.3.0 or later
 - ReFe (http://i.loveruby.net/en/projects/refe/)
 
+Optional:
+- |ref-man|
+  - To open a keyword like [[man:page(1)]].
+
 
 
 ==============================================================================
