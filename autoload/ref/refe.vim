@@ -175,11 +175,13 @@ function! s:source.get_keyword()  " {{{2
     endif
   endif
 
-  let isk = &l:isk
-  setlocal isk& isk+=: isk+=? isk+=!
-  let kwd = expand('<cword>')
-  let &l:isk = isk
-  return kwd
+  let class = '\v\u\w*%(::\u\w*)*'
+  let kwd = s:get_word_on_cursor(class)
+  if kwd != ''
+    return kwd
+  endif
+  let id = '\w+[!?]?'
+  return s:get_word_on_cursor(class . '%([#.]' . id . ')?|' . id)
 endfunction
 
 
