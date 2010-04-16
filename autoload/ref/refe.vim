@@ -244,7 +244,7 @@ function! s:syntax(type)  " {{{2
     syntax region refRefeMethodHeader matchgroup=refRefeLine start="^----" end="----$" keepend oneline contained
   endif
 
-  syntax match refRefeClassAndMethod '\v%(\u\w*%(::|#))+\h\w*[?!=~]?' contains=@refRefeClassSepMethod
+  syntax match refRefeClassAndMethod '\v%(\u\w*%(::|\.|#))+\h\w*[?!=~]?' contains=@refRefeClassSepMethod
   syntax cluster refRefeClassSepMethod contains=refRefeCommonClass,refRefeCommonMethod,refRefeCommonSep
 
   syntax match refRefeCommonSep '::\|#' contained nextgroup=refRefeCommonClass,refRefeCommonMethod
