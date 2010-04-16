@@ -296,7 +296,12 @@ function! s:syntax_refe2(type)  " {{{2
   syntax keyword rubyInclude include
   syntax match refRefeTitle "^===.\+$"
 
+  if a:type !=# 'list'
+    syntax match refRefeAnnotation '^@\w\+'
+  endif
+
   highlight default link refRefeTitle Statement
+  highlight default link refRefeAnnotation Special
 endfunction
 
 
