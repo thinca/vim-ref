@@ -211,7 +211,7 @@ function! s:detect_type()  " {{{2
 
   else
     let require = l1 =~# '^require'
-    let m = matchstr(require ? l3 : l1, '^\%(class\|module\) \zs\S\+')
+    let m = matchstr(require ? l3 : l1, '^\%(class\|module\|object\) \zs\S\+')
     if m != ''
       return ['class', m]
     endif
