@@ -299,7 +299,11 @@ function! s:syntax_refe2(type)  " {{{2
   if a:type !=# 'list'
     syntax match refRefeAnnotation '^@\w\+'
   endif
+  if a:type ==# 'method'
+    syntax match refRefeMethod '^--- \w\+[!?]'
+  endif
 
+  highlight default link refRefeMethod Function
   highlight default link refRefeTitle Statement
   highlight default link refRefeAnnotation Special
 endfunction
