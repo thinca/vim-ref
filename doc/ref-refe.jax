@@ -52,9 +52,10 @@ g:ref_refe_version				*g:ref_refe_version*
 			ます。
 
 g:ref_refe_rsense_cmd				*g:ref_refe_rsense_cmd*
-			RSense のコマンドを指定します。空の場合は RSense との
-			連携は行いません。
+			RSense のコマンドを指定します。文字列か |List| を指定
+			します。空の場合は RSense との連携は行いません。
 			デフォルト値は空です。
+
 
 
 ==============================================================================
@@ -69,6 +70,8 @@ g:ref_refe_rsense_cmd				*g:ref_refe_rsense_cmd*
 
 x.x.x	xxxx-xx-xx
 	- |ref| 0.3.0 に対応。
+	- refe2 に対応。
+	- RSense との連携に対応。
 
 0.2.0	2010-01-28
 	- |g:ref_refe_cmd| が |List| だと動作しないバグを修正。

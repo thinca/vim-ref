@@ -52,8 +52,8 @@ g:ref_refe_version				*g:ref_refe_version*
 			--version`.
 
 g:ref_refe_rsense_cmd				*g:ref_refe_rsense_cmd*
-			Specifies the command of RSense.   When this is empty,
-			RSense is not used.
+			Specifies the command of RSense.  This is a string or
+			a list.  When this is empty, RSense is not used.
 			The default value is empty.
 
 
@@ -70,6 +70,8 @@ CHANGELOG					*ref-refe-changelog*
 
 x.x.x	xxxx-xx-xx
 	- Updated for |ref| 0.3.0.
+	- Support refe2.
+	- Support to cooperation with RSense.
 
 0.2.0	2010-01-28
 	- Fixed a bug that doesn't work when |g:ref_refe_cmd| is a |List|.
