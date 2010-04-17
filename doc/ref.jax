@@ -29,10 +29,10 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 
 このプラグインには以下のソースが含まれています:
 - man		(|ref-man.txt|)
-- refe		(|ref-refe.txt|)
+- perldoc	(|ref-perldoc.txt|)
 - phpmanual	(|ref-phpmanual.txt|)
 - pydoc		(|ref-pydoc.txt|)
-- perldoc	(|ref-perldoc.txt|)
+- refe		(|ref-refe.txt|)
 
 要件:
 - Vim 7.2 以降
