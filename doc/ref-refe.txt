@@ -1,6 +1,6 @@
 *ref-refe.txt*	A ref source for ReFe.
 
-Version: 0.2.0
+Version: 0.3.0
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -25,6 +25,11 @@ Requirements:
 - |ref| 0.3.0 or later
 - ReFe (http://i.loveruby.net/en/projects/refe/)
 
+Optional:
+- |ref-man|
+  - To open a keyword like [[man:page(1)]].
+- RSense (http://cx4a.org/software/rsense/)
+
 
 
 ==============================================================================
@@ -41,6 +46,16 @@ g:ref_refe_encoding				*g:ref_refe_encoding*
 			Conversion is not done when this variable is empty.
 			The default value is 'termencoding'.
 
+g:ref_refe_version				*g:ref_refe_version*
+			The version of refe command.  The value is 1 or 2.
+			This option will be setted automatically by `refe
+			--version`.
+
+g:ref_refe_rsense_cmd				*g:ref_refe_rsense_cmd*
+			Specifies the command of RSense.  This is a string or
+			a list.  When this is empty, RSense is not used.
+			The default value is empty.
+
 
 
 ==============================================================================
@@ -53,8 +68,10 @@ BUGS						*ref-refe-bugs*
 ==============================================================================
 CHANGELOG					*ref-refe-changelog*
 
-x.x.x	xxxx-xx-xx
+0.3.0	2010-04-18
 	- Updated for |ref| 0.3.0.
+	- Support refe2.
+	- Support to cooperation with RSense.
 
 0.2.0	2010-01-28
 	- Fixed a bug that doesn't work when |g:ref_refe_cmd| is a |List|.

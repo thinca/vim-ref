@@ -1,6 +1,6 @@
 *ref-pydoc.txt*	A ref source for pydoc.
 
-Version: 0.2.0
+Version: 0.3.0
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -36,6 +36,11 @@ g:ref_pydoc_cmd					*g:ref_pydoc_cmd*
 			The default value is "pydoc" if it is executable.
 			Otherwise, it is "".
 
+g:ref_pydoc_complete_head			*g:ref_pydoc_complete_head*
+			The completion candidate of the module is displayed by
+			each module name.
+			The default value is 0.
+
 
 
 ==============================================================================
@@ -50,8 +55,9 @@ BUGS						*ref-pydoc-bugs*
 ==============================================================================
 CHANGELOG					*ref-pydoc-changelog*
 
-x.x.x	xxxx-xx-xx
+0.3.0	2010-04-18
 	- Updated for |ref| 0.3.0.
+	- Added |g:ref_pydoc_complete_head| option.
 
 0.2.0	2010-01-28
 	- Fixed a bug that doesn't work when |g:ref_pydoc_cmd| is a |List|.

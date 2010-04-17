@@ -1,5 +1,5 @@
 " A ref source for perldoc.
-" Version: 0.2.0
+" Version: 0.3.0
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -9,13 +9,18 @@ set cpo&vim
 
 
 
-if !exists('g:ref_perldoc_cmd')
+" config. {{{1
+if !exists('g:ref_perldoc_cmd')  " {{{2
   let g:ref_perldoc_cmd = executable('perldoc') ? 'perldoc' : ''
+endif
+
+if !exists('g:ref_perldoc_complete_head')  " {{{2
+  let g:ref_perldoc_complete_head = 0
 endif
 
 
 
-let s:source = {'name': 'perldoc'}
+let s:source = {'name': 'perldoc'}  " {{{1
 
 function! s:source.available()  " {{{2
   return len(g:ref_perldoc_cmd)
@@ -75,7 +80,8 @@ function! s:source.complete(query)  " {{{2
     return ['-f', '-m']
   endif
 
-  return s:match(s:appropriate_list(a:query), q)
+  let list = s:appropriate_list(a:query)
+  return g:ref_perldoc_complete_head ? s:head(list, q) : s:match(list, q)
 endfunction
 
 
@@ -90,7 +96,7 @@ endfunction
 
 
 
-function! s:source.leave()
+function! s:source.leave()  " {{{2
   syntax clear
   unlet! b:current_syntax
   unlet! b:ref_perldoc_mode b:ref_perldoc_word
@@ -98,6 +104,7 @@ endfunction
 
 
 
+" functions. {{{1
 function! s:syntax(mode)  " {{{2
   if exists('b:current_syntax')
   \  && ((a:mode ==# 'source' && b:current_syntax ==# 'perl') ||
@@ -159,7 +166,7 @@ endfunction
 
 
 
-function! s:indent_region(name, indent, option)
+function! s:indent_region(name, indent, option)  " {{{2
   execute 'syntax region' a:name
   \       'start=/^ \{' . a:indent . '}\ze\S/'
   \       'end=/\n\+\ze \{,' . (a:indent - 1) . '}\S/' a:option
@@ -167,7 +174,7 @@ endfunction
 
 
 
-function! s:appropriate_list(query)
+function! s:appropriate_list(query)  " {{{2
   return a:query =~# '-f\>' ? s:list('func'):
   \      a:query =~# '-m\>' ? s:list('modules'):
   \                           s:list('all')
@@ -175,7 +182,7 @@ endfunction
 
 
 
-function! s:match(list, str)
+function! s:match(list, str)  " {{{2
   let matched = filter(copy(a:list), 'v:val =~? "^\\V" . a:str')
   if empty(matched)
     let matched = filter(copy(a:list), 'v:val =~? "\\V" . a:str')
@@ -185,7 +192,14 @@ endfunction
 
 
 
-function! s:list(name)
+function! s:head(list, query)  " {{{2
+  let pat = '^\V' . a:query . '\w\*\v(::)?\zs.*$'
+  return s:uniq(map(filter(copy(a:list), 'v:val =~# pat'), 'substitute(v:val, pat, "", "")'))
+endfunction
+
+
+
+function! s:list(name)  " {{{2
   if a:name ==# 'all'
     return s:list('basepod') + s:list('modules') + s:list('func')
   endif
@@ -194,7 +208,7 @@ endfunction
 
 
 
-function! s:basepod_list(name)
+function! s:basepod_list(name)  " {{{2
   let basepods = []
   let base = ref#system(['perl', '-MConfig', '-e',
   \                      'print $Config{installprivlib}']).stdout
@@ -215,7 +229,7 @@ endfunction
 
 
 
-function! s:modules_list(name)
+function! s:modules_list(name)  " {{{2
   let inc = ref#system(['perl', '-e', 'print join('':'', @INC)']).stdout
   let sep = '[/\\]'
   let files = {}
@@ -236,7 +250,7 @@ endfunction
 
 
 
-function! s:func_list(name)
+function! s:func_list(name)  " {{{2
   let doc = ref#system('perldoc -u perlfunc').stdout
   let i = 0
   let funcs = []

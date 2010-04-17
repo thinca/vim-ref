@@ -1,5 +1,5 @@
 " A ref source for pydoc.
-" Version: 0.2.0
+" Version: 0.3.0
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -9,13 +9,18 @@ set cpo&vim
 
 
 
-if !exists('g:ref_pydoc_cmd')
+" options. {{{1
+if !exists('g:ref_pydoc_cmd')  " {{{2
   let g:ref_pydoc_cmd = executable('pydoc') ? 'pydoc' : ''
+endif
+
+if !exists('g:ref_pydoc_complete_head')  " {{{2
+  let g:ref_pydoc_complete_head = 0
 endif
 
 
 
-let s:source = {'name': 'pydoc'}
+let s:source = {'name': 'pydoc'}  " {{{1
 
 function! s:source.available()  " {{{2
   return len(g:ref_pydoc_cmd)
@@ -62,6 +67,12 @@ function! s:source.complete(query)  " {{{2
   let all_list = ref#cache('pydoc', 'list',
   \                    printf('map(split(ref#system(%s).stdout, "\n"), %s)',
   \                           string(cmd), string(mapexpr)))
+
+  if g:ref_pydoc_complete_head
+    let q = a:query == '' || a:query =~ '\s$' ? '' : split(a:query)[-1]
+    let all_list = s:head(all_list, q)
+  endif
+
   let list = filter(copy(all_list), 'v:val =~ "^\\V" . a:query')
   if !empty(list)
     return list
@@ -149,12 +160,14 @@ endfunction
 
 
 
-function! s:source.leave()
+function! s:source.leave()  " {{{2
   syntax clear
   unlet! b:current_syntax
 endfunction
 
 
+
+" functions {{{1
 
 " Get informations of current document.
 " [type, name, scope]
@@ -185,7 +198,7 @@ endfunction
 
 
 
-function! s:syntax(type)
+function! s:syntax(type)  " {{{2
   if exists('b:current_syntax') && b:current_syntax == 'ref-pydoc'
     " return
   endif
@@ -216,9 +229,27 @@ endfunction
 
 
 
-function! s:to_a(expr)
+function! s:to_a(expr)  " {{{2
   return type(a:expr) == type('') ? split(a:expr, '\s\+') :
   \      type(a:expr) != type([]) ? [a:expr] : a:expr
+endfunction
+
+
+
+function! s:head(list, query)  " {{{2
+  let pat = '^\V' . a:query . '\v\w*(\.)?\zs.*$'
+  return s:uniq(map(filter(copy(a:list), 'v:val =~# pat'),
+  \             'substitute(v:val, pat, "", "")'))
+endfunction
+
+
+
+function! s:uniq(list)  "{{{2
+  let d = {}
+  for i in a:list
+    let d[i] = 0
+  endfor
+  return sort(keys(d))
 endfunction
 
 

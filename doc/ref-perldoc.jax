@@ -1,6 +1,6 @@
 *ref-perldoc.txt*	perldoc 用の ref ソース。
 
-Version: 0.2.0
+Version: 0.3.0
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -37,6 +37,11 @@ g:ref_perldoc_cmd				*g:ref_perldoc_cmd*
 			|List| も指定できます。
 			デフォルト値は、実行可能ならば "perldoc" です。そうで
 			なければ "" です。
+
+g:ref_perldoc_complete_head			*g:ref_perldoc_complete_head*
+			モジュールを補完する際にパッケージ名単位で候補を表示し
+			ます。
+			デフォルト値は 0 です。
 
 
 
@@ -82,8 +87,9 @@ b:ref_perldoc_word				*b:ref_perldoc_word*
 ==============================================================================
 更新履歴					*ref-perldoc-changelog*
 
-x.x.x	xxxx-xx-xx
+0.3.0	2010-04-18
 	- |ref| 0.3.0 に対応。
+	- |g:ref_perldoc_complete_head| オプションを追加。
 
 0.2.0	2010-01-28
 	- |ref| 0.2.0 に対応。

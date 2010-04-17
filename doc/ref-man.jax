@@ -1,6 +1,6 @@
 *ref-man.txt*	manpage 用の ref ソース。
 
-Version: 0.2.0
+Version: 0.3.0
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -46,6 +46,9 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 			重いからです。
 			デフォルト値は 1000 です。
 
+g:ref_man_lang					*g:ref_man_lang*
+			空文字列以外を指定した場合、$LANG の値に使われます。
+
 
 
 ==============================================================================
@@ -61,8 +64,9 @@ g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
 ==============================================================================
 更新履歴					*ref-man-changelog*
 
-x.x.x	xxxx-xx-xx
+0.3.0	2010-04-15
 	- |ref| 0.3.0 に対応。
+	- |g:ref_man_lang| オプションを追加。
 
 0.2.0	2010-01-28
 	- |ref| 0.2.0 に対応。

@@ -1,6 +1,6 @@
 *ref-perldoc.txt*	A ref source for perldoc.
 
-Version: 0.2.0
+Version: 0.3.0
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -37,6 +37,11 @@ g:ref_perldoc_cmd				*g:ref_perldoc_cmd*
 			that includes command and arguments.
 			The default value is "perldoc" if it is executable.
 			Otherwise, it is "".
+
+g:ref_perldoc_complete_head			*g:ref_perldoc_complete_head*
+			The completion candidate of the module is displayed by
+			each package name.
+			The default value is 0.
 
 
 
@@ -84,8 +89,9 @@ BUGS						*ref-perldoc-bugs*
 ==============================================================================
 CHANGELOG					*ref-perldoc-changelog*
 
-x.x.x	xxxx-xx-xx
+0.3.0	2010-04-18
 	- Updated for |ref| 0.3.0.
+	- Added |g:ref_perldoc_complete_head| option.
 
 0.2.0	2010-01-28
 	- Updated for |ref| 0.2.0.

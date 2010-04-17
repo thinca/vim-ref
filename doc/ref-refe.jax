@@ -1,6 +1,6 @@
 *ref-refe.txt*	ReFe 用の ref ソース。
 
-Version: 0.2.0
+Version: 0.3.0
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -25,6 +25,11 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 - |ref| 0.3.0 以降
 - ReFe (http://i.loveruby.net/ja/prog/refe.html)
 
+オプション:
+- |ref-man|
+  - [[man:page(1)]] のようなキーワードを開くのに必要。
+- RSense (http://cx4a.org/software/rsense/index.ja.html)
+
 
 
 ==============================================================================
@@ -41,6 +46,16 @@ g:ref_refe_encoding				*g:ref_refe_encoding*
 			この変数が空の場合、出力は変換されません。
 			デフォルト値は 'termencoding' です。
 
+g:ref_refe_version				*g:ref_refe_version*
+			refe コマンドのバージョンです。値は 1 か 2 です。この
+			オプションは `refe --version` によって自動的に設定され
+			ます。
+
+g:ref_refe_rsense_cmd				*g:ref_refe_rsense_cmd*
+			RSense のコマンドを指定します。文字列か |List| を指定
+			します。空の場合は RSense との連携は行いません。
+			デフォルト値は空です。
+
 
 
 ==============================================================================
@@ -53,8 +68,10 @@ g:ref_refe_encoding				*g:ref_refe_encoding*
 ==============================================================================
 更新履歴					*ref-refe-changelog*
 
-x.x.x	xxxx-xx-xx
+0.3.0	2010-04-18
 	- |ref| 0.3.0 に対応。
+	- refe2 に対応。
+	- RSense との連携に対応。
 
 0.2.0	2010-01-28
 	- |g:ref_refe_cmd| が |List| だと動作しないバグを修正。
