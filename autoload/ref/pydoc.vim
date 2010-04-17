@@ -14,6 +14,10 @@ if !exists('g:ref_pydoc_cmd')  " {{{2
   let g:ref_pydoc_cmd = executable('pydoc') ? 'pydoc' : ''
 endif
 
+if !exists('g:ref_pydoc_complete_head')  " {{{2
+  let g:ref_pydoc_complete_head = 0
+endif
+
 
 
 let s:source = {'name': 'pydoc'}  " {{{1
@@ -63,6 +67,12 @@ function! s:source.complete(query)  " {{{2
   let all_list = ref#cache('pydoc', 'list',
   \                    printf('map(split(ref#system(%s).stdout, "\n"), %s)',
   \                           string(cmd), string(mapexpr)))
+
+  if g:ref_pydoc_complete_head
+    let q = a:query == '' || a:query =~ '\s$' ? '' : split(a:query)[-1]
+    let all_list = s:head(all_list, q)
+  endif
+
   let list = filter(copy(all_list), 'v:val =~ "^\\V" . a:query')
   if !empty(list)
     return list
@@ -222,6 +232,24 @@ endfunction
 function! s:to_a(expr)  " {{{2
   return type(a:expr) == type('') ? split(a:expr, '\s\+') :
   \      type(a:expr) != type([]) ? [a:expr] : a:expr
+endfunction
+
+
+
+function! s:head(list, query)  " {{{2
+  let pat = '^\V' . a:query . '\v\w*(\.)?\zs.*$'
+  return s:uniq(map(filter(copy(a:list), 'v:val =~# pat'),
+  \             'substitute(v:val, pat, "", "")'))
+endfunction
+
+
+
+function! s:uniq(list)  "{{{2
+  let d = {}
+  for i in a:list
+    let d[i] = 0
+  endfor
+  return sort(keys(d))
 endfunction
 
 
