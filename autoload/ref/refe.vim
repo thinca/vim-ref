@@ -160,7 +160,10 @@ function! s:source.get_keyword()  " {{{2
         let res = ref#system(s:to_a(g:ref_refe_rsense_cmd) +
         \ ['type-inference', '--file=' . file,
         \ printf('--location=%s:%s', line('.'), col)])
-        let type = matchstr(res.stdout, '^type: \zs<\?\S\+>\?\ze\n')
+        let type = matchstr(res.stdout, '^type: \zs\S\+\ze\n')
+        if type =~ '^<.\+>$'
+          let type = matchstr(type, '^<\zs.\+\ze>$')
+        endif
         if type != ''
           return type
         endif
