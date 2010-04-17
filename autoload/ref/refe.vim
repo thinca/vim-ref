@@ -97,7 +97,9 @@ endfunction
 
 
 function! s:source.get_keyword()  " {{{2
+  let id = '\v\w+[!?]?'
   let pos = getpos('.')[1:]
+
   if &l:filetype ==# 'ref'
     let [type, name] = s:detect_type()
 
@@ -154,17 +156,30 @@ function! s:source.get_keyword()  " {{{2
       let ve = &virtualedit
       set virtualedit+=onemore
       try
-        call search('\>', 'cW')  " Move to the end of keyword.
+        let is_call = 0
+        if search('\.\_s*\w*\%#[[:alnum:]_!?]', 'cbW')  " Is method call?
+          let is_call = 1
+        else
+          call search('\>', 'cW')  " Move to the end of keyword.
+        endif
+
         " To use the column of character base.
         let col = len(substitute(getline('.')[: col('.') - 2], '.', '.', 'g'))
         let res = ref#system(s:to_a(g:ref_refe_rsense_cmd) +
         \ ['type-inference', '--file=' . file,
         \ printf('--location=%s:%s', line('.'), col)])
         let type = matchstr(res.stdout, '^type: \zs\S\+\ze\n')
-        if type =~ '^<.\+>$'
+        let is_class = type =~ '^<.\+>$'
+        if is_class
           let type = matchstr(type, '^<\zs.\+\ze>$')
         endif
+
         if type != ''
+          if is_call
+            call setpos('.', pos)
+            let type .= (is_class ? '.' : '#') . s:get_word_on_cursor(id)
+          endif
+
           return type
         endif
 
@@ -183,7 +198,6 @@ function! s:source.get_keyword()  " {{{2
   if kwd != ''
     return kwd
   endif
-  let id = '\w+[!?]?'
   return s:get_word_on_cursor(class . '%([#.]' . id . ')?|' . id)
 endfunction
 
