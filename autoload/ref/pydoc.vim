@@ -9,13 +9,14 @@ set cpo&vim
 
 
 
-if !exists('g:ref_pydoc_cmd')
+" options. {{{1
+if !exists('g:ref_pydoc_cmd')  " {{{2
   let g:ref_pydoc_cmd = executable('pydoc') ? 'pydoc' : ''
 endif
 
 
 
-let s:source = {'name': 'pydoc'}
+let s:source = {'name': 'pydoc'}  " {{{1
 
 function! s:source.available()  " {{{2
   return len(g:ref_pydoc_cmd)
@@ -149,12 +150,14 @@ endfunction
 
 
 
-function! s:source.leave()
+function! s:source.leave()  " {{{2
   syntax clear
   unlet! b:current_syntax
 endfunction
 
 
+
+" functions {{{1
 
 " Get informations of current document.
 " [type, name, scope]
@@ -185,7 +188,7 @@ endfunction
 
 
 
-function! s:syntax(type)
+function! s:syntax(type)  " {{{2
   if exists('b:current_syntax') && b:current_syntax == 'ref-pydoc'
     " return
   endif
@@ -216,7 +219,7 @@ endfunction
 
 
 
-function! s:to_a(expr)
+function! s:to_a(expr)  " {{{2
   return type(a:expr) == type('') ? split(a:expr, '\s\+') :
   \      type(a:expr) != type([]) ? [a:expr] : a:expr
 endfunction
