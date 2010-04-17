@@ -36,6 +36,11 @@ g:ref_pydoc_cmd					*g:ref_pydoc_cmd*
 			デフォルト値は、実行可能ならば "pydoc" です。そうでな
 			ければ "" です。
 
+g:ref_pydoc_complete_head			*g:ref_pydoc_complete_head*
+			モジュールを補完する際にモジュール名単位で候補を表示し
+			ます。
+			デフォルト値は 0 です。
+
 
 
 ==============================================================================
@@ -51,6 +56,7 @@ g:ref_pydoc_cmd					*g:ref_pydoc_cmd*
 
 x.x.x	xxxx-xx-xx
 	- |ref| 0.3.0 に対応。
+	- |g:ref_pydoc_complete_head| オプションを追加。
 
 0.2.0	2010-01-28
 	- |g:ref_perldoc_cmd| が |List| だと動作しないバグを修正。

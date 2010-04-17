@@ -36,6 +36,11 @@ g:ref_pydoc_cmd					*g:ref_pydoc_cmd*
 			The default value is "pydoc" if it is executable.
 			Otherwise, it is "".
 
+g:ref_pydoc_complete_head			*g:ref_pydoc_complete_head*
+			The completion candidate of the module is displayed by
+			each module name.
+			The default value is 0.
+
 
 
 ==============================================================================
@@ -52,6 +57,7 @@ CHANGELOG					*ref-pydoc-changelog*
 
 x.x.x	xxxx-xx-xx
 	- Updated for |ref| 0.3.0.
+	- Added |g:ref_pydoc_complete_head| option.
 
 0.2.0	2010-01-28
 	- Fixed a bug that doesn't work when |g:ref_pydoc_cmd| is a |List|.
