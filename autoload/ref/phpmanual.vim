@@ -7,11 +7,12 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-if !exists('g:ref_phpmanual_path')
+" config. {{{1
+if !exists('g:ref_phpmanual_path')  " {{{2
   let g:ref_phpmanual_path = ''
 endif
 
-if !exists('g:ref_phpmanual_cmd')
+if !exists('g:ref_phpmanual_cmd')  " {{{2
   let g:ref_phpmanual_cmd =
   \ executable('elinks') ? 'elinks -dump -no-numbering -no-references %s' :
   \ executable('w3m')    ? 'w3m -dump %s' :
@@ -22,7 +23,7 @@ endif
 
 
 
-let s:source = {'name': 'phpmanual'}
+let s:source = {'name': 'phpmanual'}  " {{{1
 
 function! s:source.available()  " {{{2
   return isdirectory(g:ref_phpmanual_path) &&
@@ -110,6 +111,7 @@ endfunction
 
 
 
+" functions. {{{1
 function! s:syntax()  " {{{2
   if exists('b:current_syntax') && b:current_syntax == 'ref-phpmanual'
     return
@@ -167,7 +169,7 @@ endfunction
 
 
 
-function! s:cache(kind)
+function! s:cache(kind)  " {{{2
   return ref#cache('phpmanual', a:kind, s:func('gather_func'))
 endfunction
 
