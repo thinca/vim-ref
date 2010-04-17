@@ -1,6 +1,6 @@
 *ref-pydoc.txt*	A ref source for pydoc.
 
-Version: 0.2.0
+Version: 0.3.0
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -55,7 +55,7 @@ BUGS						*ref-pydoc-bugs*
 ==============================================================================
 CHANGELOG					*ref-pydoc-changelog*
 
-x.x.x	xxxx-xx-xx
+0.3.0	2010-04-18
 	- Updated for |ref| 0.3.0.
 	- Added |g:ref_pydoc_complete_head| option.
 
