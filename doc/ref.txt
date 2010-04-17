@@ -284,7 +284,7 @@ TODO						*ref-todo*
 ==============================================================================
 CHANGELOG					*ref-changelog*
 
-0.3.0	xxxx-xx-xx
+0.3.0	2010-04-18
 	- Changed the specification of |ref-sources|.
 	  - It has no compatibility with any previous versions.
 	- Changed returns value of |ref#system()|.
