@@ -423,7 +423,7 @@ function! s:open(query, open_cmd)  " {{{2
     " In Windows, '*' cannot be used for a buffer name.
     let bufname = substitute(bufname, '\*', '', 'g')
   endif
-  noautocmd silent! file `=bufname`
+  silent! file `=bufname`
 
   execute a:open_cmd
 
