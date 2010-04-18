@@ -272,7 +272,6 @@ TODO						*ref-todo*
 - Append sources.
   - href
   - javadoc
-  - refe2
   - etc...
 - More customizable.
 - Global command line options.
