@@ -209,9 +209,8 @@ g:ref_use_vimproc				*g:ref_use_vimproc*
 	|vimproc#system()| が存在する場合は真、そうでない場合は偽です。
 
 g:ref_detect_filetype				*g:ref_detect_filetype*
-			|filetype| からソースを検出するための |Dictionary| を
-			指定します。
-			いくつかのソースはロード時にエントリを登録します。
+	|filetype| からソースを検出するための |Dictionary| を指定します。いく
+	つかのソースはロード時にエントリを登録します。
 
 
 

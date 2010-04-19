@@ -212,9 +212,8 @@ g:ref_use_vimproc				*g:ref_use_vimproc*
 	exists, the default value is true, and otherwise false.
 
 g:ref_detect_filetype				*g:ref_detect_filetype*
-			Specifies the |Dictionary| to detect the using source
-			from |filetype|.
-			Some sources register the appropriate entry on loaded.
+	Specifies the |Dictionary| to detect the using source from |filetype|.
+	Some sources register the appropriate entry on loaded.
 
 
 
