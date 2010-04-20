@@ -200,8 +200,8 @@ g:ref_open					*g:ref_open*
 	|:tabnew|などを指定します。デフォルト値は "split" です。
 
 g:ref_cache_dir					*g:ref_cache_dir*
-	補完のキャッシュを保持しておくためのディレクトリです。|ref#cache()| は
-	この値を参照してキャッシュファイルを生成します。。デフォルト値は
+	キャッシュを保持しておくためのディレクトリです。|ref#cache()| はこの値
+	を参照してキャッシュファイルを生成します。。デフォルト値は
 	"~/.vim_ref_cache" です。~ はホームディレクトリを表します。
 
 g:ref_use_vimproc				*g:ref_use_vimproc*
