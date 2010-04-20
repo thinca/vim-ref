@@ -229,11 +229,24 @@ endfunction
 
 function! ref#detect()
   if exists('b:ref_source')
-    return b:ref_source
+    let Source = b:ref_source
   elseif exists('g:ref_detect_filetype[&l:filetype]')
-    return g:ref_detect_filetype[&l:filetype]
+    let Source = g:ref_detect_filetype[&l:filetype]
   elseif exists('g:ref_detect_filetype._')
-    return g:ref_detect_filetype._
+    let Source = g:ref_detect_filetype._
+  else
+    let Source = ''
+  endif
+
+  if type(Source) == s:TYPES.function
+    " For dictionary function.
+    let s = call(Source, [&l:filetype], g:ref_detect_filetype)
+    unlet Source
+    let Source = s
+  endif
+
+  if type(Source) == s:TYPES.string && Source != ''
+    return Source
   endif
   throw 'ref: Can not detect the source.'
 endfunction

@@ -210,9 +210,10 @@ g:ref_use_vimproc				*g:ref_use_vimproc*
 
 g:ref_detect_filetype				*g:ref_detect_filetype*
 	|filetype| からソースを検出するための |Dictionary| を指定します。キー
-	にファイルタイプ、値にソース名を指定します。キーに _ を使うと、検出で
-	きなかった場合に使用されます。いくつかのソースはロード時にエントリを登
-	録します。
+	にファイルタイプ、値にソース名または |Funcref| を指定します。|Funcref|
+	の場合、その関数はファイルタイプを引数にとりソース名を返します。検出で
+	きない場合は空文字列を返します。キーに _ を使うと、検出できなかった場
+	合に使用されます。いくつかのソースはロード時にエントリを登録します。
 
 
 
@@ -267,6 +268,7 @@ leave()					*ref-source-attr-leave()*
 
 x.x.x	xxxx-xx-xx
 	- |g:ref_detect_filetype| が特殊なキー _ を受け付けるようにした。
+	- |g:ref_detect_filetype| が |Funcref| を受け付けるようにした。
 
 0.3.0	2010-04-18
 	- |ref-sources| の仕様を変更。

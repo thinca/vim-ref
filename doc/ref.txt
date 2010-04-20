@@ -212,7 +212,9 @@ g:ref_use_vimproc				*g:ref_use_vimproc*
 
 g:ref_detect_filetype				*g:ref_detect_filetype*
 	Specifies the |Dictionary| to detect the using source from |filetype|.
-	The key is a filetype, and the value is a source name.  If _ key
+	The key is a filetype, and the value is a source name or a |Funcref|.
+	If the value is |Funcref|, it take a filetype as argument and return
+	the source name.  If it can not detect, return empty string.  If _ key
 	exists, it is used when it is not possible to detect.  Some sources
 	register the appropriate entry on loaded.
 
@@ -285,6 +287,7 @@ CHANGELOG					*ref-changelog*
 
 x.x.x	xxxx-xx-xx
 	- |g:ref_detect_filetype| accepts a special key _.
+	- |g:ref_detect_filetype| accepts |Funcref|.
 
 0.3.0	2010-04-18
 	- Changed the specification of |ref-sources|.
