@@ -221,9 +221,10 @@ function! s:detect_type()  " {{{2
     if m != ''
       return ['class', m]
     endif
-    let m = matchstr(l2, '^---s\+\zs\w\+')
-    if m != ''
-      return ['method', m]
+
+    " include man.*
+    if l2 =~ '^\%(---\|:\|=\)'
+      return ['method', l1]
     endif
 
   else
