@@ -1,6 +1,6 @@
 *ref.txt*	総合リファレンスビューア。
 
-Version: 0.3.0
+Version: 0.3.1
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -266,7 +266,7 @@ leave()					*ref-source-attr-leave()*
 ==============================================================================
 更新履歴					*ref-changelog*
 
-x.x.x	xxxx-xx-xx
+0.3.1	2010-04-22
 	- |g:ref_detect_filetype| が特殊なキー _ を受け付けるようにした。
 	- |g:ref_detect_filetype| が |Funcref| を受け付けるようにした。
 
