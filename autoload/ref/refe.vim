@@ -1,5 +1,5 @@
 " A ref source for ReFe.
-" Version: 0.3.0
+" Version: 0.3.1
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -221,9 +221,10 @@ function! s:detect_type()  " {{{2
     if m != ''
       return ['class', m]
     endif
-    let m = matchstr(l2, '^---s\+\zs\w\+')
-    if m != ''
-      return ['method', m]
+
+    " include man.*
+    if l2 =~ '^\%(---\|:\|=\)'
+      return ['method', l1]
     endif
 
   else
