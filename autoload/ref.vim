@@ -41,6 +41,9 @@ endfunction
 function! s:prototype.complete(query)
   return []
 endfunction
+function! s:prototype.normalize(query)
+  return a:query
+endfunction
 function! s:prototype.leave()
 endfunction
 
@@ -84,6 +87,7 @@ function! ref#register(source)  " {{{2
   call s:validate(source, 'opened', 'function')
   call s:validate(source, 'get_keyword', 'function')
   call s:validate(source, 'complete', 'function')
+  call s:validate(source, 'normalize', 'function')
   call s:validate(source, 'leave', 'function')
   let s:sources[source.name] = source
 endfunction
@@ -112,8 +116,9 @@ function! ref#open(source, query, ...)  " {{{2
     throw 'ref: This source is unavailable: ' . a:source
   endif
 
+  let query = source.normalize(a:query)
   try
-    let res = source.get_body(a:query)
+    let res = source.get_body(query)
   catch
     call s:echoerr(v:exception)
     return
@@ -155,7 +160,7 @@ function! ref#open(source, query, ...)  " {{{2
 
   " FIXME: not cool...
   let s:res = res
-  call s:open(a:query, 'silent :1 put = s:res | 1 delete _')
+  call s:open(query, 'silent :1 put = s:res | 1 delete _')
   unlet! s:res
 
   let b:ref_history_pos += 1
@@ -163,7 +168,7 @@ function! ref#open(source, query, ...)  " {{{2
   if 0 < b:ref_history_pos
     let b:ref_history[-1][3] = pos
   endif
-  call add(b:ref_history, [a:source, a:query, changenr(), []])
+  call add(b:ref_history, [a:source, query, changenr(), []])
 endfunction
 
 

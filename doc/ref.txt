@@ -265,6 +265,10 @@ get_keyword()				*ref-source-attr-get_keyword()*
 complete({query})			*ref-source-attr-complete()*
 			Optional.  Return the completion list for command-line.
 
+normalize({query})			*ref-source-attr-normalize()*
+			Optional.  Normalize the {query}.  It is used for
+			buffer name, and passed to get_body() and opened().
+
 leave()					*ref-source-attr-leave()*
 			Optional.  This function is called when move to other
 			source page.
@@ -297,6 +301,7 @@ CHANGELOG					*ref-changelog*
 x.x.x	xxxx-xx-xx
 	- Added |ref#uniq()|.
 	- Added |ref#get_text_on_cursor()|.
+	- Added |ref-source-attr-normalize()|.
 
 0.3.1	2010-04-22
 	- |g:ref_detect_filetype| accepts a special key _.

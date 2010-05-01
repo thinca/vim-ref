@@ -261,6 +261,10 @@ get_keyword()				*ref-source-attr-get_keyword()*
 complete({query})			*ref-source-attr-complete()*
 			任意。コマンドラインの補完リストを返します。
 
+normalize({query})			*ref-source-attr-normalize()*
+			任意。{query} を正規化します。これはバッファ名として使
+			われ、そして get_body() と opened() に渡されます。
+
 leave()					*ref-source-attr-leave()*
 			任意。この関数は別のソースに移動する際に呼ばれます。
 
@@ -278,6 +282,7 @@ leave()					*ref-source-attr-leave()*
 x.x.x	xxxx-xx-xx
 	- |ref#uniq()| を追加。
 	- |ref#get_text_on_cursor()| を追加。
+	- |ref-source-attr-normalize()| を追加。
 
 0.3.1	2010-04-22
 	- |g:ref_detect_filetype| が特殊なキー _ を受け付けるようにした。
