@@ -128,6 +128,10 @@ ref#system({expr} [, {input}])			*ref#system()*
 			に |vimproc#system()| を使用します。
 			vimproc: http://github.com/Shougo/vimproc
 
+ref#uniq({list})				*ref#uniq()*
+			重複した項目を取り除いた新しいリストを返します。結果
+			は|sort()| でソートされます。
+
 
 ------------------------------------------------------------------------------
 コマンド					*ref-commands*
@@ -265,6 +269,9 @@ leave()					*ref-source-attr-leave()*
 
 ==============================================================================
 更新履歴					*ref-changelog*
+
+x.x.x	xxxx-xx-xx
+	- |ref#uniq()| を追加。
 
 0.3.1	2010-04-22
 	- |g:ref_detect_filetype| が特殊なキー _ を受け付けるようにした。

@@ -131,6 +131,10 @@ ref#system({expr} [, {input}])			*ref#system()*
 			|g:ref_use_vimproc| is true.
 			vimproc: http://github.com/Shougo/vimproc
 
+ref#uniq({list})				*ref#uniq()*
+			Return new list that omitted repeated items.  The
+			result is sorted by |sort()|.
+
 
 ------------------------------------------------------------------------------
 COMMANDS					*ref-commands*
@@ -284,6 +288,9 @@ TODO						*ref-todo*
 
 ==============================================================================
 CHANGELOG					*ref-changelog*
+
+x.x.x	xxxx-xx-xx
+	- Added |ref#uniq()|.
 
 0.3.1	2010-04-22
 	- |g:ref_detect_filetype| accepts a special key _.

@@ -395,6 +395,16 @@ endfunction
 
 
 
+function! ref#uniq(list)  " {{{2
+  let d = {}
+  for i in a:list
+    let d[i] = 0
+  endfor
+  return sort(keys(d))
+endfunction
+
+
+
 
 
 
@@ -527,16 +537,6 @@ function! s:echoerr(msg)  " {{{2
   echohl ErrorMsg
   echomsg a:msg
   echohl None
-endfunction
-
-
-
-function! s:uniq(list)  " {{{2
-  let d = {}
-  for i in a:list
-    let d[i] = 0
-  endfor
-  return sort(keys(d))
 endfunction
 
 
