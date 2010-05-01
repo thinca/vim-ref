@@ -132,6 +132,11 @@ ref#uniq({list})				*ref#uniq()*
 			重複した項目を取り除いた新しいリストを返します。結果
 			は|sort()| でソートされます。
 
+ref#get_text_on_cursor({pattern})		*ref#get_text_on_cursor()*
+			カーソル下のテキストが指定したパターンである場合、その
+			テキストを取得します。パターンにマッチしない場合は空文
+			字列を返します。
+
 
 ------------------------------------------------------------------------------
 コマンド					*ref-commands*
@@ -272,6 +277,7 @@ leave()					*ref-source-attr-leave()*
 
 x.x.x	xxxx-xx-xx
 	- |ref#uniq()| を追加。
+	- |ref#get_text_on_cursor()| を追加。
 
 0.3.1	2010-04-22
 	- |g:ref_detect_filetype| が特殊なキー _ を受け付けるようにした。

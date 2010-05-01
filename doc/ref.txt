@@ -135,6 +135,11 @@ ref#uniq({list})				*ref#uniq()*
 			Return new list that omitted repeated items.  The
 			result is sorted by |sort()|.
 
+ref#get_text_on_cursor({pattern})		*ref#get_text_on_cursor()*
+			When the text under the cursor is a specified pattern,
+			the text is acquired. The empty string is returned
+			when not matching it to the pattern.
+
 
 ------------------------------------------------------------------------------
 COMMANDS					*ref-commands*
@@ -291,6 +296,7 @@ CHANGELOG					*ref-changelog*
 
 x.x.x	xxxx-xx-xx
 	- Added |ref#uniq()|.
+	- Added |ref#get_text_on_cursor()|.
 
 0.3.1	2010-04-22
 	- |g:ref_detect_filetype| accepts a special key _.
