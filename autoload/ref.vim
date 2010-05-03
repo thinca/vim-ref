@@ -153,6 +153,7 @@ function! ref#open(source, query, ...)  " {{{2
     setlocal modifiable noreadonly
     % delete _
     if b:ref_source != a:source
+      syntax clear
       call source.leave()
     endif
   endif
