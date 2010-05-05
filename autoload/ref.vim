@@ -64,13 +64,17 @@ endfunction
 
 
 function! ref#complete(lead, cmd, pos)  " {{{2
-  let list = matchlist(a:cmd, '^\v.{-}R%[ef]\s+(\w+)\s+(.*)$')
-  if list == []
+  let cmd = a:cmd[: a:pos]
+  try
+    let parsed = s:parse_args(matchstr(cmd, '^\v.{-}R%[ef]\s+\zs.*$'))
+  catch
+    return []
+  endtry
+  if parsed.source == '' || (parsed.query == '' && cmd =~ '\S$')
     let s = keys(filter(copy(ref#available_sources()), 'v:val.available()'))
     return filter(s, 'v:val =~ "^".a:lead')
   endif
-  let [source, query] = list[1 : 2]
-  return get(s:sources, source, s:prototype).complete(query)
+  return get(s:sources, parsed.source, s:prototype).complete(parsed.query)
 endfunction
 
 
