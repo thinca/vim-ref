@@ -490,7 +490,7 @@ function! s:parse_args(argline)  " {{{2
   let rest = a:argline
   try
     while rest =~ '\S'
-      let [word, rest] = matchlist(rest, '\v^(-?\w*%(\=\S+)?)\s*(.*)$')[1 : 2]
+      let [word, rest] = matchlist(rest, '\v^(-?\w*%(\=\S*)?)\s*(.*)$')[1 : 2]
       if word =~# '^-'
         let [word, value] = matchlist(word, '\v^-(\w+)%(\=(.*))?$')[1 : 2]
         let res.options[word] = value
