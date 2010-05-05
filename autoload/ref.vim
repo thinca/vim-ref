@@ -55,9 +55,14 @@ endfunction
 function! ref#ref(args)  " {{{2
   try
     let parsed = s:parse_args(a:args)
+    if has_key(parsed.options, 'nocache')
+      let s:nocache = 1
+    endif
     return ref#open(parsed.source, parsed.query)
   catch /^ref:/
     call s:echoerr(v:exception)
+  finally
+    unlet! s:nocache
   endtry
 endfunction
 
@@ -70,11 +75,18 @@ function! ref#complete(lead, cmd, pos)  " {{{2
   catch
     return []
   endtry
-  if parsed.source == '' || (parsed.query == '' && cmd =~ '\S$')
-    let s = keys(filter(copy(ref#available_sources()), 'v:val.available()'))
-    return filter(s, 'v:val =~ "^".a:lead')
-  endif
-  return get(s:sources, parsed.source, s:prototype).complete(parsed.query)
+  try
+    if has_key(parsed.options, 'nocache')
+      let s:nocache = 1
+    endif
+    if parsed.source == '' || (parsed.query == '' && cmd =~ '\S$')
+      let s = keys(filter(copy(ref#available_sources()), 'v:val.available()'))
+      return filter(s, 'v:val =~ "^".a:lead')
+    endif
+    return get(s:sources, parsed.source, s:prototype).complete(parsed.query)
+  finally
+    unlet! s:nocache
+  endtry
 endfunction
 
 
@@ -278,6 +290,10 @@ endfunction
 " Helper functions for source. {{{1
 let s:cache = {}
 function! ref#cache(source, name, gather)  " {{{2
+  if exists('s:nocache')
+    return s:gather_cache(a:name, a:gather)
+  endif
+
   if !exists('s:cache[a:source][a:name]')
     if !has_key(s:cache, a:source)
       let s:cache[a:source] = {}
@@ -294,20 +310,7 @@ function! ref#cache(source, name, gather)  " {{{2
     endif
 
     if !has_key(s:cache[a:source], a:name)
-      let cache =
-      \  type(a:gather) == s:TYPES.function ? a:gather(a:name) :
-      \  type(a:gather) == type({}) && has_key(a:gather, 'call')
-      \    && type(a:gather.call) == s:TYPES.function ?
-      \       a:gather.call(a:name) :
-      \  type(a:gather) == type('') ? eval(a:gather) : []
-
-      if type(cache) == s:TYPES.list
-        let s:cache[a:source][a:name] = cache
-      elseif type(cache) == s:TYPES.string
-        let s:cache[a:source][a:name] = split(cache, "\n")
-      else
-        throw 'ref: Invalid results of cache: ' . string(cache)
-      endif
+      let s:cache[a:source][a:name] = s:gather_cache(a:name, a:gather)
 
       if g:ref_cache_dir != ''
         let dir = fnamemodify(file, ':h')
@@ -486,6 +489,23 @@ function! s:parse_args(argline)  " {{{2
   endtry
 
   return res
+endfunction
+
+
+
+function! s:gather_cache(name, gather)  " {{{2
+  let cache =
+  \  type(a:gather) == s:TYPES.function ? a:gather(a:name) :
+  \  type(a:gather) == type({}) && has_key(a:gather, 'call')
+  \    && type(a:gather.call) == s:TYPES.function ?
+  \       a:gather.call(a:name) :
+  \  type(a:gather) == type('') ? eval(a:gather) : []
+  if type(cache) == s:TYPES.list
+    return cache
+  elseif type(cache) == s:TYPES.string
+    return split(cache, "\n")
+  endif
+  throw 'ref: Invalid results of cache: ' . string(cache)
 endfunction
 
 
