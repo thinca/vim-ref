@@ -159,14 +159,18 @@ function! ref#open(source, query, ...)  " {{{2
 
   let bufnr = 0
   if !exists('s:new')
-    for i in range(1, winnr('$'))
-      let n = winbufnr(i)
-      if getbufvar(n, '&filetype') == 'ref'
-        execute i 'wincmd w'
-        let bufnr = i
-        break
-      endif
-    endfor
+    if getbufvar('%', '&filetype') == 'ref'
+      let bufnr = bufnr('%')
+    else
+      for i in range(1, winnr('$'))
+        let n = winbufnr(i)
+        if getbufvar(n, '&filetype') == 'ref'
+          execute i 'wincmd w'
+          let bufnr = i
+          break
+        endif
+      endfor
+    endif
   endif
 
   if bufnr == 0
