@@ -55,13 +55,19 @@ endfunction
 function! ref#ref(args)  " {{{2
   try
     let parsed = s:parse_args(a:args)
-    if has_key(parsed.options, 'nocache')
+    if has_key(parsed.options, 'open')
+      let open = g:ref_open
+      let g:ref_open = parsed.options.open
+    elseif has_key(parsed.options, 'nocache')
       let s:nocache = 1
     endif
     return ref#open(parsed.source, parsed.query)
   catch /^ref:/
     call s:echoerr(v:exception)
   finally
+    if exists('open')
+      let g:ref_open = open
+    endif
     unlet! s:nocache
   endtry
 endfunction
