@@ -54,10 +54,8 @@ endfunction
 " A function for main command.
 function! ref#ref(args)  " {{{2
   try
-    let [source, query] = matchlist(a:args, '\v^(\w+)\s*(.*)$')[1:2]
-    return ref#open(source, query)
-  catch /^Vim(let):E688:/
-    call s:echoerr('ref: Invalid argument: ' . a:args)
+    let parsed = s:parse_args(a:args)
+    return ref#open(parsed.source, parsed.query)
   catch /^ref:/
     call s:echoerr(v:exception)
   endtry
@@ -463,6 +461,29 @@ function! s:initialize_buffer(source)  " {{{2
 
   command! -bar -buffer RefHistory call s:dump_history()
 endfunction
+
+
+
+function! s:parse_args(argline)  " {{{2
+  let res = {'source': '', 'query': '', 'options': {}}
+  let rest = a:argline
+  try
+    while rest =~ '\S'
+      let [word, rest] = matchlist(rest, '\v^(-?\w*%(\=\S+)?)\s*(.*)$')[1 : 2]
+      if word =~# '^-'
+        let [word, value] = matchlist(word, '\v^-(\w+)%(\=(.*))?$')[1 : 2]
+        let res.options[word] = value
+      else
+        let [res.source, res.query, rest] = [word, rest, '']
+      endif
+    endwhile
+  catch
+    throw 'ref: Invalid argument: ' . a:argline
+  endtry
+
+  return res
+endfunction
+
 
 
 function! s:open(query, open_cmd)  " {{{2
