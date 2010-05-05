@@ -145,9 +145,16 @@ ref#get_text_on_cursor({pattern})		*ref#get_text_on_cursor()*
 ------------------------------------------------------------------------------
 COMMANDS					*ref-commands*
 
-:Ref {source-name} [query]			*:Ref*
+:Ref [options] {source-name} [query]		*:Ref*
 			Open the |ref-viewer|.  [query] is used by
 			|ref-sources| as query.
+			This can specify the option before {source-name}.
+			Option is start with "-".  The following options can
+			be used.
+						*:Ref-option*
+			-open={command}	Overwrite the |g:ref_open|.
+			-new		Open the viewer forcely and newly.
+			-nocache	Don't use cache.
 
 :RefHistory					*:RefHistory*
 			List the history in |ref-viewer|.  It is possible to

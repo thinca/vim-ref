@@ -142,9 +142,16 @@ ref#get_text_on_cursor({pattern})		*ref#get_text_on_cursor()*
 ------------------------------------------------------------------------------
 コマンド					*ref-commands*
 
-:Ref {source-name} [query]			*:Ref*
+:Ref [options] {source-name} [query]		*:Ref*
 			|ref-viewer| を開きます。 [query] は |ref-sources| の
 			クエリに使われます。
+			{source-name} の前にオプションを指定できます。
+			オプションは "-" で始まります。以下のオプションが使用
+			できます。
+						*:Ref-option*
+			-open={command}	|g:ref_open| を上書きします。
+			-new		強制的に新しくビューアを開きます。
+			-nocache	キャッシュを使いません。
 
 :RefHistory					*:RefHistory*
 			|ref-viewer| の履歴をリスト表示します。数字を入力する
