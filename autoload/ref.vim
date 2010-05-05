@@ -58,6 +58,8 @@ function! ref#ref(args)  " {{{2
     if has_key(parsed.options, 'open')
       let open = g:ref_open
       let g:ref_open = parsed.options.open
+    elseif has_key(parsed.options, 'new')
+      let s:new = 1
     elseif has_key(parsed.options, 'nocache')
       let s:nocache = 1
     endif
@@ -68,7 +70,7 @@ function! ref#ref(args)  " {{{2
     if exists('open')
       let g:ref_open = open
     endif
-    unlet! s:nocache
+    unlet! s:new s:nocache
   endtry
 endfunction
 
@@ -156,14 +158,16 @@ function! ref#open(source, query, ...)  " {{{2
   let pos = getpos('.')
 
   let bufnr = 0
-  for i in range(1, winnr('$'))
-    let n = winbufnr(i)
-    if getbufvar(n, '&filetype') == 'ref'
-      execute i 'wincmd w'
-      let bufnr = i
-      break
-    endif
-  endfo
+  if !exists('s:new')
+    for i in range(1, winnr('$'))
+      let n = winbufnr(i)
+      if getbufvar(n, '&filetype') == 'ref'
+        execute i 'wincmd w'
+        let bufnr = i
+        break
+      endif
+    endfor
+  endif
 
   if bufnr == 0
     silent! execute (a:0 ? a:1 : g:ref_open)
