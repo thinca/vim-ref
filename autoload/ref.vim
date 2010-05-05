@@ -58,9 +58,11 @@ function! ref#ref(args)  " {{{2
     if has_key(parsed.options, 'open')
       let open = g:ref_open
       let g:ref_open = parsed.options.open
-    elseif has_key(parsed.options, 'new')
+    endif
+    if has_key(parsed.options, 'new')
       let s:new = 1
-    elseif has_key(parsed.options, 'nocache')
+    endif
+    if has_key(parsed.options, 'nocache')
       let s:nocache = 1
     endif
     return ref#open(parsed.source, parsed.query)
