@@ -310,6 +310,7 @@ x.x.x	xxxx-xx-xx
 	- Added |ref#uniq()|.
 	- Added |ref#get_text_on_cursor()|.
 	- Added |ref-source-attr-normalize()|.
+	- The option is able to be specified for Ref. (|:Ref-option|)
 
 0.3.1	2010-04-22
 	- |g:ref_detect_filetype| accepts a special key _.
