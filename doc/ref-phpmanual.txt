@@ -20,7 +20,7 @@ INTRODUCTION					*ref-phpmanual-introduction*
 
 
 Requirements:
-- |ref| 0.3.0 or later
+- |ref| 0.3.2 or later
 - PHP Manual (Many HTML files) (http://php.benscom.com/download-docs.php)
 
 
