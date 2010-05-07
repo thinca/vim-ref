@@ -114,6 +114,7 @@ function! ref#register(source)  " {{{2
   endif
   let source = extend(copy(s:prototype), a:source)
   call s:validate(source, 'name', 'string')
+  call s:validate(source, 'available', 'function')
   call s:validate(source, 'get_body', 'function')
   call s:validate(source, 'opened', 'function')
   call s:validate(source, 'get_keyword', 'function')
