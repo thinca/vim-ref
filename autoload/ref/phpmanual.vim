@@ -104,13 +104,6 @@ endfunction
 
 
 
-function! s:source.leave()  " {{{2
-  syntax clear
-  unlet! b:current_syntax
-endfunction
-
-
-
 " functions. {{{1
 function! s:syntax()  " {{{2
   if exists('b:current_syntax') && b:current_syntax == 'ref-phpmanual'
