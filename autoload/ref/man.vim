@@ -107,14 +107,6 @@ endfunction
 
 
 
-
-function! s:source.leave()  " {{{2
-  syntax clear
-  unlet! b:current_syntax
-endfunction
-
-
-
 function! s:uniq(list)  " {{{2
   let d = {}
   for i in a:list
