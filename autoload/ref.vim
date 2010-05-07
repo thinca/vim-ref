@@ -30,6 +30,8 @@ let s:TYPES = {
 \     'float': type(0.0),
 \   }
 
+let s:options = ['open=', 'new', 'nocache']
+
 let s:sources = {}
 
 let s:prototype = {}  " {{{1
@@ -54,25 +56,54 @@ endfunction
 " A function for main command.
 function! ref#ref(args)  " {{{2
   try
-    let [source, query] = matchlist(a:args, '\v^(\w+)\s*(.*)$')[1:2]
-    return ref#open(source, query)
-  catch /^Vim(let):E688:/
-    call s:echoerr('ref: Invalid argument: ' . a:args)
+    let parsed = s:parse_args(a:args)
+    if has_key(parsed.options, 'open')
+      let open = g:ref_open
+      let g:ref_open = parsed.options.open
+    endif
+    if has_key(parsed.options, 'new')
+      let s:new = 1
+    endif
+    if has_key(parsed.options, 'nocache')
+      let s:nocache = 1
+    endif
+    return ref#open(parsed.source, parsed.query)
   catch /^ref:/
     call s:echoerr(v:exception)
+  finally
+    if exists('open')
+      let g:ref_open = open
+    endif
+    unlet! s:new s:nocache
   endtry
 endfunction
 
 
 
 function! ref#complete(lead, cmd, pos)  " {{{2
-  let list = matchlist(a:cmd, '^\v.{-}R%[ef]\s+(\w+)\s+(.*)$')
-  if list == []
-    let s = keys(filter(copy(ref#available_sources()), 'v:val.available()'))
-    return filter(s, 'v:val =~ "^".a:lead')
-  endif
-  let [source, query] = list[1 : 2]
-  return get(s:sources, source, s:prototype).complete(query)
+  let cmd = a:cmd[: a:pos]
+  try
+    let parsed = s:parse_args(matchstr(cmd, '^\v.{-}R%[ef]\s+\zs.*$'))
+  catch
+    return []
+  endtry
+  try
+    if has_key(parsed.options, 'nocache')
+      let s:nocache = 1
+    endif
+    if parsed.source == '' || (parsed.query == '' && cmd =~ '\S$')
+      let lead = matchstr(cmd, '-\w*$')
+      if lead != ''
+        return filter(map(copy(s:options), '"-" . v:val'),
+        \      '!has_key(parsed.options, v:val[1 :]) && v:val =~ "^" . lead')
+      endif
+      let s = keys(filter(copy(ref#available_sources()), 'v:val.available()'))
+      return filter(s, 'v:val =~ "^".a:lead')
+    endif
+    return get(s:sources, parsed.source, s:prototype).complete(parsed.query)
+  finally
+    unlet! s:nocache
+  endtry
 endfunction
 
 
@@ -136,14 +167,20 @@ function! ref#open(source, query, ...)  " {{{2
   let pos = getpos('.')
 
   let bufnr = 0
-  for i in range(1, winnr('$'))
-    let n = winbufnr(i)
-    if getbufvar(n, '&filetype') == 'ref'
-      execute i 'wincmd w'
-      let bufnr = i
-      break
+  if !exists('s:new')
+    if getbufvar('%', '&filetype') == 'ref'
+      let bufnr = bufnr('%')
+    else
+      for i in range(1, winnr('$'))
+        let n = winbufnr(i)
+        if getbufvar(n, '&filetype') == 'ref'
+          execute i 'wincmd w'
+          let bufnr = i
+          break
+        endif
+      endfor
     endif
-  endfo
+  endif
 
   if bufnr == 0
     silent! execute (a:0 ? a:1 : g:ref_open)
@@ -276,6 +313,10 @@ endfunction
 " Helper functions for source. {{{1
 let s:cache = {}
 function! ref#cache(source, name, gather)  " {{{2
+  if exists('s:nocache')
+    return s:gather_cache(a:name, a:gather)
+  endif
+
   if !exists('s:cache[a:source][a:name]')
     if !has_key(s:cache, a:source)
       let s:cache[a:source] = {}
@@ -292,20 +333,7 @@ function! ref#cache(source, name, gather)  " {{{2
     endif
 
     if !has_key(s:cache[a:source], a:name)
-      let cache =
-      \  type(a:gather) == s:TYPES.function ? a:gather(a:name) :
-      \  type(a:gather) == type({}) && has_key(a:gather, 'call')
-      \    && type(a:gather.call) == s:TYPES.function ?
-      \       a:gather.call(a:name) :
-      \  type(a:gather) == type('') ? eval(a:gather) : []
-
-      if type(cache) == s:TYPES.list
-        let s:cache[a:source][a:name] = cache
-      elseif type(cache) == s:TYPES.string
-        let s:cache[a:source][a:name] = split(cache, "\n")
-      else
-        throw 'ref: Invalid results of cache: ' . string(cache)
-      endif
+      let s:cache[a:source][a:name] = s:gather_cache(a:name, a:gather)
 
       if g:ref_cache_dir != ''
         let dir = fnamemodify(file, ':h')
@@ -463,6 +491,48 @@ function! s:initialize_buffer(source)  " {{{2
 
   command! -bar -buffer RefHistory call s:dump_history()
 endfunction
+
+
+
+function! s:parse_args(argline)  " {{{2
+  let res = {'source': '', 'query': '', 'options': {}}
+  let rest = a:argline
+  try
+    while rest =~ '\S'
+      let [word, rest] = matchlist(rest, '\v^(-?\w*%(\=\S*)?)\s*(.*)$')[1 : 2]
+      if word =~# '^-'
+        let [word, value] = matchlist(word, '\v^-(\w*)%(\=(.*))?$')[1 : 2]
+        if word != ''
+          let res.options[word] = value
+        endif
+      else
+        let [res.source, res.query, rest] = [word, rest, '']
+      endif
+    endwhile
+  catch
+    throw 'ref: Invalid argument: ' . a:argline
+  endtry
+
+  return res
+endfunction
+
+
+
+function! s:gather_cache(name, gather)  " {{{2
+  let cache =
+  \  type(a:gather) == s:TYPES.function ? a:gather(a:name) :
+  \  type(a:gather) == type({}) && has_key(a:gather, 'call')
+  \    && type(a:gather.call) == s:TYPES.function ?
+  \       a:gather.call(a:name) :
+  \  type(a:gather) == type('') ? eval(a:gather) : []
+  if type(cache) == s:TYPES.list
+    return cache
+  elseif type(cache) == s:TYPES.string
+    return split(cache, "\n")
+  endif
+  throw 'ref: Invalid results of cache: ' . string(cache)
+endfunction
+
 
 
 function! s:open(query, open_cmd)  " {{{2
