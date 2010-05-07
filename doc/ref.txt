@@ -29,6 +29,7 @@ core of viewer and sources of reference.  As a result, various references can
 be viewed by the same interface.
 
 Following sources are included in this plugin:
+- alc		(|ref-alc.txt|)
 - man		(|ref-man.txt|)
 - perldoc	(|ref-perldoc.txt|)
 - phpmanual	(|ref-phpmanual.txt|)
@@ -131,13 +132,29 @@ ref#system({expr} [, {input}])			*ref#system()*
 			|g:ref_use_vimproc| is true.
 			vimproc: http://github.com/Shougo/vimproc
 
+ref#uniq({list})				*ref#uniq()*
+			Return new list that omitted repeated items.  The
+			result is sorted by |sort()|.
+
+ref#get_text_on_cursor({pattern})		*ref#get_text_on_cursor()*
+			When the text under the cursor is a specified pattern,
+			the text is acquired. The empty string is returned
+			when not matching it to the pattern.
+
 
 ------------------------------------------------------------------------------
 COMMANDS					*ref-commands*
 
-:Ref {source-name} [query]			*:Ref*
+:Ref [options] {source-name} [query]		*:Ref*
 			Open the |ref-viewer|.  [query] is used by
 			|ref-sources| as query.
+			This can specify the option before {source-name}.
+			Option is start with "-".  The following options can
+			be used.
+						*:Ref-option*
+			-open={command}	Overwrite the |g:ref_open|.
+			-new		Open the viewer forcely and newly.
+			-nocache	Don't use cache.
 
 :RefHistory					*:RefHistory*
 			List the history in |ref-viewer|.  It is possible to
@@ -256,6 +273,10 @@ get_keyword()				*ref-source-attr-get_keyword()*
 complete({query})			*ref-source-attr-complete()*
 			Optional.  Return the completion list for command-line.
 
+normalize({query})			*ref-source-attr-normalize()*
+			Optional.  Normalize the {query}.  It is used for
+			buffer name, and passed to get_body() and opened().
+
 leave()					*ref-source-attr-leave()*
 			Optional.  This function is called when move to other
 			source page.
@@ -284,6 +305,12 @@ TODO						*ref-todo*
 
 ==============================================================================
 CHANGELOG					*ref-changelog*
+
+x.x.x	xxxx-xx-xx
+	- Added |ref#uniq()|.
+	- Added |ref#get_text_on_cursor()|.
+	- Added |ref-source-attr-normalize()|.
+	- The option is able to be specified for Ref. (|:Ref-option|)
 
 0.3.1	2010-04-22
 	- |g:ref_detect_filetype| accepts a special key _.

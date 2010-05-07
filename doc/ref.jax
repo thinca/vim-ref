@@ -28,6 +28,7 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 ェースで複数のリファレンスを閲覧できます。
 
 このプラグインには以下のソースが含まれています:
+- alc		(|ref-alc.txt|)
 - man		(|ref-man.txt|)
 - perldoc	(|ref-perldoc.txt|)
 - phpmanual	(|ref-phpmanual.txt|)
@@ -128,13 +129,29 @@ ref#system({expr} [, {input}])			*ref#system()*
 			に |vimproc#system()| を使用します。
 			vimproc: http://github.com/Shougo/vimproc
 
+ref#uniq({list})				*ref#uniq()*
+			重複した項目を取り除いた新しいリストを返します。結果
+			は|sort()| でソートされます。
+
+ref#get_text_on_cursor({pattern})		*ref#get_text_on_cursor()*
+			カーソル下のテキストが指定したパターンである場合、その
+			テキストを取得します。パターンにマッチしない場合は空文
+			字列を返します。
+
 
 ------------------------------------------------------------------------------
 コマンド					*ref-commands*
 
-:Ref {source-name} [query]			*:Ref*
+:Ref [options] {source-name} [query]		*:Ref*
 			|ref-viewer| を開きます。 [query] は |ref-sources| の
 			クエリに使われます。
+			{source-name} の前にオプションを指定できます。
+			オプションは "-" で始まります。以下のオプションが使用
+			できます。
+						*:Ref-option*
+			-open={command}	|g:ref_open| を上書きします。
+			-new		強制的に新しくビューアを開きます。
+			-nocache	キャッシュを使いません。
 
 :RefHistory					*:RefHistory*
 			|ref-viewer| の履歴をリスト表示します。数字を入力する
@@ -252,6 +269,10 @@ get_keyword()				*ref-source-attr-get_keyword()*
 complete({query})			*ref-source-attr-complete()*
 			任意。コマンドラインの補完リストを返します。
 
+normalize({query})			*ref-source-attr-normalize()*
+			任意。{query} を正規化します。これはバッファ名として使
+			われ、そして get_body() と opened() に渡されます。
+
 leave()					*ref-source-attr-leave()*
 			任意。この関数は別のソースに移動する際に呼ばれます。
 
@@ -265,6 +286,12 @@ leave()					*ref-source-attr-leave()*
 
 ==============================================================================
 更新履歴					*ref-changelog*
+
+x.x.x	xxxx-xx-xx
+	- |ref#uniq()| を追加。
+	- |ref#get_text_on_cursor()| を追加。
+	- |ref-source-attr-normalize()| を追加。
+	- |:Ref| にオプションを指定できるようにした。(|:Ref-option|)
 
 0.3.1	2010-04-22
 	- |g:ref_detect_filetype| が特殊なキー _ を受け付けるようにした。
