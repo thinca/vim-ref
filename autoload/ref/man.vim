@@ -107,16 +107,6 @@ endfunction
 
 
 
-function! s:uniq(list)  " {{{2
-  let d = {}
-  for i in a:list
-    let d[i] = 0
-  endfor
-  return sort(keys(d))
-endfunction
-
-
-
 function! s:to_array(expr)  " {{{2
   return type(a:expr) != type([]) ? [a:expr] : a:expr
 endfunction
@@ -270,7 +260,7 @@ function! s:build_gathers()  " {{{2
       endfor
     endif
 
-    return s:uniq(list)
+    return ref#uniq(list)
   endfunction
 
   return map(range(10), 'extend({"sec": v:val}, d)')
