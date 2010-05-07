@@ -22,7 +22,7 @@ to view the reference manual of Ruby.
 
 
 Requirements:
-- |ref| 0.3.0 or later
+- |ref| 0.3.2 or later
 - ReFe (http://i.loveruby.net/en/projects/refe/)
 
 Optional:
