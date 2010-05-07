@@ -1,6 +1,6 @@
 *ref.txt*	総合リファレンスビューア。
 
-Version: 0.3.1
+Version: 0.3.2
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -287,7 +287,7 @@ leave()					*ref-source-attr-leave()*
 ==============================================================================
 更新履歴					*ref-changelog*
 
-x.x.x	xxxx-xx-xx
+0.3.2	2010-05-07
 	- |ref#uniq()| を追加。
 	- |ref#get_text_on_cursor()| を追加。
 	- |ref-source-attr-normalize()| を追加。
