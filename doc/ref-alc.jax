@@ -1,6 +1,6 @@
 *ref-alc.txt*	alc 用の ref ソース。
 
-Version: 0.2.0
+Version: 0.2.1
 Author : soh335 <sugarbabe335@gmail.com>
        : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
@@ -23,7 +23,7 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 (*) http://www.alc.co.jp/
 
 要件:
-- |ref| 0.3.0 以降
+- |ref| 0.3.2 以降
 
 
 
@@ -58,6 +58,9 @@ g:ref_alc_use_cache				*g:ref_alc_use_cache*
 
 ==============================================================================
 更新履歴					*ref-alc-changelog*
+
+0.2.1	2010-05-07
+	- |ref| 0.3.2 に対応。
 
 0.2.0	2010-04-12
 	- |ref| 0.3.0 に対応。

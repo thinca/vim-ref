@@ -1,5 +1,5 @@
 " A ref source for php manual.
-" Version: 0.3.0
+" Version: 0.3.1
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -100,13 +100,6 @@ function! s:source.get_keyword()  " {{{2
   let kwd = expand('<cword>')
   let &l:isk = isk
   return kwd
-endfunction
-
-
-
-function! s:source.leave()  " {{{2
-  syntax clear
-  unlet! b:current_syntax
 endfunction
 
 

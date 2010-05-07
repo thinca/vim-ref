@@ -1,6 +1,6 @@
 *ref-refe.txt*	A ref source for ReFe.
 
-Version: 0.3.0
+Version: 0.3.2
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -22,7 +22,7 @@ to view the reference manual of Ruby.
 
 
 Requirements:
-- |ref| 0.3.0 or later
+- |ref| 0.3.2 or later
 - ReFe (http://i.loveruby.net/en/projects/refe/)
 
 Optional:
@@ -67,6 +67,9 @@ BUGS						*ref-refe-bugs*
 
 ==============================================================================
 CHANGELOG					*ref-refe-changelog*
+
+0.3.2	2010-05-08
+	- Updated for |ref| 0.3.2.
 
 0.3.1	2010-04-21
 	- Fixed the collapses page of the method of refe1.

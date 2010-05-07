@@ -1,5 +1,5 @@
 " A ref source for ReFe.
-" Version: 0.3.1
+" Version: 0.3.2
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -120,7 +120,7 @@ function! s:source.get_keyword()  " {{{2
     endif
 
     if s:refe_version() == 2
-      let kwd = s:get_word_on_cursor('\[\[\zs.\{-}\ze\]\]')
+      let kwd = ref#get_text_on_cursor('\[\[\zs.\{-}\ze\]\]')
 
       if kwd != ''
         if kwd =~# '^man:'
@@ -177,7 +177,7 @@ function! s:source.get_keyword()  " {{{2
         if type != ''
           if is_call
             call setpos('.', pos)
-            let type .= (is_class ? '.' : '#') . s:get_word_on_cursor(id)
+            let type .= (is_class ? '.' : '#') . ref#get_text_on_cursor(id)
           endif
 
           return type
@@ -194,17 +194,11 @@ function! s:source.get_keyword()  " {{{2
   endif
 
   let class = '\v\u\w*%(::\u\w*)*'
-  let kwd = s:get_word_on_cursor(class)
+  let kwd = ref#get_text_on_cursor(class)
   if kwd != ''
     return kwd
   endif
-  return s:get_word_on_cursor(class . '%([#.]' . id . ')?|' . id)
-endfunction
-
-
-
-function! s:source.leave()  " {{{2
-  syntax clear
+  return ref#get_text_on_cursor(class . '%([#.]' . id . ')?|' . id)
 endfunction
 
 
@@ -324,24 +318,6 @@ function! s:syntax_refe2(type)  " {{{2
   highlight default link refRefeMethod Function
   highlight default link refRefeTitle Statement
   highlight default link refRefeAnnotation Special
-endfunction
-
-
-
-function! s:get_word_on_cursor(pat)  " {{{2
-  let line = getline('.')
-  let pos = col('.')
-  let s = 0
-  while s < pos
-    let [s, e] = [match(line, a:pat, s), matchend(line, a:pat, s)]
-    if s < 0
-      break
-    elseif s <= pos && pos <= e
-      return line[s : e - 1]
-    endif
-    let s += 1
-  endwhile
-  return ''
 endfunction
 
 

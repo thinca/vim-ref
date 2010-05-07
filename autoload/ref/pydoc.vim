@@ -1,5 +1,5 @@
 " A ref source for pydoc.
-" Version: 0.3.0
+" Version: 0.3.1
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -160,13 +160,6 @@ endfunction
 
 
 
-function! s:source.leave()  " {{{2
-  syntax clear
-  unlet! b:current_syntax
-endfunction
-
-
-
 " functions {{{1
 
 " Get informations of current document.
@@ -238,18 +231,8 @@ endfunction
 
 function! s:head(list, query)  " {{{2
   let pat = '^\V' . a:query . '\v\w*(\.)?\zs.*$'
-  return s:uniq(map(filter(copy(a:list), 'v:val =~# pat'),
+  return ref#uniq(map(filter(copy(a:list), 'v:val =~# pat'),
   \             'substitute(v:val, pat, "", "")'))
-endfunction
-
-
-
-function! s:uniq(list)  "{{{2
-  let d = {}
-  for i in a:list
-    let d[i] = 0
-  endfor
-  return sort(keys(d))
 endfunction
 
 

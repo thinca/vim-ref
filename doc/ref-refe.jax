@@ -1,6 +1,6 @@
 *ref-refe.txt*	ReFe 用の ref ソース。
 
-Version: 0.3.0
+Version: 0.3.2
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -22,7 +22,7 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 
 
 要件:
-- |ref| 0.3.0 以降
+- |ref| 0.3.2 以降
 - ReFe (http://i.loveruby.net/ja/prog/refe.html)
 
 オプション:
@@ -67,6 +67,9 @@ g:ref_refe_rsense_cmd				*g:ref_refe_rsense_cmd*
 
 ==============================================================================
 更新履歴					*ref-refe-changelog*
+
+0.3.2	2010-05-08
+	- |ref| 0.3.2 に対応。
 
 0.3.1	2010-04-21
 	- refe1 のメソッドのページが崩れていたのを修正。

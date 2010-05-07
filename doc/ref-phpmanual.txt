@@ -1,6 +1,6 @@
 *ref-phpmanual.txt*	A ref source for PHP manual.
 
-Version: 0.3.0
+Version: 0.3.1
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -20,7 +20,7 @@ INTRODUCTION					*ref-phpmanual-introduction*
 
 
 Requirements:
-- |ref| 0.3.0 or later
+- |ref| 0.3.2 or later
 - PHP Manual (Many HTML files) (http://php.benscom.com/download-docs.php)
 
 
@@ -47,6 +47,9 @@ g:ref_phpmanual_cmd				*g:ref_phpmanual_cmd*
 
 ==============================================================================
 CHANGELOG					*ref-phpmanual-changelog*
+
+0.3.1	2010-05-07
+	- Updated for |ref| 0.3.2.
 
 0.3.0	2010-04-18
 	- Updated for |ref| 0.3.0.

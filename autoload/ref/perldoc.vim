@@ -1,5 +1,5 @@
 " A ref source for perldoc.
-" Version: 0.3.0
+" Version: 0.3.1
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -97,8 +97,6 @@ endfunction
 
 
 function! s:source.leave()  " {{{2
-  syntax clear
-  unlet! b:current_syntax
   unlet! b:ref_perldoc_mode b:ref_perldoc_word
 endfunction
 
@@ -194,7 +192,8 @@ endfunction
 
 function! s:head(list, query)  " {{{2
   let pat = '^\V' . a:query . '\w\*\v(::)?\zs.*$'
-  return s:uniq(map(filter(copy(a:list), 'v:val =~# pat'), 'substitute(v:val, pat, "", "")'))
+  return ref#uniq(map(filter(copy(a:list), 'v:val =~# pat'),
+  \                   'substitute(v:val, pat, "", "")'))
 endfunction
 
 
@@ -262,17 +261,7 @@ function! s:func_list(name)  " {{{2
     call add(funcs, matchstr(doc, 'item \zs\l\+', i))
     let i = n + 1
   endwhile
-  return s:uniq(funcs)
-endfunction
-
-
-
-function! s:uniq(list)  "{{{2
-  let d = {}
-  for i in a:list
-    let d[i] = 0
-  endfor
-  return sort(keys(d))
+  return ref#uniq(funcs)
 endfunction
 
 

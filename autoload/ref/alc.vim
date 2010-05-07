@@ -1,5 +1,5 @@
 " A ref source for alc.
-" Version: 0.2.0
+" Version: 0.2.1
 " Author : soh335 <sugarbabe335@gmail.com>
 "        : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
@@ -47,8 +47,7 @@ function! s:source.get_body(query)  " {{{2
     return ''
   endif
 
-  let query = s:normalize(a:query)
-  let org = s:iconv(query, &encoding, 'utf-8')
+  let org = s:iconv(a:query, &encoding, 'utf-8')
   let str = ''
   for i in range(strlen(org))
     let c = org[i]
@@ -59,7 +58,7 @@ function! s:source.get_body(query)  " {{{2
   call map(cmd, 'substitute(v:val, "%s", url, "g")')
   if g:ref_alc_use_cache
     let expr = 'ref#system(' . string(cmd) . ').stdout'
-    let res = join(ref#cache('alc', query, expr), "\n")
+    let res = join(ref#cache('alc', a:query, expr), "\n")
   else
     let res = ref#system(cmd).stdout
   endif
@@ -68,11 +67,11 @@ endfunction
 
 function! s:source.opened(query)  " {{{2
   execute "normal! ".g:ref_alc_start_linenumber."z\<CR>"
-  call s:syntax(s:normalize(a:query))
+  call s:syntax(a:query)
 endfunction
 
-function! s:source.leave()  " {{{2
-  syntax clear
+function! s:source.normalize(query)  " {{{2
+  return substitute(substitute(a:query, '\_s\+', ' ', 'g'), '^ \| $', '', 'g')
 endfunction
 
 
@@ -101,12 +100,6 @@ function! s:iconv(expr, from, to)  " {{{2
   endif
   let result = iconv(a:expr, a:from, a:to)
   return result != '' ? result : a:expr
-endfunction
-
-
-
-function! s:normalize(query)  " {{{2
-  return substitute(substitute(a:query, '\_s\+', ' ', 'g'), '^ \| $', '', 'g')
 endfunction
 
 
