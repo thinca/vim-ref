@@ -160,13 +160,6 @@ endfunction
 
 
 
-function! s:source.leave()  " {{{2
-  syntax clear
-  unlet! b:current_syntax
-endfunction
-
-
-
 " functions {{{1
 
 " Get informations of current document.
