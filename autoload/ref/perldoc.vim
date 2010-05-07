@@ -97,8 +97,6 @@ endfunction
 
 
 function! s:source.leave()  " {{{2
-  syntax clear
-  unlet! b:current_syntax
   unlet! b:ref_perldoc_mode b:ref_perldoc_word
 endfunction
 
