@@ -107,6 +107,14 @@ endfunction
 
 
 
+
+function! s:source.normalize(query)  " {{{2
+  let [query, sec] = s:parse(a:query)
+  return query . (sec == '' ? '' : '(' . sec . ')')
+endfunction
+
+
+
 function! s:to_array(expr)  " {{{2
   return type(a:expr) != type([]) ? [a:expr] : a:expr
 endfunction
