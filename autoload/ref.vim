@@ -30,6 +30,8 @@ let s:TYPES = {
 \     'float': type(0.0),
 \   }
 
+let s:options = ['open=', 'new', 'nocache']
+
 let s:sources = {}
 
 let s:prototype = {}  " {{{1
@@ -90,6 +92,11 @@ function! ref#complete(lead, cmd, pos)  " {{{2
       let s:nocache = 1
     endif
     if parsed.source == '' || (parsed.query == '' && cmd =~ '\S$')
+      let lead = matchstr(cmd, '-\w*$')
+      if lead != ''
+        return filter(map(copy(s:options), '"-" . v:val'),
+        \      '!has_key(parsed.options, v:val[1 :]) && v:val =~ "^" . lead')
+      endif
       let s = keys(filter(copy(ref#available_sources()), 'v:val.available()'))
       return filter(s, 'v:val =~ "^".a:lead')
     endif
@@ -494,8 +501,10 @@ function! s:parse_args(argline)  " {{{2
     while rest =~ '\S'
       let [word, rest] = matchlist(rest, '\v^(-?\w*%(\=\S*)?)\s*(.*)$')[1 : 2]
       if word =~# '^-'
-        let [word, value] = matchlist(word, '\v^-(\w+)%(\=(.*))?$')[1 : 2]
-        let res.options[word] = value
+        let [word, value] = matchlist(word, '\v^-(\w*)%(\=(.*))?$')[1 : 2]
+        if word != ''
+          let res.options[word] = value
+        endif
       else
         let [res.source, res.query, rest] = [word, rest, '']
       endif
