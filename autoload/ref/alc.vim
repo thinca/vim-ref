@@ -71,10 +71,6 @@ function! s:source.opened(query)  " {{{2
   call s:syntax(s:normalize(a:query))
 endfunction
 
-function! s:source.leave()  " {{{2
-  syntax clear
-endfunction
-
 
 
 " misc. {{{1
