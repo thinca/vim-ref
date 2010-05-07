@@ -192,7 +192,8 @@ endfunction
 
 function! s:head(list, query)  " {{{2
   let pat = '^\V' . a:query . '\w\*\v(::)?\zs.*$'
-  return s:uniq(map(filter(copy(a:list), 'v:val =~# pat'), 'substitute(v:val, pat, "", "")'))
+  return ref#uniq(map(filter(copy(a:list), 'v:val =~# pat'),
+  \                   'substitute(v:val, pat, "", "")'))
 endfunction
 
 
@@ -260,17 +261,7 @@ function! s:func_list(name)  " {{{2
     call add(funcs, matchstr(doc, 'item \zs\l\+', i))
     let i = n + 1
   endwhile
-  return s:uniq(funcs)
-endfunction
-
-
-
-function! s:uniq(list)  "{{{2
-  let d = {}
-  for i in a:list
-    let d[i] = 0
-  endfor
-  return sort(keys(d))
+  return ref#uniq(funcs)
 endfunction
 
 
