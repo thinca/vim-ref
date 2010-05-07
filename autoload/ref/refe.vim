@@ -203,12 +203,6 @@ endfunction
 
 
 
-function! s:source.leave()  " {{{2
-  syntax clear
-endfunction
-
-
-
 " functions. {{{1
 " Detect the reference type from content.
 " - ['list', ''] (Matched list)
