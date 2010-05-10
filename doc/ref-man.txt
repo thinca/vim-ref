@@ -36,16 +36,6 @@ g:ref_man_cmd					*g:ref_man_cmd*
 			The default value is "man" if it is executable.
 			Otherwise, it is "".
 
-g:ref_man_use_escape_sequence			*g:ref_man_use_escape_sequence*
-			Highlight using escape sequence.
-			The default value is 0.
-
-g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
-			If line number of body of man is greater than this
-			value, highlight with escape sequence is disabled.
-			Because very heavy.
-			The default value is 1000.
-
 g:ref_man_lang					*g:ref_man_lang*
 			It is used for the value of $LANG when it is not empty
 			string.
@@ -57,13 +47,13 @@ BUGS						*ref-man-bugs*
 
 - The completion function for command line is not tested enough.
 
-- If you enabled |g:ref_man_use_escape_sequence|, it is not highlighted when
-  following the history.
-
 
 
 ==============================================================================
 CHANGELOG					*ref-man-changelog*
+
+x.x.x	xxxx-xx-xx
+	- Abolished the highlight with escape sequence.
 
 0.3.1	2010-05-07
 	- Updated for |ref| 0.3.2.

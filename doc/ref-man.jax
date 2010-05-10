@@ -36,16 +36,6 @@ g:ref_man_cmd					*g:ref_man_cmd*
 			デフォルト値は、実行可能ならば "man" です。そうでな
 			ければ "" です。
 
-g:ref_man_use_escape_sequence			*g:ref_man_use_escape_sequence*
-			エスケープシーケンスを使用してハイライトを行います。
-			デフォルト値は 0 です。
-
-g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
-			本文の行数がこの値を超えていた場合、エスケープシーケン
-			スを用いたハイライトを行ないません。なぜならば、非常に
-			重いからです。
-			デフォルト値は 1000 です。
-
 g:ref_man_lang					*g:ref_man_lang*
 			空文字列以外を指定した場合、$LANG の値に使われます。
 
@@ -56,13 +46,13 @@ g:ref_man_lang					*g:ref_man_lang*
 
 - コマンドライン用の補完関数は十分にテストされていません。
 
-- |g:ref_man_use_escape_sequence| を有効にしていた場合、履歴を辿った場合はハ
-  イライトされません。
-
 
 
 ==============================================================================
 更新履歴					*ref-man-changelog*
+
+x.x.x	xxxx-xx-xx
+	- エスケープシーケンスによるハイライトを廃止。
 
 0.3.1	2010-05-07
 	- |ref| 0.3.2 に対応。
