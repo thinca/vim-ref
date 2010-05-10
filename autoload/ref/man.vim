@@ -132,8 +132,6 @@ function! s:syntax()  " {{{2
 
   syntax clear
 
-  unlet! b:current_syntax
-
   if !list
     runtime! syntax/man.vim
   endif
