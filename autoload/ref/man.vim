@@ -74,12 +74,7 @@ endfunction
 
 
 function! s:source.get_keyword()  " {{{2
-  let isk = &l:iskeyword
-  setlocal isk& isk+=. isk+=- isk+=: isk+=( isk+=)
-  let word = expand('<cword>')
-  setlocal isk& isk+=. isk+=- isk+=:
-  let &l:iskeyword = isk
-  return word
+  return ref#get_text_on_cursor('[[:alnum:]_.:+-]\+\%((\d)\)\?')
 endfunction
 
 
