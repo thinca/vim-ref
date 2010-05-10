@@ -7,6 +7,8 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+scriptencoding utf-8
+
 
 
 " config. {{{1
@@ -63,6 +65,10 @@ function! s:source.opened(query)  " {{{2
   let body = join(getline(1, '$'), "\n")
   let body = substitute(body, '.\b', '', 'g')
   let body = substitute(body, '\e\[[0-9;]*m', '', 'g')
+  let body = substitute(body, '‘', '`', 'g')
+  let body = substitute(body, '’', "'", 'g')
+  let body = substitute(body, '[−‐]', '-', 'g')
+  let body = substitute(body, '·', 'o', 'g')
   silent! % delete _
   silent! 0put =body
   silent! $ delete _
