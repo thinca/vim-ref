@@ -18,7 +18,7 @@ CHANGELOG			|ref-man-changelog|
 INTRODUCTION					*ref-man-introduction*
 
 *ref-man* is a source for |ref| to man command.  man is a command to view
-manual pages on UNIX-like operationg systems.
+manual pages on UNIX-like operating systems.
 
 
 Requirements:
