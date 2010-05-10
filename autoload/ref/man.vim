@@ -172,7 +172,7 @@ let s:gathers = s:build_gathers()
 
 
 function! ref#man#define()  " {{{2
-  return s:source
+  return copy(s:source)
 endfunction
 
 
