@@ -25,7 +25,7 @@ endif
 let s:source = {'name': 'man'}  " {{{1
 
 function! s:source.available()  " {{{2
-  return len(g:ref_man_cmd)
+  return len(self.option('cmd'))
 endfunction
 
 
@@ -34,11 +34,12 @@ function! s:source.get_body(query)  " {{{2
   let [query, sec] = s:parse(a:query)
   let q = sec =~ '\d' ? [sec, query] : [query]
 
-  if !empty(g:ref_man_lang)
+  let opt_lang = self.option('lang')
+  if !empty(opt_lang)
     let lang = $LANG
-    let $LANG = g:ref_man_lang
+    let $LANG = opt_lang
   endif
-  let res = ref#system(s:to_array(g:ref_man_cmd) + q)
+  let res = ref#system(s:to_array(self.option('cmd')) + q)
   if exists('lang')
     let $LANG = lang
   endif
@@ -89,7 +90,7 @@ function! s:source.complete(query)  " {{{2
   let [query, sec] = s:parse(a:query)
   let sec -= 0  " to number
 
-  return filter(copy(ref#cache('man', sec, self)),
+  return filter(copy(ref#cache(self.name, sec, self)),
   \             'v:val =~# "^\\V" . query')
 endfunction
 
@@ -106,11 +107,11 @@ function! s:source.call(name)  " {{{2
   let list = []
   if a:name is 0
     for n in range(1, 9)
-      let list += ref#cache('man', n, self)
+      let list += ref#cache(self.name, n, self)
     endfor
 
   else
-    let manpath = ref#system('manpath').stdout
+    let manpath = self.option('manpath')
     for path in split(matchstr(manpath, '^.\{-}\ze\s*$'), ':')
       let dir = path . '/man' . a:name
       if isdirectory(dir)
@@ -121,6 +122,15 @@ function! s:source.call(name)  " {{{2
   endif
 
   return ref#uniq(list)
+endfunction
+
+
+
+function! s:source.option(opt)  " {{{2
+  if a:opt ==# 'manpath'
+    return ref#system('manpath').stdout
+  endif
+  return g:ref_man_{a:opt}
 endfunction
 
 
