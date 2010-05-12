@@ -89,16 +89,38 @@ function! s:source.complete(query)  " {{{2
   let [query, sec] = s:parse(a:query)
   let sec -= 0  " to number
 
-  return filter(copy(ref#cache('man', sec, s:gathers[sec])),
+  return filter(copy(ref#cache('man', sec, self)),
   \             'v:val =~# "^\\V" . query')
 endfunction
-
 
 
 
 function! s:source.normalize(query)  " {{{2
   let [query, sec] = s:parse(a:query)
   return query . (sec == '' ? '' : '(' . sec . ')')
+endfunction
+
+
+
+function! s:source.call(name)  " {{{2
+  let list = []
+  if a:name is 0
+    for n in range(1, 9)
+      let list += ref#cache('man', n, self)
+    endfor
+
+  else
+    let manpath = ref#system('manpath').stdout
+    for path in split(matchstr(manpath, '^.\{-}\ze\s*$'), ':')
+      let dir = path . '/man' . a:name
+      if isdirectory(dir)
+        let list += map(split(glob(dir . '*/*'), "\n"),
+        \                  'matchstr(v:val, ".*/\\zs[^/.]*\\ze\\.")')
+      endif
+    endfor
+  endif
+
+  return ref#uniq(list)
 endfunction
 
 
@@ -137,35 +159,6 @@ function! s:syntax()  " {{{2
   endif
 endfunction
 
-
-
-function! s:build_gathers()  " {{{2
-  let d = {}
-  function! d.call(name)
-    let list = []
-    if self.sec is 0
-      for n in range(1, 9)
-        let list += ref#cache('man', n, s:gathers[n])
-      endfor
-
-    else
-      let manpath = ref#system('manpath').stdout
-      for path in split(matchstr(manpath, '^.\{-}\ze\s*$'), ':')
-        let dir = path . '/man' . self.sec
-        if isdirectory(dir)
-          let list += map(split(glob(dir . '*/*'), "\n"),
-          \                  'matchstr(v:val, ".*/\\zs[^/.]*\\ze\\.")')
-        endif
-      endfor
-    endif
-
-    return ref#uniq(list)
-  endfunction
-
-  return map(range(10), 'extend({"sec": v:val}, d)')
-endfunction
-
-let s:gathers = s:build_gathers()
 
 
 
