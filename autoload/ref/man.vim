@@ -39,10 +39,13 @@ function! s:source.get_body(query)  " {{{2
     let lang = $LANG
     let $LANG = opt_lang
   endif
-  let res = ref#system(s:to_array(self.option('cmd')) + q)
-  if exists('lang')
-    let $LANG = lang
-  endif
+  try
+    let res = ref#system(s:to_array(self.option('cmd')) + q)
+  finally
+    if exists('lang')
+      let $LANG = lang
+    endif
+  endtry
   if !res.result
     let body = res.stdout
     if &termencoding != '' && &encoding != '' && &termencoding !=# &encoding
