@@ -460,7 +460,7 @@ function! ref#get_text_on_cursor(pat)  " {{{2
     let [s, e] = [match(line, a:pat, s), matchend(line, a:pat, s)]
     if s < 0
       break
-    elseif s <= pos && pos <= e
+    elseif s < pos && pos <= e
       return line[s : e - 1]
     endif
     let s += 1

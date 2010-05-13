@@ -297,6 +297,7 @@ leave()					*ref-source-attr-leave()*
 
 x.x.x	xxxx-xx-xx
 	- |ref#to_list()| を追加。
+	- |ref#get_text_on_cursor()| の範囲が間違っていたのを修正。
 
 0.3.2	2010-05-07
 	- |ref#uniq()| を追加。

@@ -317,6 +317,7 @@ CHANGELOG					*ref-changelog*
 
 x.x.x	xxxx-xx-xx
 	- Added |ref#to_list()|.
+	- Fixed a bug that the range of |ref#get_text_on_cursor()| was wrong.
 
 0.3.2	2010-05-07
 	- Added |ref#uniq()|.
