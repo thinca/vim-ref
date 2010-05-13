@@ -306,9 +306,6 @@ TODO						*ref-todo*
   - javadoc
   - etc...
 - More customizable.
-- Global command line options.
-  - :Ref [-option ...] {source-name} ...
-  - Example: split
 
 
 
