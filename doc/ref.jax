@@ -129,6 +129,14 @@ ref#system({expr} [, {input}])			*ref#system()*
 			に |vimproc#system()| を使用します。
 			vimproc: http://github.com/Shougo/vimproc
 
+ref#to_list({expr}, ...)				*ref#to_list()*
+			{expr} を |List| に変換します。
+			{expr} が |List| の場合、{expr} をそのまま返します。
+			{expr} が文字列の場合、|split()| で分割します。
+			それ以外の場合、{expr} を含む |List| を返します。
+			複数の引数を渡した場合、全ての引数を変換したものを連結
+			して返します。
+
 ref#uniq({list})				*ref#uniq()*
 			重複した項目を取り除いた新しいリストを返します。結果
 			は|sort()| でソートされます。
@@ -286,6 +294,9 @@ leave()					*ref-source-attr-leave()*
 
 ==============================================================================
 更新履歴					*ref-changelog*
+
+x.x.x	xxxx-xx-xx
+	- |ref#to_list()| を追加。
 
 0.3.2	2010-05-07
 	- |ref#uniq()| を追加。

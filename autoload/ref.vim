@@ -430,6 +430,18 @@ endfunction
 
 
 
+function! ref#to_list(...)  " {{{2
+  let list = []
+  for a in a:000
+    let list += type(a) == s:TYPES.string ? split(a) :
+    \           type(a) == s:TYPES.list ? a : [a]
+    unlet a
+  endfor
+  return list
+endfunction
+
+
+
 function! ref#uniq(list)  " {{{2
   let d = {}
   for i in a:list
