@@ -30,7 +30,7 @@ let s:TYPES = {
 \     'float': type(0.0),
 \   }
 
-let s:options = ['open=', 'new', 'nocache']
+let s:options = ['-open=', '-new', '-nocache']
 
 let s:sources = {}
 
@@ -94,8 +94,8 @@ function! ref#complete(lead, cmd, pos)  " {{{2
     if parsed.source == '' || (parsed.query == '' && cmd =~ '\S$')
       let lead = matchstr(cmd, '-\w*$')
       if lead != ''
-        return filter(map(copy(s:options), '"-" . v:val'),
-        \      '!has_key(parsed.options, v:val[1 :]) && v:val =~ "^" . lead')
+        return filter(copy(s:options), 'v:val =~ "^" . lead && ' .
+        \      '!has_key(parsed.options, matchstr(v:val, "\\w\\+"))')
       endif
       let s = keys(filter(copy(ref#available_sources()), 'v:val.available()'))
       return filter(s, 'v:val =~ "^".a:lead')
