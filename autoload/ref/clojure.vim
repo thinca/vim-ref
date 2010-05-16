@@ -14,6 +14,10 @@ if !exists('g:ref_clojure_cmd')  " {{{2
   let g:ref_clojure_cmd = executable('clj') ? 'clj' : ''
 endif
 
+let s:is_win = has('win16') || has('win32') || has('win64')
+
+let s:path_separator = s:is_win ? ';' : ':'
+
 
 
 let s:source = {'name': 'clojure'}  " {{{1
@@ -23,14 +27,20 @@ function! s:source.available()  " {{{2
 endfunction
 
 function! s:source.get_body(query)  " {{{2
-  let res = s:clj(['-e', printf('(doc %s)', a:query)])
-  if res.stdout != ''
-    return res.stdout
-  endif
-  let res = s:clj(['-e', printf('(find-doc "%s")', escape(a:query, '"'))])
-  if res.stdout != ''
-    return res.stdout
-  endif
+  let classpath = $CLASSPATH
+  let $CLASSPATH = s:classpath()
+  try
+    let res = s:clj(['-e', printf('(doc %s)', a:query)])
+    if res.stdout != ''
+      return res.stdout
+    endif
+    let res = s:clj(['-e', printf('(find-doc "%s")', escape(a:query, '"'))])
+    if res.stdout != ''
+      return res.stdout
+    endif
+  finally
+    let $CLASSPATH = classpath
+  endtry
   throw printf('No document found for "%s"', a:query)
 endfunction
 
@@ -39,6 +49,24 @@ endfunction
 " functions. {{{1
 function! s:clj(args)  " {{{2
   return ref#system(ref#to_list(g:ref_clojure_cmd, a:args))
+endfunction
+
+
+
+function! s:get_classpath(var)  " {{{2
+  if !exists(a:var)
+    return []
+  endif
+  let var = eval(a:var)
+  return type(var) == type([]) ? var : split(var, s:path_separator)
+endfunction
+
+
+
+function! s:classpath()  " {{{2
+  let cp = s:get_classpath('b:ref_clojure_classpath') +
+  \        s:get_classpath('g:ref_clojure_classpath')
+  return join(cp, s:path_separator)
 endfunction
 
 
