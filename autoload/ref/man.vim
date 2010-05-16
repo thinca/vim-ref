@@ -40,7 +40,7 @@ function! s:source.get_body(query)  " {{{2
     let $LANG = opt_lang
   endif
   try
-    let res = ref#system(s:to_array(self.option('cmd')) + q)
+    let res = ref#system(ref#to_list(self.option('cmd')) + q)
   finally
     if exists('lang')
       let $LANG = lang
@@ -134,12 +134,6 @@ function! s:source.option(opt)  " {{{2
     return ref#system('manpath').stdout
   endif
   return g:ref_man_{a:opt}
-endfunction
-
-
-
-function! s:to_array(expr)  " {{{2
-  return type(a:expr) != type([]) ? [a:expr] : a:expr
 endfunction
 
 
