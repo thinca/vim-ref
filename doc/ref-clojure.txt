@@ -36,11 +36,10 @@ g:ref_clojure_cmd				*g:ref_clojure_cmd*
 			['java', '-cp', 'clojure.jar' 'clojure.main']
 
 g:ref_clojure_classpath				*g:ref_clojure_classpath*
-			Specifies the $CLASSPATH by string or |List|.
-
 b:ref_clojure_classpath				*b:ref_clojure_classpath*
-			Specifies the $CLASSPATH by string or |List|.  This
-			value is added to the |g:ref_clojure_classpath|.
+			Specifies the $CLASSPATH by string or |List|.
+			|b:ref_clojure_classpath| is added ahead of the
+			|g:ref_clojure_classpath|.
 
 
 

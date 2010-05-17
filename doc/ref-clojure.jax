@@ -36,11 +36,10 @@ g:ref_clojure_cmd				*g:ref_clojure_cmd*
 			['java', '-cp', 'clojure.jar' 'clojure.main']
 
 g:ref_clojure_classpath				*g:ref_clojure_classpath*
-			$CLASSPATH を文字列かリストで指定します。
-
 b:ref_clojure_classpath				*b:ref_clojure_classpath*
 			$CLASSPATH を文字列かリストで指定します。
-			|g:ref_clojure_classpath| の値に追加されます。
+			|b:ref_clojure_classpath| は |g:ref_clojure_classpath|
+			の値の前に追加されます。
 
 
 
