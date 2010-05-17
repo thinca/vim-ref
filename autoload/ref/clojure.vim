@@ -30,11 +30,11 @@ function! s:source.get_body(query)  " {{{2
   let classpath = $CLASSPATH
   let $CLASSPATH = s:classpath()
   try
-    let res = s:clj(['-e', printf('(doc %s)', a:query)])
+    let res = s:clj(printf('(doc %s)', a:query))
     if res.stdout != ''
       return res.stdout
     endif
-    let res = s:clj(['-e', printf('(find-doc "%s")', escape(a:query, '"'))])
+    let res = s:clj(printf('(find-doc "%s")', escape(a:query, '"')))
     if res.stdout != ''
       return res.stdout
     endif
@@ -47,8 +47,8 @@ endfunction
 
 
 " functions. {{{1
-function! s:clj(args)  " {{{2
-  return ref#system(ref#to_list(g:ref_clojure_cmd, a:args))
+function! s:clj(code)  " {{{2
+  return ref#system(ref#to_list(g:ref_clojure_cmd, '-'), a:code)
 endfunction
 
 
