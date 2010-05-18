@@ -127,28 +127,18 @@ endfunction
 function! ref#open(source, query, ...)  " {{{2
   try
     let options = a:0 ? a:1 : {}
-    if has_key(options, 'open')
-      let open = g:ref_open
-      let g:ref_open = options.open
-    endif
-    if has_key(options, 'new')
-      let s:new = 1
-    endif
     if has_key(options, 'nocache')
       let s:nocache = 1
     endif
-    return s:open(a:source, a:query)
+    return s:open(a:source, a:query, options)
   finally
-    if exists('open')
-      let g:ref_open = open
-    endif
-    unlet! s:new s:nocache
+    unlet! s:nocache
   endtry
 endfunction
 
 
 
-function! s:open(source, query)  " {{{2
+function! s:open(source, query, options)  " {{{2
   if !has_key(s:sources, a:source)
     throw 'ref: The source is not registered: ' . a:source
   endif
@@ -177,7 +167,7 @@ function! s:open(source, query)  " {{{2
   let pos = getpos('.')
 
   let bufnr = 0
-  if !exists('s:new')
+  if !has_key(a:options, 'new')
     if getbufvar('%', '&filetype') == 'ref'
       let bufnr = bufnr('%')
     else
@@ -193,7 +183,7 @@ function! s:open(source, query)  " {{{2
   endif
 
   if bufnr == 0
-    silent! execute g:ref_open
+    silent! execute has_key(a:options, 'open') ? a:options.open : g:ref_open
     enew
     call s:initialize_buffer(a:source)
   else
