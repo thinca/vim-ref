@@ -168,12 +168,12 @@ function! s:open(source, query, options)  " {{{2
 
   let bufnr = 0
   if !has_key(a:options, 'new')
-    if getbufvar('%', '&filetype') == 'ref'
+    if getbufvar('%', '&filetype') ==# 'ref'
       let bufnr = bufnr('%')
     else
       for i in range(1, winnr('$'))
         let n = winbufnr(i)
-        if getbufvar(n, '&filetype') == 'ref'
+        if getbufvar(n, '&filetype') ==# 'ref'
           execute i 'wincmd w'
           let bufnr = i
           break
