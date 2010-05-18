@@ -75,7 +75,7 @@ endfunction
 
 
 function! ku#ref#open(item)
-  call ref#open(a:item.menu, a:item.word, '')
+  call ref#open(a:item.menu, a:item.word, {'open': ''})
 endfunction
 
 
