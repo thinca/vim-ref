@@ -122,8 +122,8 @@ ref#cache({source-name}, {name}, {gather})	*ref#cache()*
 ref#system({expr} [, {input}])			*ref#system()*
 			Like |system()|, but {expr} takes a |List|.  Each
 			items are processed by |shellescape()|.
-			If {expr} is a string, it is simply separated by
-			whitespaces.
+			If {expr} is a string, it is separated by
+			|ref#to_list()|.
 			In addition, this function returns a |Dictionary| that
 			has following entries.
 			result: Return code.

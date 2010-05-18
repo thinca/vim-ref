@@ -351,7 +351,7 @@ endfunction
 
 
 function! ref#system(args, ...)  " {{{2
-  let args = type(a:args) == s:TYPES.string ? split(a:args, '\s\+') : a:args
+  let args = ref#to_list(a:args)
   if g:ref_use_vimproc
     let stdout = a:0 ? vimproc#system(args, a:1) : vimproc#system(args)
     return {

@@ -116,10 +116,10 @@ ref#cache({source-name}, {name}, {gather})	*ref#cache()*
 			いずれの場合もリストを返す必要があります。
 
 ref#system({expr} [, {input}])			*ref#system()*
-			|system()| と同じですが、{expr} はリスト|List|を取りま
-			す。各要素は |shellescape()| で処理されます。
-			{expr} が文字列の場合、空白文字によって単純に分割され
-			ます。
+			|system()| と同じですが、{expr} はリスト(|List|)を取り
+			ます。各要素は |shellescape()| で処理されます。
+			{expr} が文字列の場合、|ref#to_list()| によって分割さ
+			れます。
 			加えて、この関数は以下の要素を持つ辞書(|Dictionary|)を
 			返します。
 			result: リターンコード。
