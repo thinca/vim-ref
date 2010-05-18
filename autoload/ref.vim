@@ -94,7 +94,7 @@ endfunction
 
 
 function! ref#register(source)  " {{{2
-  if type(a:source) != type({})
+  if type(a:source) != s:TYPES.dictionary
     throw 'ref: Invalid source: The source should be a Dictionary.'
   endif
   let source = extend(copy(s:prototype), a:source)
@@ -351,7 +351,7 @@ endfunction
 
 
 function! ref#system(args, ...)  " {{{2
-  let args = type(a:args) == type('') ? split(a:args, '\s\+') : a:args
+  let args = type(a:args) == s:TYPES.string ? split(a:args, '\s\+') : a:args
   if g:ref_use_vimproc
     let stdout = a:0 ? vimproc#system(args, a:1) : vimproc#system(args)
     return {
@@ -533,10 +533,10 @@ endfunction
 function! s:gather_cache(name, gather)  " {{{2
   let cache =
   \  type(a:gather) == s:TYPES.function ? a:gather(a:name) :
-  \  type(a:gather) == type({}) && has_key(a:gather, 'call')
+  \  type(a:gather) == s:TYPES.dictionary && has_key(a:gather, 'call')
   \    && type(a:gather.call) == s:TYPES.function ?
   \       a:gather.call(a:name) :
-  \  type(a:gather) == type('') ? eval(a:gather) : []
+  \  type(a:gather) == s:TYPES.string ? eval(a:gather) : []
   if type(cache) == s:TYPES.list
     return cache
   elseif type(cache) == s:TYPES.string
