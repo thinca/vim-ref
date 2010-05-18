@@ -57,24 +57,9 @@ endfunction
 function! ref#ref(args)  " {{{2
   try
     let parsed = s:parse_args(a:args)
-    if has_key(parsed.options, 'open')
-      let open = g:ref_open
-      let g:ref_open = parsed.options.open
-    endif
-    if has_key(parsed.options, 'new')
-      let s:new = 1
-    endif
-    if has_key(parsed.options, 'nocache')
-      let s:nocache = 1
-    endif
-    return ref#open(parsed.source, parsed.query)
+    return ref#open(parsed.source, parsed.query, parsed.options)
   catch /^ref:/
     call s:echoerr(v:exception)
-  finally
-    if exists('open')
-      let g:ref_open = open
-    endif
-    unlet! s:new s:nocache
   endtry
 endfunction
 
@@ -140,6 +125,30 @@ endfunction
 
 
 function! ref#open(source, query, ...)  " {{{2
+  try
+    let options = a:0 ? a:1 : {}
+    if has_key(options, 'open')
+      let open = g:ref_open
+      let g:ref_open = options.open
+    endif
+    if has_key(options, 'new')
+      let s:new = 1
+    endif
+    if has_key(options, 'nocache')
+      let s:nocache = 1
+    endif
+    return s:open(a:source, a:query)
+  finally
+    if exists('open')
+      let g:ref_open = open
+    endif
+    unlet! s:new s:nocache
+  endtry
+endfunction
+
+
+
+function! s:open(source, query)  " {{{2
   if !has_key(s:sources, a:source)
     throw 'ref: The source is not registered: ' . a:source
   endif
@@ -184,7 +193,7 @@ function! ref#open(source, query, ...)  " {{{2
   endif
 
   if bufnr == 0
-    silent! execute (a:0 ? a:1 : g:ref_open)
+    silent! execute g:ref_open
     enew
     call s:initialize_buffer(a:source)
   else
@@ -199,7 +208,7 @@ function! ref#open(source, query, ...)  " {{{2
 
   " FIXME: not cool...
   let s:res = res
-  call s:open(query, 'silent :1 put = s:res | 1 delete _')
+  call s:open_source(query, 'silent :1 put = s:res | 1 delete _')
   unlet! s:res
 
   let b:ref_history_pos += 1
@@ -548,7 +557,7 @@ endfunction
 
 
 
-function! s:open(query, open_cmd)  " {{{2
+function! s:open_source(query, open_cmd)  " {{{2
   setlocal modifiable noreadonly
 
   let bufname = printf('[ref-%s:%s]', b:ref_source, a:query)
@@ -585,7 +594,7 @@ function! s:move_history(n)  " {{{2
 
   let [source, query, changenr, pos] = b:ref_history[next]
   let b:ref_source = source
-  call s:open(query, 'silent! undo ' . changenr)
+  call s:open_source(query, 'silent! undo ' . changenr)
   call setpos('.', pos)
 endfunction
 

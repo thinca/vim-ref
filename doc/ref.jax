@@ -58,8 +58,8 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 ------------------------------------------------------------------------------
 関数						*ref-functions*
 
-ref#open({source-name}, {query})		*ref#open()*
-			|:Ref| の関数版です。
+ref#open({source-name}, {query} [, {options}])	*ref#open()*
+			|:Ref| の関数版です。{options} は辞書で指定します。
 
 ref#jump([{mode} [, {source-name}]])		*ref#jump()*
 			カーソル位置からクエリを探してソースを開きます。ソース
@@ -298,6 +298,7 @@ leave()					*ref-source-attr-leave()*
 x.x.x	xxxx-xx-xx
 	- |ref#to_list()| を追加。
 	- |ref#get_text_on_cursor()| の範囲が間違っていたのを修正。
+	- |ref#open()| がオプションを受け取れるようにした。
 
 0.3.2	2010-05-07
 	- |ref#uniq()| を追加。

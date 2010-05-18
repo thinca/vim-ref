@@ -57,8 +57,9 @@ INTERFACE					*ref-interface*
 ------------------------------------------------------------------------------
 FUNCTIONS					*ref-functions*
 
-ref#open({source-name}, {query})		*ref#open()*
-			A function version of |:Ref|.
+ref#open({source-name}, {query} [, {options}])	*ref#open()*
+			A function version of |:Ref|. {options} is specified
+			by a dictionary.
 
 ref#jump({mode} [, {source-name}])		*ref#jump()*
 			Open the source with looking for query from the cursor
@@ -315,6 +316,7 @@ CHANGELOG					*ref-changelog*
 x.x.x	xxxx-xx-xx
 	- Added |ref#to_list()|.
 	- Fixed a bug that the range of |ref#get_text_on_cursor()| was wrong.
+	- |ref#open()| can take options.
 
 0.3.2	2010-05-07
 	- Added |ref#uniq()|.
