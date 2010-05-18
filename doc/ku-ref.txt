@@ -1,6 +1,6 @@
 *ku-ref.txt*	ku source: ref
 
-Version: 0.2.0
+Version: 0.2.1
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -26,7 +26,7 @@ INTRODUCTION					*ku-ref-introduction*
 Requirements:
 - Vim 7.2 or later
 - |ku| 0.2.0 or later (vimscript#2337)
-- |ref| 0.3.0 or later
+- |ref| 0.3.3 or later
 
 
 ==============================================================================
@@ -66,6 +66,9 @@ on_source_leave()			|ku#{source}#on_source_leave()|
 
 ==============================================================================
 CHANGELOG					*ku-ref-changelog*
+
+0.2.1	2010-05-18
+	- Updated for |ref| 0.3.3.
 
 0.2.0	2010-04-07
 	- Updated for |ref| 0.3.0.

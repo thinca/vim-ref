@@ -1,5 +1,5 @@
 " ku source: ref
-" Version: 0.2.0
+" Version: 0.2.1
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -75,7 +75,7 @@ endfunction
 
 
 function! ku#ref#open(item)
-  call ref#open(a:item.menu, a:item.word, '')
+  call ref#open(a:item.menu, a:item.word, {'open': ''})
 endfunction
 
 
