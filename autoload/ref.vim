@@ -241,12 +241,23 @@ endfunction
 
 
 function! ref#jump(...)  " {{{2
-  let source = 2 <= a:0 ? a:2 : ref#detect()
+  let args = copy(a:000)
+  let options = {}
+
+  for a in args
+    if type(a) == s:TYPES.dictionary
+      call extend(options, a)
+    endif
+    unlet a
+  endfor
+  call filter(args, 'type(v:val) != s:TYPES.dictionary')
+
+  let source = 2 <= len(args) ? args[1] : ref#detect()
   if !has_key(s:sources, source)
     throw 'ref: The source is not registered: ' . source
   endif
 
-  let mode = a:0 ? a:1 : 'normal'
+  let mode = get(args, 0, 'normal')
   let query = ''
   if mode ==# 'normal'
     let pos = getpos('.')
@@ -283,7 +294,7 @@ function! ref#jump(...)  " {{{2
 
   endif
   if type(query) == type('') && query != ''
-    call ref#open(source, query)
+    call ref#open(source, query, options)
   endif
 endfunction
 

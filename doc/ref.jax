@@ -61,7 +61,7 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 ref#open({source-name}, {query} [, {options}])	*ref#open()*
 			|:Ref| の関数版です。{options} は辞書で指定します。
 
-ref#jump([{mode} [, {source-name}]])		*ref#jump()*
+ref#jump([{mode} [, {source-name}]] [, {options}])	*ref#jump()*
 			カーソル位置からクエリを探してソースを開きます。ソース
 			名が省略された場合、|ref#detect()| が使われます。
 			{mode} にはクエリをどのように取得するかを指定します。
@@ -74,6 +74,9 @@ ref#jump([{mode} [, {source-name}]])		*ref#jump()*
 			"line"/"char"/"block"
 					これによりこの関数は 'operatorfunc' と
 					して機能します。
+
+			引数に辞書が渡された場合、|ref#open()| の {options} と
+			同じように扱われます。
 
 ref#register({source})				*ref#register()*
 			新しいソースを登録します。{source} に関しては
@@ -304,6 +307,7 @@ x.x.x	xxxx-xx-xx
 	- |ref#to_list()| を追加。
 	- |ref#get_text_on_cursor()| の範囲が間違っていたのを修正。
 	- |ref#open()| がオプションを受け取れるようにした。
+	- |ref#jump()| がオプションを受け取れるようにした。
 	- |:Ref-option| に -noenter を追加。
 	- |g:ref_noenter| と |b:ref_noenter| を追加。
 

@@ -61,7 +61,7 @@ ref#open({source-name}, {query} [, {options}])	*ref#open()*
 			A function version of |:Ref|. {options} is specified
 			by a dictionary.
 
-ref#jump({mode} [, {source-name}])		*ref#jump()*
+ref#jump([{mode} [, {source-name}]] [, {options}])	*ref#jump()*
 			Open the source with looking for query from the cursor
 			position.  When the {source-name} is omitted,
 			|ref#detect()| is used.
@@ -76,6 +76,9 @@ ref#jump({mode} [, {source-name}])		*ref#jump()*
 			"line"/"char"/"block"
 					This function can be used for
 					'operatorfunc'.
+
+			When the dictionary is passed to the argument, it is
+			treated as much as {options} of ref#open().
 
 ref#register({source})				*ref#register()*
 			Register a new source.  See |ref-sources| about
@@ -322,6 +325,7 @@ x.x.x	xxxx-xx-xx
 	- Added |ref#to_list()|.
 	- Fixed a bug that the range of |ref#get_text_on_cursor()| was wrong.
 	- |ref#open()| can take options.
+	- |ref#jump()| can take options.
 	- Added the -noenter to |:Ref-option|.
 	- Added the |g:ref_noenter| and the |b:ref_noenter|.
 
