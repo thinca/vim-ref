@@ -30,7 +30,7 @@ let s:TYPES = {
 \     'float': type(0.0),
 \   }
 
-let s:options = ['-open=', '-new', '-nocache']
+let s:options = ['-open=', '-new', '-nocache', '-noenter']
 
 let s:sources = {}
 
@@ -166,6 +166,10 @@ function! s:open(source, query, options)  " {{{2
 
   let pos = getpos('.')
 
+  if has_key(a:options, 'noenter')
+    let w:ref_back = 1
+  endif
+
   let bufnr = 0
   if !has_key(a:options, 'new')
     if getbufvar('%', '&filetype') ==# 'ref'
@@ -207,6 +211,18 @@ function! s:open(source, query, options)  " {{{2
     let b:ref_history[-1][3] = pos
   endif
   call add(b:ref_history, [a:source, query, changenr(), []])
+
+  if has_key(a:options, 'noenter')
+    for t in range(1, tabpagenr('$'))
+      for w in range(1, winnr('$'))
+        if gettabwinvar(t, w, 'ref_back')
+          execute 'tabnext' t
+          execute w 'wincmd w'
+          unlet! w:ref_back
+        endif
+      endfor
+    endfor
+  endif
 endfunction
 
 

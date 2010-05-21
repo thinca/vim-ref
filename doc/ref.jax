@@ -160,6 +160,7 @@ ref#get_text_on_cursor({pattern})		*ref#get_text_on_cursor()*
 			-open={command}	|g:ref_open| を上書きします。
 			-new		強制的に新しくビューアを開きます。
 			-nocache	キャッシュを使いません。
+			-noenter	|ref-viewer| へ移動しません。
 
 :RefHistory					*:RefHistory*
 			|ref-viewer| の履歴をリスト表示します。数字を入力する
@@ -299,6 +300,7 @@ x.x.x	xxxx-xx-xx
 	- |ref#to_list()| を追加。
 	- |ref#get_text_on_cursor()| の範囲が間違っていたのを修正。
 	- |ref#open()| がオプションを受け取れるようにした。
+	- |:Ref-option| に -noenter を追加。
 
 0.3.2	2010-05-07
 	- |ref#uniq()| を追加。
