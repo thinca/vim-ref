@@ -127,6 +127,10 @@ endfunction
 function! ref#open(source, query, ...)  " {{{2
   try
     let options = a:0 ? a:1 : {}
+    if (exists('g:ref_noenter') && g:ref_noenter) ||
+    \  (exists('b:ref_noenter') && b:ref_noenter)
+      let options.noenter = '1'
+    endif
     if has_key(options, 'nocache')
       let s:nocache = 1
     endif

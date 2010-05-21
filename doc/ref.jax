@@ -241,6 +241,10 @@ g:ref_detect_filetype				*g:ref_detect_filetype*
 	きない場合は空文字列を返します。キーに _ を使うと、検出できなかった場
 	合に使用されます。いくつかのソースはロード時にエントリを登録します。
 
+g:ref_noenter					*g:ref_noenter*
+b:ref_noenter					*b:ref_noenter*
+	|:Ref-option| の -noenter を常に有効にします。
+
 
 
 ==============================================================================
@@ -301,6 +305,7 @@ x.x.x	xxxx-xx-xx
 	- |ref#get_text_on_cursor()| の範囲が間違っていたのを修正。
 	- |ref#open()| がオプションを受け取れるようにした。
 	- |:Ref-option| に -noenter を追加。
+	- |g:ref_noenter| と |b:ref_noenter| を追加。
 
 0.3.2	2010-05-07
 	- |ref#uniq()| を追加。

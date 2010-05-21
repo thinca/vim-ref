@@ -246,6 +246,10 @@ g:ref_detect_filetype				*g:ref_detect_filetype*
 	exists, it is used when it is not possible to detect.  Some sources
 	register the appropriate entry on loaded.
 
+g:ref_noenter					*g:ref_noenter*
+b:ref_noenter					*b:ref_noenter*
+	Always enable the -noenter of |:Ref-option|.
+
 
 
 ==============================================================================
@@ -319,6 +323,7 @@ x.x.x	xxxx-xx-xx
 	- Fixed a bug that the range of |ref#get_text_on_cursor()| was wrong.
 	- |ref#open()| can take options.
 	- Added the -noenter to |:Ref-option|.
+	- Added the |g:ref_noenter| and the |b:ref_noenter|.
 
 0.3.2	2010-05-07
 	- Added |ref#uniq()|.
