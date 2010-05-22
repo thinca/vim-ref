@@ -1,6 +1,6 @@
 *ref-man.txt*	A ref source for manpage.
 
-Version: 0.3.1
+Version: 0.3.2
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -18,11 +18,11 @@ CHANGELOG			|ref-man-changelog|
 INTRODUCTION					*ref-man-introduction*
 
 *ref-man* is a source for |ref| to man command.  man is a command to view
-manual pages on UNIX-like operationg systems.
+manual pages on UNIX-like operating systems.
 
 
 Requirements:
-- |ref| 0.3.2 or later
+- |ref| 0.3.3 or later
 - man
 
 
@@ -36,16 +36,6 @@ g:ref_man_cmd					*g:ref_man_cmd*
 			The default value is "man" if it is executable.
 			Otherwise, it is "".
 
-g:ref_man_use_escape_sequence			*g:ref_man_use_escape_sequence*
-			Highlight using escape sequence.
-			The default value is 0.
-
-g:ref_man_highlight_limit			*g:ref_man_highlight_limit*
-			If line number of body of man is greater than this
-			value, highlight with escape sequence is disabled.
-			Because very heavy.
-			The default value is 1000.
-
 g:ref_man_lang					*g:ref_man_lang*
 			It is used for the value of $LANG when it is not empty
 			string.
@@ -53,17 +43,12 @@ g:ref_man_lang					*g:ref_man_lang*
 
 
 ==============================================================================
-BUGS						*ref-man-bugs*
-
-- The completion function for command line is not tested enough.
-
-- If you enabled |g:ref_man_use_escape_sequence|, it is not highlighted when
-  following the history.
-
-
-
-==============================================================================
 CHANGELOG					*ref-man-changelog*
+
+0.3.2	2010-05-16
+	- Abolished the highlight with escape sequence.
+	- Improved the matching of keyword.
+	- Some multi byte signs were replaced with ASCII character.
 
 0.3.1	2010-05-07
 	- Updated for |ref| 0.3.2.
