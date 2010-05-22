@@ -1,6 +1,6 @@
 *ref.txt*	総合リファレンスビューア。
 
-Version: 0.3.2
+Version: 0.3.3
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -304,7 +304,7 @@ leave()					*ref-source-attr-leave()*
 ==============================================================================
 更新履歴					*ref-changelog*
 
-x.x.x	xxxx-xx-xx
+0.3.3	2010-05-23
 	- |ref#to_list()| を追加。
 	- |ref#get_text_on_cursor()| の範囲が間違っていたのを修正。
 	- |ref#open()| がオプションを受け取れるようにした。
