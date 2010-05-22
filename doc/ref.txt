@@ -246,7 +246,7 @@ g:ref_detect_filetype				*g:ref_detect_filetype*
 	The key is a filetype, and the value is a source name or a |Funcref|.
 	If the value is |Funcref|, it take a filetype as argument and return
 	the source name.  If it can not detect, return empty string.  If _ key
-	exists, it is used when it is not possible to detect.  Some sources
+	exists, it is used when the filetype was not registered.  Some sources
 	register the appropriate entry on loaded.
 
 g:ref_noenter					*g:ref_noenter*
