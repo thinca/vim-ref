@@ -35,7 +35,7 @@ function! s:source.opened(query)  " {{{2
   let query = split(a:query, ':')
   call self.man_opened(query[0])
   if 2 <= len(query)
-    call search('^ \{7}' . query[1] . '(', 'w')
+    call search('^ \{7}\%(' . query[0] . ':\)\?' . query[1] . '(', 'w')
     normal! zt
   endif
 endfunction
