@@ -9,6 +9,7 @@ License: Creative Commons Attribution 2.1 Japan License
 CONTENTS					*ref-erlang-contents*
 
 INTRODUCTION			|ref-erlang-introduction|
+ARGUMENTS			|ref-erlang-arguments|
 CUSTOMIZING			|ref-erlang-customizing|
 CHANGELOG			|ref-erlang-changelog|
 
@@ -26,6 +27,15 @@ Requirements:
 - |ref-man| 0.3.2 or later
 - UNIX-like operating system
 
+
+
+==============================================================================
+ARGUMENTS					*ref-erlang-arguments*
+
+This source accepts the argument of the following two forms.
+
+	module
+	module:function
 
 
 ==============================================================================
