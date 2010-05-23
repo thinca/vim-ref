@@ -20,12 +20,28 @@ let s:source = ref#man#define()
 
 let s:source.name = 'erlang'
 
+let s:source.man_get_body = s:source.get_body
+let s:source.man_opened = s:source.opened
+
+function! s:source.get_body(query)  " {{{2
+  return self.man_get_body(split(a:query, ':')[0])
+endfunction
+
+function! s:source.opened(query)  " {{{2
+  let query = split(a:query, ':')
+  call self.man_opened(query[0])
+  if 2 <= len(query)
+    call search('^ \{7}' . query[1] . '(', 'w')
+    normal! zt
+  endif
+endfunction
+
 function! s:source.option(opt)  " {{{2
   if a:opt ==# 'cmd'
     return ref#to_list(g:ref_erlang_cmd, '-man')
 
   elseif a:opt ==# 'manpath'
-    if !exists('g:ref_erlang_manpath')  " {{{2
+    if !exists('g:ref_erlang_manpath')
       let g:ref_erlang_manpath = ref#system(ref#to_list(g:ref_erlang_cmd,
       \ '-noshell -eval io:fwrite(code:root_dir()). -s init stop')).stdout
       \ . '/man'
