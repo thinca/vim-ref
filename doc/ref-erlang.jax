@@ -51,8 +51,7 @@ g:ref_erlang_man_dir				*g:ref_erlang_man_dir*
 			Erlang の man のディレクトリです。これは補完に使われま
 			す。
 			デフォルト値は以下のコマンドによって取得されます。 >
-  erl -noshell -eval 'io:format("~s/man", [code:root_dir()]).' -s init stop
-
+		erl -noshell -eval io:fwrite(code:root_dir()). -s init stop
 
 
 ==============================================================================

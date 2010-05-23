@@ -52,8 +52,7 @@ g:ref_erlang_man_dir				*g:ref_erlang_man_dir*
 			completion.
 			The default value is acquired by the following
 			command. >
-  erl -noshell -eval 'io:format("~s/man", [code:root_dir()]).' -s init stop
-
+		erl -noshell -eval io:fwrite(code:root_dir()). -s init stop
 
 
 ==============================================================================
