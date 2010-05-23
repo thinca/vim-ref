@@ -72,7 +72,7 @@ endfunction
 
 
 function! ref#clojure#define()  " {{{2
-  return s:source
+  return copy(s:source)
 endfunction
 
 call ref#register_detection('clojure', 'clojure')  " {{{1
