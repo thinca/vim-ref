@@ -22,7 +22,8 @@ Erlang の man は Unix 系 OS でのみ動作します。よって、このソ�
 
 
 要件:
-- |ref| 0.3.2 以降
+- |ref| 0.3.3 以降
+- |ref-man| 0.3.2 or later
 - UNIX 系 OS
 
 
