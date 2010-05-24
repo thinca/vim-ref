@@ -30,6 +30,7 @@ be viewed by the same interface.
 
 Following sources are included in this plugin:
 - alc		(|ref-alc.txt|)
+- erlang	(|ref-erlang.txt|)
 - man		(|ref-man.txt|)
 - perldoc	(|ref-perldoc.txt|)
 - phpmanual	(|ref-phpmanual.txt|)

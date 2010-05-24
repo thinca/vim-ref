@@ -29,6 +29,7 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 
 このプラグインには以下のソースが含まれています:
 - alc		(|ref-alc.txt|)
+- erlang	(|ref-erlang.txt|)
 - man		(|ref-man.txt|)
 - perldoc	(|ref-perldoc.txt|)
 - phpmanual	(|ref-phpmanual.txt|)
