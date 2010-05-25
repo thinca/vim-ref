@@ -230,6 +230,11 @@ FileType ref					*filetype-ref*
 	endfunction
 <
 
+FileType ref-{source-name}			*filetype-ref-{source-name}*
+	The filetype set actually finally becomes ref-{source-name} though
+	|filetype-ref| is generated when |ref-viewer| is opened first.
+	This event is generated every time the source changes.
+
 g:ref_open					*g:ref_open*
 	The Assistance command used when |ref-viewer| is opened.  For example,
 	|:vsplit|, |:tabnew|, and so on.  The default value is "split".

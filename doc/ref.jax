@@ -225,6 +225,11 @@ FileType ref					*filetype-ref*
 	endfunction
 <
 
+FileType ref-{source-name}			*filetype-ref-{source-name}*
+	|filetype-ref| は最初に |ref-viewer| が開かれた際に発生しますが、実際
+	に最終的に設定されるファイルタイプは ref-{source-name} になります。
+	このイベントはソースが切り替わる度に発生します。
+
 g:ref_open					*g:ref_open*
 	|ref-viewer| を開く際の補助コマンドです。例えば、|:vsplit| や
 	|:tabnew|などを指定します。デフォルト値は "split" です。
