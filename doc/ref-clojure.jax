@@ -41,6 +41,13 @@ b:ref_clojure_classpath				*b:ref_clojure_classpath*
 			|b:ref_clojure_classpath| は |g:ref_clojure_classpath|
 			の値の前に追加されます。
 
+g:ref_clojure_precode				*g:ref_clojure_precode*
+b:ref_clojure_precode				*b:ref_clojure_precode*
+			検索前に実行するコードを指定します。"use" や
+			"require" が指定されることを想定しています。
+			|b:ref_clojure_precode| は |g:ref_clojure_precode|
+			の値の後に追加されます。
+
 
 
 ==============================================================================
