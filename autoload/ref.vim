@@ -178,7 +178,7 @@ function! s:open(source, query, options)  " {{{2
   if !has_key(a:options, 'new')
     for i in range(0, winnr('$'))
       let n = winbufnr(i)
-      if getbufvar(n, '&filetype') ==# 'ref'
+      if getbufvar(n, '&filetype') =~# '^ref-'
         if i != 0
           execute i 'wincmd w'
         endif
@@ -195,12 +195,15 @@ function! s:open(source, query, options)  " {{{2
   else
     setlocal modifiable noreadonly
     % delete _
-    if b:ref_source != a:source
+    if b:ref_source !=# a:source
       syntax clear
       call source.leave()
     endif
   endif
-  let b:ref_source = a:source
+  if !exists('b:ref_source') || b:ref_source !=# a:source
+    let b:ref_source = a:source
+    execute 'setlocal filetype=ref-' . a:source
+  endif
 
   " FIXME: not cool...
   let s:res = res
