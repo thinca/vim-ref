@@ -314,17 +314,6 @@ autoload/ref.vim is loaded, and the return value is registered as source.
 
 
 ==============================================================================
-TODO						*ref-todo*
-
-- Append sources.
-  - href
-  - javadoc
-  - etc...
-- More customizable.
-
-
-
-==============================================================================
 CHANGELOG					*ref-changelog*
 
 x.x.x	xxxx-xx-xx
