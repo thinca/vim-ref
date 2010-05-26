@@ -210,12 +210,16 @@ function! s:open(source, query, options)  " {{{2
   call s:open_source(query, 'silent :1 put = s:res | 1 delete _')
   unlet! s:res
 
-  let b:ref_history_pos += 1
-  unlet! b:ref_history[b:ref_history_pos :]
-  if 0 < b:ref_history_pos
-    let b:ref_history[-1][3] = pos
+  if !(0 <= b:ref_history_pos
+  \ && b:ref_history[b:ref_history_pos][0] ==# a:source
+  \ && b:ref_history[b:ref_history_pos][1] ==# query)
+    let b:ref_history_pos += 1
+    unlet! b:ref_history[b:ref_history_pos :]
+    if 0 < b:ref_history_pos
+      let b:ref_history[-1][3] = pos
+    endif
+    call add(b:ref_history, [a:source, query, changenr(), []])
   endif
-  call add(b:ref_history, [a:source, query, changenr(), []])
 
   if has_key(a:options, 'noenter')
     for t in range(1, tabpagenr('$'))

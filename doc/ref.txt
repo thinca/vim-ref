@@ -319,6 +319,7 @@ CHANGELOG					*ref-changelog*
 x.x.x	xxxx-xx-xx
 	- Changed filetype convention.
 	  - See |filetype-ref-{source-name}|.
+	- Do not add to the history when a continuous, same page was opened.
 
 0.3.3	2010-05-23
 	- Added |ref#to_list()|.

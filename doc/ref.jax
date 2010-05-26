@@ -313,6 +313,7 @@ leave()					*ref-source-attr-leave()*
 x.x.x	xxxx-xx-xx
 	- ファイルタイプの規則を変更。
 	  - |filetype-ref-{source-name}| を参照。
+	- 連続で同じページを開いた場合履歴に追加しないようにした。
 
 0.3.3	2010-05-23
 	- |ref#to_list()| を追加。
