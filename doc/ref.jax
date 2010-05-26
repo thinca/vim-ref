@@ -310,6 +310,10 @@ leave()					*ref-source-attr-leave()*
 ==============================================================================
 更新履歴					*ref-changelog*
 
+x.x.x	xxxx-xx-xx
+	- ファイルタイプの規則を変更。
+	  - |filetype-ref-{source-name}| を参照。
+
 0.3.3	2010-05-23
 	- |ref#to_list()| を追加。
 	- |ref#get_text_on_cursor()| の範囲が間違っていたのを修正。
