@@ -299,6 +299,9 @@ normalize({query})			*ref-source-attr-normalize()*
 leave()					*ref-source-attr-leave()*
 			任意。この関数は別のソースに移動する際に呼ばれます。
 
+cache({name}, {gather})			*ref-source-attr-cache()*
+			本体によって定義されます。|ref#cache()| の短縮版です。
+
 ------------------------------------------------------------------------------
 オートロード					*ref-autoload*
 
@@ -314,6 +317,7 @@ x.x.x	xxxx-xx-xx
 	- ファイルタイプの規則を変更。
 	  - |filetype-ref-{source-name}| を参照。
 	- 連続で同じページを開いた場合履歴に追加しないようにした。
+	- |ref-source-attr-cache()| を追加。
 
 0.3.3	2010-05-23
 	- |ref#to_list()| を追加。

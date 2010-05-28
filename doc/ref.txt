@@ -305,6 +305,9 @@ leave()					*ref-source-attr-leave()*
 			Optional.  This function is called when move to other
 			source page.
 
+cache({name}, {gather})			*ref-source-attr-cache()*
+			Defined by core.  This is a shortcut to |ref#cache()|.
+
 ------------------------------------------------------------------------------
 AUTOLOAD					*ref-autoload*
 
@@ -320,6 +323,7 @@ x.x.x	xxxx-xx-xx
 	- Changed filetype convention.
 	  - See |filetype-ref-{source-name}|.
 	- Do not add to the history when a continuous, same page was opened.
+	- Added |ref-source-attr-cache()|.
 
 0.3.3	2010-05-23
 	- Added |ref#to_list()|.
