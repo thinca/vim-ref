@@ -23,7 +23,7 @@ endif
 let s:source = {'name': 'pydoc'}  " {{{1
 
 function! s:source.available()  " {{{2
-  return len(g:ref_pydoc_cmd)
+  return !empty(g:ref_pydoc_cmd)
 endfunction
 
 
