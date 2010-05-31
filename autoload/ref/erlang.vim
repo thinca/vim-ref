@@ -26,14 +26,15 @@ let s:source.man_opened = s:source.opened
 
 
 function! s:source.get_body(query)  " {{{2
-  return self.man_get_body(split(a:query, ':')[0])
+  let query = split(a:query, ':')
+  return self.man_get_body(get(query, 0, ''))
 endfunction
 
 
 
 function! s:source.opened(query)  " {{{2
   let query = split(a:query, ':')
-  call self.man_opened(query[0])
+  call self.man_opened(get(query, 0, ''))
   if 2 <= len(query)
     call search('^ \{7}\%(' . query[0] . ':\)\?' . query[1] . '(', 'w')
     normal! zt
