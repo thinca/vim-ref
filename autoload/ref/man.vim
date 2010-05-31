@@ -25,7 +25,7 @@ endif
 let s:source = {'name': 'man'}  " {{{1
 
 function! s:source.available()  " {{{2
-  return len(self.option('cmd'))
+  return !empty(self.option('cmd'))
 endfunction
 
 
