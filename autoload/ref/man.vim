@@ -93,7 +93,7 @@ function! s:source.complete(query)  " {{{2
   let [query, sec] = s:parse(a:query)
   let sec -= 0  " to number
 
-  return filter(copy(ref#cache(self.name, sec, self)),
+  return filter(copy(self.cache(sec, self)),
   \             'v:val =~# "^\\V" . query')
 endfunction
 
@@ -110,7 +110,7 @@ function! s:source.call(name)  " {{{2
   let list = []
   if a:name is 0
     for n in range(1, 9)
-      let list += ref#cache(self.name, n, self)
+      let list += self.cache(n, self)
     endfor
 
   else
