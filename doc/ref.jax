@@ -169,6 +169,7 @@ ref#get_text_on_cursor({pattern})		*ref#get_text_on_cursor()*
 			-new		強制的に新しくビューアを開きます。
 			-nocache	キャッシュを使いません。
 			-noenter	|ref-viewer| へ移動しません。
+			-updatecache	キャッシュを更新します。
 
 :RefHistory					*:RefHistory*
 			|ref-viewer| の履歴をリスト表示します。数字を入力する
@@ -324,6 +325,7 @@ x.x.x	xxxx-xx-xx
 	- |ref-source-attr-cache()| を追加。
 	- |ref#cache()| の {gather} を省略できるようにした。
 	- |ref#cache()| に {update} 引数を追加。
+	- |:Ref-option| に -updatecache を追加。
 
 0.3.3	2010-05-23
 	- |ref#to_list()| を追加。

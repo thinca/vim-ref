@@ -30,7 +30,7 @@ let s:TYPES = {
 \     'float': type(0.0),
 \   }
 
-let s:options = ['-open=', '-new', '-nocache', '-noenter']
+let s:options = ['-open=', '-new', '-nocache', '-noenter', '-updatecache']
 
 let s:sources = {}
 
@@ -79,6 +79,9 @@ function! ref#complete(lead, cmd, pos)  " {{{2
     if has_key(parsed.options, 'nocache')
       let s:nocache = 1
     endif
+    if has_key(parsed.options, 'updatecache')
+      let s:updatecache = 1
+    endif
     if parsed.source == '' || (parsed.query == '' && cmd =~ '\S$')
       let lead = matchstr(cmd, '-\w*$')
       if lead != ''
@@ -90,7 +93,7 @@ function! ref#complete(lead, cmd, pos)  " {{{2
     endif
     return get(s:sources, parsed.source, s:prototype).complete(parsed.query)
   finally
-    unlet! s:nocache
+    unlet! s:nocache s:updatecache
   endtry
 endfunction
 
@@ -353,7 +356,7 @@ endfunction
 let s:cache = {}
 function! ref#cache(source, name, ...)  " {{{2
   let get_only = a:0 == 0
-  let update = get(a:000, 1, 0)
+  let update = get(a:000, 1, 0) || exists('s:updatecache')
   if exists('s:nocache')
     if get_only
       return 0

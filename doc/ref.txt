@@ -174,6 +174,7 @@ COMMANDS					*ref-commands*
 			-new		Open the viewer forcely and newly.
 			-nocache	Don't use cache.
 			-noenter	Don't enter the |rev-viewer|.
+			-updatecache	Update cache.
 
 :RefHistory					*:RefHistory*
 			List the history in |ref-viewer|.  It is possible to
@@ -330,6 +331,7 @@ x.x.x	xxxx-xx-xx
 	- Added |ref-source-attr-cache()|.
 	- {gather} of |ref#cache()| was made omissible.
 	- Added the {update} argument to |ref#cache()|.
+	- Added the -updatecache to |:Ref-option|.
 
 0.3.3	2010-05-23
 	- Added |ref#to_list()|.
