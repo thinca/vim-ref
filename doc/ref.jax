@@ -105,7 +105,7 @@ ref#register_detection({ft}, {source})		*ref#register_detection()*
 
 以下の関数は主に |ref-sources| によって使われます。
 
-ref#cache({source-name}, {name}, {gather})	*ref#cache()*
+ref#cache({source-name}, {name} [, {gather}])	*ref#cache()*
 			取得に時間のかかるリストをキャッシュするための関数で
 			す。この関数を介することでリストは自動でキャッシュされ
 			ます。以降はキャッシュされたリストを返します。
@@ -118,6 +118,8 @@ ref#cache({source-name}, {name}, {gather})	*ref#cache()*
 			1 と 3 は関数の引数に {name} を受け取ります。
 			2 は a:name を参照できます。
 			いずれの場合もリストを返す必要があります。
+			{gather} が省略された場合、キャッシュされたリストを取
+			得します。キャッシュが存在しない場合、0 を返します。
 
 ref#system({expr} [, {input}])			*ref#system()*
 			|system()| と同じですが、{expr} はリスト(|List|)を取り
@@ -299,7 +301,7 @@ normalize({query})			*ref-source-attr-normalize()*
 leave()					*ref-source-attr-leave()*
 			任意。この関数は別のソースに移動する際に呼ばれます。
 
-cache({name}, {gather})			*ref-source-attr-cache()*
+cache({name} [, {gather}])		*ref-source-attr-cache()*
 			本体によって定義されます。|ref#cache()| の短縮版です。
 
 ------------------------------------------------------------------------------
@@ -318,6 +320,7 @@ x.x.x	xxxx-xx-xx
 	  - |filetype-ref-{source-name}| を参照。
 	- 連続で同じページを開いた場合履歴に追加しないようにした。
 	- |ref-source-attr-cache()| を追加。
+	- |ref#cache()| の {gather} を省略できるようにした。
 
 0.3.3	2010-05-23
 	- |ref#to_list()| を追加。

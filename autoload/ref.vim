@@ -351,9 +351,13 @@ endfunction
 
 " Helper functions for source. {{{1
 let s:cache = {}
-function! ref#cache(source, name, gather)  " {{{2
+function! ref#cache(source, name, ...)  " {{{2
+  let get_only = a:0 == 0
   if exists('s:nocache')
-    return s:gather_cache(a:name, a:gather)
+    if get_only
+      return 0
+    endif
+    return s:gather_cache(a:name, a:1)
   endif
 
   if !exists('s:cache[a:source][a:name]')
@@ -372,7 +376,10 @@ function! ref#cache(source, name, gather)  " {{{2
     endif
 
     if !has_key(s:cache[a:source], a:name)
-      let s:cache[a:source][a:name] = s:gather_cache(a:name, a:gather)
+      if get_only
+        return 0
+      endif
+      let s:cache[a:source][a:name] = s:gather_cache(a:name, a:1)
 
       if g:ref_cache_dir != ''
         let dir = fnamemodify(file, ':h')
