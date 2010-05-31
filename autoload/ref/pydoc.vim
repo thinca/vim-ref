@@ -83,7 +83,7 @@ endfunction
 
 
 function! s:source.get_keyword()  " {{{2
-  if &l:filetype == 'ref'
+  if &l:filetype == 'ref-pydoc'
     let [type, name, scope] = s:get_info()
 
     if type == 'package' || type == 'module'
