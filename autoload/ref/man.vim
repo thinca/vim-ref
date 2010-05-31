@@ -40,11 +40,14 @@ function! s:source.get_body(query)  " {{{2
     let $LANG = opt_lang
   endif
   try
+    let use_vimproc = g:ref_use_vimproc
+    let g:ref_use_vimproc = 0
     let res = ref#system(ref#to_list(self.option('cmd')) + q)
   finally
     if exists('lang')
       let $LANG = lang
     endif
+    let g:ref_use_vimproc = use_vimproc
   endtry
   if !res.result
     let body = res.stdout
