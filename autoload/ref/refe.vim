@@ -100,7 +100,7 @@ function! s:source.get_keyword()  " {{{2
   let id = '\v\w+[!?]?'
   let pos = getpos('.')[1:]
 
-  if &l:filetype ==# 'ref'
+  if &l:filetype ==# 'ref-refe'
     let [type, name] = s:detect_type()
 
     if type ==# 'list'
