@@ -1,6 +1,6 @@
 *ref-man.txt*	manpage 用の ref ソース。
 
-Version: 0.3.2
+Version: 0.4.0
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -22,7 +22,7 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 
 
 要件:
-- |ref| 0.3.3 以降
+- |ref| 0.4.0 以降
 - man
 
 
@@ -44,7 +44,8 @@ g:ref_man_lang					*g:ref_man_lang*
 ==============================================================================
 更新履歴					*ref-man-changelog*
 
-x.x.x	xxxx-xx-xx
+0.4.0	2010-05-31
+	- |ref| 0.4.0 に対応。
 	- |vimproc| を使わないようにした。
 	  - man は setuid されていることがあるが、vimproc は setuid に対応して
 	    いないため。

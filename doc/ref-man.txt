@@ -1,6 +1,6 @@
 *ref-man.txt*	A ref source for manpage.
 
-Version: 0.3.2
+Version: 0.4.0
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -22,7 +22,7 @@ manual pages on UNIX-like operating systems.
 
 
 Requirements:
-- |ref| 0.3.3 or later
+- |ref| 0.4.0 or later
 - man
 
 
@@ -45,7 +45,8 @@ g:ref_man_lang					*g:ref_man_lang*
 ==============================================================================
 CHANGELOG					*ref-man-changelog*
 
-x.x.x	xxxx-xx-xx
+0.4.0	2010-05-31
+	- Updated for |ref| 0.4.0.
 	- Don't use |vimproc|.
 	  - As for man command, setuid might be applied, but vimproc doesn't
 	    correspond setuid.
