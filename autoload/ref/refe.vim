@@ -350,7 +350,7 @@ endfunction
 
 
 function! ref#refe#define()  " {{{2
-  return s:source
+  return copy(s:source)
 endfunction
 
 call ref#register_detection('ruby', 'refe')  " {{{1
