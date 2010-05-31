@@ -118,7 +118,7 @@ function! s:source.call(name)  " {{{2
 
   else
     let manpath = self.option('manpath')
-    for path in split(matchstr(manpath, '^.\{-}\ze\s*$'), ':')
+    for path in split(matchstr(manpath, '^.\{-}\ze\_s*$'), ':')
       let dir = path . '/man' . a:name
       if isdirectory(dir)
         let list += map(split(glob(dir . '*/*'), "\n"),

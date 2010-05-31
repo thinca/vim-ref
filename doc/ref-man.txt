@@ -49,6 +49,7 @@ x.x.x	xxxx-xx-xx
 	- Don't use |vimproc|.
 	  - As for man command, setuid might be applied, but vimproc doesn't
 	    correspond setuid.
+	- Fixed the bug that the last item of manpath is ignored.
 
 0.3.2	2010-05-16
 	- Abolished the highlight with escape sequence.
