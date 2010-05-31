@@ -1,5 +1,5 @@
 " A ref source for manpage.
-" Version: 0.3.2
+" Version: 0.4.0
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -25,7 +25,7 @@ endif
 let s:source = {'name': 'man'}  " {{{1
 
 function! s:source.available()  " {{{2
-  return len(self.option('cmd'))
+  return !empty(self.option('cmd'))
 endfunction
 
 
@@ -40,11 +40,14 @@ function! s:source.get_body(query)  " {{{2
     let $LANG = opt_lang
   endif
   try
+    let use_vimproc = g:ref_use_vimproc
+    let g:ref_use_vimproc = 0
     let res = ref#system(ref#to_list(self.option('cmd')) + q)
   finally
     if exists('lang')
       let $LANG = lang
     endif
+    let g:ref_use_vimproc = use_vimproc
   endtry
   if !res.result
     let body = res.stdout
@@ -93,7 +96,7 @@ function! s:source.complete(query)  " {{{2
   let [query, sec] = s:parse(a:query)
   let sec -= 0  " to number
 
-  return filter(copy(ref#cache(self.name, sec, self)),
+  return filter(copy(self.cache(sec, self)),
   \             'v:val =~# "^\\V" . query')
 endfunction
 
@@ -110,12 +113,12 @@ function! s:source.call(name)  " {{{2
   let list = []
   if a:name is 0
     for n in range(1, 9)
-      let list += ref#cache(self.name, n, self)
+      let list += self.cache(n, self)
     endfor
 
   else
     let manpath = self.option('manpath')
-    for path in split(matchstr(manpath, '^.\{-}\ze\s*$'), ':')
+    for path in split(matchstr(manpath, '^.\{-}\ze\_s*$'), ':')
       let dir = path . '/man' . a:name
       if isdirectory(dir)
         let list += map(split(glob(dir . '*/*'), "\n"),

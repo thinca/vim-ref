@@ -1,6 +1,6 @@
 *ref.txt*	総合リファレンスビューア。
 
-Version: 0.3.3
+Version: 0.4.0
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -29,6 +29,7 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 
 このプラグインには以下のソースが含まれています:
 - alc		(|ref-alc.txt|)
+- erlang	(|ref-erlang.txt|)
 - man		(|ref-man.txt|)
 - perldoc	(|ref-perldoc.txt|)
 - phpmanual	(|ref-phpmanual.txt|)
@@ -104,7 +105,7 @@ ref#register_detection({ft}, {source})		*ref#register_detection()*
 
 以下の関数は主に |ref-sources| によって使われます。
 
-ref#cache({source-name}, {name}, {gather})	*ref#cache()*
+ref#cache({source-name}, {name} [, {gather} [, {update}]])	*ref#cache()*
 			取得に時間のかかるリストをキャッシュするための関数で
 			す。この関数を介することでリストは自動でキャッシュされ
 			ます。以降はキャッシュされたリストを返します。
@@ -117,6 +118,10 @@ ref#cache({source-name}, {name}, {gather})	*ref#cache()*
 			1 と 3 は関数の引数に {name} を受け取ります。
 			2 は a:name を参照できます。
 			いずれの場合もリストを返す必要があります。
+			{gather} が省略された場合、キャッシュされたリストを取
+			得します。キャッシュが存在しない場合、0 を返します。
+			{update} に 0 以外が与えられた場合、キャッシュを更新し
+			ます。
 
 ref#system({expr} [, {input}])			*ref#system()*
 			|system()| と同じですが、{expr} はリスト(|List|)を取り
@@ -164,6 +169,7 @@ ref#get_text_on_cursor({pattern})		*ref#get_text_on_cursor()*
 			-new		強制的に新しくビューアを開きます。
 			-nocache	キャッシュを使いません。
 			-noenter	|ref-viewer| へ移動しません。
+			-updatecache	キャッシュを更新します。
 
 :RefHistory					*:RefHistory*
 			|ref-viewer| の履歴をリスト表示します。数字を入力する
@@ -223,6 +229,11 @@ FileType ref					*filetype-ref*
 	  " ... and more settings ...
 	endfunction
 <
+
+FileType ref-{source-name}			*filetype-ref-{source-name}*
+	|filetype-ref| は最初に |ref-viewer| が開かれた際に発生しますが、実際
+	に最終的に設定されるファイルタイプは ref-{source-name} になります。
+	このイベントはソースが切り替わる度に発生します。
 
 g:ref_open					*g:ref_open*
 	|ref-viewer| を開く際の補助コマンドです。例えば、|:vsplit| や
@@ -293,6 +304,9 @@ normalize({query})			*ref-source-attr-normalize()*
 leave()					*ref-source-attr-leave()*
 			任意。この関数は別のソースに移動する際に呼ばれます。
 
+cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
+			本体によって定義されます。|ref#cache()| の短縮版です。
+
 ------------------------------------------------------------------------------
 オートロード					*ref-autoload*
 
@@ -303,6 +317,15 @@ leave()					*ref-source-attr-leave()*
 
 ==============================================================================
 更新履歴					*ref-changelog*
+
+0.4.0	2010-05-31
+	- ファイルタイプの規則を変更。
+	  - |filetype-ref-{source-name}| を参照。
+	- 連続で同じページを開いた場合履歴に追加しないようにした。
+	- |ref-source-attr-cache()| を追加。
+	- |ref#cache()| の {gather} を省略できるようにした。
+	- |ref#cache()| に {update} 引数を追加。
+	- |:Ref-option| に -updatecache を追加。
 
 0.3.3	2010-05-23
 	- |ref#to_list()| を追加。

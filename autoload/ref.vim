@@ -1,5 +1,5 @@
 " Integrated reference viewer.
-" Version: 0.3.3
+" Version: 0.4.0
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -30,7 +30,7 @@ let s:TYPES = {
 \     'float': type(0.0),
 \   }
 
-let s:options = ['-open=', '-new', '-nocache', '-noenter']
+let s:options = ['-open=', '-new', '-nocache', '-noenter', '-updatecache']
 
 let s:sources = {}
 
@@ -47,6 +47,9 @@ function! s:prototype.normalize(query)
   return a:query
 endfunction
 function! s:prototype.leave()
+endfunction
+function! s:prototype.cache(name, gather)
+  return ref#cache(self.name, a:name, a:gather)
 endfunction
 
 
@@ -76,6 +79,9 @@ function! ref#complete(lead, cmd, pos)  " {{{2
     if has_key(parsed.options, 'nocache')
       let s:nocache = 1
     endif
+    if has_key(parsed.options, 'updatecache')
+      let s:updatecache = 1
+    endif
     if parsed.source == '' || (parsed.query == '' && cmd =~ '\S$')
       let lead = matchstr(cmd, '-\w*$')
       if lead != ''
@@ -87,7 +93,7 @@ function! ref#complete(lead, cmd, pos)  " {{{2
     endif
     return get(s:sources, parsed.source, s:prototype).complete(parsed.query)
   finally
-    unlet! s:nocache
+    unlet! s:nocache s:updatecache
   endtry
 endfunction
 
@@ -178,7 +184,7 @@ function! s:open(source, query, options)  " {{{2
   if !has_key(a:options, 'new')
     for i in range(0, winnr('$'))
       let n = winbufnr(i)
-      if getbufvar(n, '&filetype') ==# 'ref'
+      if getbufvar(n, '&filetype') =~# '^ref-'
         if i != 0
           execute i 'wincmd w'
         endif
@@ -195,24 +201,31 @@ function! s:open(source, query, options)  " {{{2
   else
     setlocal modifiable noreadonly
     % delete _
-    if b:ref_source != a:source
+    if b:ref_source !=# a:source
       syntax clear
       call source.leave()
     endif
   endif
-  let b:ref_source = a:source
+  if !exists('b:ref_source') || b:ref_source !=# a:source
+    let b:ref_source = a:source
+    execute 'setlocal filetype=ref-' . a:source
+  endif
 
   " FIXME: not cool...
   let s:res = res
   call s:open_source(query, 'silent :1 put = s:res | 1 delete _')
   unlet! s:res
 
-  let b:ref_history_pos += 1
-  unlet! b:ref_history[b:ref_history_pos :]
-  if 0 < b:ref_history_pos
-    let b:ref_history[-1][3] = pos
+  if !(0 <= b:ref_history_pos
+  \ && b:ref_history[b:ref_history_pos][0] ==# a:source
+  \ && b:ref_history[b:ref_history_pos][1] ==# query)
+    let b:ref_history_pos += 1
+    unlet! b:ref_history[b:ref_history_pos :]
+    if 0 < b:ref_history_pos
+      let b:ref_history[-1][3] = pos
+    endif
+    call add(b:ref_history, [a:source, query, changenr(), []])
   endif
-  call add(b:ref_history, [a:source, query, changenr(), []])
 
   if has_key(a:options, 'noenter')
     for t in range(1, tabpagenr('$'))
@@ -341,12 +354,17 @@ endfunction
 
 " Helper functions for source. {{{1
 let s:cache = {}
-function! ref#cache(source, name, gather)  " {{{2
+function! ref#cache(source, name, ...)  " {{{2
+  let get_only = a:0 == 0
+  let update = get(a:000, 1, 0) || exists('s:updatecache')
   if exists('s:nocache')
-    return s:gather_cache(a:name, a:gather)
+    if get_only
+      return 0
+    endif
+    return s:gather_cache(a:name, a:1)
   endif
 
-  if !exists('s:cache[a:source][a:name]')
+  if update || !exists('s:cache[a:source][a:name]')
     if !has_key(s:cache, a:source)
       let s:cache[a:source] = {}
     endif
@@ -361,8 +379,11 @@ function! ref#cache(source, name, gather)  " {{{2
       endif
     endif
 
-    if !has_key(s:cache[a:source], a:name)
-      let s:cache[a:source][a:name] = s:gather_cache(a:name, a:gather)
+    if update || !has_key(s:cache[a:source], a:name)
+      if get_only
+        return 0
+      endif
+      let s:cache[a:source][a:name] = s:gather_cache(a:name, a:1)
 
       if g:ref_cache_dir != ''
         let dir = fnamemodify(file, ':h')
