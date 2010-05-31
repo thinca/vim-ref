@@ -28,7 +28,7 @@ endif
 let s:source = {'name': 'refe'}  " {{{1
 
 function! s:source.available()  " {{{2
-  return len(g:ref_refe_cmd)
+  return !empty(g:ref_refe_cmd)
 endfunction
 
 
