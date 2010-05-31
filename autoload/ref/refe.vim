@@ -85,7 +85,7 @@ endfunction
 
 function! s:source.complete(query)  " {{{2
   let option = s:refe_version() == 2 ? ['-l'] : ['-l', '-s']
-  return split(s:refe(option + s:to_a(a:query)).stdout, "\n")
+  return split(s:refe(option + ref#to_list(a:query)).stdout, "\n")
 endfunction
 
 
@@ -165,7 +165,7 @@ function! s:source.get_keyword()  " {{{2
 
         " To use the column of character base.
         let col = len(substitute(getline('.')[: col('.') - 2], '.', '.', 'g'))
-        let res = ref#system(s:to_a(g:ref_refe_rsense_cmd) +
+        let res = ref#system(ref#to_list(g:ref_refe_rsense_cmd) +
         \ ['type-inference', '--file=' . file,
         \ printf('--location=%s:%s', line('.'), col)])
         let type = matchstr(res.stdout, '^type: \zs\S\+\ze\n')
@@ -322,15 +322,8 @@ endfunction
 
 
 
-function! s:to_a(expr)  " {{{2
-  return type(a:expr) == type('') ? split(a:expr, '\s\+') :
-  \      type(a:expr) != type([]) ? [a:expr] : a:expr
-endfunction
-
-
-
 function! s:refe(args)  " {{{2
-  return ref#system(s:to_a(g:ref_refe_cmd) + s:to_a(a:args))
+  return ref#system(ref#to_list(g:ref_refe_cmd) + ref#to_list(a:args))
 endfunction
 
 
