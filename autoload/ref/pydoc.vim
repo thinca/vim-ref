@@ -1,5 +1,5 @@
 " A ref source for pydoc.
-" Version: 0.3.1
+" Version: 0.4.0
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -23,7 +23,7 @@ endif
 let s:source = {'name': 'pydoc'}  " {{{1
 
 function! s:source.available()  " {{{2
-  return len(g:ref_pydoc_cmd)
+  return !empty(g:ref_pydoc_cmd)
 endfunction
 
 
@@ -64,7 +64,7 @@ endfunction
 function! s:source.complete(query)  " {{{2
   let cmd = s:to_a(g:ref_pydoc_cmd) + ['-k', '.']
   let mapexpr = 'matchstr(v:val, "^[[:alnum:]._]*")'
-  let all_list = ref#cache('pydoc', 'list',
+  let all_list = self.cache('list',
   \                    printf('map(split(ref#system(%s).stdout, "\n"), %s)',
   \                           string(cmd), string(mapexpr)))
 
@@ -83,7 +83,7 @@ endfunction
 
 
 function! s:source.get_keyword()  " {{{2
-  if &l:filetype == 'ref'
+  if &l:filetype == 'ref-pydoc'
     let [type, name, scope] = s:get_info()
 
     if type == 'package' || type == 'module'
