@@ -353,6 +353,7 @@ endfunction
 let s:cache = {}
 function! ref#cache(source, name, ...)  " {{{2
   let get_only = a:0 == 0
+  let update = get(a:000, 1, 0)
   if exists('s:nocache')
     if get_only
       return 0
@@ -360,7 +361,7 @@ function! ref#cache(source, name, ...)  " {{{2
     return s:gather_cache(a:name, a:1)
   endif
 
-  if !exists('s:cache[a:source][a:name]')
+  if update || !exists('s:cache[a:source][a:name]')
     if !has_key(s:cache, a:source)
       let s:cache[a:source] = {}
     endif
@@ -375,7 +376,7 @@ function! ref#cache(source, name, ...)  " {{{2
       endif
     endif
 
-    if !has_key(s:cache[a:source], a:name)
+    if update || !has_key(s:cache[a:source], a:name)
       if get_only
         return 0
       endif

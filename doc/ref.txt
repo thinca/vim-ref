@@ -107,7 +107,7 @@ ref#register_detection({ft}, {source})		*ref#register_detection()*
 
 The following functions are used by |ref-sources| mainly.
 
-ref#cache({source-name}, {name} [, {gather}])	*ref#cache()*
+ref#cache({source-name}, {name} [, {gather} [, {update}]])	*ref#cache()*
 			It is a function to cache a time-consuming list to
 			acquisition.  The list is cached in the automatic
 			operation in using this function. The cached list is
@@ -124,6 +124,8 @@ ref#cache({source-name}, {name} [, {gather}])	*ref#cache()*
 			In any case, it is necessary to return the list.
 			When {gather} is omitted, the cached list is acquired.
 			When cash doesn't exist, 0 is returned.
+			When numbers except 0 are given to {update}, cash is
+			updated.
 
 ref#system({expr} [, {input}])			*ref#system()*
 			Like |system()|, but {expr} takes a |List|.  Each
@@ -307,7 +309,7 @@ leave()					*ref-source-attr-leave()*
 			Optional.  This function is called when move to other
 			source page.
 
-cache({name} [, {gather}])		*ref-source-attr-cache()*
+cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
 			Defined by core.  This is a shortcut to |ref#cache()|.
 
 ------------------------------------------------------------------------------
@@ -327,6 +329,7 @@ x.x.x	xxxx-xx-xx
 	- Do not add to the history when a continuous, same page was opened.
 	- Added |ref-source-attr-cache()|.
 	- {gather} of |ref#cache()| was made omissible.
+	- Added the {update} argument to |ref#cache()|.
 
 0.3.3	2010-05-23
 	- Added |ref#to_list()|.
