@@ -64,7 +64,7 @@ endfunction
 function! s:source.complete(query)  " {{{2
   let cmd = s:to_a(g:ref_pydoc_cmd) + ['-k', '.']
   let mapexpr = 'matchstr(v:val, "^[[:alnum:]._]*")'
-  let all_list = ref#cache('pydoc', 'list',
+  let all_list = self.cache('list',
   \                    printf('map(split(ref#system(%s).stdout, "\n"), %s)',
   \                           string(cmd), string(mapexpr)))
 
