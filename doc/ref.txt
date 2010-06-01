@@ -119,6 +119,7 @@ ref#cache({source-name}, {name} [, {gather} [, {update}]])	*ref#cache()*
 			2. A evaluatable string by |eval()|.  (Note scope.)
 			3. A dictionary with dictionary function "call" in
 			   member.
+			4. A |List| for caching.
 			A function of 1 and 3 is received {name} as argument.
 			a:name can be referred by 2.
 			In any case, it is necessary to return the list.
@@ -326,6 +327,7 @@ CHANGELOG					*ref-changelog*
 
 x.x.x	xxxx-xx-xx
 	- Fixed the arguments of |ref-source-attr-cache()|.
+	- |ref#cache()| accepts a |List| as {gather}.
 
 0.4.0	2010-05-31
 	- Changed filetype convention.

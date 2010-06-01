@@ -586,7 +586,8 @@ function! s:gather_cache(name, gather)  " {{{2
   \  type(a:gather) == s:TYPES.dictionary && has_key(a:gather, 'call')
   \    && type(a:gather.call) == s:TYPES.function ?
   \       a:gather.call(a:name) :
-  \  type(a:gather) == s:TYPES.string ? eval(a:gather) : []
+  \  type(a:gather) == s:TYPES.string ? eval(a:gather) :
+  \  type(a:gather) == s:TYPES.list ? a:gather : []
   if type(cache) == s:TYPES.list
     return cache
   elseif type(cache) == s:TYPES.string
