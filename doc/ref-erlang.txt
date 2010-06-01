@@ -60,6 +60,7 @@ CHANGELOG					*ref-erlang-changelog*
 
 x.x.x	xxxx-xx-xx
 	- Fixed the bug that the error occurs when query was empty.
+	- Fixed keyword pattern.
 
 0.1.0	2010-05-23
 	- Initial version.

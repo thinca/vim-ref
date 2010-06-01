@@ -59,6 +59,7 @@ g:ref_erlang_man_dir				*g:ref_erlang_man_dir*
 
 x.x.x	xxxx-xx-xx
 	- クエリが空の時にエラーが発生するバグを修正。
+	- キーワードのパターンを修正。
 
 0.1.0	2010-05-23
 	- 初版。
