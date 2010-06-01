@@ -318,6 +318,9 @@ cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
 ==============================================================================
 更新履歴					*ref-changelog*
 
+x.x.x	xxxx-xx-xx
+	- |ref-source-attr-cache()| の引数が変わっていなかったのを修正。
+
 0.4.0	2010-05-31
 	- ファイルタイプの規則を変更。
 	  - |filetype-ref-{source-name}| を参照。

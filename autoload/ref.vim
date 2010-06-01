@@ -48,8 +48,8 @@ function! s:prototype.normalize(query)
 endfunction
 function! s:prototype.leave()
 endfunction
-function! s:prototype.cache(name, gather)
-  return ref#cache(self.name, a:name, a:gather)
+function! s:prototype.cache(name, ...)
+  return call('ref#cache', [self.name, a:name] + a:000)
 endfunction
 
 

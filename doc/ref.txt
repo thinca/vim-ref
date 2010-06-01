@@ -324,6 +324,9 @@ autoload/ref.vim is loaded, and the return value is registered as source.
 ==============================================================================
 CHANGELOG					*ref-changelog*
 
+x.x.x	xxxx-xx-xx
+	- Fixed the arguments of |ref-source-attr-cache()|.
+
 0.4.0	2010-05-31
 	- Changed filetype convention.
 	  - See |filetype-ref-{source-name}|.
