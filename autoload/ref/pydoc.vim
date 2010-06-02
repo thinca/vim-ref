@@ -238,7 +238,7 @@ endfunction
 
 
 function! ref#pydoc#define()  " {{{2
-  return s:source
+  return copy(s:source)
 endfunction
 
 call ref#register_detection('python', 'pydoc')
