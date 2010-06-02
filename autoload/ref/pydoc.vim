@@ -40,7 +40,7 @@ function! s:source.get_body(query)  " {{{2
   endif
 
   if matchedlist
-    let list = s:source.complete(a:query)
+    let list = self.complete(a:query)
     if list == []
       throw split(content, "\n")[0]
     endif

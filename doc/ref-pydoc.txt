@@ -55,6 +55,9 @@ BUGS						*ref-pydoc-bugs*
 ==============================================================================
 CHANGELOG					*ref-pydoc-changelog*
 
+x.x.x	xxxx-xx-xx
+	- Fixed the bug to which the list cannot be shown.
+
 0.4.0	2010-05-31
 	- Updated for |ref| 0.4.0.
 

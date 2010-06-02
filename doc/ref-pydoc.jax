@@ -54,6 +54,9 @@ g:ref_pydoc_complete_head			*g:ref_pydoc_complete_head*
 ==============================================================================
 更新履歴					*ref-pydoc-changelog*
 
+x.x.x	xxxx-xx-xx
+	- リストが表示できないバグを修正。
+
 0.4.0	2010-05-31
 	- |ref| 0.4.0 に対応。
 
