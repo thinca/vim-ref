@@ -188,15 +188,15 @@ endfunction
 
 
 function! s:syntax(type)  " {{{2
-  if exists('b:current_syntax') && b:current_syntax ==# 'ref-pydoc'
-    " return
+  if a:type ==# 'list'
+    syntax clear
+    return
+  elseif exists('b:current_syntax') && b:current_syntax ==# 'ref-pydoc'
+    return
   endif
 
   syntax clear
 
-  if a:type ==# 'list'
-    return
-  endif
 
   syntax match refPydocHeader '^[[:upper:][:space:]]\+$'
   syntax match refPydocClass '^    class\>' nextgroup=refPydocClassName skipwhite
