@@ -151,11 +151,7 @@ function! s:source.get_keyword()  " {{{2
     " TODO: In a Python code.
   endif
 
-  let isk = &l:isk
-  setlocal isk& isk+=.
-  let kwd = expand('<cword>')
-  let &l:isk = isk
-  return kwd
+  return ref#get_text_on_cursor('[[:alnum:].]\+')
 endfunction
 
 
