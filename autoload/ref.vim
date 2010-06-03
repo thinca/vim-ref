@@ -326,7 +326,8 @@ function! ref#detect()
 
   if type(Source) == s:TYPES.function
     " For dictionary function.
-    let s = call(Source, [&l:filetype], g:ref_detect_filetype)
+    let dict = exists('g:ref_detect_filetype') ? g:ref_detect_filetype : {}
+    let s = call(Source, [&l:filetype], dict)
     unlet Source
     let Source = s
   endif
