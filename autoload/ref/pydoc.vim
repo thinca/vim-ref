@@ -34,7 +34,7 @@ function! s:source.get_body(query)  " {{{2
     let matchedlist = 1
   else
     let content = ref#system(ref#to_list(g:ref_pydoc_cmd, a:query)).stdout
-    if content =~ 'no Python documentation found'
+    if content =~# 'no Python documentation found'
       let matchedlist = 1
     endif
   endif
@@ -73,36 +73,36 @@ function! s:source.complete(query)  " {{{2
     let all_list = s:head(all_list, q)
   endif
 
-  let list = filter(copy(all_list), 'v:val =~ "^\\V" . a:query')
+  let list = filter(copy(all_list), 'v:val =~# "^\\V" . a:query')
   if !empty(list)
     return list
   endif
-  return filter(copy(all_list), 'v:val =~ "\\V" . a:query')
+  return filter(copy(all_list), 'v:val =~# "\\V" . a:query')
 endfunction
 
 
 
 function! s:source.get_keyword()  " {{{2
-  if &l:filetype == 'ref-pydoc'
+  if &l:filetype ==# 'ref-pydoc'
     let [type, name, scope] = s:get_info()
 
-    if type == 'package' || type == 'module'
+    if type ==# 'package' || type ==# 'module'
       let line = getline('.')
 
       let secline = search('^\u[A-Z ]*\u$', 'bnW')
       let section = secline == 0 ? '' : getline(secline)
 
-      if section == 'PACKAGE CONTENTS'
+      if section ==# 'PACKAGE CONTENTS'
         let package = matchstr(line, '^\s*\zs\S\+')
         if package != ''
           return name . '.' . package
         endif
       endif
 
-      if section == 'CLASSES'
+      if section ==# 'CLASSES'
         let class = matchstr(line, '^\s*\zs\S\+$')
         if class != ''
-          if type == 'package'
+          if type ==# 'package'
             return class
           endif
           return printf('%s.%s', name, class)
@@ -130,7 +130,7 @@ function! s:source.get_keyword()  " {{{2
         return name . '.' . func
       endif
 
-    elseif type == 'class'
+    elseif type ==# 'class'
       let m = matchstr(getline('.'), '^ |  \zs\k\+\ze(.*)$')
       if m != ''
         return printf('%s.%s.%s', scope, name, m)
@@ -138,7 +138,7 @@ function! s:source.get_keyword()  " {{{2
 
     endif
 
-    if type != 'list'
+    if type !=# 'list'
       " xxx.yy*y.zzzClass -> xxx.yyy (* means cursor)
       let line = getline('.')
       let [pre, post] = [line[: col('.') - 2], line[col('.') - 1 :]]
@@ -188,14 +188,14 @@ endfunction
 
 
 function! s:syntax(type)  " {{{2
-  if exists('b:current_syntax') && b:current_syntax == 'ref-pydoc'
+  if exists('b:current_syntax') && b:current_syntax ==# 'ref-pydoc'
     " return
   endif
 
   syntax clear
   unlet! b:current_syntax
 
-  if a:type == 'list'
+  if a:type ==# 'list'
     return
   endif
 
