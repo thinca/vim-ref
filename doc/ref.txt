@@ -328,6 +328,7 @@ CHANGELOG					*ref-changelog*
 x.x.x	xxxx-xx-xx
 	- Fixed the arguments of |ref-source-attr-cache()|.
 	- |ref#cache()| accepts a |List| as {gather}.
+	- Fixed the some bugs for |ref#detect()|.
 
 0.4.0	2010-05-31
 	- Changed filetype convention.
