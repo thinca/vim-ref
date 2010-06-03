@@ -193,7 +193,6 @@ function! s:syntax(type)  " {{{2
   endif
 
   syntax clear
-  unlet! b:current_syntax
 
   if a:type ==# 'list'
     return
