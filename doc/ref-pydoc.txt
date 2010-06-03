@@ -1,6 +1,6 @@
 *ref-pydoc.txt*	A ref source for pydoc.
 
-Version: 0.4.0
+Version: 0.4.1
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -46,7 +46,7 @@ g:ref_pydoc_complete_head			*g:ref_pydoc_complete_head*
 ==============================================================================
 CHANGELOG					*ref-pydoc-changelog*
 
-x.x.x	xxxx-xx-xx
+0.4.1	2010-06-03
 	- Fixed the bug to which the list cannot be shown.
 	- Improved the matching of keyword a little.
 
