@@ -29,28 +29,21 @@ endfunction
 
 
 function! s:source.get_body(query)  " {{{2
-  let matchedlist = 0
-  if a:query == ''
-    let matchedlist = 1
-  else
+  if a:query != ''
     let content = ref#system(ref#to_list(g:ref_pydoc_cmd, a:query)).stdout
-    if content =~# '^no Python documentation found'
-      let matchedlist = 1
+    if content !~# '^no Python documentation found'
+      return content
     endif
   endif
 
-  if matchedlist
-    let list = self.complete(a:query)
-    if list == []
-      throw split(content, "\n")[0]
-    endif
-    if len(list) == 1
-      return ref#system(ref#to_list(g:ref_pydoc_cmd, list)).stdout
-    endif
-    return list
+  let list = self.complete(a:query)
+  if list == []
+    throw split(content, "\n")[0]
   endif
-
-  return content
+  if len(list) == 1
+    return ref#system(ref#to_list(g:ref_pydoc_cmd, list)).stdout
+  endif
+  return list
 endfunction
 
 
