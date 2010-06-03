@@ -55,6 +55,7 @@ g:ref_pydoc_complete_head			*g:ref_pydoc_complete_head*
 
 x.x.x	xxxx-xx-xx
 	- リストが表示できないバグを修正。
+	- キーワードのマッチを少し改善。
 
 0.4.0	2010-05-31
 	- |ref| 0.4.0 に対応。

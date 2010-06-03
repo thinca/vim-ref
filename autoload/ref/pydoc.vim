@@ -100,16 +100,16 @@ function! s:source.get_keyword()  " {{{2
       endif
 
       if section ==# 'CLASSES'
-        let class = matchstr(line, '^\s*\zs\S\+$')
+        let class = matchstr(line, '^\s*class \zs\k\+')
+        if class != ''
+          return printf('%s.%s', name, class)
+        endif
+
+        let class = matchstr(line, '^\s*\zs[[:alnum:].]\+')
         if class != ''
           if type ==# 'package'
             return class
           endif
-          return printf('%s.%s', name, class)
-        endif
-
-        let class = matchstr(line, '^\s*class \zs\k\+')
-        if class != ''
           return printf('%s.%s', name, class)
         endif
 
