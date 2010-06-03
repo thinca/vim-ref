@@ -323,6 +323,8 @@ x.x.x	xxxx-xx-xx
 	- |ref-source-attr-cache()| の引数が変わっていなかったのを修正。
 	- |ref#cache()| が {gather} に |List| を受け付けるようにした。
 	- |ref#detect()| に関するいくつかのバグを修正。
+	- 履歴を戻った時 |filetype-ref-{source-name}| が変更されないバグを修
+	  正。
 
 0.4.0	2010-05-31
 	- ファイルタイプの規則を変更。

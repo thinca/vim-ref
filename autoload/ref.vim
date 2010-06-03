@@ -206,14 +206,10 @@ function! s:open(source, query, options)  " {{{2
       call source.leave()
     endif
   endif
-  if !exists('b:ref_source') || b:ref_source !=# a:source
-    let b:ref_source = a:source
-    execute 'setlocal filetype=ref-' . a:source
-  endif
 
   " FIXME: not cool...
   let s:res = res
-  call s:open_source(query, 'silent :1 put = s:res | 1 delete _')
+  call s:open_source(a:source, query, 'silent :1 put = s:res | 1 delete _')
   unlet! s:res
 
   if !(0 <= b:ref_history_pos
@@ -601,14 +597,20 @@ endfunction
 
 
 
-function! s:open_source(query, open_cmd)  " {{{2
-  setlocal modifiable noreadonly
+function! s:open_source(source, query, open_cmd)  " {{{2
+  if !exists('b:ref_source') || b:ref_source !=# a:source
+    let b:ref_source = a:source
+    execute 'setlocal filetype=ref-' . a:source
+  endif
 
   let bufname = printf('[ref-%s:%s]', b:ref_source, a:query)
   if s:is_win
     " In Windows, '*' cannot be used for a buffer name.
     let bufname = substitute(bufname, '\*', '', 'g')
   endif
+
+  setlocal modifiable noreadonly
+
   silent! file `=bufname`
 
   execute a:open_cmd
@@ -637,8 +639,7 @@ function! s:move_history(n)  " {{{2
   let b:ref_history_pos = next
 
   let [source, query, changenr, pos] = b:ref_history[next]
-  let b:ref_source = source
-  call s:open_source(query, 'silent! undo ' . changenr)
+  call s:open_source(source, query, 'silent! undo ' . changenr)
   call setpos('.', pos)
 endfunction
 
