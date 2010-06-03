@@ -44,13 +44,6 @@ g:ref_pydoc_complete_head			*g:ref_pydoc_complete_head*
 
 
 ==============================================================================
-BUGS						*ref-pydoc-bugs*
-
-- The extraction of a keyword is imperfect.
-
-
-
-==============================================================================
 CHANGELOG					*ref-pydoc-changelog*
 
 x.x.x	xxxx-xx-xx
