@@ -47,7 +47,6 @@ g:ref_pydoc_complete_head			*g:ref_pydoc_complete_head*
 バグ						*ref-pydoc-bugs*
 
 - キーワードの抽出が不完全。
-- 補完時や一致リストの表示時の初回は非常に重い。
 
 
 

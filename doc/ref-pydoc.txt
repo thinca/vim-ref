@@ -47,8 +47,6 @@ g:ref_pydoc_complete_head			*g:ref_pydoc_complete_head*
 BUGS						*ref-pydoc-bugs*
 
 - The extraction of a keyword is imperfect.
-- The first time of command line completion or displaying the matched list is
-  very heavy.
 
 
 
