@@ -33,7 +33,7 @@ function! s:source.get_body(query)  " {{{2
   if a:query == ''
     let matchedlist = 1
   else
-    let content = ref#system(s:to_a(g:ref_pydoc_cmd) + s:to_a(a:query)).stdout
+    let content = ref#system(ref#to_list(g:ref_pydoc_cmd, a:query)).stdout
     if content =~ 'no Python documentation found'
       let matchedlist = 1
     endif
@@ -45,7 +45,7 @@ function! s:source.get_body(query)  " {{{2
       throw split(content, "\n")[0]
     endif
     if len(list) == 1
-      return ref#system(s:to_a(g:ref_pydoc_cmd) + list).stdout
+      return ref#system(ref#to_list(g:ref_pydoc_cmd, list)).stdout
     endif
     return list
   endif
@@ -62,7 +62,7 @@ endfunction
 
 
 function! s:source.complete(query)  " {{{2
-  let cmd = s:to_a(g:ref_pydoc_cmd) + ['-k', '.']
+  let cmd = ref#to_list(g:ref_pydoc_cmd, '-k .')
   let mapexpr = 'matchstr(v:val, "^[[:alnum:]._]*")'
   let all_list = self.cache('list',
   \                    printf('map(split(ref#system(%s).stdout, "\n"), %s)',
@@ -218,13 +218,6 @@ function! s:syntax(type)  " {{{2
   highlight default link refPydocHorizon PreProc
 
   let b:current_syntax = 'ref-pydoc'
-endfunction
-
-
-
-function! s:to_a(expr)  " {{{2
-  return type(a:expr) == type('') ? split(a:expr, '\s\+') :
-  \      type(a:expr) != type([]) ? [a:expr] : a:expr
 endfunction
 
 
