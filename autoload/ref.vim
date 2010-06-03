@@ -694,7 +694,9 @@ endfunction
 
 function! s:echoerr(msg)  " {{{2
   echohl ErrorMsg
-  echomsg a:msg
+  for line in split(a:msg, "\n")
+    echomsg line
+  endfor
   echohl None
 endfunction
 
