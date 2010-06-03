@@ -331,10 +331,10 @@ function! ref#detect()
     let Source = s
   endif
 
-  if type(Source) == s:TYPES.string && Source != ''
+  if type(Source) == s:TYPES.string
     return Source
   endif
-  throw 'ref: Can not detect the source.'
+  return ''
 endfunction
 
 
