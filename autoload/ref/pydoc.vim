@@ -34,7 +34,7 @@ function! s:source.get_body(query)  " {{{2
     let matchedlist = 1
   else
     let content = ref#system(ref#to_list(g:ref_pydoc_cmd, a:query)).stdout
-    if content =~# 'no Python documentation found'
+    if content =~# '^no Python documentation found'
       let matchedlist = 1
     endif
   endif
