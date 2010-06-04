@@ -1,6 +1,6 @@
 *ref-man.txt*	manpage 用の ref ソース。
 
-Version: 0.4.0
+Version: 0.4.1
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -44,7 +44,7 @@ g:ref_man_lang					*g:ref_man_lang*
 ==============================================================================
 更新履歴					*ref-man-changelog*
 
-x.x.x	xxxx-xx-xx
+0.4.1	2010-06-04
 	- エスケープシーケンスを取り除くタイミングを変更。
 	- filetype c に対して man を登録するようにした。
 
