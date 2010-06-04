@@ -32,16 +32,7 @@ function! s:source.get_body(query)  " {{{2
   let module = get(split(a:query, ':'), 0, '')
   let body = self.man_get_body(module)
 
-  " cache
-  if type(self.cache(module)) == type(0)
-    " Create function list.
-    let exports = matchstr(body, '\C\nEXPORTS\n\zs.\{-}\ze\n\w')
-    let pat = '^ \{7}' . s:FUNC_PATTERN . '(\_[^)\n]*)\%(\_s\+->\|$\)'
-    let lines = filter(split(exports, "\n"), 'v:val =~ pat')
-    let pat = '^\s*\%([[:alnum:]_.]\+:\)\?\zs\w\+\ze('
-    let funcs = ref#uniq(map(lines, 'module . ":" . matchstr(v:val, pat)'))
-    call self.cache(module, funcs)
-  endif
+  call self._func_list(module, body)
 
   return body
 endfunction
@@ -62,9 +53,8 @@ endfunction
 function! s:source.complete(query)  " {{{2
   if a:query =~ ':'
     let module = split(a:query, ':')[0]
-    let funcs = self.cache(module)
-    return type(funcs) == type(0) ? []
-    \    : filter(copy(funcs), 'v:val =~ "^\\V" . a:query')
+    let funcs = self._func_list(module)
+    return filter(copy(funcs), 'v:val =~ "^\\V" . a:query')
   endif
   return self.man_complete(a:query)
 endfunction
@@ -91,6 +81,25 @@ function! s:source.option(opt)  " {{{2
 
   endif
   return ''
+endfunction
+
+
+
+function! s:source._func_list(module, ...)  " {{{2
+  " cache
+  let funcs = self.cache(a:module)
+  if type(funcs) == type(0)
+    unlet funcs
+    let body = a:0 ? a:1 : self.man_get_body(a:module)
+    " Create function list.
+    let exports = matchstr(body, '\C\nEXPORTS\n\zs.\{-}\ze\n\w')
+    let pat = '^ \{7}' . s:FUNC_PATTERN . '(\_[^)\n]*)\%(\_s\+->\|$\)'
+    let lines = filter(split(exports, "\n"), 'v:val =~ pat')
+    let pat = '^\s*\%([[:alnum:]_.]\+:\)\?\zs\w\+\ze('
+    let funcs = ref#uniq(map(lines, 'a:module . ":" . matchstr(v:val, pat)'))
+    call self.cache(a:module, funcs)
+  endif
+  return funcs
 endfunction
 
 
