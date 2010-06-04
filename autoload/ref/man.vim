@@ -57,6 +57,14 @@ function! s:source.get_body(query)  " {{{2
         let body = encoded
       endif
     endif
+
+    let body = substitute(body, '.\b', '', 'g')
+    let body = substitute(body, '\e\[[0-9;]*m', '', 'g')
+    let body = substitute(body, '‘', '`', 'g')
+    let body = substitute(body, '’', "'", 'g')
+    let body = substitute(body, '[−‐]', '-', 'g')
+    let body = substitute(body, '·', 'o', 'g')
+
     return body
   endif
   let list = self.complete(a:query)
@@ -69,19 +77,7 @@ endfunction
 
 
 function! s:source.opened(query)  " {{{2
-  let body = join(getline(1, '$'), "\n")
-  let body = substitute(body, '.\b', '', 'g')
-  let body = substitute(body, '\e\[[0-9;]*m', '', 'g')
-  let body = substitute(body, '‘', '`', 'g')
-  let body = substitute(body, '’', "'", 'g')
-  let body = substitute(body, '[−‐]', '-', 'g')
-  let body = substitute(body, '·', 'o', 'g')
-  silent! % delete _
-  silent! 0put =body
-  silent! $ delete _
-
   call s:syntax()
-  1
 endfunction
 
 
