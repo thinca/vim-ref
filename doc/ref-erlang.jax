@@ -58,6 +58,7 @@ g:ref_erlang_man_dir				*g:ref_erlang_man_dir*
 更新履歴					*ref-erlang-changelog*
 
 x.x.x	xxxx-xx-xx
+	- 関数名を補完できるようにした。
 	- クエリが空の時にエラーが発生するバグを修正。
 	- キーワードのパターンを修正。
 

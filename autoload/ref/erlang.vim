@@ -15,6 +15,8 @@ if !exists('g:ref_erlang_cmd')  " {{{2
 endif
 
 
+let s:FUNC_PATTERN = '\%([[:alnum:]_.]\+:\)\?\w\+'
+
 
 let s:source = ref#man#define()
 
@@ -22,12 +24,26 @@ let s:source.name = 'erlang'
 
 let s:source.man_get_body = s:source.get_body
 let s:source.man_opened = s:source.opened
+let s:source.man_complete = s:source.complete
 
 
 
 function! s:source.get_body(query)  " {{{2
-  let query = split(a:query, ':')
-  return self.man_get_body(get(query, 0, ''))
+  let module = get(split(a:query, ':'), 0, '')
+  let body = self.man_get_body(module)
+
+  " cache
+  if type(self.cache(module)) == type(0)
+    " Create function list.
+    let exports = matchstr(body, '\C\nEXPORTS\n\zs.\{-}\ze\n\w')
+    let pat = '^ \{7}' . s:FUNC_PATTERN . '(\_[^)\n]*)\%(\_s\+->\|$\)'
+    let lines = filter(split(exports, "\n"), 'v:val =~ pat')
+    let pat = '^\s*\%([[:alnum:]_.]\+:\)\?\zs\w\+\ze('
+    let funcs = ref#uniq(map(lines, 'module . ":" . matchstr(v:val, pat)'))
+    call self.cache(module, funcs)
+  endif
+
+  return body
 endfunction
 
 
@@ -43,8 +59,20 @@ endfunction
 
 
 
+function! s:source.complete(query)  " {{{2
+  if a:query =~ ':'
+    let module = split(a:query, ':')[0]
+    let funcs = self.cache(module)
+    return type(funcs) == type(0) ? []
+    \    : filter(copy(funcs), 'v:val =~ "^\\V" . a:query')
+  endif
+  return self.man_complete(a:query)
+endfunction
+
+
+
 function! s:source.get_keyword()  " {{{2
-  return ref#get_text_on_cursor('\%([[:alnum:]_.]\+:\)\?\w\+')
+  return ref#get_text_on_cursor(s:FUNC_PATTERN)
 endfunction
 
 
