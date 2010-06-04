@@ -17,7 +17,6 @@ INTERFACE			|ref-interface|
 CUSTOMIZING			|ref-customizing|
 SOURCES				|ref-sources|
   AUTOLOAD			  |ref-autoload|
-TODO				|ref-todo|
 CHANGELOG			|ref-changelog|
 
 
