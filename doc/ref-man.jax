@@ -46,6 +46,7 @@ g:ref_man_lang					*g:ref_man_lang*
 
 x.x.x	xxxx-xx-xx
 	- エスケープシーケンスを取り除くタイミングを変更。
+	- filetype c に対して man を登録するようにした。
 
 0.4.0	2010-05-31
 	- |ref| 0.4.0 に対応。

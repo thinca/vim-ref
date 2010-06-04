@@ -172,6 +172,10 @@ function! ref#man#define()  " {{{2
   return copy(s:source)
 endfunction
 
+if s:source.available()  " {{{1
+  call ref#register_detection('c', 'man')
+endif
+
 
 
 let &cpo = s:save_cpo

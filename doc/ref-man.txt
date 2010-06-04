@@ -47,6 +47,7 @@ CHANGELOG					*ref-man-changelog*
 
 x.x.x	xxxx-xx-xx
 	- Changed the timing in which the escape sequence is removed.
+	- C language uses ref-man by default.
 
 0.4.0	2010-05-31
 	- Updated for |ref| 0.4.0.
