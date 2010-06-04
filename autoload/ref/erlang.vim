@@ -90,7 +90,11 @@ function! s:source._func_list(module, ...)  " {{{2
   let funcs = self.cache(a:module)
   if type(funcs) == type(0)
     unlet funcs
-    let body = a:0 ? a:1 : self.man_get_body(a:module)
+    try
+      let body = a:0 ? a:1 : self.man_get_body(a:module)
+    catch
+      return []
+    endtry
     " Create function list.
     let exports = matchstr(body, '\C\nEXPORTS\n\zs.\{-}\ze\n\w')
     let pat = '^ \{7}' . s:FUNC_PATTERN . '(\_[^)\n]*)\%(\_s\+->\|$\)'
