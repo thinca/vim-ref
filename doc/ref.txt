@@ -282,6 +282,10 @@ available()				*ref-source-attr-available()*
 get_body({query})			*ref-source-attr-get_body()*
 			Required.  Return the body of reference by List of
 			line break delimitation or String.
+			A dictionary that has the following entries also can
+			be returned.
+			body: Required.  The body of reference.
+			query: Optional.  The normalized {query}.
 			Throws an exception with an error message if body is
 			not found.
 
@@ -325,8 +329,9 @@ autoload/ref.vim is loaded, and the return value is registered as source.
 CHANGELOG					*ref-changelog*
 
 x.x.x	xxxx-xx-xx
-	- Fixed the arguments of |ref-source-attr-cache()|.
+	- |ref-source-attr-get_body()| can return a |Dictionary|.
 	- |ref#cache()| accepts a |List| as {gather}.
+	- Fixed the arguments of |ref-source-attr-cache()|.
 	- Fixed the some bugs for |ref#detect()|.
 	- Fixed a bug that |filetype-ref-{source-name}| is not changed when go
 	  back the history.

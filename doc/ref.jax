@@ -278,6 +278,9 @@ available()				*ref-source-attr-available()*
 get_body({query})			*ref-source-attr-get_body()*
 			必須。リファレンスの本文を改行区切りの文字列かリストで
 			返します。
+			また、以下の要素を持つ辞書を返すこともできます。
+			body: 必須。リファレンスの本文。
+			query: 任意。正規化された {query}。
 			本文が見つからない場合はエラーメッセージと共に例外を投
 			げます。
 
@@ -320,8 +323,9 @@ cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
 更新履歴					*ref-changelog*
 
 x.x.x	xxxx-xx-xx
-	- |ref-source-attr-cache()| の引数が変わっていなかったのを修正。
+	- |ref-source-attr-get_body()| が辞書を返せるようにした。
 	- |ref#cache()| が {gather} に |List| を受け付けるようにした。
+	- |ref-source-attr-cache()| の引数が変わっていなかったのを修正。
 	- |ref#detect()| に関するいくつかのバグを修正。
 	- 履歴を戻った時 |filetype-ref-{source-name}| が変更されないバグを修
 	  正。

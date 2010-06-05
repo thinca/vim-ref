@@ -160,6 +160,14 @@ function! s:open(source, query, options)  " {{{2
   let query = source.normalize(a:query)
   try
     let res = source.get_body(query)
+    if type(res) == s:TYPES.dictionary
+      let dict = res
+      unlet res
+      let res = dict.body
+      if has_key(dict, 'query')
+        let query = dict.query
+      endif
+    endif
   catch
     call s:echoerr(v:exception)
     return
