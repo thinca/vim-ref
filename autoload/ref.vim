@@ -7,6 +7,7 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+" Options. {{{1
 if !exists('g:ref_open')
   let g:ref_open = 'split'
 endif
@@ -317,7 +318,7 @@ endfunction
 
 
 
-function! ref#detect()
+function! ref#detect()  " {{{2
   if exists('b:ref_source')
     let Source = b:ref_source
   elseif exists('g:ref_detect_filetype[&l:filetype]')
@@ -344,7 +345,7 @@ endfunction
 
 
 
-function! ref#register_detection(ft, source)
+function! ref#register_detection(ft, source)  " {{{2
   if !exists('g:ref_detect_filetype')
     let g:ref_detect_filetype = {}
   endif
@@ -712,7 +713,7 @@ endfunction
 
 
 
-" Register the default sources.
+" Register the default sources. {{{1
 function! s:register_defaults()  " {{{2
   let list = split(globpath(&runtimepath, 'autoload/ref/*.vim'), "\n")
   for name in map(list, 'fnamemodify(v:val, ":t:r")')
