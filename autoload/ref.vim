@@ -55,7 +55,7 @@ endfunction
 
 
 
-" {{{1
+" API functions. {{{1
 
 " A function for main command.
 function! ref#ref(args)  " {{{2
@@ -100,33 +100,12 @@ endfunction
 
 
 
-function! ref#register(source)  " {{{2
-  if type(a:source) != s:TYPES.dictionary
-    throw 'ref: Invalid source: The source should be a Dictionary.'
-  endif
-  let source = extend(copy(s:prototype), a:source)
-  call s:validate(source, 'name', 'string')
-  call s:validate(source, 'available', 'function')
-  call s:validate(source, 'get_body', 'function')
-  call s:validate(source, 'opened', 'function')
-  call s:validate(source, 'get_keyword', 'function')
-  call s:validate(source, 'complete', 'function')
-  call s:validate(source, 'normalize', 'function')
-  call s:validate(source, 'leave', 'function')
-  let s:sources[source.name] = source
-endfunction
-
-
-
-function! ref#available_source_names()  " {{{2
-  return keys(s:sources)
-endfunction
-
-
-
-function! ref#available_sources(...)  " {{{2
-  return !a:0                    ? copy(s:sources) :
-  \      has_key(s:sources, a:1) ? s:sources[a:1]  : 0
+function! ref#K(mode)  " {{{2
+  try
+    call ref#jump(a:mode)
+  catch /^ref:/
+    call feedkeys('K', 'n')
+  endtry
 endfunction
 
 
@@ -144,115 +123,6 @@ function! ref#open(source, query, ...)  " {{{2
     return s:open(a:source, a:query, options)
   finally
     unlet! s:nocache
-  endtry
-endfunction
-
-
-
-function! s:open(source, query, options)  " {{{2
-  if !has_key(s:sources, a:source)
-    throw 'ref: The source is not registered: ' . a:source
-  endif
-  let source = s:sources[a:source]
-  if !source.available()
-    throw 'ref: This source is unavailable: ' . a:source
-  endif
-
-  let query = source.normalize(a:query)
-  try
-    let res = source.get_body(query)
-    if type(res) == s:TYPES.dictionary
-      let dict = res
-      unlet res
-      let res = dict.body
-      if has_key(dict, 'query')
-        let query = dict.query
-      endif
-    endif
-  catch
-    call s:echoerr(v:exception)
-    return
-  endtry
-
-  if type(res) == type([])
-    let newres = join(res, "\n")
-    unlet! res
-    let res = newres
-  endif
-  if type(res) != type('') || res == ''
-    return
-  endif
-
-  let pos = getpos('.')
-
-  if has_key(a:options, 'noenter')
-    let w:ref_back = 1
-  endif
-
-  let bufnr = 0
-  if !has_key(a:options, 'new')
-    for i in range(0, winnr('$'))
-      let n = winbufnr(i)
-      if getbufvar(n, '&filetype') =~# '^ref-'
-        if i != 0
-          execute i 'wincmd w'
-        endif
-        let bufnr = n
-        break
-      endif
-    endfor
-  endif
-
-  if bufnr == 0
-    silent! execute has_key(a:options, 'open') ? a:options.open : g:ref_open
-    enew
-    call s:initialize_buffer(a:source)
-  else
-    setlocal modifiable noreadonly
-    % delete _
-    if b:ref_source !=# a:source
-      syntax clear
-      call source.leave()
-    endif
-  endif
-
-  " FIXME: not cool...
-  let s:res = res
-  call s:open_source(a:source, query, 'silent :1 put = s:res | 1 delete _')
-  unlet! s:res
-
-  if !(0 <= b:ref_history_pos
-  \ && b:ref_history[b:ref_history_pos][0] ==# a:source
-  \ && b:ref_history[b:ref_history_pos][1] ==# query)
-    let b:ref_history_pos += 1
-    unlet! b:ref_history[b:ref_history_pos :]
-    if 0 < b:ref_history_pos
-      let b:ref_history[-1][3] = pos
-    endif
-    call add(b:ref_history, [a:source, query, changenr(), []])
-  endif
-
-  if has_key(a:options, 'noenter')
-    for t in range(1, tabpagenr('$'))
-      for w in range(1, winnr('$'))
-        if gettabwinvar(t, w, 'ref_back')
-          execute 'tabnext' t
-          execute w 'wincmd w'
-          unlet! w:ref_back
-        endif
-      endfor
-    endfor
-  endif
-endfunction
-
-
-
-" A function for key mapping for K.
-function! ref#K(mode)  " {{{2
-  try
-    call ref#jump(a:mode)
-  catch /^ref:/
-    call feedkeys('K', 'n')
   endtry
 endfunction
 
@@ -314,6 +184,37 @@ function! ref#jump(...)  " {{{2
   if type(query) == type('') && query != ''
     call ref#open(source, query, options)
   endif
+endfunction
+
+
+
+function! ref#register(source)  " {{{2
+  if type(a:source) != s:TYPES.dictionary
+    throw 'ref: Invalid source: The source should be a Dictionary.'
+  endif
+  let source = extend(copy(s:prototype), a:source)
+  call s:validate(source, 'name', 'string')
+  call s:validate(source, 'available', 'function')
+  call s:validate(source, 'get_body', 'function')
+  call s:validate(source, 'opened', 'function')
+  call s:validate(source, 'get_keyword', 'function')
+  call s:validate(source, 'complete', 'function')
+  call s:validate(source, 'normalize', 'function')
+  call s:validate(source, 'leave', 'function')
+  let s:sources[source.name] = source
+endfunction
+
+
+
+function! ref#available_source_names()  " {{{2
+  return keys(s:sources)
+endfunction
+
+
+
+function! ref#available_sources(...)  " {{{2
+  return !a:0                    ? copy(s:sources) :
+  \      has_key(s:sources, a:1) ? s:sources[a:1]  : 0
 endfunction
 
 
@@ -606,6 +507,105 @@ endfunction
 
 
 
+function! s:open(source, query, options)  " {{{2
+  if !has_key(s:sources, a:source)
+    throw 'ref: The source is not registered: ' . a:source
+  endif
+  let source = s:sources[a:source]
+  if !source.available()
+    throw 'ref: This source is unavailable: ' . a:source
+  endif
+
+  let query = source.normalize(a:query)
+  try
+    let res = source.get_body(query)
+    if type(res) == s:TYPES.dictionary
+      let dict = res
+      unlet res
+      let res = dict.body
+      if has_key(dict, 'query')
+        let query = dict.query
+      endif
+    endif
+  catch
+    call s:echoerr(v:exception)
+    return
+  endtry
+
+  if type(res) == type([])
+    let newres = join(res, "\n")
+    unlet! res
+    let res = newres
+  endif
+  if type(res) != type('') || res == ''
+    return
+  endif
+
+  let pos = getpos('.')
+
+  if has_key(a:options, 'noenter')
+    let w:ref_back = 1
+  endif
+
+  let bufnr = 0
+  if !has_key(a:options, 'new')
+    for i in range(0, winnr('$'))
+      let n = winbufnr(i)
+      if getbufvar(n, '&filetype') =~# '^ref-'
+        if i != 0
+          execute i 'wincmd w'
+        endif
+        let bufnr = n
+        break
+      endif
+    endfor
+  endif
+
+  if bufnr == 0
+    silent! execute has_key(a:options, 'open') ? a:options.open : g:ref_open
+    enew
+    call s:initialize_buffer(a:source)
+  else
+    setlocal modifiable noreadonly
+    % delete _
+    if b:ref_source !=# a:source
+      syntax clear
+      call source.leave()
+    endif
+  endif
+
+  " FIXME: not cool...
+  let s:res = res
+  call s:open_source(a:source, query, 'silent :1 put = s:res | 1 delete _')
+  unlet! s:res
+
+  if !(0 <= b:ref_history_pos
+  \ && b:ref_history[b:ref_history_pos][0] ==# a:source
+  \ && b:ref_history[b:ref_history_pos][1] ==# query)
+    let b:ref_history_pos += 1
+    unlet! b:ref_history[b:ref_history_pos :]
+    if 0 < b:ref_history_pos
+      let b:ref_history[-1][3] = pos
+    endif
+    call add(b:ref_history, [a:source, query, changenr(), []])
+  endif
+
+  if has_key(a:options, 'noenter')
+    for t in range(1, tabpagenr('$'))
+      for w in range(1, winnr('$'))
+        if gettabwinvar(t, w, 'ref_back')
+          execute 'tabnext' t
+          execute w 'wincmd w'
+          unlet! w:ref_back
+        endif
+      endfor
+    endfor
+  endif
+endfunction
+
+
+
+" A function for key mapping for K.
 function! s:open_source(source, query, open_cmd)  " {{{2
   if !exists('b:ref_source') || b:ref_source !=# a:source
     let b:ref_source = a:source
