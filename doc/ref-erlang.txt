@@ -23,8 +23,8 @@ only UNIX-like operating system.
 
 
 Requirements:
-- |ref| 0.3.3 or later
-- |ref-man| 0.3.2 or later
+- |ref| 0.4.1 or later
+- |ref-man| 0.4.1 or later
 - UNIX-like operating system
 
 
