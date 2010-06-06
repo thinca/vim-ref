@@ -60,6 +60,8 @@ CHANGELOG					*ref-erlang-changelog*
 
 x.x.x	xxxx-xx-xx
 	- Function names are completable.
+	- Search again as a function of the erlang module when the module was
+	  not found.
 	- Fixed the bug that the error occurs when query was empty.
 	- Fixed keyword pattern.
 

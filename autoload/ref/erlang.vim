@@ -29,12 +29,25 @@ let s:source.man_complete = s:source.complete
 
 
 function! s:source.get_body(query)  " {{{2
-  let module = get(split(a:query, ':'), 0, '')
-  let body = self.man_get_body(module)
+  let query = a:query
+  let module = get(split(query, ':'), 0, '')
+  try
+    let body = self.man_get_body(module)
+  catch
+    let query = 'erlang:' . module
+    let module = 'erlang'
+    let bif = self._func_list(module)
+    let i = index(bif, query)
+    if i < 0
+      throw v:exception
+    endif
+    let body = self.man_get_body(module)
+  endtry
 
+  " cache
   call self._func_list(module, body)
 
-  return body
+  return {'body': body, 'query': query}
 endfunction
 
 
