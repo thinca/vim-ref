@@ -1,6 +1,6 @@
 *ref.txt*	総合リファレンスビューア。
 
-Version: 0.4.0
+Version: 0.4.1
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -322,7 +322,7 @@ cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
 ==============================================================================
 更新履歴					*ref-changelog*
 
-x.x.x	xxxx-xx-xx
+0.4.1	2010-06-04
 	- |ref-source-attr-get_body()| が辞書を返せるようにした。
 	- |ref#cache()| が {gather} に |List| を受け付けるようにした。
 	- |ref-source-attr-cache()| の引数が変わっていなかったのを修正。
