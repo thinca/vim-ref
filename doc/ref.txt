@@ -1,6 +1,6 @@
 *ref.txt*	Integrated reference viewer.
 
-Version: 0.4.0
+Version: 0.4.1
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -17,7 +17,6 @@ INTERFACE			|ref-interface|
 CUSTOMIZING			|ref-customizing|
 SOURCES				|ref-sources|
   AUTOLOAD			  |ref-autoload|
-TODO				|ref-todo|
 CHANGELOG			|ref-changelog|
 
 
@@ -119,6 +118,7 @@ ref#cache({source-name}, {name} [, {gather} [, {update}]])	*ref#cache()*
 			2. A evaluatable string by |eval()|.  (Note scope.)
 			3. A dictionary with dictionary function "call" in
 			   member.
+			4. A |List| for caching.
 			A function of 1 and 3 is received {name} as argument.
 			a:name can be referred by 2.
 			In any case, it is necessary to return the list.
@@ -282,6 +282,10 @@ available()				*ref-source-attr-available()*
 get_body({query})			*ref-source-attr-get_body()*
 			Required.  Return the body of reference by List of
 			line break delimitation or String.
+			A dictionary that has the following entries also can
+			be returned.
+			body: Required.  The body of reference.
+			query: Optional.  The normalized {query}.
 			Throws an exception with an error message if body is
 			not found.
 
@@ -323,6 +327,14 @@ autoload/ref.vim is loaded, and the return value is registered as source.
 
 ==============================================================================
 CHANGELOG					*ref-changelog*
+
+0.4.1	2010-06-04
+	- |ref-source-attr-get_body()| can return a |Dictionary|.
+	- |ref#cache()| accepts a |List| as {gather}.
+	- Fixed the arguments of |ref-source-attr-cache()|.
+	- Fixed the some bugs for |ref#detect()|.
+	- Fixed a bug that |filetype-ref-{source-name}| is not changed when go
+	  back the history.
 
 0.4.0	2010-05-31
 	- Changed filetype convention.

@@ -1,5 +1,5 @@
 " A ref source for pydoc.
-" Version: 0.4.0
+" Version: 0.4.1
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -29,28 +29,21 @@ endfunction
 
 
 function! s:source.get_body(query)  " {{{2
-  let matchedlist = 0
-  if a:query == ''
-    let matchedlist = 1
-  else
-    let content = ref#system(s:to_a(g:ref_pydoc_cmd) + s:to_a(a:query)).stdout
-    if content =~ 'no Python documentation found'
-      let matchedlist = 1
+  if a:query != ''
+    let content = ref#system(ref#to_list(g:ref_pydoc_cmd, a:query)).stdout
+    if content !~# '^no Python documentation found'
+      return content
     endif
   endif
 
-  if matchedlist
-    let list = s:source.complete(a:query)
-    if list == []
-      throw split(content, "\n")[0]
-    endif
-    if len(list) == 1
-      return ref#system(s:to_a(g:ref_pydoc_cmd) + list).stdout
-    endif
-    return list
+  let list = self.complete(a:query)
+  if list == []
+    throw split(content, "\n")[0]
   endif
-
-  return content
+  if len(list) == 1
+    return ref#system(ref#to_list(g:ref_pydoc_cmd, list)).stdout
+  endif
+  return list
 endfunction
 
 
@@ -62,7 +55,7 @@ endfunction
 
 
 function! s:source.complete(query)  " {{{2
-  let cmd = s:to_a(g:ref_pydoc_cmd) + ['-k', '.']
+  let cmd = ref#to_list(g:ref_pydoc_cmd, '-k .')
   let mapexpr = 'matchstr(v:val, "^[[:alnum:]._]*")'
   let all_list = self.cache('list',
   \                    printf('map(split(ref#system(%s).stdout, "\n"), %s)',
@@ -73,43 +66,43 @@ function! s:source.complete(query)  " {{{2
     let all_list = s:head(all_list, q)
   endif
 
-  let list = filter(copy(all_list), 'v:val =~ "^\\V" . a:query')
+  let list = filter(copy(all_list), 'v:val =~# "^\\V" . a:query')
   if !empty(list)
     return list
   endif
-  return filter(copy(all_list), 'v:val =~ "\\V" . a:query')
+  return filter(copy(all_list), 'v:val =~# "\\V" . a:query')
 endfunction
 
 
 
 function! s:source.get_keyword()  " {{{2
-  if &l:filetype == 'ref-pydoc'
+  if &l:filetype ==# 'ref-pydoc'
     let [type, name, scope] = s:get_info()
 
-    if type == 'package' || type == 'module'
+    if type ==# 'package' || type ==# 'module'
       let line = getline('.')
 
       let secline = search('^\u[A-Z ]*\u$', 'bnW')
       let section = secline == 0 ? '' : getline(secline)
 
-      if section == 'PACKAGE CONTENTS'
+      if section ==# 'PACKAGE CONTENTS'
         let package = matchstr(line, '^\s*\zs\S\+')
         if package != ''
           return name . '.' . package
         endif
       endif
 
-      if section == 'CLASSES'
-        let class = matchstr(line, '^\s*\zs\S\+$')
+      if section ==# 'CLASSES'
+        let class = matchstr(line, '^\s*class \zs\k\+')
         if class != ''
-          if type == 'package'
-            return class
-          endif
           return printf('%s.%s', name, class)
         endif
 
-        let class = matchstr(line, '^\s*class \zs\k\+')
+        let class = matchstr(line, '^\s*\zs[[:alnum:].]\+')
         if class != ''
+          if type ==# 'package'
+            return class
+          endif
           return printf('%s.%s', name, class)
         endif
 
@@ -130,7 +123,7 @@ function! s:source.get_keyword()  " {{{2
         return name . '.' . func
       endif
 
-    elseif type == 'class'
+    elseif type ==# 'class'
       let m = matchstr(getline('.'), '^ |  \zs\k\+\ze(.*)$')
       if m != ''
         return printf('%s.%s.%s', scope, name, m)
@@ -138,7 +131,7 @@ function! s:source.get_keyword()  " {{{2
 
     endif
 
-    if type != 'list'
+    if type !=# 'list'
       " xxx.yy*y.zzzClass -> xxx.yyy (* means cursor)
       let line = getline('.')
       let [pre, post] = [line[: col('.') - 2], line[col('.') - 1 :]]
@@ -151,11 +144,7 @@ function! s:source.get_keyword()  " {{{2
     " TODO: In a Python code.
   endif
 
-  let isk = &l:isk
-  setlocal isk& isk+=.
-  let kwd = expand('<cword>')
-  let &l:isk = isk
-  return kwd
+  return ref#get_text_on_cursor('[[:alnum:].]\+')
 endfunction
 
 
@@ -192,16 +181,15 @@ endfunction
 
 
 function! s:syntax(type)  " {{{2
-  if exists('b:current_syntax') && b:current_syntax == 'ref-pydoc'
-    " return
+  if a:type ==# 'list'
+    syntax clear
+    return
+  elseif exists('b:current_syntax') && b:current_syntax ==# 'ref-pydoc'
+    return
   endif
 
   syntax clear
-  unlet! b:current_syntax
 
-  if a:type == 'list'
-    return
-  endif
 
   syntax match refPydocHeader '^[[:upper:][:space:]]\+$'
   syntax match refPydocClass '^    class\>' nextgroup=refPydocClassName skipwhite
@@ -222,13 +210,6 @@ endfunction
 
 
 
-function! s:to_a(expr)  " {{{2
-  return type(a:expr) == type('') ? split(a:expr, '\s\+') :
-  \      type(a:expr) != type([]) ? [a:expr] : a:expr
-endfunction
-
-
-
 function! s:head(list, query)  " {{{2
   let pat = '^\V' . a:query . '\v\w*(\.)?\zs.*$'
   return ref#uniq(map(filter(copy(a:list), 'v:val =~# pat'),
@@ -238,7 +219,7 @@ endfunction
 
 
 function! ref#pydoc#define()  " {{{2
-  return s:source
+  return copy(s:source)
 endfunction
 
 call ref#register_detection('python', 'pydoc')

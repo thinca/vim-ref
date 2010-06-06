@@ -1,6 +1,6 @@
 *ref-pydoc.txt*	pydoc 用の ref ソース。
 
-Version: 0.4.0
+Version: 0.4.1
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -44,15 +44,11 @@ g:ref_pydoc_complete_head			*g:ref_pydoc_complete_head*
 
 
 ==============================================================================
-バグ						*ref-pydoc-bugs*
-
-- キーワードの抽出が不完全。
-- 補完時や一致リストの表示時の初回は非常に重い。
-
-
-
-==============================================================================
 更新履歴					*ref-pydoc-changelog*
+
+0.4.1	2010-06-03
+	- リストが表示できないバグを修正。
+	- キーワードのマッチを少し改善。
 
 0.4.0	2010-05-31
 	- |ref| 0.4.0 に対応。

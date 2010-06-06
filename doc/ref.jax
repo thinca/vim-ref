@@ -1,6 +1,6 @@
 *ref.txt*	総合リファレンスビューア。
 
-Version: 0.4.0
+Version: 0.4.1
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -115,6 +115,7 @@ ref#cache({source-name}, {name} [, {gather} [, {update}]])	*ref#cache()*
 			1. リストを取得するための |Funcref|。
 			2. |eval()| で評価可能な文字列。(スコープに注意。)
 			3. 辞書関数 "call" をメンバに持つ辞書。
+			4. キャッシュする |List|.
 			1 と 3 は関数の引数に {name} を受け取ります。
 			2 は a:name を参照できます。
 			いずれの場合もリストを返す必要があります。
@@ -277,6 +278,9 @@ available()				*ref-source-attr-available()*
 get_body({query})			*ref-source-attr-get_body()*
 			必須。リファレンスの本文を改行区切りの文字列かリストで
 			返します。
+			また、以下の要素を持つ辞書を返すこともできます。
+			body: 必須。リファレンスの本文。
+			query: 任意。正規化された {query}。
 			本文が見つからない場合はエラーメッセージと共に例外を投
 			げます。
 
@@ -317,6 +321,14 @@ cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
 
 ==============================================================================
 更新履歴					*ref-changelog*
+
+0.4.1	2010-06-04
+	- |ref-source-attr-get_body()| が辞書を返せるようにした。
+	- |ref#cache()| が {gather} に |List| を受け付けるようにした。
+	- |ref-source-attr-cache()| の引数が変わっていなかったのを修正。
+	- |ref#detect()| に関するいくつかのバグを修正。
+	- 履歴を戻った時 |filetype-ref-{source-name}| が変更されないバグを修
+	  正。
 
 0.4.0	2010-05-31
 	- ファイルタイプの規則を変更。
