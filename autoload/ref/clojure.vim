@@ -29,12 +29,13 @@ endfunction
 function! s:source.get_body(query)  " {{{2
   let classpath = $CLASSPATH
   let $CLASSPATH = s:classpath()
+  let pre = s:precode()
   try
-    let res = s:clj(printf('(doc %s)', a:query))
+    let res = s:clj(printf('%s(doc %s)', pre, a:query))
     if res.stdout != ''
       return res.stdout
     endif
-    let res = s:clj(printf('(find-doc "%s")', escape(a:query, '"')))
+    let res = s:clj(printf('%s(find-doc "%s")', pre, escape(a:query, '"')))
     if res.stdout != ''
       return res.stdout
     endif
@@ -67,6 +68,13 @@ function! s:classpath()  " {{{2
   let cp = s:get_classpath('b:ref_clojure_classpath') +
   \        s:get_classpath('g:ref_clojure_classpath')
   return join(cp, s:path_separator)
+endfunction
+
+
+
+function! s:precode()  " {{{2
+  return get(g:, 'ref_clojure_precode', '')
+  \    . get(b:, 'ref_clojure_precode', '')
 endfunction
 
 
