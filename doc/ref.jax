@@ -95,8 +95,9 @@ ref#available_sources([{source-name}])		*ref#available_sources()*
 			与えます。
 
 ref#detect()					*ref#detect()*
-			カレントバッファに適切なソースを検出します。検出に失敗
-			した場合は空の文字列を返します。
+			カレントバッファに適切なソースを検出します。この関数は
+			|g:ref_detect_filetype| を使います。検出に失敗した場合
+			は空の文字列を返します。
 
 ref#register_detection({ft}, {source})		*ref#register_detection()*
 			|g:ref_detect_filetype| にエントリを登録します。すでに
@@ -129,13 +130,13 @@ ref#system({expr} [, {input}])			*ref#system()*
 			ます。各要素は |shellescape()| で処理されます。
 			{expr} が文字列の場合、|ref#to_list()| によって分割さ
 			れます。
-			加えて、この関数は以下の要素を持つ辞書(|Dictionary|)を
-			返します。
+			この関数は以下の要素を持つ辞書(|Dictionary|)を返しま
+			す。
 			result: リターンコード。
 			stdout: 標準出力。
 			stderr: 標準エラー出力。
-			この関数は、|g:ref_use_vimproc| が真の時は代わり
-			に |vimproc#system()| を使用します。
+			この関数は、|g:ref_use_vimproc| が真の時は |system()|
+			の代わりに |vimproc#system()| を使用します。
 			vimproc: http://github.com/Shougo/vimproc
 
 ref#to_list({expr}, ...)				*ref#to_list()*
@@ -183,8 +184,9 @@ ref#get_text_on_cursor({pattern})		*ref#get_text_on_cursor()*
 
 <Plug>(ref-keyword)				*<Plug>(ref-keyword)*
 			カーソル位置のキーワードのリファレンスにジャンプしま
-			す。ソースが見つからなかった場合は |K| を押したのと同
-			じになります。
+			す。ソースの検出には |ref#detect()| が使われます。ソー
+			スが見つからなかった場合は |K| を押したのと同じになり
+			ます。
 
 
 以下のキーマッピングは |ref-viewer| 内で利用可能です。
@@ -250,12 +252,12 @@ g:ref_use_vimproc				*g:ref_use_vimproc*
 	|vimproc#system()| が存在する場合は真、そうでない場合は偽です。
 
 g:ref_detect_filetype				*g:ref_detect_filetype*
-	|filetype| からソースを検出するための |Dictionary| を指定します。キー
-	にファイルタイプ、値にソース名または |Funcref| を指定します。|Funcref|
-	の場合、その関数はファイルタイプを引数にとりソース名を返します。検出で
-	きない場合は空文字列を返します。キーに _ を使うと、ファイルタイプが登
-	録されていなかった場合に使用されます。いくつかのソースはロード時にエン
-	トリを登録します。
+	|filetype| からソースを検出するための |Dictionary| を指定します。これ
+	は |ref#detect()| で使用されます。キーにファイルタイプ、値にソース名ま
+	たは |Funcref| を指定します。|Funcref|の場合、その関数はファイルタイプ
+	を引数にとりソース名を返します。検出できない場合は空文字列を返します。
+	キーに _ を使うと、ファイルタイプが登録されていなかった場合に使用され
+	ます。いくつかのソースはロード時にエントリを登録します。
 
 g:ref_noenter					*g:ref_noenter*
 b:ref_noenter					*b:ref_noenter*

@@ -96,8 +96,9 @@ ref#available_sources([{source-name}])		*ref#available_sources()*
 			it influences internally.
 
 ref#detect()					*ref#detect()*
-			Detect the appropriate source on current buffer.
-			Return empty string when detection failed.
+			Detect the appropriate source on current buffer.  This
+			function uses |g:ref_detect_filetype|.  Return empty
+			string when detection failed.
 
 ref#register_detection({ft}, {source})		*ref#register_detection()*
 			Register the entry to |g:ref_detect_filetype|.  If
@@ -137,8 +138,8 @@ ref#system({expr} [, {input}])			*ref#system()*
 			result: Return code.
 			stdout: Standard output.
 			stderr: Standard error.
-			This function uses |vimproc#system()| instead if
-			|g:ref_use_vimproc| is true.
+			This function uses |vimproc#system()| instead of
+			|system()| if |g:ref_use_vimproc| is true.
 			vimproc: http://github.com/Shougo/vimproc
 
 ref#to_list({expr}, ...)			*ref#to_list()*
@@ -187,8 +188,10 @@ KEY MAPPINGS					*ref-key-mappings*
 
 <Plug>(ref-keyword)				*<Plug>(ref-keyword)*
 			Jump to reference of the keyword under the cursor.
-			When the source that should be used is not found, the
-			same behavior as |K|.
+			|ref#detect()| is used for the detection of the
+			source.  When the source that should be used is not
+			found, the same behavior as |K|.
+
 
 
 The following key mappings are available in |ref-viewer|.
@@ -254,11 +257,12 @@ g:ref_use_vimproc				*g:ref_use_vimproc*
 
 g:ref_detect_filetype				*g:ref_detect_filetype*
 	Specifies the |Dictionary| to detect the using source from |filetype|.
-	The key is a filetype, and the value is a source name or a |Funcref|.
-	If the value is |Funcref|, it take a filetype as argument and return
-	the source name.  If it can not detect, return empty string.  If _ key
-	exists, it is used when the filetype was not registered.  Some sources
-	register the appropriate entry on loaded.
+	This is used by |ref#detect()|.  The key is a filetype, and the value
+	is a source name or a |Funcref|.  If the value is |Funcref|, it take a
+	filetype as argument and return the source name.  If it can not
+	detect, return empty string.  If _ key exists, it is used when the
+	filetype was not registered.  Some sources register the appropriate
+	entry on loaded.
 
 g:ref_noenter					*g:ref_noenter*
 b:ref_noenter					*b:ref_noenter*
