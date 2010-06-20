@@ -14,6 +14,11 @@ if !exists('g:ref_clojure_cmd')  " {{{2
   let g:ref_clojure_cmd = executable('clj') ? 'clj' : ''
 endif
 
+if !exists('g:ref_clojure_overview')  " {{{2
+  let g:ref_clojure_overview = 0
+endif
+
+" constants. {{{1
 let s:is_win = has('win16') || has('win32') || has('win64')
 
 let s:path_separator = s:is_win ? ';' : ':'
@@ -42,7 +47,8 @@ function! s:source.get_body(query)  " {{{2
     endif
     let res = s:clj(printf('%s(find-doc "%s")', pre, escape(query, '"')))
     if res.stdout != ''
-      return res.stdout
+      return g:ref_clojure_overview ? s:to_overview(res.stdout)
+      \                             : res.stdout
     endif
   finally
     let $CLASSPATH = classpath
@@ -55,6 +61,13 @@ endfunction
 " functions. {{{1
 function! s:clj(code)  " {{{2
   return ref#system(ref#to_list(g:ref_clojure_cmd, '-'), a:code)
+endfunction
+
+
+
+function! s:to_overview(body)  " {{{2
+  let parts = split(a:body, '-\{25}\n')[1 :]
+  return map(parts, 'join(split(v:val, "\n")[0 : 1], "   ")')
 endfunction
 
 

@@ -62,6 +62,9 @@ b:ref_clojure_precode				*b:ref_clojure_precode*
 			|b:ref_clojure_precode| は |g:ref_clojure_precode|
 			の値の後に追加されます。
 
+g:ref_clojure_overview				*g:ref_clojure_overview*
+			真の場合、検索結果の各関数を 1 行で表示します。
+
 
 
 ==============================================================================

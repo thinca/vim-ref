@@ -62,6 +62,10 @@ b:ref_clojure_precode				*b:ref_clojure_precode*
 			|b:ref_clojure_classpath| is added after the value of
 			the |g:ref_clojure_classpath|.
 
+g:ref_clojure_overview				*g:ref_clojure_overview*
+			If true, each function of the search result is
+			displayed by one line.
+
 
 
 ==============================================================================
