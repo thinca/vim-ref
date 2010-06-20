@@ -27,22 +27,27 @@ function! s:source.available()  " {{{2
 endfunction
 
 function! s:source.get_body(query)  " {{{2
+  let query = a:query
   let classpath = $CLASSPATH
   let $CLASSPATH = s:classpath()
   let pre = s:precode()
   try
-    let res = s:clj(printf('%s(doc %s)', pre, a:query))
-    if res.stdout != ''
-      return res.stdout
+    if query =~ '^/.\+/$'
+      let query = query[1 : -2]
+    else
+      let res = s:clj(printf('%s(doc %s)', pre, query))
+      if res.stdout != ''
+        return res.stdout
+      endif
     endif
-    let res = s:clj(printf('%s(find-doc "%s")', pre, escape(a:query, '"')))
+    let res = s:clj(printf('%s(find-doc "%s")', pre, escape(query, '"')))
     if res.stdout != ''
       return res.stdout
     endif
   finally
     let $CLASSPATH = classpath
   endtry
-  throw printf('No document found for "%s"', a:query)
+  throw printf('No document found for "%s"', query)
 endfunction
 
 
