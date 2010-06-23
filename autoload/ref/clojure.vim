@@ -58,6 +58,12 @@ endfunction
 
 
 
+function! s:source.opened(query)  " {{{2
+  call s:syntax()
+endfunction
+
+
+
 " functions. {{{1
 function! s:clj(code)  " {{{2
   return ref#system(ref#to_list(g:ref_clojure_cmd, '-'), a:code)
@@ -93,6 +99,23 @@ endfunction
 function! s:precode()  " {{{2
   return get(g:, 'ref_clojure_precode', '')
   \    . get(b:, 'ref_clojure_precode', '')
+endfunction
+
+
+
+function! s:syntax()  " {{{2
+  if exists('b:current_syntax') && b:current_syntax == 'ref-clojure'
+    return
+  endif
+
+  syntax clear
+  syntax match refClojureDelimiter "^-\{25}\n" nextgroup=refClojureFunc
+  syntax match refClojureFunc "^.\+$" contained
+
+  highlight default link refClojureDelimiter Delimiter
+  highlight default link refClojureFunc Function
+
+  let b:current_syntax = 'ref-clojure'
 endfunction
 
 
