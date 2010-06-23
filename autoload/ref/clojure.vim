@@ -37,8 +37,8 @@ function! s:source.get_body(query)  " {{{2
   let $CLASSPATH = s:classpath()
   let pre = s:precode()
   try
-    if query =~ '^/.\+/$'
-      let query = query[1 : -2]
+    if query =~ '^#".*"$'
+      let query = query[2 : -2]
     else
       let res = s:clj(printf('%s(doc %s)', pre, query))
       if res.stdout != ''

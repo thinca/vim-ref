@@ -33,7 +33,7 @@ function name		function-name
 			A usual string is searched as a function name.  It
 			treats as a search pattern when not found.
 
-search pattern		/pattern/
+search pattern		#"pattern"
 			Search with (find-doc).
 
 
