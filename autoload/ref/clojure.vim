@@ -64,6 +64,20 @@ endfunction
 
 
 
+function! s:source.get_keyword()  " {{{2
+  let isk = &l:iskeyword
+  setlocal iskeyword+=?,-,*,!,+,/,=,<,>,.,:
+  let keyword = expand('<cword>')
+  let &l:iskeyword = isk
+  if &l:filetype ==# 'ref-clojure' && keyword =~ '.\.$'
+    " This is maybe a period of the end of sentence.
+    let keyword = keyword[: -2]
+  endif
+  return keyword
+endfunction
+
+
+
 " functions. {{{1
 function! s:clj(code)  " {{{2
   return ref#system(ref#to_list(g:ref_clojure_cmd, '-'), a:code)
