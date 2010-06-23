@@ -19,7 +19,7 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 *ref-clojure* は clojure 用の |ref| のソースです。
 
 Requirements:
-- |ref| 0.3.3 以降
+- |ref| 0.4.1 以降
 - clojure
 
 

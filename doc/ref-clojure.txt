@@ -19,7 +19,7 @@ INTRODUCTION					*ref-clojure-introduction*
 *ref-clojure* is a source for |ref| to clojure.
 
 Requirements:
-- |ref| 0.3.3 or later
+- |ref| 0.4.1 or later
 - clojure
 
 
