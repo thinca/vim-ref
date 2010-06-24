@@ -39,6 +39,9 @@ Following sources are included in this plugin:
 Requirements:
 - Vim 7.2 or later
 
+Latest version:
+http://github.com/thinca/vim-ref
+
 
 
 ==============================================================================
