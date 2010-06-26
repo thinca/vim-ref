@@ -22,7 +22,7 @@ endif
 
 let s:is_win = has('win16') || has('win32') || has('win64')
 
-let s:TYPES = {
+let s:T = {
 \     'number': type(0),
 \     'string': type(''),
 \     'function': type(function('function')),
@@ -133,12 +133,12 @@ function! ref#jump(...)  " {{{2
   let options = {}
 
   for a in args
-    if type(a) == s:TYPES.dictionary
+    if type(a) == s:T.dictionary
       call extend(options, a)
     endif
     unlet a
   endfor
-  call filter(args, 'type(v:val) != s:TYPES.dictionary')
+  call filter(args, 'type(v:val) != s:T.dictionary')
 
   let source = 2 <= len(args) ? args[1] : ref#detect()
   if !has_key(s:sources, source)
@@ -151,7 +151,7 @@ function! ref#jump(...)  " {{{2
     let pos = getpos('.')
     let res = s:sources[source].get_keyword()
     call setpos('.', pos)
-    if type(res) == s:TYPES.list && len(res) == 2
+    if type(res) == s:T.list && len(res) == 2
       let [source, query] = res
     else
       let query = res
@@ -181,7 +181,7 @@ function! ref#jump(...)  " {{{2
     call setreg(v:register, reg_save, reg_save_type)
 
   endif
-  if type(query) == s:TYPES.string && query != ''
+  if type(query) == s:T.string && query != ''
     call ref#open(source, query, options)
   endif
 endfunction
@@ -189,7 +189,7 @@ endfunction
 
 
 function! ref#register(source)  " {{{2
-  if type(a:source) != s:TYPES.dictionary
+  if type(a:source) != s:T.dictionary
     throw 'ref: Invalid source: The source should be a Dictionary.'
   endif
   let source = extend(copy(s:prototype), a:source)
@@ -230,7 +230,7 @@ function! ref#detect()  " {{{2
     let Source = ''
   endif
 
-  if type(Source) == s:TYPES.function
+  if type(Source) == s:T.function
     " For dictionary function.
     let dict = exists('g:ref_detect_filetype') ? g:ref_detect_filetype : {}
     let s = call(Source, [&l:filetype], dict)
@@ -238,7 +238,7 @@ function! ref#detect()  " {{{2
     let Source = s
   endif
 
-  if type(Source) == s:TYPES.string
+  if type(Source) == s:T.string
     return Source
   endif
   return ''
@@ -389,8 +389,8 @@ endfunction
 function! ref#to_list(...)  " {{{2
   let list = []
   for a in a:000
-    let list += type(a) == s:TYPES.string ? split(a) :
-    \           type(a) == s:TYPES.list ? a : [a]
+    let list += type(a) == s:T.string ? split(a) :
+    \           type(a) == s:T.list ? a : [a]
     unlet a
   endfor
   return list
@@ -490,16 +490,16 @@ endfunction
 function! s:gather_cache(name, gather)  " {{{2
   let type = type(a:gather)
   let cache =
-  \  type == s:TYPES.function ? a:gather(a:name) :
-  \  type == s:TYPES.dictionary && has_key(a:gather, 'call')
-  \    && type(a:gather.call) == s:TYPES.function ?
+  \  type == s:T.function ? a:gather(a:name) :
+  \  type == s:T.dictionary && has_key(a:gather, 'call')
+  \    && type(a:gather.call) == s:T.function ?
   \       a:gather.call(a:name) :
-  \  type == s:TYPES.string ? eval(a:gather) :
-  \  type == s:TYPES.list ? a:gather : []
+  \  type == s:T.string ? eval(a:gather) :
+  \  type == s:T.list ? a:gather : []
 
-  if type(cache) == s:TYPES.list
+  if type(cache) == s:T.list
     return cache
-  elseif type(cache) == s:TYPES.string
+  elseif type(cache) == s:T.string
     return split(cache, "\n")
   endif
   throw 'ref: Invalid results of cache: ' . string(cache)
@@ -519,7 +519,7 @@ function! s:open(source, query, options)  " {{{2
   let query = source.normalize(a:query)
   try
     let res = source.get_body(query)
-    if type(res) == s:TYPES.dictionary
+    if type(res) == s:T.dictionary
       let dict = res
       unlet res
       let res = dict.body
@@ -532,12 +532,12 @@ function! s:open(source, query, options)  " {{{2
     return
   endtry
 
-  if type(res) == s:TYPES.list
+  if type(res) == s:T.list
     let newres = join(res, "\n")
     unlet! res
     let res = newres
   endif
-  if type(res) != s:TYPES.string || res == ''
+  if type(res) != s:T.string || res == ''
     return
   endif
 
@@ -670,7 +670,7 @@ endfunction
 function! s:validate(source, key, type)  " {{{2
   if !has_key(a:source, a:key)
     throw 'ref: Invalid source: Without key ' . string(a:key)
-  elseif type(a:source[a:key]) != s:TYPES[a:type]
+  elseif type(a:source[a:key]) != s:T[a:type]
     throw 'ref: Invalid source: Key ' . key . ' must be ' . a:type . ', ' .
     \     'but given value is' string(a:source[a:key])
   endif
