@@ -151,7 +151,7 @@ function! ref#jump(...)  " {{{2
     let pos = getpos('.')
     let res = s:sources[source].get_keyword()
     call setpos('.', pos)
-    if type(res) == type([]) && len(res) == 2
+    if type(res) == s:TYPES.list && len(res) == 2
       let [source, query] = res
     else
       let query = res
@@ -181,7 +181,7 @@ function! ref#jump(...)  " {{{2
     call setreg(v:register, reg_save, reg_save_type)
 
   endif
-  if type(query) == type('') && query != ''
+  if type(query) == s:TYPES.string && query != ''
     call ref#open(source, query, options)
   endif
 endfunction
@@ -532,12 +532,12 @@ function! s:open(source, query, options)  " {{{2
     return
   endtry
 
-  if type(res) == type([])
+  if type(res) == s:TYPES.list
     let newres = join(res, "\n")
     unlet! res
     let res = newres
   endif
-  if type(res) != type('') || res == ''
+  if type(res) != s:TYPES.string || res == ''
     return
   endif
 
