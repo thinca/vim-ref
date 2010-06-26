@@ -29,6 +29,7 @@ be viewed by the same interface.
 
 Following sources are included in this plugin:
 - alc		(|ref-alc.txt|)
+- clojure	(|ref-clojure.txt|)
 - erlang	(|ref-erlang.txt|)
 - man		(|ref-man.txt|)
 - perldoc	(|ref-perldoc.txt|)
