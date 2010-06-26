@@ -192,6 +192,7 @@ KEY MAPPINGS					*ref-key-mappings*
 
 <Plug>(ref-keyword)				*<Plug>(ref-keyword)*
 			Jump to reference of the keyword under the cursor.
+			See also |ref-source-attr-get_keyword()|.
 			|ref#detect()| is used for the detection of the
 			source.  When the source that should be used is not
 			found, the same behavior as |K|.
@@ -307,6 +308,7 @@ get_keyword()				*ref-source-attr-get_keyword()*
 			position.  If omitted, "expand('<cword>')" is used.
 			You can move the cursor because cursor position are
 			restored.
+			The keyword is treated as {query}.
 			The list of the form of [{source-name}, {keyword}] can
 			be returned.  In this case, the keyword is opened by
 			the specified source.
