@@ -17,7 +17,7 @@ if !exists('g:ref_cache_dir')
 endif
 
 if !exists('g:ref_use_vimproc')
-  let g:ref_use_vimproc = exists('*vimproc#system')
+  let g:ref_use_vimproc = globpath(&runtimepath, 'autoload/vimproc.vim') != ''
 endif
 
 let s:is_win = has('win16') || has('win32') || has('win64')
