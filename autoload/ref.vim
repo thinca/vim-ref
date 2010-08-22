@@ -120,9 +120,12 @@ function! ref#open(source, query, ...)  " {{{2
     if has_key(options, 'nocache')
       let s:nocache = 1
     endif
+    if has_key(options, 'updatecache')
+      let s:updatecache = 1
+    endif
     return s:open(a:source, a:query, options)
   finally
-    unlet! s:nocache
+    unlet! s:nocache s:updatecache
   endtry
 endfunction
 
