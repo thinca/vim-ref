@@ -615,7 +615,8 @@ function! s:open_source(source, query, open_cmd)  " {{{2
     execute 'setlocal filetype=ref-' . a:source
   endif
 
-  let bufname = printf('[ref-%s:%s]', b:ref_source, a:query)
+  let bufname = printf('[ref-%s:%s]', b:ref_source,
+  \                    substitute(a:query, '[\r\n]', '', 'g'))
   if s:is_win
     " In Windows, '*' cannot be used for a buffer name.
     let bufname = substitute(bufname, '\*', '', 'g')
