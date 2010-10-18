@@ -117,7 +117,8 @@ ref#cache({source-name}, {name} [, {gather} [, {update}]])	*ref#cache()*
 			operation in using this function. The cached list is
 			returned at the following.
 			{source-name} is a name of source.
-			{name} is a arbitrary name for identification.
+			{name} is a arbitrary name for identification.  This
+			is not a empty string.
 			{gather} is one of the following.
 			1. A |Funcref| for getting the list.
 			2. A evaluatable string by |eval()|.  (Note scope.)

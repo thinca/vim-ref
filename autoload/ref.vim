@@ -265,6 +265,9 @@ endfunction
 " Helper functions for source. {{{1
 let s:cache = {}
 function! ref#cache(source, name, ...)  " {{{2
+  if a:name == ''
+    throw 'ref: The name for cache is empty.'
+  endif
   let get_only = a:0 == 0
   let update = get(a:000, 1, 0) || exists('s:updatecache')
   if exists('s:nocache')
