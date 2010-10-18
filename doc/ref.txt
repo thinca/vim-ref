@@ -338,6 +338,9 @@ autoload/ref.vim is loaded, and the return value is registered as source.
 ==============================================================================
 CHANGELOG					*ref-changelog*
 
+x.x.x	xxxx-xx-xx
+	- Display an error when a body is empty.
+
 0.4.1	2010-06-04
 	- |ref-source-attr-get_body()| can return a |Dictionary|.
 	- |ref#cache()| accepts a |List| as {gather}.

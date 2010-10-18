@@ -541,7 +541,7 @@ function! s:open(source, query, options)  " {{{2
     let res = newres
   endif
   if type(res) != s:T.string || res == ''
-    return
+    throw printf('ref: %s: The body is empty. (query=%s)', a:source, query)
   endif
 
   let pos = getpos('.')
