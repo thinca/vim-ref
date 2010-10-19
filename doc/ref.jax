@@ -333,6 +333,7 @@ cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
 
 x.x.x	xxxx-xx-xx
 	- 本文が空の場合にエラーを表示するようにした。
+	- エラー時の処理を改善。
 
 0.4.1	2010-06-04
 	- |ref-source-attr-get_body()| が辞書を返せるようにした。

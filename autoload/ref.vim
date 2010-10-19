@@ -534,8 +534,11 @@ function! s:open(source, query, options)  " {{{2
       endif
     endif
   catch
-    call s:echoerr(v:exception)
-    return
+    let mes = printf('ref: %s: %s', a:source, v:exception)
+    if v:exception =~# '^Vim'
+      let mes .= "\n" . v:throwpoint
+    endif
+    throw mes
   endtry
 
   if type(res) == s:T.list

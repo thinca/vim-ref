@@ -341,6 +341,7 @@ CHANGELOG					*ref-changelog*
 
 x.x.x	xxxx-xx-xx
 	- Display an error when a body is empty.
+	- Improved the handling of an error.
 
 0.4.1	2010-06-04
 	- |ref-source-attr-get_body()| can return a |Dictionary|.
