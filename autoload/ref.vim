@@ -265,7 +265,7 @@ endfunction
 " Helper functions for source. {{{1
 let s:cache = {}
 function! ref#cache(source, name, ...)  " {{{2
-  if a:name == ''
+  if a:name is ''
     throw 'ref: The name for cache is empty.'
   endif
   let get_only = a:0 == 0
