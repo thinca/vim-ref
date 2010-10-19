@@ -7,7 +7,9 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-let s:source = {}
+let s:source = {
+\   'max_candidates': 30,
+\ }
 
 
 
