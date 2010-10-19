@@ -534,11 +534,14 @@ function! s:open(source, query, options)  " {{{2
       endif
     endif
   catch
-    let mes = printf('ref: %s: %s', a:source, v:exception)
-    if v:exception =~# '^Vim'
+    let mes = v:exception
+    if mes =~# '^Vim'
       let mes .= "\n" . v:throwpoint
     endif
-    throw mes
+    if mes =~# '^ref:'
+      let mes = matchstr(mes, '^ref:\s*\zs.*')
+    endif
+    throw printf('ref: %s: %s', a:source, mes)
   endtry
 
   if type(res) == s:T.list
