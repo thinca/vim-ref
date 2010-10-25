@@ -41,9 +41,6 @@ endfunction
 function! s:prototype.get_keyword()
   return expand('<cword>')
 endfunction
-function! s:prototype.complete(query)
-  return []
-endfunction
 function! s:prototype.normalize(query)
   return a:query
 endfunction
@@ -92,7 +89,8 @@ function! ref#complete(lead, cmd, pos)  " {{{2
       let s = keys(filter(copy(ref#available_sources()), 'v:val.available()'))
       return filter(s, 'v:val =~ "^".a:lead')
     endif
-    return get(s:sources, parsed.source, s:prototype).complete(parsed.query)
+    let source = get(s:sources, parsed.source, s:prototype)
+    return has_key(source, 'complete') ? source.complete(parsed.query) : []
   finally
     unlet! s:nocache s:updatecache
   endtry
@@ -201,7 +199,6 @@ function! ref#register(source)  " {{{2
   call s:validate(source, 'get_body', 'function')
   call s:validate(source, 'opened', 'function')
   call s:validate(source, 'get_keyword', 'function')
-  call s:validate(source, 'complete', 'function')
   call s:validate(source, 'normalize', 'function')
   call s:validate(source, 'leave', 'function')
   let s:sources[source.name] = source
