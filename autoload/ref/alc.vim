@@ -78,10 +78,6 @@ endfunction
 
 " misc. {{{1
 function! s:syntax(query)  " {{{2
-  if exists('b:current_syntax') && b:current_syntax == 'ref-alc'
-    return
-  endif
-
   syntax clear
   let str = escape(substitute(a:query, '\s\+', '\\_s\\+', 'g'), '"')
   if str =~# '^[[:print:][:space:]]\+$'
