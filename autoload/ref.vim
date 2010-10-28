@@ -261,51 +261,60 @@ endfunction
 
 " Helper functions for source. {{{1
 let s:cache = {}
-function! ref#cache(source, name, ...)  " {{{2
-  if a:name is ''
+function! ref#cache(source, ...)  " {{{2
+  if a:0 == 0
+    return g:ref_cache_dir == '' ? [] :
+    \ map(split(
+    \       substitute(glob(printf('%s/%s/*', g:ref_cache_dir, a:source)),
+    \                  '%\(\x\x\)', '\=eval("\"\\x".submatch(1)."\"")', 'g'),
+    \       "\n"), 'fnamemodify(v:val, ":t")')
+  endif
+
+  let name = a:1
+  if name is ''
     throw 'ref: The name for cache is empty.'
   endif
-  let get_only = a:0 == 0
-  let update = get(a:000, 1, 0) || exists('s:updatecache')
+  let get_only = a:0 == 1
+  let update = get(a:000, 2, 0) || exists('s:updatecache')
   if exists('s:nocache')
     if get_only
       return 0
     endif
-    return s:gather_cache(a:name, a:1)
+    return s:gather_cache(name, a:2)
   endif
 
-  if update || !exists('s:cache[a:source][a:name]')
+  if update || !exists('s:cache[a:source][name]')
     if !has_key(s:cache, a:source)
       let s:cache[a:source] = {}
     endif
 
-    let fname = substitute(a:name, '[:;*?"<>|/\\%]',
+    let fname = substitute(name, '[:;*?"<>|/\\%]',
     \           '\=printf("%%%02x", char2nr(submatch(0)))', 'g')
 
     if g:ref_cache_dir != ''
       let file = printf('%s/%s/%s', g:ref_cache_dir, a:source, fname)
       if filereadable(file)
-        let s:cache[a:source][a:name] = readfile(file)
+        let s:cache[a:source][name] = readfile(file)
       endif
     endif
 
-    if update || !has_key(s:cache[a:source], a:name)
+    if update || !has_key(s:cache[a:source], name)
       if get_only
         return 0
       endif
-      let s:cache[a:source][a:name] = s:gather_cache(a:name, a:1)
+      let s:cache[a:source][name] = s:gather_cache(name, a:2)
 
       if g:ref_cache_dir != ''
         let dir = fnamemodify(file, ':h')
         if !isdirectory(dir)
           call mkdir(dir, 'p')
         endif
-        call writefile(s:cache[a:source][a:name], file)
+        call writefile(s:cache[a:source][name], file)
       endif
     endif
   endif
 
-  return s:cache[a:source][a:name]
+  return s:cache[a:source][name]
 endfunction
 
 
