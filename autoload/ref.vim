@@ -67,7 +67,7 @@ endfunction
 
 
 function! ref#complete(lead, cmd, pos)  " {{{2
-  let cmd = a:cmd[: a:pos]
+  let cmd = a:cmd[: a:pos - 1]
   try
     let parsed = s:parse_args(matchstr(cmd, '^\v.{-}R%[ef]\s+\zs.*$'))
   catch
