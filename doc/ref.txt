@@ -1,6 +1,6 @@
 *ref.txt*	Integrated reference viewer.
 
-Version: 0.4.1
+Version: 0.4.2
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -341,7 +341,7 @@ autoload/ref.vim is loaded, and the return value is registered as source.
 ==============================================================================
 CHANGELOG					*ref-changelog*
 
-x.x.x	xxxx-xx-xx
+0.4.2	2010-10-31
 	- Display an error when a body is empty.
 	- Improved the handling of an error.
 	- The list of {name} was able to be taken by |ref#cache()|.

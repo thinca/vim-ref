@@ -1,6 +1,6 @@
 *ref.txt*	総合リファレンスビューア。
 
-Version: 0.4.1
+Version: 0.4.2
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -333,7 +333,7 @@ cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
 ==============================================================================
 更新履歴					*ref-changelog*
 
-x.x.x	xxxx-xx-xx
+0.4.2	2010-10-31
 	- 本文が空の場合にエラーを表示するようにした。
 	- エラー時の処理を改善。
 	- |ref#cache()| で {name} のリストを取れるようにした。
