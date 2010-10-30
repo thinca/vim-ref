@@ -13,10 +13,14 @@ let s:kind = {
 \   'action_table': {},
 \ }
 
-let s:kind.action_table.open = {}
+let s:kind.action_table.open = {
+\   'is_selectable' : 1,
+\ }
 
-function! s:kind.action_table.open.func(candidate)  "{{{2
-  call ref#open(a:candidate.ref_source.name, a:candidate.word)
+function! s:kind.action_table.open.func(candidates)  "{{{2
+  for c in a:candidates
+    call ref#open(c.ref_source.name, c.word, {'new': 1})
+  endfor
 endfunction
 
 
