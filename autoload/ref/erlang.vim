@@ -33,7 +33,7 @@ function! s:source.get_body(query)  " {{{2
   let module = get(split(query, ':'), 0, '')
   try
     let body = self.man_get_body(module)
-  catch
+  catch /^\@<!\%(Vim\)/
     let query = 'erlang:' . module
     let module = 'erlang'
     let bif = self._func_list(module)
