@@ -11,6 +11,7 @@ let s:kind = {
 \   'name' : 'ref',
 \   'default_action' : 'open',
 \   'action_table': {},
+\   'parents': ['openable'],
 \ }
 
 let s:kind.action_table.open = {
@@ -19,7 +20,7 @@ let s:kind.action_table.open = {
 
 function! s:kind.action_table.open.func(candidates)  "{{{2
   for c in a:candidates
-    call ref#open(c.ref_source.name, c.word, {'new': 1})
+    call ref#open(c.ref_source.name, c.word, {'new': 1, 'open': 'edit'})
   endfor
 endfunction
 
