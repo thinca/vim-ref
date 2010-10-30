@@ -9,12 +9,13 @@ set cpo&vim
 
 let s:source = {
 \   'max_candidates': 30,
+\   'is_volatile' : 1,
 \ }
 
 
 
 function! s:source.gather_candidates(args, context)  " {{{2
-  return map(self.ref_source.complete(''), '{
+  return map(self.ref_source.complete(a:context.input), '{
   \   "word" : v:val,
   \   "kind" : "ref",
   \   "source" : self.name,
