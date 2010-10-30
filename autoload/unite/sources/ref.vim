@@ -34,7 +34,8 @@ endfunction
 
 
 function! unite#sources#ref#define()  "{{{2
-  return map(filter(values(ref#available_sources()), 'v:val.available()'),
+  return map(filter(values(ref#available_sources()),
+  \                 'v:val.available() && has_key(v:val, "complete")'),
   \          's:define(v:val)')
 endfunction
 
