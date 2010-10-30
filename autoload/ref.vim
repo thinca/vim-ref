@@ -1,5 +1,5 @@
 " Integrated reference viewer.
-" Version: 0.4.1
+" Version: 0.4.2
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -41,9 +41,6 @@ endfunction
 function! s:prototype.get_keyword()
   return expand('<cword>')
 endfunction
-function! s:prototype.complete(query)
-  return []
-endfunction
 function! s:prototype.normalize(query)
   return a:query
 endfunction
@@ -70,7 +67,7 @@ endfunction
 
 
 function! ref#complete(lead, cmd, pos)  " {{{2
-  let cmd = a:cmd[: a:pos]
+  let cmd = a:cmd[: a:pos - 1]
   try
     let parsed = s:parse_args(matchstr(cmd, '^\v.{-}R%[ef]\s+\zs.*$'))
   catch
@@ -92,7 +89,8 @@ function! ref#complete(lead, cmd, pos)  " {{{2
       let s = keys(filter(copy(ref#available_sources()), 'v:val.available()'))
       return filter(s, 'v:val =~ "^".a:lead')
     endif
-    return get(s:sources, parsed.source, s:prototype).complete(parsed.query)
+    let source = get(s:sources, parsed.source, s:prototype)
+    return has_key(source, 'complete') ? source.complete(parsed.query) : []
   finally
     unlet! s:nocache s:updatecache
   endtry
@@ -201,7 +199,6 @@ function! ref#register(source)  " {{{2
   call s:validate(source, 'get_body', 'function')
   call s:validate(source, 'opened', 'function')
   call s:validate(source, 'get_keyword', 'function')
-  call s:validate(source, 'complete', 'function')
   call s:validate(source, 'normalize', 'function')
   call s:validate(source, 'leave', 'function')
   let s:sources[source.name] = source
@@ -264,51 +261,60 @@ endfunction
 
 " Helper functions for source. {{{1
 let s:cache = {}
-function! ref#cache(source, name, ...)  " {{{2
-  if a:name is ''
+function! ref#cache(source, ...)  " {{{2
+  if a:0 == 0
+    return g:ref_cache_dir == '' ? [] :
+    \ map(split(
+    \       substitute(glob(printf('%s/%s/*', g:ref_cache_dir, a:source)),
+    \                  '%\(\x\x\)', '\=eval("\"\\x".submatch(1)."\"")', 'g'),
+    \       "\n"), 'fnamemodify(v:val, ":t")')
+  endif
+
+  let name = a:1
+  if name is ''
     throw 'ref: The name for cache is empty.'
   endif
-  let get_only = a:0 == 0
-  let update = get(a:000, 1, 0) || exists('s:updatecache')
+  let get_only = a:0 == 1
+  let update = get(a:000, 2, 0) || exists('s:updatecache')
   if exists('s:nocache')
     if get_only
       return 0
     endif
-    return s:gather_cache(a:name, a:1)
+    return s:gather_cache(name, a:2)
   endif
 
-  if update || !exists('s:cache[a:source][a:name]')
+  if update || !exists('s:cache[a:source][name]')
     if !has_key(s:cache, a:source)
       let s:cache[a:source] = {}
     endif
 
-    let fname = substitute(a:name, '[:;*?"<>|/\\%]',
+    let fname = substitute(name, '[:;*?"<>|/\\%]',
     \           '\=printf("%%%02x", char2nr(submatch(0)))', 'g')
 
     if g:ref_cache_dir != ''
       let file = printf('%s/%s/%s', g:ref_cache_dir, a:source, fname)
       if filereadable(file)
-        let s:cache[a:source][a:name] = readfile(file)
+        let s:cache[a:source][name] = readfile(file)
       endif
     endif
 
-    if update || !has_key(s:cache[a:source], a:name)
+    if update || !has_key(s:cache[a:source], name)
       if get_only
         return 0
       endif
-      let s:cache[a:source][a:name] = s:gather_cache(a:name, a:1)
+      let s:cache[a:source][name] = s:gather_cache(name, a:2)
 
       if g:ref_cache_dir != ''
         let dir = fnamemodify(file, ':h')
         if !isdirectory(dir)
           call mkdir(dir, 'p')
         endif
-        call writefile(s:cache[a:source][a:name], file)
+        call writefile(s:cache[a:source][name], file)
       endif
     endif
   endif
 
-  return s:cache[a:source][a:name]
+  return s:cache[a:source][name]
 endfunction
 
 

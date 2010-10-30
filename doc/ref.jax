@@ -1,6 +1,6 @@
 *ref.txt*	総合リファレンスビューア。
 
-Version: 0.4.1
+Version: 0.4.2
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -110,13 +110,15 @@ ref#register_detection({ft}, {source})		*ref#register_detection()*
 
 以下の関数は主に |ref-sources| によって使われます。
 
-ref#cache({source-name}, {name} [, {gather} [, {update}]])	*ref#cache()*
+ref#cache({source-name} [, {name} [, {gather} [, {update}]]])	*ref#cache()*
 			取得に時間のかかるリストをキャッシュするための関数で
 			す。この関数を介することでリストは自動でキャッシュされ
 			ます。以降はキャッシュされたリストを返します。
 			{source-name} はソース名です。
 			{name} は識別のための任意の名前です。これは空文字列で
 			あってはいけません。
+			{name} が省略された場合、すでにキャッシュされている
+			{name} のリストを返します。
 			{gather} は以下のうちのいずれかです。
 			1. リストを取得するための |Funcref|。
 			2. |eval()| で評価可能な文字列。(スコープに注意。)
@@ -331,9 +333,11 @@ cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
 ==============================================================================
 更新履歴					*ref-changelog*
 
-x.x.x	xxxx-xx-xx
+0.4.2	2010-10-31
 	- 本文が空の場合にエラーを表示するようにした。
 	- エラー時の処理を改善。
+	- |ref#cache()| で {name} のリストを取れるようにした。
+	- コマンドラインの補完を改善。
 
 0.4.1	2010-06-04
 	- |ref-source-attr-get_body()| が辞書を返せるようにした。
