@@ -1,6 +1,6 @@
 *ref-erlang.txt*	Erlang 用の ref ソース。
 
-Version: 0.1.1
+Version: 0.1.2
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -56,6 +56,9 @@ g:ref_erlang_man_dir				*g:ref_erlang_man_dir*
 
 ==============================================================================
 更新履歴					*ref-erlang-changelog*
+
+0.1.2	2010-10-31
+	- エラーの処理を改善。
 
 0.1.1	2010-06-06
 	- 関数名を補完できるようにした。

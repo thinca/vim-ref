@@ -1,5 +1,5 @@
 " A ref source for Erlang.
-" Version: 0.1.1
+" Version: 0.1.2
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -33,7 +33,7 @@ function! s:source.get_body(query)  " {{{2
   let module = get(split(query, ':'), 0, '')
   try
     let body = self.man_get_body(module)
-  catch
+  catch /^\@<!\%(Vim\)/
     let query = 'erlang:' . module
     let module = 'erlang'
     let bif = self._func_list(module)
