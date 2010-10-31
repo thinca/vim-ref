@@ -78,4 +78,4 @@ CHANGELOG					*ku-ref-changelog*
 
 
 ==============================================================================
-vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl:nolist

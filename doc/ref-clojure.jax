@@ -75,4 +75,4 @@ g:ref_clojure_overview				*g:ref_clojure_overview*
 
 
 ==============================================================================
-vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl:nolist
