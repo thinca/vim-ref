@@ -229,11 +229,11 @@ endfunction
 
 
 function! s:modules_list(name)  " {{{2
-  let inc = ref#system(['perl', '-e', 'print join('':'', @INC)']).stdout
+  let inc = ref#system(['perl', '-e', 'print join('';'', @INC)']).stdout
   let sep = '[/\\]'
   let files = {}
   let modules = []
-  for i in split(inc, ':')
+  for i in split(inc, ';')
     let f = split(glob(i . '/**/*.pm', 0), "\n")
     call filter(f, '!has_key(files, v:val)')
     for file in f
