@@ -89,6 +89,7 @@ b:ref_perldoc_word				*b:ref_perldoc_word*
 
 x.x.x	xxxx-xx-xx
 	- Windows でうまく動かないことがあるバグを修正。
+	- -f がないとき補完候補に関数名を出さないようにした。
 
 0.3.1	2010-05-07
 	- |ref| 0.3.2 に対応。

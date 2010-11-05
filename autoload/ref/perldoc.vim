@@ -175,7 +175,7 @@ endfunction
 function! s:appropriate_list(query)  " {{{2
   return a:query =~# '-f\>' ? s:list('func'):
   \      a:query =~# '-m\>' ? s:list('modules'):
-  \                           s:list('all')
+  \                           s:list('modules') + s:list('basepod')
 endfunction
 
 
@@ -199,9 +199,6 @@ endfunction
 
 
 function! s:list(name)  " {{{2
-  if a:name ==# 'all'
-    return s:list('basepod') + s:list('modules') + s:list('func')
-  endif
   return ref#cache('perldoc', a:name, s:func(a:name . '_list'))
 endfunction
 
