@@ -69,6 +69,16 @@ function! s:source.opened(query)  " {{{2
   \                               'source'
 
   let b:ref_perldoc_mode = mode
+
+  nnoremap <silent> <buffer> <expr> <Plug>(ref-source-perldoc-switch)
+  \ b:ref_perldoc_mode ==# 'module' ? ":\<C-u>Ref perldoc -m " .
+  \                                b:ref_perldoc_word . "\<CR>" :
+  \ b:ref_perldoc_mode ==# 'source' ? ":\<C-u>Ref perldoc " .
+  \                                b:ref_perldoc_word . "\<CR>" :
+  \ ''
+
+  silent! nmap <buffer> <unique> s <Plug>(ref-source-perldoc-switch)
+
   call s:syntax(mode)
 endfunction
 
@@ -98,6 +108,9 @@ endfunction
 
 function! s:source.leave()  " {{{2
   unlet! b:ref_perldoc_mode b:ref_perldoc_word
+  nunmap <buffer> <Plug>(ref-source-perldoc-switch)
+  " FIXME: The following is not able to customize.
+  nunmap <buffer> s
 endfunction
 
 

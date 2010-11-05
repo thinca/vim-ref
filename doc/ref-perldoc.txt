@@ -30,6 +30,23 @@ Requirements:
 
 
 ==============================================================================
+INTERFACE					*ref-perldoc-interface*
+
+------------------------------------------------------------------------------
+KEY MAPPINGS 					*ref-perldoc-key-mappings*
+
+<Plug>(ref-source-perldoc-switch)	*<Plug>(ref-source-perldoc-switch)*
+			Switch between the module and the source code.
+			Nothing is done for other pages.
+
+Default mappings:
+{lhs}			{rhs}
+--------		-----------------------------
+s			<Plug>(ref-source-perldoc-switch)
+
+
+
+==============================================================================
 CUSTOMIZING					*ref-perldoc-customizing*
 
 g:ref_perldoc_cmd				*g:ref_perldoc_cmd*
@@ -92,6 +109,7 @@ CHANGELOG					*ref-perldoc-changelog*
 x.x.x	xxxx-xx-xx
 	- Fixed the bug that might not work well with Windows.
 	- Do not show function to the completion candidate when no -f.
+	- Added |<Plug>(ref-source-perldoc-switch)|.
 
 0.3.1	2010-05-07
 	- Updated for |ref| 0.3.2.

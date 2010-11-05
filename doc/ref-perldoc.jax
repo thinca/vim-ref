@@ -30,6 +30,23 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 
 
 ==============================================================================
+インターフェース				*ref-perldoc-interface*
+
+------------------------------------------------------------------------------
+キーマッピング 					*ref-perldoc-key-mappings*
+
+<Plug>(ref-source-perldoc-switch)	*<Plug>(ref-source-perldoc-switch)*
+			モジュールとソースのページを切り替えます。それ以外の
+			ページの場合は何もしません。
+
+デフォルトの割り当て:
+{lhs}			{rhs}
+--------		-----------------------------
+s			<Plug>(ref-source-perldoc-switch)
+
+
+
+==============================================================================
 カスタマイズ					*ref-perldoc-customizing*
 
 g:ref_perldoc_cmd				*g:ref_perldoc_cmd*
@@ -90,6 +107,7 @@ b:ref_perldoc_word				*b:ref_perldoc_word*
 x.x.x	xxxx-xx-xx
 	- Windows でうまく動かないことがあるバグを修正。
 	- -f がないとき補完候補に関数名を出さないようにした。
+	- |<Plug>(ref-source-perldoc-switch)| を追加。
 
 0.3.1	2010-05-07
 	- |ref| 0.3.2 に対応。
