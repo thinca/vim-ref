@@ -32,16 +32,17 @@ function! s:source.get_body(query)  " {{{2
   let q = matchstr(a:query, '\v%(^|\s)\zs[^-]\S*')
 
   let cand = s:appropriate_list(a:query)
-  if index(cand, q) < 0
+  let hit = 0 <= index(cand, q)
+  if !hit
     let list = s:match(cand, q)
-    if empty(list)
-      throw printf('No documentation found for "%s".', q)
+    if !empty(list)
+      return list
     endif
-    return list
   endif
 
   let cmdarg = ['-T', '-o', 'text']
-  if a:query =~# '-f\>' || index(s:list('modules') + s:list('basepod'), q) < 0
+  if a:query =~# '-f\>' ||
+  \   (hit && index(s:list('modules') + s:list('basepod'), q) < 0)
     let cmdarg += ['-f']
   elseif a:query =~# '-m\>'
     let cmdarg += ['-m']
