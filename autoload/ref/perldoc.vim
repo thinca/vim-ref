@@ -29,7 +29,6 @@ endfunction
 
 
 function! s:source.get_body(query)  " {{{2
-  let cmdarg = ['-T']
   let q = matchstr(a:query, '\v%(^|\s)\zs[^-]\S*')
 
   let cand = s:appropriate_list(a:query)
@@ -41,7 +40,7 @@ function! s:source.get_body(query)  " {{{2
     return list
   endif
 
-  let cmdarg += ['-o', 'text']
+  let cmdarg = ['-T', '-o', 'text']
   if a:query =~# '-f\>' || index(s:list('modules') + s:list('basepod'), q) < 0
     let cmdarg += ['-f']
   elseif a:query =~# '-m\>'
