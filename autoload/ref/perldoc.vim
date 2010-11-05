@@ -1,5 +1,5 @@
 " A ref source for perldoc.
-" Version: 0.3.1
+" Version: 0.3.2
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -29,20 +29,20 @@ endfunction
 
 
 function! s:source.get_body(query)  " {{{2
-  let cmdarg = ['-T']
   let q = matchstr(a:query, '\v%(^|\s)\zs[^-]\S*')
 
   let cand = s:appropriate_list(a:query)
-  if index(cand, q) < 0
+  let hit = 0 <= index(cand, q)
+  if !hit
     let list = s:match(cand, q)
-    if empty(list)
-      throw printf('No documentation found for "%s".', q)
+    if !empty(list)
+      return list
     endif
-    return list
   endif
 
-  let cmdarg += ['-o', 'text']
-  if a:query =~# '-f\>' || index(s:list('modules') + s:list('basepod'), q) < 0
+  let cmdarg = ['-T', '-o', 'text']
+  if a:query =~# '-f\>' ||
+  \   (hit && index(s:list('modules') + s:list('basepod'), q) < 0)
     let cmdarg += ['-f']
   elseif a:query =~# '-m\>'
     let cmdarg += ['-m']
@@ -69,6 +69,16 @@ function! s:source.opened(query)  " {{{2
   \                               'source'
 
   let b:ref_perldoc_mode = mode
+
+  nnoremap <silent> <buffer> <expr> <Plug>(ref-source-perldoc-switch)
+  \ b:ref_perldoc_mode ==# 'module' ? ":\<C-u>Ref perldoc -m " .
+  \                                b:ref_perldoc_word . "\<CR>" :
+  \ b:ref_perldoc_mode ==# 'source' ? ":\<C-u>Ref perldoc " .
+  \                                b:ref_perldoc_word . "\<CR>" :
+  \ ''
+
+  silent! nmap <buffer> <unique> s <Plug>(ref-source-perldoc-switch)
+
   call s:syntax(mode)
 endfunction
 
@@ -98,6 +108,9 @@ endfunction
 
 function! s:source.leave()  " {{{2
   unlet! b:ref_perldoc_mode b:ref_perldoc_word
+  nunmap <buffer> <Plug>(ref-source-perldoc-switch)
+  " FIXME: The following is not able to customize.
+  nunmap <buffer> s
 endfunction
 
 
@@ -175,7 +188,7 @@ endfunction
 function! s:appropriate_list(query)  " {{{2
   return a:query =~# '-f\>' ? s:list('func'):
   \      a:query =~# '-m\>' ? s:list('modules'):
-  \                           s:list('all')
+  \                           s:list('modules') + s:list('basepod')
 endfunction
 
 
@@ -199,9 +212,6 @@ endfunction
 
 
 function! s:list(name)  " {{{2
-  if a:name ==# 'all'
-    return s:list('basepod') + s:list('modules') + s:list('func')
-  endif
   return ref#cache('perldoc', a:name, s:func(a:name . '_list'))
 endfunction
 
@@ -229,11 +239,11 @@ endfunction
 
 
 function! s:modules_list(name)  " {{{2
-  let inc = ref#system(['perl', '-e', 'print join('':'', @INC)']).stdout
+  let inc = ref#system(['perl', '-e', 'print join('';'', @INC)']).stdout
   let sep = '[/\\]'
   let files = {}
   let modules = []
-  for i in split(inc, ':')
+  for i in split(inc, ';')
     let f = split(glob(i . '/**/*.pm', 0), "\n")
     call filter(f, '!has_key(files, v:val)')
     for file in f

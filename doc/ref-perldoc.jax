@@ -1,6 +1,6 @@
 *ref-perldoc.txt*	perldoc 用の ref ソース。
 
-Version: 0.3.1
+Version: 0.3.2
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -26,6 +26,23 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 要件:
 - |ref| 0.3.2 以降
 - perldoc
+
+
+
+==============================================================================
+インターフェース				*ref-perldoc-interface*
+
+------------------------------------------------------------------------------
+キーマッピング 					*ref-perldoc-key-mappings*
+
+<Plug>(ref-source-perldoc-switch)	*<Plug>(ref-source-perldoc-switch)*
+			モジュールとソースのページを切り替えます。それ以外の
+			ページの場合は何もしません。
+
+デフォルトの割り当て:
+{lhs}			{rhs}
+--------		-----------------------------
+s			<Plug>(ref-source-perldoc-switch)
 
 
 
@@ -86,6 +103,12 @@ b:ref_perldoc_word				*b:ref_perldoc_word*
 
 ==============================================================================
 更新履歴					*ref-perldoc-changelog*
+
+0.3.2	2010-11-06
+	- Windows でうまく動かないことがあるバグを修正。
+	- -f がないとき補完候補に関数名を出さないようにした。
+	- |<Plug>(ref-source-perldoc-switch)| を追加。
+	- 補完候補にないモジュールも探すようにした。
 
 0.3.1	2010-05-07
 	- |ref| 0.3.2 に対応。
