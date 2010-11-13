@@ -40,6 +40,7 @@ endfunction
 
 
 function! s:source.complete(query)  " {{{2
+  if a:query == '' | return [] | endif
   return split(s:hoogle(ref#to_list(a:query)).stdout, "\n")
 endfunction
 
