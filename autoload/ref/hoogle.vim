@@ -39,24 +39,6 @@ endfunction
 
 
 
-function! s:source.opened(query)  " {{{2
-  " nop
-endfunction
-
-
-
-function! s:source.complete(query)  " {{{2
-  " nop
-endfunction
-
-
-
-function! s:source.special_char_p(ch)  " {{{2
-  return a:ch == '#'
-endfunction
-
-
-
 function! s:source.get_keyword()  " {{{2
   let id = '\v\w+[!?]?'
   let pos = getpos('.')[1:]
