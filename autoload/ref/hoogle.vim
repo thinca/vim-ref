@@ -39,6 +39,12 @@ endfunction
 
 
 
+function! s:source.complete(query)  " {{{2
+  return split(s:hoogle(ref#to_list(a:query)).stdout, "\n")
+endfunction
+
+
+
 function! s:source.get_keyword()  " {{{2
   let id = '\v\w+[!?]?'
   let pos = getpos('.')[1:]
