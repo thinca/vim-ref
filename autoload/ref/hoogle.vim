@@ -1,5 +1,5 @@
 " A ref source for Hoogle.
-" Version: 0.4.0
+" Version: 0.0.1
 " Author : ujihisa <ujihisa at gmail dot com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
