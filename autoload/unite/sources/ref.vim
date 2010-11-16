@@ -29,6 +29,9 @@ function! s:define(ref_source)  " {{{2
   let source = copy(s:source)
   let source.name = 'ref/' . a:ref_source.name
   let source.ref_source = a:ref_source
+  if has_key(a:ref_source, 'unite') && type(a:ref_source.unite) == type({})
+    call extend(source, a:ref_source.unite)
+  endif
   return source
 endfunction
 
