@@ -1,0 +1,52 @@
+*ref-hoogle.txt*	A ref source for Hoogle the Haskell API search engine.
+
+Version: 0.0.1
+Author : ujihisa <ujihisa at gmail com>
+License: Creative Commons Attribution 2.1 Japan License
+         <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
+
+==============================================================================
+CONTENTS					*ref-hoogle-contents*
+
+INTRODUCTION			|ref-hoogle-introduction|
+CUSTOMIZING			|ref-hoogle-customizing|
+BUGS				|ref-hoogle-bugs|
+CHANGELOG			|ref-hoogle-changelog|
+
+
+==============================================================================
+INTRODUCTION					*ref-hoogle-introduction*
+
+*ref-hoogle* is a source for |ref| to hoogle command.  Hoogle is a command line tool
+to view the API manual of Haskell.
+
+
+Requirement:
+- |hoogle|
+  - cabal install hoogle
+
+==============================================================================
+CUSTOMIZING					*ref-hoogle-customizing*
+
+g:ref_hoogle_cmd					*g:ref_hoogle_cmd*
+			Specifies the hoogle command.  This allows a |List| that
+			includes command and arguments.  The default value is
+                        "hoogle" if it is executable, otherwise it is "".
+
+
+
+==============================================================================
+BUGS						*ref-hoogle-bugs*
+
+- Currently |ref-hoogle| only supports functions; no support for modules yet.
+
+
+
+==============================================================================
+CHANGELOG					*ref-hoogle-changelog*
+
+0.4.0	Fri Nov 12 2010
+	- Initial release of |ref-hoogle|
+
+==============================================================================
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
