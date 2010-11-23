@@ -108,9 +108,9 @@ endfunction
 
 function! s:source.leave()  " {{{2
   unlet! b:ref_perldoc_mode b:ref_perldoc_word
-  nunmap <buffer> <Plug>(ref-source-perldoc-switch)
+  silent! nunmap <buffer> <Plug>(ref-source-perldoc-switch)
   " FIXME: The following is not able to customize.
-  nunmap <buffer> s
+  silent! nunmap <buffer> s
 endfunction
 
 

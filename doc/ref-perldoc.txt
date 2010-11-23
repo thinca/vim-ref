@@ -106,6 +106,9 @@ BUGS						*ref-perldoc-bugs*
 ==============================================================================
 CHANGELOG					*ref-perldoc-changelog*
 
+x.x.x	xxxx-xx-xx
+	- Avoid an error on leave().
+
 0.3.2	2010-11-06
 	- Fixed the bug that might not work well with Windows.
 	- Do not show function to the completion candidate when no -f.
