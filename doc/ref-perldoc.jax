@@ -1,6 +1,6 @@
 *ref-perldoc.txt*	perldoc 用の ref ソース。
 
-Version: 0.3.2
+Version: 0.3.3
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -103,6 +103,9 @@ b:ref_perldoc_word				*b:ref_perldoc_word*
 
 ==============================================================================
 更新履歴					*ref-perldoc-changelog*
+
+0.3.3	2010-11-24
+	- leave() 時のエラーを回避。
 
 0.3.2	2010-11-06
 	- Windows でうまく動かないことがあるバグを修正。
