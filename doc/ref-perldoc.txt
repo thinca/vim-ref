@@ -1,6 +1,6 @@
 *ref-perldoc.txt*	A ref source for perldoc.
 
-Version: 0.3.2
+Version: 0.3.3
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -106,7 +106,7 @@ BUGS						*ref-perldoc-bugs*
 ==============================================================================
 CHANGELOG					*ref-perldoc-changelog*
 
-x.x.x	xxxx-xx-xx
+0.3.3	2010-11-24
 	- Avoid an error on leave().
 
 0.3.2	2010-11-06
