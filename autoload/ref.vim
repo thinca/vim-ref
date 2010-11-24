@@ -36,6 +36,9 @@ let s:options = ['-open=', '-new', '-nocache', '-noenter', '-updatecache']
 let s:sources = {}
 
 let s:prototype = {}  " {{{1
+function! s:prototype.available()
+  return 1
+endfunction
 function! s:prototype.opened(query)
 endfunction
 function! s:prototype.get_keyword()

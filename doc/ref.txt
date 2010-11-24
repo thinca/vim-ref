@@ -288,9 +288,6 @@ command.
 name					*ref-source-attr-name*
 			Required.  The name for this source.
 
-available()				*ref-source-attr-available()*
-			Required.  Return true if this source is available.
-
 get_body({query})			*ref-source-attr-get_body()*
 			Required.  Return the body of reference by List of
 			line break delimitation or String.
@@ -300,6 +297,10 @@ get_body({query})			*ref-source-attr-get_body()*
 			query: Optional.  The normalized {query}.
 			Throws an exception with an error message if body is
 			not found.
+
+available()				*ref-source-attr-available()*
+			Optional.  Return true if this source is available.
+			Always available when this is omitted.
 
 opened({query})				*ref-source-attr-opened()*
 			Optional.  When every reference page is opened, this
@@ -344,6 +345,7 @@ CHANGELOG					*ref-changelog*
 x.x.x	xxxx-xx-xx
 	- Fixed the bug to which {name} including "/" can not be taken out by
 	  |ref#cache()|.
+	- |ref-source-attr-available()| became omitable.
 
 0.4.2	2010-10-31
 	- Display an error when a body is empty.

@@ -282,9 +282,6 @@ b:ref_noenter					*b:ref_noenter*
 name					*ref-source-attr-name*
 			必須。このソースの名前です。
 
-available()				*ref-source-attr-available()*
-			必須。ソースが利用可能ならば真を返します。
-
 get_body({query})			*ref-source-attr-get_body()*
 			必須。リファレンスの本文を改行区切りの文字列かリストで
 			返します。
@@ -293,6 +290,10 @@ get_body({query})			*ref-source-attr-get_body()*
 			query: 任意。正規化された {query}。
 			本文が見つからない場合はエラーメッセージと共に例外を投
 			げます。
+
+available()				*ref-source-attr-available()*
+			任意。ソースが利用可能ならば真を返します。省略した場合
+			は常に利用可能です。
 
 opened({query})				*ref-source-attr-opened()*
 			任意。この関数はリファレンスページが開かれる度に呼ばれ
@@ -335,6 +336,7 @@ cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
 
 x.x.x	xxxx-xx-xx
 	- |ref#cache()| で "/" を含む {name} が取り出せないバグを修正。
+	- |ref-source-attr-available()| を省略可能にした。
 
 0.4.2	2010-10-31
 	- 本文が空の場合にエラーを表示するようにした。
