@@ -341,6 +341,10 @@ autoload/ref.vim is loaded, and the return value is registered as source.
 ==============================================================================
 CHANGELOG					*ref-changelog*
 
+x.x.x	xxxx-xx-xx
+	- Fixed the bug to which {name} including "/" can not be taken out by
+	  |ref#cache()|.
+
 0.4.2	2010-10-31
 	- Display an error when a body is empty.
 	- Improved the handling of an error.

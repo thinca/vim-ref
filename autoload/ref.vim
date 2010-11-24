@@ -263,11 +263,10 @@ endfunction
 let s:cache = {}
 function! ref#cache(source, ...)  " {{{2
   if a:0 == 0
+    let [from, to] = ['%\(\x\x\)', '\=eval("\"\\x".submatch(1)."\"")']
     return g:ref_cache_dir == '' ? [] :
-    \ map(split(
-    \       substitute(glob(printf('%s/%s/*', g:ref_cache_dir, a:source)),
-    \                  '%\(\x\x\)', '\=eval("\"\\x".submatch(1)."\"")', 'g'),
-    \       "\n"), 'fnamemodify(v:val, ":t")')
+    \ map(split(glob(printf('%s/%s/*', g:ref_cache_dir, a:source)), "\n"),
+    \     'substitute(fnamemodify(v:val, ":t"), from, to, "g")')
   endif
 
   let name = a:1
