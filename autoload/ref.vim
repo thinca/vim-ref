@@ -321,6 +321,38 @@ endfunction
 
 
 
+function! ref#rmcache(...)  " {{{2
+  if g:ref_cache_dir == ''
+    return
+  endif
+  if !a:0
+    for source in split(glob(g:ref_cache_dir . '/*'), "\n")
+      call ref#rmcache(fnamemodify(source, ':t'))
+    endfor
+    return
+  endif
+  let source = a:1
+  let names = 2 <= a:0 ? ref#to_list(a:2) : ref#cache(source)
+  for name in names
+    call delete(printf('%s/%s/%s', g:ref_cache_dir, source, name))
+  endfor
+
+  if !has_key(s:cache, source)
+    return
+  endif
+  if a:0
+    for name in names
+      if has_key(s:cache[source], name)
+        call remove(s:cache[source], name)
+      endif
+    endfor
+  else
+    call remove(s:cache, source)
+  endif
+endfunction
+
+
+
 function! ref#system(args, ...)  " {{{2
   let args = ref#to_list(a:args)
   if g:ref_use_vimproc

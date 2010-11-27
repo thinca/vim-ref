@@ -135,6 +135,11 @@ ref#cache({source-name} [, {name} [, {gather} [, {update}]]])	*ref#cache()*
 			When numbers except 0 are given to {update}, cash is
 			updated.
 
+ref#rmcache([{source-name} [, {name}]])		*ref#rmcache()*
+			Remove the cache created by |ref#cache()|.  If {name}
+			is omitted, remove the all of cache of {source-name}.
+			If {source-name} is omitted, remove the all of cache.
+
 ref#system({expr} [, {input}])			*ref#system()*
 			Like |system()|, but {expr} takes a |List|.  Each
 			items are processed by |shellescape()|.
@@ -343,6 +348,7 @@ autoload/ref.vim is loaded, and the return value is registered as source.
 CHANGELOG					*ref-changelog*
 
 x.x.x	xxxx-xx-xx
+	- Added |ref#rmcache()|.
 	- Fixed the bug to which {name} including "/" can not be taken out by
 	  |ref#cache()|.
 	- |ref-source-attr-available()| became omitable.

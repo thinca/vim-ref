@@ -132,6 +132,12 @@ ref#cache({source-name} [, {name} [, {gather} [, {update}]]])	*ref#cache()*
 			{update} に 0 以外が与えられた場合、キャッシュを更新し
 			ます。
 
+ref#rmcache([{source-name} [, {name}]])		*ref#rmcache()*
+			|ref#cache()| で生成されたキャッシュを削除します。
+			{name} が省略された場合は {source-name} の全てのキャッ
+			シュを削除します。 {source-name} が省略された場合は全
+			てのキャッシュを削除します。
+
 ref#system({expr} [, {input}])			*ref#system()*
 			|system()| と同じですが、{expr} はリスト(|List|)を取り
 			ます。各要素は |shellescape()| で処理されます。
@@ -335,6 +341,7 @@ cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
 更新履歴					*ref-changelog*
 
 x.x.x	xxxx-xx-xx
+	- |ref#rmcache()| を追加。
 	- |ref#cache()| で "/" を含む {name} が取り出せないバグを修正。
 	- |ref-source-attr-available()| を省略可能にした。
 
