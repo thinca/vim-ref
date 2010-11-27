@@ -173,7 +173,7 @@ ref#get_text_on_cursor({pattern})		*ref#get_text_on_cursor()*
 ------------------------------------------------------------------------------
 コマンド					*ref-commands*
 
-:Ref [options] {source-name} [query]		*:Ref*
+:Ref [{options}] {source-name} [{query}]	*:Ref*
 			|ref-viewer| を開きます。 [query] は |ref-sources| の
 			クエリに使われます。
 			{source-name} の前にオプションを指定できます。

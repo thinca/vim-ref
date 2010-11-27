@@ -176,7 +176,7 @@ ref#get_text_on_cursor({pattern})		*ref#get_text_on_cursor()*
 ------------------------------------------------------------------------------
 COMMANDS					*ref-commands*
 
-:Ref [options] {source-name} [query]		*:Ref*
+:Ref [{options}] {source-name} [{query}]	*:Ref*
 			Open the |ref-viewer|.  [query] is used by
 			|ref-sources| as query.
 			This can specify the option before {source-name}.
