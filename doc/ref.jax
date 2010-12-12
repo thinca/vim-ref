@@ -342,8 +342,9 @@ cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
 
 x.x.x	xxxx-xx-xx
 	- |ref#rmcache()| を追加。
-	- |ref#cache()| で "/" を含む {name} が取り出せないバグを修正。
 	- |ref-source-attr-available()| を省略可能にした。
+	- |ref#cache()| で "/" を含む {name} が取り出せないバグを修正。
+	- |ref#uniq()| に空文字列を含むリストを渡すとエラーになるバグを修正。
 
 0.4.2	2010-10-31
 	- 本文が空の場合にエラーを表示するようにした。

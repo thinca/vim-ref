@@ -349,9 +349,11 @@ CHANGELOG					*ref-changelog*
 
 x.x.x	xxxx-xx-xx
 	- Added |ref#rmcache()|.
+	- |ref-source-attr-available()| became omitable.
 	- Fixed the bug to which {name} including "/" can not be taken out by
 	  |ref#cache()|.
-	- |ref-source-attr-available()| became omitable.
+	- Fixed a bug when a list including empty string is passed to
+	  |ref#uniq()|.
 
 0.4.2	2010-10-31
 	- Display an error when a body is empty.

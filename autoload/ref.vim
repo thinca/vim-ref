@@ -447,9 +447,9 @@ endfunction
 function! ref#uniq(list)  " {{{2
   let d = {}
   for i in a:list
-    let d[i] = 0
+    let d['_' . i] = 0
   endfor
-  return sort(keys(d))
+  return map(sort(keys(d)), 'v:val[1 :]')
 endfunction
 
 
