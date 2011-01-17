@@ -47,7 +47,7 @@ endfunction
 
 
 function! s:source.get_keyword()  " {{{2
-  let moduleandfunc = ref#get_text_on_cursor('[a-z.]\+')
+  let moduleandfunc = ref#get_text_on_cursor("[a-z][a-z0-9.']\\+")
   let [dummy0, dummy1, module, func; dummy2] = matchlist(moduleandfunc, '\(\(.*\)\.\)\?\(.*\)', 0)
   if len(module) > 0
     return printf('--info %s.%s', module, func)
