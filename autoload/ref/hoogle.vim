@@ -34,7 +34,7 @@ function! s:source.get_body(query)  " {{{2
   let content = split(res.stdout, "\n")
   return len(content) > 0 && a:query == content[0] ?
         \ {'query': a:query, 'body': s:hoogle('--info '. query).stdout} :
-        \ content
+        \ map(content, "substitute(v:val, ' ', '.', '')")
 endfunction
 
 
@@ -47,6 +47,16 @@ endfunction
 
 
 function! s:source.get_keyword()  " {{{2
+  let moduleandfunc = ref#get_text_on_cursor('[a-z.]\+')
+  let [dummy0, dummy1, module, func; dummy2] = matchlist(moduleandfunc, '\(\(.*\)\.\)\?\(.*\)', 0)
+  if len(module) > 0
+    return printf('--info %s.%s', module, func)
+  else
+    return func
+  endif
+endfunction
+
+function! s:legacy()
   let id = '\v\w+[!?]?'
   let pos = getpos('.')[1:]
 
