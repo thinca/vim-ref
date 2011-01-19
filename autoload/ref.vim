@@ -356,12 +356,15 @@ endfunction
 function! ref#system(args, ...)  " {{{2
   let args = ref#to_list(a:args)
   if g:ref_use_vimproc
-    let stdout = a:0 ? vimproc#system(args, a:1) : vimproc#system(args)
-    return {
-    \ 'result': vimproc#get_last_status(),
-    \ 'stdout': stdout,
-    \ 'stderr': vimproc#get_last_errmsg(),
-    \ }
+    try
+      let stdout = a:0 ? vimproc#system(args, a:1) : vimproc#system(args)
+      return {
+      \ 'result': vimproc#get_last_status(),
+      \ 'stdout': stdout,
+      \ 'stderr': vimproc#get_last_errmsg(),
+      \ }
+    catch
+    endtry
   endif
 
   if s:is_win
