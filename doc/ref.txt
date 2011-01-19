@@ -271,11 +271,14 @@ g:ref_use_vimproc				*g:ref_use_vimproc*
 g:ref_detect_filetype				*g:ref_detect_filetype*
 	Specifies the |Dictionary| to detect the using source from |filetype|.
 	This is used by |ref#detect()|.  The key is a filetype, and the value
-	is a source name or a |Funcref|.  If the value is |Funcref|, it take a
-	filetype as argument and return the source name.  If it can not
-	detect, return empty string.  If _ key exists, it is used when the
-	filetype was not registered.  Some sources register the appropriate
-	entry on loaded.
+	is a source name, a list of sources, or a |Funcref|.
+	If the value is a list of sources, the source that the body was found
+	at first is used.
+	If the value is a |Funcref|, it take a filetype as argument and return
+	a source name or a list of source names.  If it can not detect, return
+	empty string.
+	If _ key exists, it is used when the filetype was not registered.
+	Some sources register the appropriate entry on loaded.
 
 g:ref_noenter					*g:ref_noenter*
 b:ref_noenter					*b:ref_noenter*
@@ -349,6 +352,7 @@ CHANGELOG					*ref-changelog*
 
 x.x.x	xxxx-xx-xx
 	- Added |ref#rmcache()|.
+	- |g:ref_detect_filetype| accepts a list of sources.
 	- |ref-source-attr-available()| became omitable.
 	- Fixed the bug to which {name} including "/" can not be taken out by
 	  |ref#cache()|.

@@ -267,9 +267,11 @@ g:ref_use_vimproc				*g:ref_use_vimproc*
 
 g:ref_detect_filetype				*g:ref_detect_filetype*
 	|filetype| からソースを検出するための |Dictionary| を指定します。これ
-	は |ref#detect()| で使用されます。キーにファイルタイプ、値にソース名ま
-	たは |Funcref| を指定します。|Funcref|の場合、その関数はファイルタイプ
-	を引数にとりソース名を返します。検出できない場合は空文字列を返します。
+	は |ref#detect()| で使用されます。キーにファイルタイプ、値にはソース
+	名、ソース名のリスト、もしくは |Funcref| を指定します。
+	リストの場合、最初に本文がみつかったソースが使われます。
+	|Funcref| の場合、その関数はファイルタイプを引数にとり、ソース名か、
+	ソース名のリストを返します。検出できない場合は空文字列を返します。
 	キーに _ を使うと、ファイルタイプが登録されていなかった場合に使用され
 	ます。いくつかのソースはロード時にエントリを登録します。
 
@@ -342,6 +344,7 @@ cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
 
 x.x.x	xxxx-xx-xx
 	- |ref#rmcache()| を追加。
+	- |g:ref_detect_filetype| にソースのリストが使えるようにした。
 	- |ref-source-attr-available()| を省略可能にした。
 	- |ref#cache()| で "/" を含む {name} が取り出せないバグを修正。
 	- |ref#uniq()| に空文字列を含むリストを渡すとエラーになるバグを修正。

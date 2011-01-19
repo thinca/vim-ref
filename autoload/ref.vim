@@ -144,49 +144,28 @@ function! ref#jump(...)  " {{{2
   endfor
   call filter(args, 'type(v:val) != s:T.dictionary')
 
-  let source = 2 <= len(args) ? args[1] : ref#detect()
-  if !has_key(s:sources, source)
-    throw 'ref: The source is not registered: ' . source
-  endif
-
+  let sources = 2 <= len(args) ? args[1] : ref#detect()
   let mode = get(args, 0, 'normal')
-  let query = ''
-  if mode ==# 'normal'
-    let pos = getpos('.')
-    let res = s:sources[source].get_keyword()
-    call setpos('.', pos)
-    if type(res) == s:T.list && len(res) == 2
-      let [source, query] = res
-    else
-      let query = res
+
+  let last_exception = ''
+  for source in type(sources) == type([]) ? sources : [sources]
+    if !has_key(s:sources, source)
+      throw 'ref: The source is not registered: ' . source
     endif
 
-  elseif mode =~# '^\v%(visual|line|char|block)$'
-    let vm = {
-    \ 'visual': visualmode(),
-    \ 'line': 'V',
-    \ 'char': 'v',
-    \ 'block': "\<C-v>" }[mode]
-    let [sm, em] = mode ==# 'visual' ? ['<', '>'] : ['[', ']']
+    let [source, query] = s:get_query(mode, source)
+    if type(query) == s:T.string && query != ''
+      try
+        call ref#open(source, query, options)
+        return
+      catch /^ref:/
+        let last_exception = v:exception
+      endtry
+    endif
+  endfor
 
-    let [reg_save, reg_save_type] = [getreg(), getregtype()]
-    let [pos_c, pos_s, pos_e] = [getpos('.'), getpos("'<"), getpos("'>")]
-
-    execute 'silent normal! `' . sm . vm . '`' . em . 'y'
-    let query = @"
-
-    " Restore '< '>
-    call setpos('.', pos_s)
-    execute 'normal!' vm
-    call setpos('.', pos_e)
-    execute 'normal!' vm
-    call setpos('.', pos_c)
-
-    call setreg(v:register, reg_save, reg_save_type)
-
-  endif
-  if type(query) == s:T.string && query != ''
-    call ref#open(source, query, options)
+  if last_exception != ''
+    throw last_exception
   endif
 endfunction
 
@@ -241,7 +220,7 @@ function! ref#detect()  " {{{2
     let Source = s
   endif
 
-  if type(Source) == s:T.string
+  if type(Source) == s:T.string || type(Source) == s:T.list
     return Source
   endif
   return ''
@@ -552,6 +531,46 @@ function! s:gather_cache(name, gather)  " {{{2
     return split(cache, "\n")
   endif
   throw 'ref: Invalid results of cache: ' . string(cache)
+endfunction
+
+
+
+function! s:get_query(mode, source)  " {{{2
+  let [source, query] = [a:source, '']
+  if a:mode ==# 'normal'
+    let pos = getpos('.')
+    let res = s:sources[source].get_keyword()
+    call setpos('.', pos)
+    if type(res) == s:T.list && len(res) == 2
+      let [source, query] = res
+    else
+      let query = res
+    endif
+
+  elseif a:mode =~# '^\v%(visual|line|char|block)$'
+    let vm = {
+    \ 'visual': visualmode(),
+    \ 'line': 'V',
+    \ 'char': 'v',
+    \ 'block': "\<C-v>" }[a:mode]
+    let [sm, em] = a:mode ==# 'visual' ? ['<', '>'] : ['[', ']']
+
+    let [reg_save, reg_save_type] = [getreg(), getregtype()]
+    let [pos_c, pos_s, pos_e] = [getpos('.'), getpos("'<"), getpos("'>")]
+
+    execute 'silent normal! `' . sm . vm . '`' . em . 'y'
+    let query = @"
+
+    " Restore '< '>
+    call setpos('.', pos_s)
+    execute 'normal!' vm
+    call setpos('.', pos_e)
+    execute 'normal!' vm
+    call setpos('.', pos_c)
+
+    call setreg(v:register, reg_save, reg_save_type)
+  endif
+  return [source, query]
 endfunction
 
 
