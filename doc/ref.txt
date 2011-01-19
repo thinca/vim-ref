@@ -41,7 +41,7 @@ Requirements:
 - Vim 7.2 or later
 
 Latest version:
-http://github.com/thinca/vim-ref
+https://github.com/thinca/vim-ref
 
 
 
@@ -152,7 +152,7 @@ ref#system({expr} [, {input}])			*ref#system()*
 			stderr: Standard error.
 			This function uses |vimproc#system()| instead of
 			|system()| if |g:ref_use_vimproc| is true.
-			vimproc: http://github.com/Shougo/vimproc
+			vimproc: https://github.com/Shougo/vimproc
 
 ref#to_list({expr}, ...)			*ref#to_list()*
 			Convert {expr} into a |List|.
