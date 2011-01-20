@@ -1,6 +1,6 @@
 *ref.txt*	総合リファレンスビューア。
 
-Version: 0.4.2
+Version: 0.4.3
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -352,7 +352,7 @@ cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
 ==============================================================================
 更新履歴					*ref-changelog*
 
-x.x.x	xxxx-xx-xx
+0.4.3	2011-01-20
 	- |ref#rmcache()| を追加。
 	- |g:ref_detect_filetype| にソースのリストが使えるようにした。
 	- |g:ref_detect_filetype| の関数が |Funcref| を返せるようにした。
