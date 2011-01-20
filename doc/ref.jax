@@ -41,7 +41,7 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 - Vim 7.2 以降
 
 最新版:
-http://github.com/thinca/vim-ref
+https://github.com/thinca/vim-ref
 
 
 
@@ -158,7 +158,7 @@ ref#system({expr} [, {input}])			*ref#system()*
 			stderr: 標準エラー出力。
 			この関数は、|g:ref_use_vimproc| が真の時は |system()|
 			の代わりに |vimproc#system()| を使用します。
-			vimproc: http://github.com/Shougo/vimproc
+			vimproc: https://github.com/Shougo/vimproc
 
 ref#to_list({expr}, ...)				*ref#to_list()*
 			{expr} を |List| に変換します。
