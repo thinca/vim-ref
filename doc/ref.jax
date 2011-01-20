@@ -279,7 +279,8 @@ g:ref_detect_filetype				*g:ref_detect_filetype*
 	名、ソース名のリスト、もしくは |Funcref| を指定します。
 	リストの場合、最初に本文がみつかったソースが使われます。
 	|Funcref| の場合、その関数はファイルタイプを引数にとり、ソース名か、
-	ソース名のリストを返します。検出できない場合は空文字列を返します。
+	ソース名のリストか、 |Funcref| を返します。検出できない場合は空文字列
+	を返します。
 	キーに _ を使うと、ファイルタイプが登録されていなかった場合に使用され
 	ます。いくつかのソースはロード時にエントリを登録します。
 
@@ -353,6 +354,7 @@ cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
 x.x.x	xxxx-xx-xx
 	- |ref#rmcache()| を追加。
 	- |g:ref_detect_filetype| にソースのリストが使えるようにした。
+	- |g:ref_detect_filetype| の関数が |Funcref| を返せるようにした。
 	- |ref#register_detection()| を改善。
 	- |ref-source-attr-available()| を省略可能にした。
 	- |ref#cache()| で "/" を含む {name} が取り出せないバグを修正。

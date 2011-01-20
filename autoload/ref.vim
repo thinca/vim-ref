@@ -212,13 +212,13 @@ function! ref#detect()  " {{{2
     let Source = ''
   endif
 
-  if type(Source) == s:T.function
+  while type(Source) == s:T.function
     " For dictionary function.
     let dict = exists('g:ref_detect_filetype') ? g:ref_detect_filetype : {}
     let s = call(Source, [&l:filetype], dict)
     unlet Source
     let Source = s
-  endif
+  endwhile
 
   if type(Source) == s:T.string || type(Source) == s:T.list
     return Source

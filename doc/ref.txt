@@ -283,8 +283,8 @@ g:ref_detect_filetype				*g:ref_detect_filetype*
 	If the value is a list of sources, the source that the body was found
 	at first is used.
 	If the value is a |Funcref|, it take a filetype as argument and return
-	a source name or a list of source names.  If it can not detect, return
-	empty string.
+	a source name, a list of source names, or a |Funcref|.  If it can not
+	detect, return empty string.
 	If _ key exists, it is used when the filetype was not registered.
 	Some sources register the appropriate entry on loaded.
 
@@ -361,6 +361,7 @@ CHANGELOG					*ref-changelog*
 x.x.x	xxxx-xx-xx
 	- Added |ref#rmcache()|.
 	- |g:ref_detect_filetype| accepts a list of sources.
+	- A function of |g:ref_detect_filetype| can return a |Funcref|.
 	- Improved |ref#register_detection()|.
 	- |ref-source-attr-available()| became omitable.
 	- Fixed the bug to which {name} including "/" can not be taken out by
