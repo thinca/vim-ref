@@ -281,7 +281,7 @@ g:ref_detect_filetype				*g:ref_detect_filetype*
 	This is used by |ref#detect()|.  The key is a filetype, and the value
 	is a source name, a list of sources, or a |Funcref|.
 	If the value is a list of sources, the source that the body was found
-	at first is used.
+	at first is used.  The list is nestable.
 	If the value is a |Funcref|, it take a filetype as argument and return
 	a source name, a list of source names, or a |Funcref|.  If it can not
 	detect, return empty string.

@@ -148,7 +148,7 @@ function! ref#jump(...)  " {{{2
   let mode = get(args, 0, 'normal')
 
   let last_exception = ''
-  for source in s:to_list(sources)
+  for source in s:flatten(s:to_list(sources))
     if !has_key(s:sources, source)
       throw 'ref: The source is not registered: ' . source
     endif
@@ -798,6 +798,21 @@ endfunction
 
 function! s:to_list(expr)  " {{{2
   return type(a:expr) == s:T.list ? a:expr : [a:expr]
+endfunction
+
+
+
+function! s:flatten(list)  " {{{2
+  let list = []
+  for i in a:list
+    if type(i) == s:T.list
+      let list += s:flatten(i)
+    else
+      call add(list, i)
+    endif
+    unlet! i
+  endfor
+  return list
 endfunction
 
 
