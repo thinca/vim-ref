@@ -104,9 +104,17 @@ ref#detect()					*ref#detect()*
 			function uses |g:ref_detect_filetype|.  Return empty
 			string when detection failed.
 
-ref#register_detection({ft}, {source})		*ref#register_detection()*
+ref#register_detection({ft}, {source} [, {way}]) *ref#register_detection()*
 			Register the entry to |g:ref_detect_filetype|.  If
-			the entry already exists, do nothing.
+			the entry already exists, this works as follows by the
+			value of {way}.
+			"ignore"	Not register.
+			"overwrite"	Overwrite.
+			"prepend"	When it is not a list, it makes to the
+					list, and it adds it to the head.
+			"append"	When it is not a list, it makes to the
+					list, and it adds it to the tail.
+			The default is "ignore".
 
 
 The following functions are used by |ref-sources| mainly.
@@ -353,6 +361,7 @@ CHANGELOG					*ref-changelog*
 x.x.x	xxxx-xx-xx
 	- Added |ref#rmcache()|.
 	- |g:ref_detect_filetype| accepts a list of sources.
+	- Improved |ref#register_detection()|.
 	- |ref-source-attr-available()| became omitable.
 	- Fixed the bug to which {name} including "/" can not be taken out by
 	  |ref#cache()|.

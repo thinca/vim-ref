@@ -228,11 +228,20 @@ endfunction
 
 
 
-function! ref#register_detection(ft, source)  " {{{2
+function! ref#register_detection(ft, source, ...)  " {{{2
   if !exists('g:ref_detect_filetype')
     let g:ref_detect_filetype = {}
   endif
-  if !has_key(g:ref_detect_filetype, a:ft)
+  let way = a:0 ? a:1 : 'ignore'
+  if has_key(g:ref_detect_filetype, a:ft) && way !=# 'overwrite'
+    let val = s:to_list(g:ref_detect_filetype[a:ft])
+    let sources = s:to_list(a:source)
+    if way ==# 'prepend'
+      let g:ref_detect_filetype[a:ft] = sources + val
+    elseif way ==# 'append'
+      let g:ref_detect_filetype[a:ft] = val + sources
+    endif
+  else
     let g:ref_detect_filetype[a:ft] = a:source
   endif
 endfunction
