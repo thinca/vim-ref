@@ -148,7 +148,7 @@ function! ref#jump(...)  " {{{2
   let mode = get(args, 0, 'normal')
 
   let last_exception = ''
-  for source in type(sources) == type([]) ? sources : [sources]
+  for source in s:to_list(sources)
     if !has_key(s:sources, source)
       throw 'ref: The source is not registered: ' . source
     endif
@@ -417,8 +417,7 @@ endfunction
 function! ref#to_list(...)  " {{{2
   let list = []
   for a in a:000
-    let list += type(a) == s:T.string ? split(a) :
-    \           type(a) == s:T.list ? a : [a]
+    let list += type(a) == s:T.string ? split(a) : s:to_list(a)
     unlet a
   endfor
   return list
@@ -784,6 +783,12 @@ function! s:echoerr(msg)  " {{{2
     echomsg line
   endfor
   echohl None
+endfunction
+
+
+
+function! s:to_list(expr)  " {{{2
+  return type(a:expr) == s:T.list ? a:expr : [a:expr]
 endfunction
 
 
