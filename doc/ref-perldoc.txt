@@ -108,6 +108,7 @@ CHANGELOG					*ref-perldoc-changelog*
 
 x.x.x	xxxx-xx-xx
 	- Use |ref#uniq()| for the completion candidates.
+	- Search .pod file.
 
 0.3.3	2010-11-24
 	- Avoid an error on leave().

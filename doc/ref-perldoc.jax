@@ -106,6 +106,7 @@ b:ref_perldoc_word				*b:ref_perldoc_word*
 
 x.x.x	xxxx-xx-xx
 	- 補完候補に対して |ref#uniq()| を呼ぶようにした。
+	- .pod ファイルも探すようにした。
 
 0.3.3	2010-11-24
 	- leave() 時のエラーを回避。
