@@ -1,5 +1,5 @@
 " A ref source for perldoc.
-" Version: 0.3.3
+" Version: 0.3.4
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -245,6 +245,7 @@ function! s:modules_list(name)  " {{{2
   let modules = []
   for i in split(inc, ';')
     let f = split(glob(i . '/**/*.pm', 0), "\n")
+    \     + split(glob(i . '/**/*.pod', 0), "\n")
     call filter(f, '!has_key(files, v:val)')
     for file in f
       let files[file] = 1
@@ -254,7 +255,7 @@ function! s:modules_list(name)  " {{{2
     \           'substitute(fnamemodify(v:val, ":r")[l :], sep, "::", "g")')
   endfor
 
-  return modules
+  return ref#uniq(modules)
 endfunction
 
 
