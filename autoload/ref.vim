@@ -359,19 +359,19 @@ function! ref#system(args, ...)  " {{{2
     " Here is a command that want to execute.
     "   something.bat keyword
     "
-    " The command is executed by following form in fact.
+    " The command is actually executed by the following form.
     "   cmd.exe /c something.bat keyword
     "
-    " Any arguments may including whitespace and other character needs escape.
-    " So, quote each arguments.
+    " Any arguments may include whitespace and some character needs escaping,
+    " so we need to quote each arguments.
     "   cmd.exe /c "something.bat" "keyword"
     "
-    " But, cmd.exe handle it as one argument like ``something.bat" "keyword''.
-    " So, quote the command again.
+    " But cmd.exe handles it as one argument like ``something.bat" "keyword''.
+    " So, we have to quote the command again.
     "   cmd.exe /c ""something.bat" "keyword""
     "
-    " Here, cmd.exe do strange behavior.  When the command is .bat file,
-    " %~dp0 in the file is expanded to current directory.
+    " Here, cmd.exe behaves strangely.  When the command is a .bat file,
+    " %~dp0 in the file is expanded to the current directory.
     " For example
     "   C:\Program Files\some\example.bat: (in $PATH)
     "   @echo %~f0
