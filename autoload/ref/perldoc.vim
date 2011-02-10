@@ -254,7 +254,7 @@ function! s:modules_list(name)  " {{{2
     \           'substitute(fnamemodify(v:val, ":r")[l :], sep, "::", "g")')
   endfor
 
-  return modules
+  return ref#uniq(modules)
 endfunction
 
 
