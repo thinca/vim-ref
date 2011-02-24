@@ -19,7 +19,7 @@ function! s:source.gather_candidates(args, context)  " {{{2
   \   "word" : v:val,
   \   "kind" : "ref",
   \   "source" : self.name,
-  \   "ref_source" : self.ref_source,
+  \   "action__ref_source" : self.ref_source,
   \ }')
 endfunction
 
