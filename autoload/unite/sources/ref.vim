@@ -15,11 +15,11 @@ let s:source = {
 
 
 function! s:source.gather_candidates(args, context)  " {{{2
-  return map(self.ref_source.complete(a:context.input), '{
+  return map(self.source__ref_source.complete(a:context.input), '{
   \   "word" : v:val,
   \   "kind" : "ref",
   \   "source" : self.name,
-  \   "action__ref_source" : self.ref_source,
+  \   "action__ref_source" : self.source__ref_source,
   \ }')
 endfunction
 
@@ -30,7 +30,7 @@ function! s:define(ref_source)  " {{{2
   let name = substitute(tolower(a:ref_source.name), '[^a-z0-9_/]', '_', 'g')
   let source.name = 'ref/' . name
   let source.description = 'candidates from ref-' . a:ref_source.name
-  let source.ref_source = a:ref_source
+  let source.source__ref_source = a:ref_source
   if has_key(a:ref_source, 'unite') && type(a:ref_source.unite) == type({})
     call extend(source, a:ref_source.unite)
   endif
