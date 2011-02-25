@@ -1,6 +1,6 @@
 *unite-ref.txt*	ref.vim support for unite.vim.
 
-Version: 0.1.0
+Version: 0.1.1
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -21,7 +21,7 @@ INTRODUCTION					*unite-ref-introduction*
 
 Requirements:
 - Vim 7.2 or later
-- |unite|
+- |unite| 1.0 or later
 - |ref| 0.4.2 or later
 
 
@@ -44,11 +44,23 @@ FOR REF SOURCES					*unite-ref-for-ref-sources*
 If a source of ref has an attribute named "unite" and it is a |Dictionary|, it
 is extended to a source of unite.  As a result, the attribute of the source of
 unite can be overwrited.
+If "unite" attribute exists, the unite source has "source__original"
+attribute.  This is useful to change a bit the default behavior.
 
+>
+	function! s:source.unite.gather_candidates(args, context)
+	  let res = self.source__original.gather_candidates(a:args, a:context)
+	  " Do something ...
+	  return res
+	endfunction
+<
 
 
 ==============================================================================
 CHANGELOG					*unite-ref-changelog*
+
+0.1.1	2011-02-26
+	- Updated for latest version of |unite|.
 
 0.1.0	2010-11-22
 	- Initial version.

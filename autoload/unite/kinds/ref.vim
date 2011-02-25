@@ -1,5 +1,5 @@
 " unite kind: ref
-" Version: 0.1.0
+" Version: 0.1.1
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -20,7 +20,7 @@ let s:kind.action_table.open = {
 
 function! s:kind.action_table.open.func(candidates)  "{{{2
   for c in a:candidates
-    call ref#open(c.ref_source.name, c.word, {'new': 1, 'open': 'edit'})
+    call ref#open(c.action__ref_source.name, c.word, {'new': 1, 'open': 'edit'})
   endfor
 endfunction
 

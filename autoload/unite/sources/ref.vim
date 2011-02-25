@@ -1,5 +1,5 @@
 " unite source: ref
-" Version: 0.1.0
+" Version: 0.1.1
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -15,11 +15,11 @@ let s:source = {
 
 
 function! s:source.gather_candidates(args, context)  " {{{2
-  return map(self.ref_source.complete(a:context.input), '{
+  return map(self.source__ref_source.complete(a:context.input), '{
   \   "word" : v:val,
   \   "kind" : "ref",
   \   "source" : self.name,
-  \   "ref_source" : self.ref_source,
+  \   "action__ref_source" : self.source__ref_source,
   \ }')
 endfunction
 
@@ -27,9 +27,12 @@ endfunction
 
 function! s:define(ref_source)  " {{{2
   let source = copy(s:source)
-  let source.name = 'ref/' . a:ref_source.name
-  let source.ref_source = a:ref_source
+  let name = substitute(tolower(a:ref_source.name), '[^a-z0-9_/]', '_', 'g')
+  let source.name = 'ref/' . name
+  let source.description = 'candidates from ref-' . a:ref_source.name
+  let source.source__ref_source = a:ref_source
   if has_key(a:ref_source, 'unite') && type(a:ref_source.unite) == type({})
+    let source.source__original = copy(source)
     call extend(source, a:ref_source.unite)
   endif
   return source
