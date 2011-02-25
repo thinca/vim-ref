@@ -21,7 +21,7 @@ INTRODUCTION					*unite-ref-introduction*
 
 Requirements:
 - Vim 7.2 or later
-- |unite|
+- |unite| 1.0 or later
 - |ref| 0.4.2 or later
 
 
