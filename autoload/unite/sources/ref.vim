@@ -32,6 +32,7 @@ function! s:define(ref_source)  " {{{2
   let source.description = 'candidates from ref-' . a:ref_source.name
   let source.source__ref_source = a:ref_source
   if has_key(a:ref_source, 'unite') && type(a:ref_source.unite) == type({})
+    let source.source__original = copy(source)
     call extend(source, a:ref_source.unite)
   endif
   return source
