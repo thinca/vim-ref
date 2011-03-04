@@ -13,7 +13,7 @@ scriptencoding utf-8
 
 " config. {{{1
 if !exists('g:ref_man_cmd')  " {{{2
-  let g:ref_man_cmd = executable('man') ? 'man' : ''
+  let g:ref_man_cmd = executable('man') ? 'man -P cat' : ''
 endif
 
 if !exists('g:ref_man_lang')  " {{{2
