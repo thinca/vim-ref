@@ -665,7 +665,9 @@ function! s:open(source, query, options)  " {{{2
   \ && b:ref_history[b:ref_history_pos][0] ==# a:source
   \ && b:ref_history[b:ref_history_pos][1] ==# query)
     let b:ref_history_pos += 1
-    unlet! b:ref_history[b:ref_history_pos :]
+    if b:ref_history_pos < len(b:ref_history)
+      unlet! b:ref_history[b:ref_history_pos :]
+    endif
     if 0 < b:ref_history_pos
       let b:ref_history[-1][3] = pos
     endif

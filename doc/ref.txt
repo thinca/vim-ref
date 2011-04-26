@@ -358,6 +358,9 @@ autoload/ref.vim is loaded, and the return value is registered as source.
 ==============================================================================
 CHANGELOG					*ref-changelog*
 
+x.x.x	xxxx-xx-xx
+	- Fixed for Vim 7.3.162 .
+
 0.4.3	2011-01-20
 	- Added |ref#rmcache()|.
 	- |g:ref_detect_filetype| accepts a list of sources.

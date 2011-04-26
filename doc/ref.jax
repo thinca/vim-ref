@@ -352,6 +352,9 @@ cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
 ==============================================================================
 更新履歴					*ref-changelog*
 
+x.x.x	xxxx-xx-xx
+	- Vim 7.3.162 でエラーが出ていたのを修正。
+
 0.4.3	2011-01-20
 	- |ref#rmcache()| を追加。
 	- |g:ref_detect_filetype| にソースのリストが使えるようにした。
