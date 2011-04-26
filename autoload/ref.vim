@@ -278,11 +278,8 @@ function! ref#cache(source, ...)  " {{{2
       let s:cache[a:source] = {}
     endif
 
-    let fname = substitute(name, '[:;*?"<>|/\\%]',
-    \           '\=printf("%%%02x", char2nr(submatch(0)))', 'g')
-
     if g:ref_cache_dir != ''
-      let file = printf('%s/%s/%s', g:ref_cache_dir, a:source, fname)
+      let file = printf('%s/%s/%s', g:ref_cache_dir, a:source, s:escape(name))
       if filereadable(file)
         let s:cache[a:source][name] = readfile(file)
       endif
@@ -322,7 +319,7 @@ function! ref#rmcache(...)  " {{{2
   let source = a:1
   let names = 2 <= a:0 ? ref#to_list(a:2) : ref#cache(source)
   for name in names
-    call delete(printf('%s/%s/%s', g:ref_cache_dir, source, name))
+    call delete(printf('%s/%s/%s', g:ref_cache_dir, source, s:escape(name)))
   endfor
 
   if !has_key(s:cache, source)
@@ -784,6 +781,13 @@ function! s:cmdpath(cmd)  " {{{2
     endfor
   endfor
   return ''
+endfunction
+
+
+
+function! s:escape(name)  " {{{2
+    return substitute(a:name, '[:;*?"<>|/\\%]',
+    \                 '\=printf("%%%02x", char2nr(submatch(0)))', 'g')
 endfunction
 
 

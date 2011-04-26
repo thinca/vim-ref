@@ -360,6 +360,7 @@ CHANGELOG					*ref-changelog*
 
 x.x.x	xxxx-xx-xx
 	- Fixed for Vim 7.3.162 .
+	- Fixed |ref#rmcache()|.
 
 0.4.3	2011-01-20
 	- Added |ref#rmcache()|.

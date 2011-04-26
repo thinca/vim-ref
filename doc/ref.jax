@@ -354,6 +354,7 @@ cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
 
 x.x.x	xxxx-xx-xx
 	- Vim 7.3.162 でエラーが出ていたのを修正。
+	- |ref#rmcache()| で削除されないファイルがあったのを修正。
 
 0.4.3	2011-01-20
 	- |ref#rmcache()| を追加。
