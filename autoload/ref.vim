@@ -105,7 +105,11 @@ function! ref#K(mode)  " {{{2
   try
     call ref#jump(a:mode)
   catch /^ref:/
-    call feedkeys('K', 'n')
+    if a:mode ==# 'visual'
+      call feedkeys('gvK', 'n')
+    else
+      call feedkeys('K', 'n')
+    endif
   endtry
 endfunction
 
