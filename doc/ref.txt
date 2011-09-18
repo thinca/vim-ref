@@ -85,6 +85,7 @@ ref#jump([{mode} [, {source-name}]] [, {options}])	*ref#jump()*
 			treated as much as {options} of ref#open().
 
 ref#register({source})				*ref#register()*
+ref#register({list-of-sources})
 			Register a new source.  See |ref-sources| about
 			{source}.
 
@@ -359,6 +360,7 @@ autoload/ref.vim is loaded, and the return value is registered as source.
 CHANGELOG					*ref-changelog*
 
 x.x.x	xxxx-xx-xx
+	- |ref#register()| can accept a list of sources.
 	- Fixed for Vim 7.3.162 .
 	- Fixed |ref#rmcache()|.
 

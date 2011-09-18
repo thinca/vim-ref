@@ -165,7 +165,12 @@ function! ref#jump(...)
 endfunction
 
 function! ref#register(source)
-  if type(a:source) != s:T.dictionary
+  if type(a:source) == s:T.list
+    for source in a:source
+      call ref#register(source)
+    endfor
+    return
+  elseif type(a:source) != s:T.dictionary
     throw 'ref: Invalid source: The source should be a Dictionary.'
   endif
   let source = extend(copy(s:prototype), a:source)
