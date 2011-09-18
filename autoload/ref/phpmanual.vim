@@ -22,17 +22,14 @@ if !exists('g:ref_phpmanual_cmd')  " {{{2
 endif
 
 
-
 let s:source = {'name': 'phpmanual'}  " {{{1
 
-function! s:source.available()  " {{{2
+function! s:source.available()
   return isdirectory(g:ref_phpmanual_path) &&
   \      len(g:ref_phpmanual_cmd)
 endfunction
 
-
-
-function! s:source.get_body(query)  " {{{2
+function! s:source.get_body(query)
   let name = substitute(tolower(a:query), '_', '-', 'g')
   let pre = g:ref_phpmanual_path . '/'
 
@@ -71,15 +68,11 @@ function! s:source.get_body(query)  " {{{2
   throw 'no match: ' . a:query
 endfunction
 
-
-
-function! s:source.opened(query)  " {{{2
+function! s:source.opened(query)
   call s:syntax()
 endfunction
 
-
-
-function! s:source.complete(query)  " {{{2
+function! s:source.complete(query)
   let name = substitute(tolower(a:query), '::', '_', 'g')
   let pre = g:ref_phpmanual_path . '/'
 
@@ -92,9 +85,7 @@ function! s:source.complete(query)  " {{{2
   return []
 endfunction
 
-
-
-function! s:source.get_keyword()  " {{{2
+function! s:source.get_keyword()
   let isk = &l:isk
   setlocal isk& isk+=- isk+=. isk+=:
   let kwd = expand('<cword>')
@@ -103,9 +94,8 @@ function! s:source.get_keyword()  " {{{2
 endfunction
 
 
-
 " functions. {{{1
-function! s:syntax()  " {{{2
+function! s:syntax()
   if exists('b:current_syntax') && b:current_syntax == 'ref-phpmanual'
     return
   endif
@@ -123,9 +113,7 @@ function! s:syntax()  " {{{2
   let b:current_syntax = 'ref-phpmanual'
 endfunction
 
-
-
-function! s:execute(file)  "{{{2
+function! s:execute(file)
   if type(g:ref_phpmanual_cmd) == type('')
     let cmd = split(g:ref_phpmanual_cmd, '\s\+')
   elseif type(g:ref_phpmanual_cmd) == type([])
@@ -145,35 +133,26 @@ function! s:execute(file)  "{{{2
   return res
 endfunction
 
-
-
-function! s:gather_func(name)  "{{{2
+function! s:gather_func(name)
   let list = glob(g:ref_phpmanual_path . '/' . a:name . '.*.html')
   let pat = a:name . '\.\zs.*\ze\.html$'
   return map(split(list, "\n"),
   \      'substitute(matchstr(v:val, pat), "-", "_", "g")')
 endfunction
 
-
-
-function! s:func(name)  "{{{2
+function! s:func(name)
   return function(matchstr(expand('<sfile>'), '<SNR>\d\+_\zefunc$') . a:name)
 endfunction
 
-
-
-function! s:cache(kind)  " {{{2
+function! s:cache(kind)
   return ref#cache('phpmanual', a:kind, s:func('gather_func'))
 endfunction
 
-
-
-function! ref#phpmanual#define()  " {{{2
+function! ref#phpmanual#define()
   return s:source
 endfunction
+
 call ref#register_detection('php', 'phpmanual')
-
-
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

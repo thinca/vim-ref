@@ -34,11 +34,11 @@ endif
 
 let s:source = {'name': 'alc'}  " {{{1
 
-function! s:source.available()  " {{{2
+function! s:source.available()
   return !empty(g:ref_alc_cmd)
 endfunction
 
-function! s:source.get_body(query)  " {{{2
+function! s:source.get_body(query)
   if type(g:ref_alc_cmd) == type('')
     let cmd = split(g:ref_alc_cmd, '\s\+')
   elseif type(g:ref_alc_cmd) == type([])
@@ -65,19 +65,18 @@ function! s:source.get_body(query)  " {{{2
   return s:iconv(res, g:ref_alc_encoding, &encoding)
 endfunction
 
-function! s:source.opened(query)  " {{{2
+function! s:source.opened(query)
   execute "normal! ".g:ref_alc_start_linenumber."z\<CR>"
   call s:syntax(a:query)
 endfunction
 
-function! s:source.normalize(query)  " {{{2
+function! s:source.normalize(query)
   return substitute(substitute(a:query, '\_s\+', ' ', 'g'), '^ \| $', '', 'g')
 endfunction
 
 
-
 " misc. {{{1
-function! s:syntax(query)  " {{{2
+function! s:syntax(query)
   syntax clear
   let str = escape(substitute(a:query, '\s\+', '\\_s\\+', 'g'), '"')
   if str =~# '^[[:print:][:space:]]\+$'
@@ -87,10 +86,8 @@ function! s:syntax(query)  " {{{2
   highlight default link refAlcKeyword Special
 endfunction
 
-
-
 " iconv() wrapper for safety.
-function! s:iconv(expr, from, to)  " {{{2
+function! s:iconv(expr, from, to)
   if a:from == '' || a:to == '' || a:from ==# a:to
     return a:expr
   endif
@@ -98,13 +95,9 @@ function! s:iconv(expr, from, to)  " {{{2
   return result != '' ? result : a:expr
 endfunction
 
-
-
-function! ref#alc#define()  " {{{2
+function! ref#alc#define()
   return s:source
 endfunction
-
-
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

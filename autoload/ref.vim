@@ -54,11 +54,10 @@ function! s:prototype.cache(name, ...)
 endfunction
 
 
-
 " API functions. {{{1
 
 " A function for main command.
-function! ref#ref(args)  " {{{2
+function! ref#ref(args)
   try
     let parsed = s:parse_args(a:args)
     return ref#open(parsed.source, parsed.query, parsed.options)
@@ -67,9 +66,7 @@ function! ref#ref(args)  " {{{2
   endtry
 endfunction
 
-
-
-function! ref#complete(lead, cmd, pos)  " {{{2
+function! ref#complete(lead, cmd, pos)
   let cmd = a:cmd[: a:pos - 1]
   try
     let parsed = s:parse_args(matchstr(cmd, '^\v.{-}R%[ef]\s+\zs.*$'))
@@ -99,9 +96,7 @@ function! ref#complete(lead, cmd, pos)  " {{{2
   endtry
 endfunction
 
-
-
-function! ref#K(mode)  " {{{2
+function! ref#K(mode)
   try
     call ref#jump(a:mode)
   catch /^ref:/
@@ -113,9 +108,7 @@ function! ref#K(mode)  " {{{2
   endtry
 endfunction
 
-
-
-function! ref#open(source, query, ...)  " {{{2
+function! ref#open(source, query, ...)
   try
     let options = a:0 ? a:1 : {}
     if (exists('g:ref_noenter') && g:ref_noenter) ||
@@ -134,9 +127,7 @@ function! ref#open(source, query, ...)  " {{{2
   endtry
 endfunction
 
-
-
-function! ref#jump(...)  " {{{2
+function! ref#jump(...)
   let args = copy(a:000)
   let options = {}
 
@@ -173,9 +164,7 @@ function! ref#jump(...)  " {{{2
   endif
 endfunction
 
-
-
-function! ref#register(source)  " {{{2
+function! ref#register(source)
   if type(a:source) != s:T.dictionary
     throw 'ref: Invalid source: The source should be a Dictionary.'
   endif
@@ -190,22 +179,16 @@ function! ref#register(source)  " {{{2
   let s:sources[source.name] = source
 endfunction
 
-
-
-function! ref#available_source_names()  " {{{2
+function! ref#available_source_names()
   return keys(s:sources)
 endfunction
 
-
-
-function! ref#available_sources(...)  " {{{2
+function! ref#available_sources(...)
   return !a:0                    ? copy(s:sources) :
   \      has_key(s:sources, a:1) ? s:sources[a:1]  : 0
 endfunction
 
-
-
-function! ref#detect()  " {{{2
+function! ref#detect()
   if exists('b:ref_source')
     let Source = b:ref_source
   elseif exists('g:ref_detect_filetype[&l:filetype]')
@@ -230,9 +213,7 @@ function! ref#detect()  " {{{2
   return ''
 endfunction
 
-
-
-function! ref#register_detection(ft, source, ...)  " {{{2
+function! ref#register_detection(ft, source, ...)
   if !exists('g:ref_detect_filetype')
     let g:ref_detect_filetype = {}
   endif
@@ -251,12 +232,9 @@ function! ref#register_detection(ft, source, ...)  " {{{2
 endfunction
 
 
-
-
-
 " Helper functions for source. {{{1
 let s:cache = {}
-function! ref#cache(source, ...)  " {{{2
+function! ref#cache(source, ...)
   if a:0 == 0
     let [from, to] = ['%\(\x\x\)', '\=eval("\"\\x".submatch(1)."\"")']
     return g:ref_cache_dir == '' ? [] :
@@ -308,9 +286,7 @@ function! ref#cache(source, ...)  " {{{2
   return s:cache[a:source][name]
 endfunction
 
-
-
-function! ref#rmcache(...)  " {{{2
+function! ref#rmcache(...)
   if g:ref_cache_dir == ''
     return
   endif
@@ -340,9 +316,7 @@ function! ref#rmcache(...)  " {{{2
   endif
 endfunction
 
-
-
-function! ref#system(args, ...)  " {{{2
+function! ref#system(args, ...)
   let args = ref#to_list(a:args)
   if g:ref_use_vimproc
     try
@@ -422,9 +396,7 @@ function! ref#system(args, ...)  " {{{2
   \ }
 endfunction
 
-
-
-function! ref#to_list(...)  " {{{2
+function! ref#to_list(...)
   let list = []
   for a in a:000
     let list += type(a) == s:T.string ? split(a) : s:to_list(a)
@@ -433,9 +405,7 @@ function! ref#to_list(...)  " {{{2
   return list
 endfunction
 
-
-
-function! ref#uniq(list)  " {{{2
+function! ref#uniq(list)
   let d = {}
   for i in a:list
     let d['_' . i] = 0
@@ -443,9 +413,7 @@ function! ref#uniq(list)  " {{{2
   return map(sort(keys(d)), 'v:val[1 :]')
 endfunction
 
-
-
-function! ref#get_text_on_cursor(pat)  " {{{2
+function! ref#get_text_on_cursor(pat)
   let line = getline('.')
   let pos = col('.')
   let s = 0
@@ -462,13 +430,8 @@ function! ref#get_text_on_cursor(pat)  " {{{2
 endfunction
 
 
-
-
-
-
-
 " Misc. {{{1
-function! s:initialize_buffer(source)  " {{{2
+function! s:initialize_buffer(source)
   setlocal nobuflisted
   setlocal buftype=nofile noswapfile
   setlocal bufhidden=delete
@@ -498,9 +461,7 @@ function! s:initialize_buffer(source)  " {{{2
   command! -bar -buffer RefHistory call s:dump_history()
 endfunction
 
-
-
-function! s:parse_args(argline)  " {{{2
+function! s:parse_args(argline)
   let res = {'source': '', 'query': '', 'options': {}}
   let rest = a:argline
   try
@@ -522,9 +483,7 @@ function! s:parse_args(argline)  " {{{2
   return res
 endfunction
 
-
-
-function! s:gather_cache(name, gather)  " {{{2
+function! s:gather_cache(name, gather)
   let type = type(a:gather)
   let cache =
   \  type == s:T.function ? a:gather(a:name) :
@@ -542,9 +501,7 @@ function! s:gather_cache(name, gather)  " {{{2
   throw 'ref: Invalid results of cache: ' . string(cache)
 endfunction
 
-
-
-function! s:get_query(mode, source)  " {{{2
+function! s:get_query(mode, source)
   let [source, query] = [a:source, '']
   if a:mode ==# 'normal'
     let pos = getpos('.')
@@ -582,9 +539,7 @@ function! s:get_query(mode, source)  " {{{2
   return [source, query]
 endfunction
 
-
-
-function! s:open(source, query, options)  " {{{2
+function! s:open(source, query, options)
   if !has_key(s:sources, a:source)
     throw 'ref: The source is not registered: ' . a:source
   endif
@@ -688,10 +643,8 @@ function! s:open(source, query, options)  " {{{2
   endif
 endfunction
 
-
-
 " A function for key mapping for K.
-function! s:open_source(source, query, open_cmd)  " {{{2
+function! s:open_source(source, query, open_cmd)
   if !exists('b:ref_source') || b:ref_source !=# a:source
     let b:ref_source = a:source
     execute 'setlocal filetype=ref-' . a:source
@@ -717,9 +670,7 @@ function! s:open_source(source, query, open_cmd)  " {{{2
   setlocal nomodifiable readonly
 endfunction
 
-
-
-function! s:move_history(n)  " {{{2
+function! s:move_history(n)
   let next = b:ref_history_pos + a:n
 
   if next < 0
@@ -738,9 +689,7 @@ function! s:move_history(n)  " {{{2
   call setpos('.', pos)
 endfunction
 
-
-
-function! s:dump_history()  " {{{2
+function! s:dump_history()
   for i in range(len(b:ref_history))
     echo printf('%s%3d %s: %s', i == b:ref_history_pos ? '>' : ' ', i + 1,
       \ b:ref_history[i][0], b:ref_history[i][1])
@@ -751,9 +700,7 @@ function! s:dump_history()  " {{{2
   endif
 endfunction
 
-
-
-function! s:validate(source, key, type)  " {{{2
+function! s:validate(source, key, type)
   if !has_key(a:source, a:key)
     throw 'ref: Invalid source: Without key ' . string(a:key)
   elseif type(a:source[a:key]) != s:T[a:type]
@@ -762,9 +709,7 @@ function! s:validate(source, key, type)  " {{{2
   endif
 endfunction
 
-
-
-function! s:cmdpath(cmd)  " {{{2
+function! s:cmdpath(cmd)
   " Search the fullpath of command for MS Windows.
   let full = glob(a:cmd)
   if a:cmd ==? full
@@ -787,16 +732,12 @@ function! s:cmdpath(cmd)  " {{{2
   return ''
 endfunction
 
-
-
-function! s:escape(name)  " {{{2
+function! s:escape(name)
     return substitute(a:name, '[:;*?"<>|/\\%]',
     \                 '\=printf("%%%02x", char2nr(submatch(0)))', 'g')
 endfunction
 
-
-
-function! s:echoerr(msg)  " {{{2
+function! s:echoerr(msg)
   echohl ErrorMsg
   for line in split(a:msg, "\n")
     echomsg line
@@ -804,15 +745,11 @@ function! s:echoerr(msg)  " {{{2
   echohl None
 endfunction
 
-
-
-function! s:to_list(expr)  " {{{2
+function! s:to_list(expr)
   return type(a:expr) == s:T.list ? a:expr : [a:expr]
 endfunction
 
-
-
-function! s:flatten(list)  " {{{2
+function! s:flatten(list)
   let list = []
   for i in a:list
     if type(i) == s:T.list
@@ -826,9 +763,8 @@ function! s:flatten(list)  " {{{2
 endfunction
 
 
-
 " Register the default sources. {{{1
-function! s:register_defaults()  " {{{2
+function! s:register_defaults()
   let list = split(globpath(&runtimepath, 'autoload/ref/*.vim'), "\n")
   for name in map(list, 'fnamemodify(v:val, ":t:r")')
     try
@@ -839,7 +775,6 @@ function! s:register_defaults()  " {{{2
 endfunction
 
 call s:register_defaults()
-
 
 
 let &cpo = s:save_cpo

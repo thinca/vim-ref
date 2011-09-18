@@ -7,8 +7,6 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-
-
 " options. {{{1
 if !exists('g:ref_pydoc_cmd')  " {{{2
   let g:ref_pydoc_cmd = executable('pydoc') ? 'pydoc' : ''
@@ -19,16 +17,13 @@ if !exists('g:ref_pydoc_complete_head')  " {{{2
 endif
 
 
-
 let s:source = {'name': 'pydoc'}  " {{{1
 
-function! s:source.available()  " {{{2
+function! s:source.available()
   return !empty(g:ref_pydoc_cmd)
 endfunction
 
-
-
-function! s:source.get_body(query)  " {{{2
+function! s:source.get_body(query)
   if a:query != ''
     let content = ref#system(ref#to_list(g:ref_pydoc_cmd, a:query)).stdout
     if content !~# '^no Python documentation found'
@@ -46,15 +41,11 @@ function! s:source.get_body(query)  " {{{2
   return list
 endfunction
 
-
-
-function! s:source.opened(query)  " {{{2
+function! s:source.opened(query)
   call s:syntax(s:get_info()[0])
 endfunction
 
-
-
-function! s:source.complete(query)  " {{{2
+function! s:source.complete(query)
   let cmd = ref#to_list(g:ref_pydoc_cmd, '-k .')
   let mapexpr = 'matchstr(v:val, "^[[:alnum:]._]*")'
   let all_list = self.cache('list',
@@ -73,9 +64,7 @@ function! s:source.complete(query)  " {{{2
   return filter(copy(all_list), 'v:val =~# "\\V" . a:query')
 endfunction
 
-
-
-function! s:source.get_keyword()  " {{{2
+function! s:source.get_keyword()
   if &l:filetype ==# 'ref-pydoc'
     let [type, name, scope] = s:get_info()
 
@@ -148,7 +137,6 @@ function! s:source.get_keyword()  " {{{2
 endfunction
 
 
-
 " functions {{{1
 
 " Get informations of current document.
@@ -164,7 +152,7 @@ endfunction
 "   package name, module name, class name, method name, or function name.
 " scope:
 "   Scope.
-function! s:get_info()  " {{{2
+function! s:get_info()
   let isk = &l:isk
   setlocal isk& isk+=.
 
@@ -178,9 +166,7 @@ function! s:get_info()  " {{{2
   return list[1 : 3]
 endfunction
 
-
-
-function! s:syntax(type)  " {{{2
+function! s:syntax(type)
   if a:type ==# 'list'
     syntax clear
     return
@@ -208,23 +194,17 @@ function! s:syntax(type)  " {{{2
   let b:current_syntax = 'ref-pydoc'
 endfunction
 
-
-
-function! s:head(list, query)  " {{{2
+function! s:head(list, query)
   let pat = '^\V' . a:query . '\v\w*(\.)?\zs.*$'
   return ref#uniq(map(filter(copy(a:list), 'v:val =~# pat'),
   \             'substitute(v:val, pat, "", "")'))
 endfunction
 
-
-
-function! ref#pydoc#define()  " {{{2
+function! ref#pydoc#define()
   return copy(s:source)
 endfunction
 
 call ref#register_detection('python', 'pydoc')
-
-
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

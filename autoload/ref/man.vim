@@ -9,8 +9,6 @@ set cpo&vim
 
 scriptencoding utf-8
 
-
-
 " config. {{{1
 if !exists('g:ref_man_cmd')  " {{{2
   let g:ref_man_cmd = executable('man') ? 'man' : ''
@@ -21,16 +19,13 @@ if !exists('g:ref_man_lang')  " {{{2
 endif
 
 
-
 let s:source = {'name': 'man'}  " {{{1
 
-function! s:source.available()  " {{{2
+function! s:source.available()
   return !empty(self.option('cmd'))
 endfunction
 
-
-
-function! s:source.get_body(query)  " {{{2
+function! s:source.get_body(query)
   let [query, sec] = s:parse(a:query)
   let q = sec =~ '\d' ? [sec, query] : [query]
 
@@ -74,21 +69,15 @@ function! s:source.get_body(query)  " {{{2
   throw matchstr(res.stderr, '^\_s*\zs.\{-}\ze\_s*$')
 endfunction
 
-
-
-function! s:source.opened(query)  " {{{2
+function! s:source.opened(query)
   call s:syntax()
 endfunction
 
-
-
-function! s:source.get_keyword()  " {{{2
+function! s:source.get_keyword()
   return ref#get_text_on_cursor('[[:alnum:]_.:+-]\+\%((\d)\)\?')
 endfunction
 
-
-
-function! s:source.complete(query)  " {{{2
+function! s:source.complete(query)
   let [query, sec] = s:parse(a:query)
   let sec -= 0  " to number
 
@@ -96,16 +85,12 @@ function! s:source.complete(query)  " {{{2
   \             'v:val =~# "^\\V" . query')
 endfunction
 
-
-
-function! s:source.normalize(query)  " {{{2
+function! s:source.normalize(query)
   let [query, sec] = s:parse(a:query)
   return query . (sec == '' ? '' : '(' . sec . ')')
 endfunction
 
-
-
-function! s:source.call(name)  " {{{2
+function! s:source.call(name)
   let list = []
   if a:name is 0
     for n in range(1, 9)
@@ -127,18 +112,14 @@ function! s:source.call(name)  " {{{2
   return ref#uniq(list)
 endfunction
 
-
-
-function! s:source.option(opt)  " {{{2
+function! s:source.option(opt)
   if a:opt ==# 'manpath'
     return ref#system('manpath').stdout
   endif
   return g:ref_man_{a:opt}
 endfunction
 
-
-
-function! s:parse(query)  " {{{2
+function! s:parse(query)
   let l = matchlist(a:query, '\([^[:space:]()]\+\)\s*(\(\d\))$')
   if !empty(l)
     return l[1 : 2]
@@ -150,10 +131,7 @@ function! s:parse(query)  " {{{2
   return [a:query, '']
 endfunction
 
-
-
-
-function! s:syntax()  " {{{2
+function! s:syntax()
   let list = !search('^\s', 'wn')
   if exists('b:current_syntax') ? (b:current_syntax ==# 'man' && !list) : list
     return
@@ -166,18 +144,13 @@ function! s:syntax()  " {{{2
   endif
 endfunction
 
-
-
-
-function! ref#man#define()  " {{{2
+function! ref#man#define()
   return copy(s:source)
 endfunction
 
-if s:source.available()  " {{{1
+if s:source.available()
   call ref#register_detection('c', 'man')
 endif
-
-
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

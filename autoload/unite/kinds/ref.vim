@@ -18,19 +18,15 @@ let s:kind.action_table.open = {
 \   'is_selectable' : 1,
 \ }
 
-function! s:kind.action_table.open.func(candidates)  "{{{2
+function! s:kind.action_table.open.func(candidates)
   for c in a:candidates
     call ref#open(c.action__ref_source.name, c.word, {'new': 1, 'open': 'edit'})
   endfor
 endfunction
 
-
-
-function! unite#kinds#ref#define()  "{{{2
+function! unite#kinds#ref#define()
   return s:kind
 endfunction
-
-
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

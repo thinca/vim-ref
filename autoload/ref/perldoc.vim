@@ -7,8 +7,6 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-
-
 " config. {{{1
 if !exists('g:ref_perldoc_cmd')  " {{{2
   let g:ref_perldoc_cmd = executable('perldoc') ? 'perldoc' : ''
@@ -19,16 +17,13 @@ if !exists('g:ref_perldoc_complete_head')  " {{{2
 endif
 
 
-
 let s:source = {'name': 'perldoc'}  " {{{1
 
-function! s:source.available()  " {{{2
+function! s:source.available()
   return len(g:ref_perldoc_cmd)
 endfunction
 
-
-
-function! s:source.get_body(query)  " {{{2
+function! s:source.get_body(query)
   let q = matchstr(a:query, '\v%(^|\s)\zs[^-]\S*')
 
   let cand = s:appropriate_list(a:query)
@@ -57,9 +52,7 @@ function! s:source.get_body(query)  " {{{2
   return res.stdout
 endfunction
 
-
-
-function! s:source.opened(query)  " {{{2
+function! s:source.opened(query)
   let b:ref_perldoc_word = matchstr(a:query, '-\@<![^-[:space:]]\+')
   let mode = getline(1) ==# 'NAME' ? (
   \            0 <= index(s:list('basepod'), b:ref_perldoc_word) ? 'perl'
@@ -82,9 +75,7 @@ function! s:source.opened(query)  " {{{2
   call s:syntax(mode)
 endfunction
 
-
-
-function! s:source.complete(query)  " {{{2
+function! s:source.complete(query)
   let q = a:query == '' || a:query =~ '\s$' ? '' : split(a:query)[-1]
   if q =~ '-'
     return ['-f', '-m']
@@ -94,9 +85,7 @@ function! s:source.complete(query)  " {{{2
   return g:ref_perldoc_complete_head ? s:head(list, q) : s:match(list, q)
 endfunction
 
-
-
-function! s:source.get_keyword()  " {{{2
+function! s:source.get_keyword()
   let isk = &l:iskeyword
   setlocal isk& isk+=:
   let kwd = expand('<cword>')
@@ -104,9 +93,7 @@ function! s:source.get_keyword()  " {{{2
   return kwd
 endfunction
 
-
-
-function! s:source.leave()  " {{{2
+function! s:source.leave()
   unlet! b:ref_perldoc_mode b:ref_perldoc_word
   silent! nunmap <buffer> <Plug>(ref-source-perldoc-switch)
   " FIXME: The following is not able to customize.
@@ -114,9 +101,8 @@ function! s:source.leave()  " {{{2
 endfunction
 
 
-
 " functions. {{{1
-function! s:syntax(mode)  " {{{2
+function! s:syntax(mode)
   if exists('b:current_syntax')
   \  && ((a:mode ==# 'source' && b:current_syntax ==# 'perl') ||
   \      (a:mode ==# 'perl'   && b:current_syntax ==# 'ref-perldoc-perl') ||
@@ -175,25 +161,19 @@ function! s:syntax(mode)  " {{{2
   let b:current_syntax = 'ref-perldoc-' . a:mode
 endfunction
 
-
-
-function! s:indent_region(name, indent, option)  " {{{2
+function! s:indent_region(name, indent, option)
   execute 'syntax region' a:name
   \       'start=/^ \{' . a:indent . '}\ze\S/'
   \       'end=/\n\+\ze \{,' . (a:indent - 1) . '}\S/' a:option
 endfunction
 
-
-
-function! s:appropriate_list(query)  " {{{2
+function! s:appropriate_list(query)
   return a:query =~# '-f\>' ? s:list('func'):
   \      a:query =~# '-m\>' ? s:list('modules'):
   \                           s:list('modules') + s:list('basepod')
 endfunction
 
-
-
-function! s:match(list, str)  " {{{2
+function! s:match(list, str)
   let matched = filter(copy(a:list), 'v:val =~? "^\\V" . a:str')
   if empty(matched)
     let matched = filter(copy(a:list), 'v:val =~? "\\V" . a:str')
@@ -201,23 +181,17 @@ function! s:match(list, str)  " {{{2
   return matched
 endfunction
 
-
-
-function! s:head(list, query)  " {{{2
+function! s:head(list, query)
   let pat = '^\V' . a:query . '\w\*\v(::)?\zs.*$'
   return ref#uniq(map(filter(copy(a:list), 'v:val =~# pat'),
   \                   'substitute(v:val, pat, "", "")'))
 endfunction
 
-
-
-function! s:list(name)  " {{{2
+function! s:list(name)
   return ref#cache('perldoc', a:name, s:func(a:name . '_list'))
 endfunction
 
-
-
-function! s:basepod_list(name)  " {{{2
+function! s:basepod_list(name)
   let basepods = []
   let base = ref#system(['perl', '-MConfig', '-e',
   \                      'print $Config{installprivlib}']).stdout
@@ -236,9 +210,7 @@ function! s:basepod_list(name)  " {{{2
   return basepods
 endfunction
 
-
-
-function! s:modules_list(name)  " {{{2
+function! s:modules_list(name)
   let inc = ref#system(['perl', '-e', 'print join('';'', @INC)']).stdout
   let sep = '[/\\]'
   let files = {}
@@ -258,9 +230,7 @@ function! s:modules_list(name)  " {{{2
   return ref#uniq(modules)
 endfunction
 
-
-
-function! s:func_list(name)  " {{{2
+function! s:func_list(name)
   let doc = ref#system('perldoc -u perlfunc').stdout
   let i = 0
   let funcs = []
@@ -275,24 +245,15 @@ function! s:func_list(name)  " {{{2
   return ref#uniq(funcs)
 endfunction
 
-
-
-function! s:func(name)  "{{{2
+function! s:func(name)
   return function(matchstr(expand('<sfile>'), '<SNR>\d\+_\zefunc$') . a:name)
 endfunction
 
-
-
-function! ref#perldoc#define()  " {{{2
+function! ref#perldoc#define()
   return s:source
 endfunction
 
-
-
 call ref#register_detection('perl', 'perldoc')
-
-
-
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

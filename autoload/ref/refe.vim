@@ -7,8 +7,6 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-
-
 " options. {{{1
 if !exists('g:ref_refe_cmd')  " {{{2
   let g:ref_refe_cmd = executable('refe') ? 'refe' : ''
@@ -24,16 +22,13 @@ if !exists('g:ref_refe_rsense_cmd')  " {{{2
 endif
 
 
-
 let s:source = {'name': 'refe'}  " {{{1
 
-function! s:source.available()  " {{{2
+function! s:source.available()
   return !empty(g:ref_refe_cmd)
 endfunction
 
-
-
-function! s:source.get_body(query)  " {{{2
+function! s:source.get_body(query)
   let res = s:refe(a:query)
   if res.stderr != ''
     throw matchstr(res.stderr, '^.\{-}\ze\n')
@@ -63,9 +58,7 @@ function! s:source.get_body(query)  " {{{2
   return content
 endfunction
 
-
-
-function! s:source.opened(query)  " {{{2
+function! s:source.opened(query)
   let [type, _] = s:detect_type()
   let ver = s:refe_version()
 
@@ -81,22 +74,16 @@ function! s:source.opened(query)  " {{{2
   1
 endfunction
 
-
-
-function! s:source.complete(query)  " {{{2
+function! s:source.complete(query)
   let option = s:refe_version() == 2 ? ['-l'] : ['-l', '-s']
   return split(s:refe(option + ref#to_list(a:query)).stdout, "\n")
 endfunction
 
-
-
-function! s:source.special_char_p(ch)  " {{{2
+function! s:source.special_char_p(ch)
   return a:ch == '#'
 endfunction
 
-
-
-function! s:source.get_keyword()  " {{{2
+function! s:source.get_keyword()
   let id = '\v\w+[!?]?'
   let pos = getpos('.')[1:]
 
@@ -202,13 +189,12 @@ function! s:source.get_keyword()  " {{{2
 endfunction
 
 
-
 " functions. {{{1
 " Detect the reference type from content.
 " - ['list', ''] (Matched list)
 " - ['class', class_name] (Summary of class)
 " - ['method', class_and_method_name] (Detail of method)
-function! s:detect_type()  " {{{2
+function! s:detect_type()
   let [l1, l2, l3] = [getline(1), getline(2), getline(3)]
   if s:refe_version() == 1
     let m = matchstr(l1, '^==== \zs\S\+\ze ====$')
@@ -237,9 +223,7 @@ function! s:detect_type()  " {{{2
   return ['list', '']
 endfunction
 
-
-
-function! s:syntax(type)  " {{{2
+function! s:syntax(type)
   if exists('b:current_syntax') && b:current_syntax == 'ref-refe-' . a:type
     return
   endif
@@ -278,7 +262,7 @@ function! s:syntax(type)  " {{{2
   let b:current_syntax = 'ref-refe-' . a:type
 endfunction
 
-function! s:syntax_refe1(type)  " {{{2
+function! s:syntax_refe1(type)
   if a:type ==# 'list'
     syntax match refRefeClassOrMethod '^.*$' contains=@refRefeClassSepMethod
   elseif a:type ==# 'class'
@@ -293,7 +277,7 @@ function! s:syntax_refe1(type)  " {{{2
   highlight default link refRefeClass rubyClass
 endfunction
 
-function! s:syntax_refe2(type)  " {{{2
+function! s:syntax_refe2(type)
   " Copy from syntax/ruby.vim
   syn region rubyString start=+\%(\%(class\s*\|\%([]})"'.]\|::\)\)\_s*\|\w\)\@<!<<\z(\h\w*\)\ze+hs=s+2    matchgroup=rubyStringDelimiter end=+^ \{2}\z1$+ contains=rubyHeredocStart,@rubyStringSpecial fold keepend
   syn region rubyString start=+\%(\%(class\s*\|\%([]})"'.]\|::\)\)\_s*\|\w\)\@<!<<"\z([^"]*\)"\ze+hs=s+2  matchgroup=rubyStringDelimiter end=+^ \{2}\z1$+ contains=rubyHeredocStart,@rubyStringSpecial fold keepend
@@ -320,15 +304,11 @@ function! s:syntax_refe2(type)  " {{{2
   highlight default link refRefeAnnotation Special
 endfunction
 
-
-
-function! s:refe(args)  " {{{2
+function! s:refe(args)
   return ref#system(ref#to_list(g:ref_refe_cmd) + ref#to_list(a:args))
 endfunction
 
-
-
-function! s:refe_version()  " {{{2
+function! s:refe_version()
   if s:cmd !=# g:ref_refe_cmd
     let s:cmd = g:ref_refe_cmd
     unlet! g:ref_refe_version
@@ -340,15 +320,11 @@ function! s:refe_version()  " {{{2
   return g:ref_refe_version
 endfunction
 
-
-
-function! ref#refe#define()  " {{{2
+function! ref#refe#define()
   return copy(s:source)
 endfunction
 
-call ref#register_detection('ruby', 'refe')  " {{{1
-
-
+call ref#register_detection('ruby', 'refe')
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

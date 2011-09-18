@@ -18,7 +18,7 @@ endif
 let s:FUNC_PATTERN = '\%([[:alnum:]_.]\+:\)\?\w\+'
 
 
-let s:source = ref#man#define()
+let s:source = ref#man#define()  " {{{1
 
 let s:source.name = 'erlang'
 
@@ -28,7 +28,7 @@ let s:source.man_complete = s:source.complete
 
 
 
-function! s:source.get_body(query)  " {{{2
+function! s:source.get_body(query)
   let query = a:query
   let module = get(split(query, ':'), 0, '')
   try
@@ -50,9 +50,7 @@ function! s:source.get_body(query)  " {{{2
   return {'body': body, 'query': query}
 endfunction
 
-
-
-function! s:source.opened(query)  " {{{2
+function! s:source.opened(query)
   let query = split(a:query, ':')
   call self.man_opened(get(query, 0, ''))
   if 2 <= len(query)
@@ -61,9 +59,7 @@ function! s:source.opened(query)  " {{{2
   endif
 endfunction
 
-
-
-function! s:source.complete(query)  " {{{2
+function! s:source.complete(query)
   if a:query =~ ':'
     let module = split(a:query, ':')[0]
     let funcs = self._func_list(module)
@@ -72,15 +68,11 @@ function! s:source.complete(query)  " {{{2
   return self.man_complete(a:query)
 endfunction
 
-
-
-function! s:source.get_keyword()  " {{{2
+function! s:source.get_keyword()
   return ref#get_text_on_cursor(s:FUNC_PATTERN)
 endfunction
 
-
-
-function! s:source.option(opt)  " {{{2
+function! s:source.option(opt)
   if a:opt ==# 'cmd'
     return ref#to_list(g:ref_erlang_cmd, '-man')
 
@@ -96,9 +88,7 @@ function! s:source.option(opt)  " {{{2
   return ''
 endfunction
 
-
-
-function! s:source._func_list(module, ...)  " {{{2
+function! s:source._func_list(module, ...)
   " cache
   let funcs = self.cache(a:module)
   if type(funcs) == type(0)
@@ -119,15 +109,11 @@ function! s:source._func_list(module, ...)  " {{{2
   return funcs
 endfunction
 
-
-
-function! ref#erlang#define()  " {{{2
+function! ref#erlang#define()
   return copy(s:source)
 endfunction
 
-call ref#register_detection('erlang', 'erlang')  " {{{1
-
-
+call ref#register_detection('erlang', 'erlang')
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

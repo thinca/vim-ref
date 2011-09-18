@@ -7,8 +7,6 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-
-
 " options. {{{1
 if !exists('g:ref_clojure_cmd')  " {{{2
   let g:ref_clojure_cmd = executable('clj') ? 'clj' : ''
@@ -24,14 +22,13 @@ let s:is_win = has('win16') || has('win32') || has('win64')
 let s:path_separator = s:is_win ? ';' : ':'
 
 
-
 let s:source = {'name': 'clojure'}  " {{{1
 
-function! s:source.available()  " {{{2
+function! s:source.available()
   return len(g:ref_clojure_cmd)
 endfunction
 
-function! s:source.get_body(query)  " {{{2
+function! s:source.get_body(query)
   let query = a:query
   let classpath = $CLASSPATH
   let $CLASSPATH = s:classpath()
@@ -58,15 +55,11 @@ function! s:source.get_body(query)  " {{{2
   throw printf('No document found for "%s"', query)
 endfunction
 
-
-
-function! s:source.opened(query)  " {{{2
+function! s:source.opened(query)
   call s:syntax()
 endfunction
 
-
-
-function! s:source.get_keyword()  " {{{2
+function! s:source.get_keyword()
   let isk = &l:iskeyword
   setlocal iskeyword+=?,-,*,!,+,/,=,<,>,.,:
   let keyword = expand('<cword>')
@@ -79,22 +72,17 @@ function! s:source.get_keyword()  " {{{2
 endfunction
 
 
-
 " functions. {{{1
-function! s:clj(code)  " {{{2
+function! s:clj(code)
   return ref#system(ref#to_list(g:ref_clojure_cmd, '-'), a:code)
 endfunction
 
-
-
-function! s:to_overview(body)  " {{{2
+function! s:to_overview(body)
   let parts = split(a:body, '-\{25}\n')[1 :]
   return map(parts, 'join(split(v:val, "\n")[0 : 1], "   ")')
 endfunction
 
-
-
-function! s:get_classpath(var)  " {{{2
+function! s:get_classpath(var)
   if !exists(a:var)
     return []
   endif
@@ -102,24 +90,18 @@ function! s:get_classpath(var)  " {{{2
   return type(var) == type([]) ? var : split(var, s:path_separator)
 endfunction
 
-
-
-function! s:classpath()  " {{{2
+function! s:classpath()
   let cp = s:get_classpath('b:ref_clojure_classpath') +
   \        s:get_classpath('g:ref_clojure_classpath')
   return join(cp, s:path_separator)
 endfunction
 
-
-
-function! s:precode()  " {{{2
+function! s:precode()
   return get(g:, 'ref_clojure_precode', '')
   \    . get(b:, 'ref_clojure_precode', '')
 endfunction
 
-
-
-function! s:syntax()  " {{{2
+function! s:syntax()
   if exists('b:current_syntax') && b:current_syntax == 'ref-clojure'
     return
   endif
@@ -134,13 +116,11 @@ function! s:syntax()  " {{{2
   let b:current_syntax = 'ref-clojure'
 endfunction
 
-
-
-function! ref#clojure#define()  " {{{2
+function! ref#clojure#define()
   return copy(s:source)
 endfunction
 
-call ref#register_detection('clojure', 'clojure')  " {{{1
+call ref#register_detection('clojure', 'clojure')
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

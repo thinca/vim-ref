@@ -12,9 +12,7 @@ let s:source = {
 \   'is_volatile' : 1,
 \ }
 
-
-
-function! s:source.gather_candidates(args, context)  " {{{2
+function! s:source.gather_candidates(args, context)
   return map(self.source__ref_source.complete(a:context.input), '{
   \   "word" : v:val,
   \   "kind" : "ref",
@@ -23,9 +21,7 @@ function! s:source.gather_candidates(args, context)  " {{{2
   \ }')
 endfunction
 
-
-
-function! s:define(ref_source)  " {{{2
+function! s:define(ref_source)
   let source = copy(s:source)
   let name = substitute(tolower(a:ref_source.name), '[^a-z0-9_/]', '_', 'g')
   let source.name = 'ref/' . name
@@ -38,15 +34,11 @@ function! s:define(ref_source)  " {{{2
   return source
 endfunction
 
-
-
-function! unite#sources#ref#define()  "{{{2
+function! unite#sources#ref#define()
   return map(filter(values(ref#available_sources()),
   \                 'v:val.available() && has_key(v:val, "complete")'),
   \          's:define(v:val)')
 endfunction
-
-
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
