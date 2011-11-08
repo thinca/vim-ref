@@ -19,6 +19,8 @@ if !exists('g:ref_alc_cmd')  " {{{2
   \ executable('w3m')    ? 'w3m -dump %s' :
   \ executable('links')  ? 'links -dump %s' :
   \ executable('lynx')   ? 'lynx -dump -nonumbers %s' :
+  \ len(globpath(&rtp, 'autoload/wwwrenderer.vim')) > 0
+  \   ? ':wwwrenderer#render("%s")' :
   \ ''
 endif
 
@@ -56,7 +58,9 @@ function! s:source.get_body(query)
 
   let url = 'http://eow.alc.co.jp/' . str . '/UTF-8/'
   call map(cmd, 'substitute(v:val, "%s", url, "g")')
-  if g:ref_alc_use_cache
+  if len(cmd) > 0 && cmd[0] =~ '^:'
+    return eval(join(cmd, ' ')[1:])
+  elseif g:ref_alc_use_cache
     let expr = 'ref#system(' . string(cmd) . ').stdout'
     let res = join(ref#cache('alc', a:query, expr), "\n")
   else
