@@ -21,7 +21,7 @@ endfunction
 function! s:source.get_body(query)
   if a:query != ''
     let content = ref#system(ref#to_list(g:ref_R_cmd, a:query)).stdout
-    return substitute(content, '_', '', 'g')
+    return substitute(content, "_\<C-h>", '', 'g')
   endif
 endfunction
 
@@ -29,9 +29,7 @@ function! ref#R#define()
   return copy(s:source)
 endfunction
 
-if s:source.available()
-  call ref#register_detection('R', 'R')
-endif
+call ref#register_detection('rhelp', 'R')
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
