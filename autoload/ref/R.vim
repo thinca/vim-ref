@@ -21,7 +21,7 @@ endfunction
 function! s:source.get_body(query)
   if a:query != ''
     let content = ref#system(ref#to_list(g:ref_R_cmd, a:query)).stdout
-    return content
+    return substitute(content, '_', '', 'g')
   endif
 endfunction
 
