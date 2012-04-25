@@ -38,8 +38,8 @@ function! s:source.get_body(query)
       let query = query[2 : -2]
     else
       let res = s:clj(printf('%s(doc %s)', pre, query))
-      let body = res.stdout
-      if body != ''
+      if res.stderr == '' && res.stdout != ''
+        let body = res.stdout
         let query = matchstr(body, '^-*\n\zs.\{-}\ze\n')
         return query != '' ? {'body': body, 'query': query} : body
       endif
