@@ -89,4 +89,4 @@ g:ref_alc_use_cache				*g:ref_alc_use_cache*
 	- 初版。
 
 ==============================================================================
-vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl:nolist
