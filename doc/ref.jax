@@ -28,7 +28,6 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 ェースで複数のリファレンスを閲覧できます。
 
 このプラグインには以下のソースが含まれています:
-- alc		(|ref-alc.txt|)
 - clojure	(|ref-clojure.txt|)
 - erlang	(|ref-erlang.txt|)
 - man		(|ref-man.txt|)
