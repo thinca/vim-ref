@@ -94,8 +94,13 @@ function! s:source.get_body(query)
 endfunction
 
 function! s:source.opened(query)
-  call s:syntax(matchstr(a:query, '^\s*\S*\s*\zs.*'))
-  let b:ref_source_webdict_site = matchstr(a:query, '^\s*\zs\S*')
+  let [name, site, keyword] = s:get_site_and_keyword_from_query(a:query)
+  if has_key(site, 'line')
+    execute site.line
+    execute "normal! z\<CR>"
+  endif
+  call s:syntax(keyword)
+  let b:ref_source_webdict_site = name
 endfunction
 
 function! s:source.get_keyword()

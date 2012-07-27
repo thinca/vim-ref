@@ -66,6 +66,8 @@ g:ref_source_webdict_sites		*g:ref_source_webdict_sites*
 	"filter"
 		出力を整形するための |Funcref| です。関数は出力を引数として取
 		ります。
+	"line"
+		バッファを開いた際にフォーカスする行番号です。
 
 	各設定のキーに指定した名前を、引数の先頭に指定します。
 	キーに "default"、値に設定の名前を文字列で設定すると、サイト名が省略さ
