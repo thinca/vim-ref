@@ -7,6 +7,9 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 " options. {{{1
+if !exists('g:ref_source_webdict_start_linenumber')
+  let g:ref_source_webdict_start_linenumber = 0
+endif
 
 if !exists('g:ref_source_webdict_cmd')
   let g:ref_source_webdict_cmd =
@@ -90,6 +93,7 @@ function! s:source.get_body(query)
 endfunction
 
 function! s:source.opened(query)
+  execute "normal! ".g:ref_source_webdict_start_linenumber."z\<CR>"
   call s:syntax(matchstr(a:query, '^\s*\S*\s*\zs.*'))
   let b:ref_source_webdict_site = matchstr(a:query, '^\s*\zs\S*')
 endfunction
