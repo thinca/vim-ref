@@ -75,7 +75,7 @@ function! s:source.get_body(query)
   let url = printf(site.url, arg)
   call map(cmd, 'substitute(v:val, "%s", url, "g")')
   if len(cmd) > 0 && cmd[0] =~ '^:'
-    return eval(join(cmd, ' ')[1:])
+    let res = eval(join(cmd, ' ')[1:])
   elseif get(site, 'cache', g:ref_source_webdict_use_cache)
     let expr = 'ref#system(' . string(cmd) . ').stdout'
     let res = join(ref#cache('webdict', query, expr), "\n")
