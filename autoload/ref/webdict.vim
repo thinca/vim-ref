@@ -15,7 +15,7 @@ if !exists('g:ref_source_webdict_cmd')
   \ executable('links')  ? 'links -dump %s' :
   \ executable('lynx')   ? 'lynx -dump -nonumbers %s' :
   \ len(globpath(&rtp, 'autoload/wwwrenderer.vim')) > 0
-  \   ? ':wwwrenderer#render("%s")' :
+  \   ? '=wwwrenderer#render("%s")' :
   \ ''
 endif
 
@@ -74,8 +74,12 @@ function! s:source.get_body(query)
 
   let url = printf(site.url, arg)
   call map(cmd, 'substitute(v:val, "%s", url, "g")')
-  if len(cmd) > 0 && cmd[0] =~ '^:'
+  if len(cmd) > 0 && cmd[0] =~ '^='
     let res = eval(join(cmd, ' ')[1:])
+  elseif len(cmd) > 0 && cmd[0] =~ '^:'
+    redir => res
+    silent! exe join(cmd, ' ')[1:]
+    redir END
   elseif get(site, 'cache', g:ref_source_webdict_use_cache)
     let expr = 'ref#system(' . string(cmd) . ').stdout'
     let res = join(ref#cache('webdict', query, expr), "\n")
