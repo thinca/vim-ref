@@ -125,6 +125,8 @@ function! s:syntax(mode)
 
 
   syntax include @refPerldocPerl syntax/perl.vim
+  " if exists('perl_fold'), above set foldmethod=syntax and sometimes too slow. so disable it.
+  setlocal foldmethod=manual
 
   " Adjust the end of heredoc.
   syntax clear perlHereDoc
