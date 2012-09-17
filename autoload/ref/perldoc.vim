@@ -93,6 +93,15 @@ function! s:source.get_keyword()
   return kwd
 endfunction
 
+function! s:source.normalize(query)
+  let query = a:query
+  if query =~ '^[a-z]\+$'
+    " lower case, assume it to be built-in function
+    let query = '-f ' . query
+  endif
+  return query
+endfunction
+
 function! s:source.leave()
   unlet! b:ref_perldoc_mode b:ref_perldoc_word
   silent! nunmap <buffer> <Plug>(ref-source-perldoc-switch)
