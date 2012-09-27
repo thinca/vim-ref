@@ -95,7 +95,7 @@ endfunction
 
 function! s:source.normalize(query)
   let query = a:query
-  if query =~ '^[a-z]\+$'
+  if query =~# '^[a-z]\+$'
     " lower case, assume it to be built-in function
     let query = '-f ' . query
   endif
