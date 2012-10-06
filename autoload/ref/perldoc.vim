@@ -16,6 +16,10 @@ if !exists('g:ref_perldoc_complete_head')  " {{{2
   let g:ref_perldoc_complete_head = 0
 endif
 
+if !exists('g:ref_perldoc_auto_append_f')  " {{{2
+  let g:ref_perldoc_auto_append_f = 0
+endif
+
 
 let s:source = {'name': 'perldoc'}  " {{{1
 
@@ -94,12 +98,14 @@ function! s:source.get_keyword()
 endfunction
 
 function! s:source.normalize(query)
-  let query = a:query
-  if query =~# '^[a-z]\+$'
-    " lower case, assume it to be built-in function
-    let query = '-f ' . query
-  endif
-  return query
+    let query = a:query
+    if g:ref_perldoc_auto_append_f && query =~# '^[a-z]\+$'
+        if index(s:func_list(''), query) !=# -1
+        " lower case, match function name, assume it to be built-in function
+        let query = '-f ' . query
+      endif
+    endif
+    return query
 endfunction
 
 function! s:source.leave()

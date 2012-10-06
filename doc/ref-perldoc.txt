@@ -61,6 +61,15 @@ g:ref_perldoc_complete_head			*g:ref_perldoc_complete_head*
 			The default value is 0.
 
 
+g:ref_perldoc_auto_append_f			*g:ref_perldoc_auto_append_f*
+			When a query only has lower-case characters,
+			append '-f' option to let perldoc search for built-in 
+			functions. 
+			Search for a module if the function was not
+			found.
+			The default value is 0.
+
+
 
 ==============================================================================
 ARGUMENTS					*ref-perldoc-arguments*

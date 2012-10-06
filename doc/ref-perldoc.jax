@@ -60,7 +60,14 @@ g:ref_perldoc_complete_head			*g:ref_perldoc_complete_head*
 			ます。
 			デフォルト値は 0 です。
 
+g:ref_perldoc_auto_append_f                     *g:ref_perldoc_auto_append_f*
+			クエリが全て小文字だった場合に'-f'をつけ、
+			組み込み関数のドキュメントを探します。
+			関数が見つからなければモジュールを探します。
+			デフォルト値は 0 です。
 
+
+                        
 
 ==============================================================================
 引数						*ref-perldoc-arguments*
