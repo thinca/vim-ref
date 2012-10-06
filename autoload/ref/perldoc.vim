@@ -99,11 +99,11 @@ endfunction
 
 function! s:source.normalize(query)
     let query = a:query
-    if g:ref_perldoc_auto_append_f &&  query =~# '^[a-z]\+$'
+    if g:ref_perldoc_auto_append_f && query =~# '^[a-z]\+$'
         if index(s:func_list(''), query) !=# -1
-            " lower case, match function name, assume it to be built-in function
-            let query = '-f ' . query
-        endif
+        " lower case, match function name, assume it to be built-in function
+        let query = '-f ' . query
+      endif
     endif
     return query
 endfunction
