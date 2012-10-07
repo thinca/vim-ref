@@ -97,10 +97,14 @@ function! s:source.get_keyword()
   return kwd
 endfunction
 
+let s:functions = []
 function! s:source.normalize(query)
     let query = a:query
     if g:ref_perldoc_auto_append_f && query =~# '^[a-z]\+$'
-        if index(s:func_list(''), query) !=# -1
+      if empty(s:functions)
+        let s:functions = s:func_list('')
+      endif
+      if index(s:functions, query) !=# -1
         " lower case, match function name, assume it to be built-in function
         let query = '-f ' . query
       endif
