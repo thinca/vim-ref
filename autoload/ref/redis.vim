@@ -48,7 +48,7 @@ function! s:source.get_body(query)
     return ''
   endif
 
-  let str = tolower(a:query)
+  let str = toupper(a:query)
   let cand = s:list()
   let hit = 0 <= index(cand, str)
   if !hit
@@ -115,7 +115,7 @@ function! s:func(name)
   return function(matchstr(expand('<sfile>'), '<SNR>\d\+_\zefunc$') . a:name)
 endfunction
 
-function! s:redis_command_list()
+function! s:redis_command_list(dummy)
   let commands = []
   if type(g:ref_redis_cmd) == type('')
     let cmd = split(g:ref_redis_cmd, '\s\+')
@@ -131,7 +131,8 @@ function! s:redis_command_list()
   for line in split(res, "\n")
     let matches = matchlist(line, 'http:\/\/redis\.io\/commands\/\(.*\)')
     if !empty(matches) && len(matches) > 1
-        call add(commands, matches[1])
+        let result = toupper(matches[1])
+        call add(commands, result)
     endif
   endfor
 
