@@ -96,6 +96,20 @@ endfunction
 
 " misc. {{{1
 function! s:syntax(query)
+  if ( exists('b:current_syntax') && ( b:current_syntax ==# 'ref-redis' ) )
+      return
+  endif
+
+  syntax clear
+  unlet! b:current_syntax
+  let commands = s:list()
+  syntax case match
+  for keyword in commands
+    execute 'syntax match refRedisCommand "\<'.keyword.'\>"'
+  endfor
+  highlight default link refRedisCommand Special
+
+  let b:current_syntax = 'ref-redis'
 endfunction
 
 " iconv() wrapper for safety.
