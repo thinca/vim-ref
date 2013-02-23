@@ -48,8 +48,16 @@ function! s:source.get_body(query)
     return ''
   endif
 
-
   let str = tolower(a:query)
+  let cand = s:list()
+  let hit = 0 <= index(cand, str)
+  if !hit
+    let list = s:match(cand, str)
+    if !empty(list)
+      return list
+    endif
+    throw printf('No documentation found for "%s".', str)
+  endif
 
   let url = 'http://redis.io/commands/' . str
   call map(cmd, 'substitute(v:val, "%s", url, "g")')
@@ -65,8 +73,12 @@ function! s:source.get_body(query)
 endfunction
 
 function! s:source.opened(query)
-  execute "normal! ".g:ref_redis_start_linenumber."z\<CR>"
-  call s:syntax(a:query)
+  let cand = s:list()
+  let hit = 0 <= index(cand, a:query)
+  if hit
+      execute "normal! ".g:ref_redis_start_linenumber."z\<CR>"
+      call s:syntax(a:query)
+  endif
 endfunction
 
 function! s:source.normalize(query)
@@ -85,6 +97,45 @@ function! s:iconv(expr, from, to)
   endif
   let result = iconv(a:expr, a:from, a:to)
   return result != '' ? result : a:expr
+endfunction
+
+function! s:list()
+    return ref#cache('redis', 'command_list', s:func('redis_command_list'))
+endfunction
+
+function! s:match(list, str)
+  let matched = filter(copy(a:list), 'v:val =~? "^\\V" . a:str')
+  if empty(matched)
+    let matched = filter(copy(a:list), 'v:val =~? "\\V" . a:str')
+  endif
+  return matched
+endfunction
+
+function! s:func(name)
+  return function(matchstr(expand('<sfile>'), '<SNR>\d\+_\zefunc$') . a:name)
+endfunction
+
+function! s:redis_command_list()
+  let commands = []
+  if type(g:ref_redis_cmd) == type('')
+    let cmd = split(g:ref_redis_cmd, '\s\+')
+  elseif type(g:ref_redis_cmd) == type([])
+    let cmd = copy(g:ref_redis_cmd)
+  else
+    return ''
+  endif
+  let url = 'http://redis.io/commands'
+  call map(cmd, 'substitute(v:val, "%s", url, "g")')
+
+  let res = ref#system(cmd).stdout
+  for line in split(res, "\n")
+    let matches = matchlist(line, 'http:\/\/redis\.io\/commands\/\(.*\)')
+    if !empty(matches) && len(matches) > 1
+        call add(commands, matches[1])
+    endif
+  endfor
+
+  return commands
 endfunction
 
 function! ref#redis#define()
