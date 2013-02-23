@@ -39,6 +39,14 @@ function! s:source.available()
   return !empty(g:ref_redis_cmd)
 endfunction
 
+function! s:source.complete(query)
+  let q = a:query == '' || a:query =~ '\s$' ? '' : split(a:query)[-1]
+
+  let list = s:list()
+  let q = toupper(q)
+  return s:head(list, q)
+endfunction
+
 function! s:source.get_body(query)
   if type(g:ref_redis_cmd) == type('')
     let cmd = split(g:ref_redis_cmd, '\s\+')
@@ -101,6 +109,12 @@ endfunction
 
 function! s:list()
     return ref#cache('redis', 'command_list', s:func('redis_command_list'))
+endfunction
+
+function! s:head(list, query)
+  let pat = '^\V' . a:query . '\w\*\v(::)?\zs.*$'
+  return ref#uniq(map(filter(copy(a:list), 'v:val =~# pat'),
+  \                   'substitute(v:val, pat, "", "")'))
 endfunction
 
 function! s:match(list, str)
