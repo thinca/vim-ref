@@ -50,12 +50,6 @@ function! s:source.get_body(query)
 
 
   let str = tolower(a:query)
-  " if str !~? '^redis'
-  "   let str = 'redis' . str
-  " endif
-  " if str !~? '^redis\d\+$'
-  "   return ''
-  " endif
 
   let url = 'http://redis.io/commands/' . str
   call map(cmd, 'substitute(v:val, "%s", url, "g")')
