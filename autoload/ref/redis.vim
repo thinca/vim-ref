@@ -85,6 +85,10 @@ function! s:source.get_body(query)
   else
     let res = ref#system(cmd).stdout
   endif
+  " let res = substitute(res, 'Related commands\r\n\r\n.*\r\n\r\n\r\n', '\r\n', '')
+
+  " delete related commands
+  let res = substitute(res, 'Related commands\n\n.*\n\n\s*Available', '   Available', '')
   return s:iconv(res, g:ref_redis_encoding, &encoding)
 endfunction
 
