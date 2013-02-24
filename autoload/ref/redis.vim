@@ -39,6 +39,14 @@ function! s:source.available()
   return !empty(g:ref_redis_cmd)
 endfunction
 
+function! s:source.get_keyword()
+  let isk = &l:iskeyword
+  setlocal isk& isk+=-
+  let kwd = expand('<cword>')
+  let &l:iskeyword = isk
+  return kwd
+endfunction
+
 function! s:source.complete(query)
   let q = a:query == '' || a:query =~ '\s$' ? '' : split(a:query)[-1]
 
