@@ -88,7 +88,7 @@ function! s:source.get_body(query)
   endif
   let encoding = get(site, 'output_encoding', g:ref_source_webdict_encoding)
   return {
-  \   'body': s:iconv(site.filter(res), encoding, &encoding),
+  \   'body': site.filter(s:iconv(res, encoding, &encoding)),
   \   'query': query,
   \ }
 endfunction
