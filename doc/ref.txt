@@ -23,9 +23,9 @@ CHANGELOG			|ref-changelog|
 ==============================================================================
 INTRODUCTION					*ref-introduction*
 
-*ref* is a Vim plugin to view the reference.  This plugin can be separated to
-core of viewer and sources of reference.  As a result, various references can
-be viewed by the same interface.
+*ref.vim* is a Vim plugin to view the reference.  This plugin can be separated
+to core of viewer and sources of reference.  As a result, various references
+can be viewed by the same interface.
 
 Following sources are included in this plugin:
 - clojure	(|ref-clojure.txt|)
