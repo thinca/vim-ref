@@ -148,9 +148,7 @@ function! ref#man#define()
   return copy(s:source)
 endfunction
 
-if s:source.available()
-  call ref#register_detection('c', 'man')
-endif
+call ref#register_detection('c', 'man')
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
