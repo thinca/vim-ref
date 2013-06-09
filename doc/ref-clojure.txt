@@ -75,6 +75,8 @@ g:ref_clojure_overview				*g:ref_clojure_overview*
 ==============================================================================
 CHANGELOG					*ref-clojure-changelog*
 
+0.1.1	2013-06-09
+	- Support clojure-1.5.
 0.1.0	2010-06-24
 	- Initial version.
 
