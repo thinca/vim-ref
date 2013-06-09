@@ -102,7 +102,7 @@ function! s:precode()
   let given = get(g:, 'ref_clojure_precode', '')
   \         . get(b:, 'ref_clojure_precode', '')
   return given ==# '' ?
-        \ '(ns vim-ref (:use [clojure.repl :only (find-doc)]))' :
+        \ '(ns vim-ref (:use [clojure.repl :only (doc find-doc)]))' :
         \ given
 endfunction
 
