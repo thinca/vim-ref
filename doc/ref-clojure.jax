@@ -1,6 +1,6 @@
 *ref-clojure.txt*	clojure 用の ref ソース。
 
-Version: 0.1.0
+Version: 0.1.1
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -61,6 +61,10 @@ b:ref_clojure_precode				*b:ref_clojure_precode*
 			"require" が指定されることを想定しています。
 			|b:ref_clojure_precode| は |g:ref_clojure_precode|
 			の値の後に追加されます。
+			なお、どちらも与えられていない場合、以下に示されるデフ
+			ォルトのコードが自動で挿入されます。これはfind-docを利
+			用可能にするためです。 >
+			(ns vim-ref (:use [clojure.repl :only (find-doc)]))
 
 g:ref_clojure_overview				*g:ref_clojure_overview*
 			真の場合、検索結果の各関数を 1 行で表示します。
