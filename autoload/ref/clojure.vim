@@ -9,7 +9,9 @@ set cpo&vim
 
 " options. {{{1
 if !exists('g:ref_clojure_cmd')  " {{{2
-  let g:ref_clojure_cmd = executable('clj') ? 'clj' : ''
+  let g:ref_clojure_cmd =
+        \ executable('clj') ? 'clj' :
+        \ executable('clojure-1.5') ? 'clojure-1.5' : ''
 endif
 
 if !exists('g:ref_clojure_overview')  " {{{2
