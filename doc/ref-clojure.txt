@@ -54,6 +54,10 @@ b:ref_clojure_classpath				*b:ref_clojure_classpath*
 			Specifies the $CLASSPATH by string or |List|.
 			|b:ref_clojure_classpath| is added ahead of the
 			|g:ref_clojure_classpath|.
+			When none of them are given ref-clojure automatically
+			adds the following line in order to enable using
+			find-doc. >
+			(ns vim-ref (:use [clojure.repl :only (find-doc)]))
 
 g:ref_clojure_precode				*g:ref_clojure_precode*
 b:ref_clojure_precode				*b:ref_clojure_precode*

@@ -99,8 +99,11 @@ function! s:classpath()
 endfunction
 
 function! s:precode()
-  return get(g:, 'ref_clojure_precode', '')
-  \    . get(b:, 'ref_clojure_precode', '')
+  let given = get(g:, 'ref_clojure_precode', '')
+  \         . get(b:, 'ref_clojure_precode', '')
+  return given ==# '' ?
+        \ '(ns vim-ref (:use [clojure.repl :only (find-doc)]))' :
+        \ given
 endfunction
 
 function! s:syntax()
