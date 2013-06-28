@@ -138,7 +138,7 @@ function! s:list()
 endfunction
 
 function! s:head(list, query)
-  let pat = '^\V' . a:query . '\w\*\v(::)?\zs.*$'
+  let pat = '^\V' . a:query . '\S\*\v\zs.*$'
   return ref#uniq(map(filter(copy(a:list), 'v:val =~# pat'),
   \                   'substitute(v:val, pat, "", "")'))
 endfunction
