@@ -169,7 +169,7 @@ function! s:redis_command_list(dummy)
 
   let res = ref#system(cmd).stdout
   for line in split(res, "\n")
-    let matches = matchlist(line, 'http:\/\/redis\.io\/commands\/\(.*\)')
+    let matches = matchlist(line, '^\{-}\([A-Z]\+\)\s')
     if !empty(matches) && len(matches) > 1
         let result = toupper(matches[1])
         call add(commands, result)
