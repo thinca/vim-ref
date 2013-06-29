@@ -114,7 +114,7 @@ function! s:syntax(query)
 
   syntax clear
   unlet! b:current_syntax
-  let commands = s:list()
+  let commands = map(copy(s:list()), 'substitute(v:val, "-", " ", "")')
   syntax case match
   for keyword in commands
     execute 'syntax match refRedisCommand "\<'.keyword.'\>"'
@@ -138,7 +138,7 @@ function! s:list()
 endfunction
 
 function! s:head(list, query)
-  let pat = '^\V' . a:query . '\w\*\v(::)?\zs.*$'
+  let pat = '^\V' . a:query . '\S\*\v\zs.*$'
   return ref#uniq(map(filter(copy(a:list), 'v:val =~# pat'),
   \                   'substitute(v:val, pat, "", "")'))
 endfunction
@@ -169,9 +169,10 @@ function! s:redis_command_list(dummy)
 
   let res = ref#system(cmd).stdout
   for line in split(res, "\n")
-    let matches = matchlist(line, 'http:\/\/redis\.io\/commands\/\(.*\)')
+    let matches = matchlist(line, '\(\u\+\s\%(\u\{2,}\s\)\?\)')
     if !empty(matches) && len(matches) > 1
-        let result = toupper(matches[1])
+        let result = toupper(substitute(
+              \ substitute(matches[1], '\s$', '', ''), '\s', '-', ''))
         call add(commands, result)
     endif
   endfor
