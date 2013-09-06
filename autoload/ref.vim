@@ -710,7 +710,7 @@ function! s:validate(source, key, type)
     throw 'ref: Invalid source: Without key ' . string(a:key)
   elseif type(a:source[a:key]) != s:T[a:type]
     throw 'ref: Invalid source: Key ' . key . ' must be ' . a:type . ', ' .
-    \     'but given value is' string(a:source[a:key])
+    \     'but given value is' . string(a:source[a:key])
   endif
 endfunction
 
