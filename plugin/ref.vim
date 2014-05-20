@@ -15,8 +15,8 @@ set cpo&vim
 
 command! -nargs=+ -complete=customlist,ref#complete Ref call ref#ref(<q-args>)
 
-nnoremap <silent> <Plug>(ref-keyword) :<C-u>call ref#K('normal')<CR>
-vnoremap <silent> <Plug>(ref-keyword) :<C-u>call ref#K('visual')<CR>
+nnoremap <silent> <Plug>(ref-keyword) :<C-u>call ref#K('normal',v:count1)<CR>
+vnoremap <silent> <Plug>(ref-keyword) :<C-u>call ref#K('visual',v:count1)<CR>
 
 if !exists('g:ref_no_default_key_mappings') || !g:ref_no_default_key_mappings
   silent! nmap <silent> <unique> K <Plug>(ref-keyword)
