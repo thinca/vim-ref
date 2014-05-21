@@ -31,7 +31,7 @@ let s:T = {
 \     'float': type(0.0),
 \   }
 
-let s:options = ['-open=', '-new', '-nocache', '-noenter', '-updatecache', '-page=']
+let s:options = ['-open=', '-new', '-nocache', '-noenter', '-updatecache']
 
 let s:sources = {}
 
