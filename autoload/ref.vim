@@ -96,9 +96,9 @@ function! ref#complete(lead, cmd, pos)
   endtry
 endfunction
 
-function! ref#K(mode)
+function! ref#K(mode, count)
   try
-    call ref#jump(a:mode)
+    call ref#jump(a:mode, {'page': v:count1})
   catch /^ref:/
     if a:mode ==# 'visual'
       call feedkeys('gvK', 'n')
@@ -555,6 +555,7 @@ function! s:open(source, query, options)
 
   let query = source.normalize(a:query)
   try
+    let query = a:source=='man' ? a:options.page . ' ' . query : query
     let res = source.get_body(query)
     if type(res) == s:T.dictionary
       let dict = res
