@@ -441,6 +441,7 @@ function! s:initialize_buffer(source)
   setlocal buftype=nofile noswapfile
   setlocal bufhidden=delete
   setlocal nonumber
+  setlocal norelativenumber
 
   let b:ref_history = []  " stack [source, query, changenr, cursor]
   let b:ref_history_pos = -1  " pointer
