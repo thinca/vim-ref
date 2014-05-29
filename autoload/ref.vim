@@ -556,7 +556,7 @@ function! s:open(source, query, options)
 
   let query = source.normalize(a:query)
   try
-    let query = a:source=='man' ? a:options.page . ' ' . query : query
+    let query = a:source=='man' && has_key(a:options, 'page') ? a:options.page . ' ' . query : query
     let res = source.get_body(query)
     if type(res) == s:T.dictionary
       let dict = res
