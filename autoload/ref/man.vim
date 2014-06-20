@@ -149,6 +149,7 @@ function! ref#man#define()
 endfunction
 
 call ref#register_detection('c', 'man')
+call ref#register_detection('cpp', 'man')
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
