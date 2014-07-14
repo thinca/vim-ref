@@ -12,9 +12,7 @@ if !exists('g:ref_open')
   let g:ref_open = 'split'
 endif
 
-if !exists('g:ref_cache_dir')
-  let g:ref_cache_dir = expand('~/.vim_ref_cache')
-endif
+let g:ref_cache_dir = expand(get(g:, 'ref_cache_dir', '~/.vim_ref_cache'))
 
 if !exists('g:ref_use_vimproc')
   let g:ref_use_vimproc = globpath(&runtimepath, 'autoload/vimproc.vim') != ''
