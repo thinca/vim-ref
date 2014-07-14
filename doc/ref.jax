@@ -266,7 +266,7 @@ g:ref_open					*g:ref_open*
 
 g:ref_cache_dir					*g:ref_cache_dir*
 	キャッシュを保持しておくためのディレクトリです。|ref#cache()| はこの値
-	を参照してキャッシュファイルを生成します。。デフォルト値は
+	を参照してキャッシュファイルを生成します。デフォルト値は
 	"~/.vim_ref_cache" です。~ はホームディレクトリを表します。
 
 g:ref_use_vimproc				*g:ref_use_vimproc*
