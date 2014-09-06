@@ -9,7 +9,7 @@ set cpo&vim
 
 " options. {{{1
 if !exists('g:ref_pydoc_cmd')  " {{{2
-  let g:ref_pydoc_cmd = 'python -m pydoc'
+  let g:ref_pydoc_cmd = executable('python') ? 'python -m pydoc' : ''
 endif
 
 if !exists('g:ref_pydoc_complete_head')  " {{{2
