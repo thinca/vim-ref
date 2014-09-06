@@ -33,8 +33,8 @@ CUSTOMIZING					*ref-pydoc-customizing*
 g:ref_pydoc_cmd					*g:ref_pydoc_cmd*
 			Specifies the pydoc command.  This allows a |List|
 			that includes command and arguments.
-			The default value is "pydoc" if it is executable.
-			Otherwise, it is "".
+			The default value is "python -m pydoc" if "python" is
+			executable.  Otherwise, it is "".
 
 g:ref_pydoc_complete_head			*g:ref_pydoc_complete_head*
 			The completion candidate of the module is displayed by
