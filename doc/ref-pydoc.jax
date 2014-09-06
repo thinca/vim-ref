@@ -1,6 +1,6 @@
 *ref-pydoc.txt*	pydoc 用の ref ソース。
 
-Version: 0.4.1
+Version: 0.4.2
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -33,8 +33,8 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 g:ref_pydoc_cmd					*g:ref_pydoc_cmd*
 			pydoc コマンドを指定します。コマンドとその引数を含む
 			|List| も指定できます。
-			デフォルト値は、実行可能ならば "pydoc" です。そうでな
-			ければ "" です。
+			デフォルト値は、"python" コマンドが実行可能ならば
+			"python -m pydoc" です。そうでなければ "" です。
 
 g:ref_pydoc_complete_head			*g:ref_pydoc_complete_head*
 			モジュールを補完する際にモジュール名単位で候補を表示し
@@ -45,6 +45,9 @@ g:ref_pydoc_complete_head			*g:ref_pydoc_complete_head*
 
 ==============================================================================
 更新履歴					*ref-pydoc-changelog*
+
+0.4.2	2014-09-06
+	- |g:ref_pydoc_cmd| のデフォルト値を変更。
 
 0.4.1	2010-06-03
 	- リストが表示できないバグを修正。

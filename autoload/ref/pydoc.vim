@@ -1,5 +1,5 @@
 " A ref source for pydoc.
-" Version: 0.4.1
+" Version: 0.4.2
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -9,7 +9,7 @@ set cpo&vim
 
 " options. {{{1
 if !exists('g:ref_pydoc_cmd')  " {{{2
-  let g:ref_pydoc_cmd = 'python -m pydoc'
+  let g:ref_pydoc_cmd = executable('python') ? 'python -m pydoc' : ''
 endif
 
 if !exists('g:ref_pydoc_complete_head')  " {{{2
