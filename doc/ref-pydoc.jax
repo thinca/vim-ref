@@ -1,6 +1,6 @@
 *ref-pydoc.txt*	pydoc 用の ref ソース。
 
-Version: 0.4.1
+Version: 0.4.2
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -45,6 +45,9 @@ g:ref_pydoc_complete_head			*g:ref_pydoc_complete_head*
 
 ==============================================================================
 更新履歴					*ref-pydoc-changelog*
+
+0.4.2	2014-09-06
+	- |g:ref_pydoc_cmd| のデフォルト値を変更。
 
 0.4.1	2010-06-03
 	- リストが表示できないバグを修正。
