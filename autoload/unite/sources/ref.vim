@@ -15,7 +15,7 @@ let s:source = {
 function! s:source.gather_candidates(args, context)
   return map(self.source__ref_source.complete(a:context.input), '{
   \   "word" : v:val,
-  \   "kind" : "ref",
+  \   "kind" : self.name,
   \   "source" : self.name,
   \   "action__ref_source" : self.source__ref_source,
   \ }')
@@ -27,6 +27,7 @@ function! s:define(ref_source)
   let source.name = 'ref/' . name
   let source.description = 'candidates from ref-' . a:ref_source.name
   let source.source__ref_source = a:ref_source
+  let source.parents = ['ref']
   if has_key(a:ref_source, 'unite') && type(a:ref_source.unite) == type({})
     let source.source__original = copy(source)
     call extend(source, a:ref_source.unite)
@@ -35,6 +36,9 @@ function! s:define(ref_source)
 endfunction
 
 function! unite#sources#ref#define()
+  call map(filter(values(ref#available_sources()),
+  \                 'v:val.available() && has_key(v:val, "complete")'),
+  \          'unite#define_kind(s:define(v:val))')
   return map(filter(values(ref#available_sources()),
   \                 'v:val.available() && has_key(v:val, "complete")'),
   \          's:define(v:val)')
