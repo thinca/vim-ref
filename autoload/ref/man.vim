@@ -27,6 +27,9 @@ endfunction
 
 function! s:source.get_body(query)
   let [query, sec] = s:parse(a:query)
+  if sec !~# '\d' && v:count
+    let sec = v:count
+  endif
   let q = sec =~ '\d' ? [sec, query] : [query]
 
   let opt_lang = self.option('lang')

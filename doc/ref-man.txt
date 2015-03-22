@@ -20,6 +20,10 @@ INTRODUCTION					*ref-man-introduction*
 *ref-man* is a source for |ref| to man command.  man is a command to view
 manual pages on UNIX-like operating systems.
 
+You can use [count] when you use |<Plug>(ref-keyword)|.
+For example, when you type "3K" on the text "printf", the manpage of printf
+function will be opened.
+
 
 Requirements:
 - |ref| 0.4.0 or later

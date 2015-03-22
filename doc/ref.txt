@@ -213,10 +213,6 @@ KEY MAPPINGS					*ref-key-mappings*
 			source.  When the source that should be used is not
 			found, the same behavior as |K|.
 
-                        if source=='man' , then a count is avaliable, <count>
-                        K would call man <count> to select page. such as 3K
-                        means man 3.
-
 
 
 The following key mappings are available in |ref-viewer|.

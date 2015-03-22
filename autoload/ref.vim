@@ -556,7 +556,6 @@ function! s:open(source, query, options)
 
   let query = source.normalize(a:query)
   try
-    let query = a:source=='man' ? v:count1 . ' ' . query : query
     let res = source.get_body(query)
     if type(res) == s:T.dictionary
       let dict = res
