@@ -1,6 +1,6 @@
 *ref-man.txt*	manpage 用の ref ソース。
 
-Version: 0.4.2
+Version: 0.4.3
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -50,6 +50,9 @@ g:ref_man_lang					*g:ref_man_lang*
 
 ==============================================================================
 更新履歴					*ref-man-changelog*
+
+0.4.3	2015-03-22
+	- [count] の挙動を修正。
 
 0.4.2	2010-10-26
 	- . 入りの項目が補完されないバグを修正。
