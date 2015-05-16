@@ -20,7 +20,6 @@ if !exists('g:ref_perldoc_auto_append_f')  " {{{2
   let g:ref_perldoc_auto_append_f = 0
 endif
 
-
 let s:source = {'name': 'perldoc'}  " {{{1
 
 function! s:source.available()
@@ -47,8 +46,7 @@ function! s:source.get_body(query)
     let cmdarg += ['-m']
   endif
 
-  let res = ref#system((type(g:ref_perldoc_cmd) == type('') ?
-  \   split(g:ref_perldoc_cmd, '\s\+') : g:ref_perldoc_cmd) + cmdarg + [q])
+  let res = ref#system(s:perldoc_cmd() + cmdarg + [q])
 
   if res.stdout == ''
     throw printf('No documentation found for "%s".', q)
@@ -214,7 +212,7 @@ endfunction
 
 function! s:basepod_list(name)
   let basepods = []
-  let base = ref#system(['perl', '-MConfig', '-e',
+  let base = ref#system(s:perl_cmd() + ['-MConfig', '-e',
   \                      'print $Config{installprivlib}']).stdout
   for dir in ['pod', 'pods']
     if filereadable(printf('%s/%s/perl.pod', base, dir))
@@ -232,7 +230,7 @@ function! s:basepod_list(name)
 endfunction
 
 function! s:modules_list(name)
-  let inc = ref#system(['perl', '-e', 'print join('';'', @INC)']).stdout
+  let inc = ref#system(s:perl_cmd() + ['-e', 'print join('';'', @INC)']).stdout
   let sep = '[/\\]'
   let files = {}
   let modules = []
@@ -252,7 +250,7 @@ function! s:modules_list(name)
 endfunction
 
 function! s:func_list(name)
-  let doc = ref#system('perldoc -u perlfunc').stdout
+  let doc = ref#system(s:perldoc_cmd() + ['-u', 'perlfunc']).stdout
   let i = 0
   let funcs = []
   while 1
@@ -268,6 +266,23 @@ endfunction
 
 function! s:func(name)
   return function(matchstr(expand('<sfile>'), '<SNR>\d\+_\zefunc$') . a:name)
+endfunction
+
+function! s:perl_cmd()
+  if filereadable('cpanfile.snapshot') && executable('carton')
+    return ['carton', 'exec', '--', 'perl']
+  else
+    return ['perl']
+  endif
+endfunction
+
+function! s:perldoc_cmd()
+  if filereadable('cpanfile.snapshot') && executable('carton')
+    return ['carton', 'exec', '--', 'perldoc']
+  else
+    return type(g:ref_perldoc_cmd) == type('')
+    \      split(g:ref_perldoc_cmd, '\s\+') : g:ref_perldoc_cmd
+  endif
 endfunction
 
 function! ref#perldoc#define()
