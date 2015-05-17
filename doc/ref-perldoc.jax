@@ -1,6 +1,6 @@
 *ref-perldoc.txt*	perldoc 用の ref ソース。
 
-Version: 0.3.4
+Version: 0.3.5
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -110,6 +110,9 @@ b:ref_perldoc_word				*b:ref_perldoc_word*
 
 ==============================================================================
 更新履歴					*ref-perldoc-changelog*
+
+0.3.5	2015-05-17
+	- carton に対応した。
 
 0.3.4	2011-02-10
 	- 補完候補に対して |ref#uniq()| を呼ぶようにした。
