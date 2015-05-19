@@ -280,7 +280,7 @@ function! s:perldoc_cmd()
   if filereadable('cpanfile.snapshot') && executable('carton')
     return ['carton', 'exec', '--', 'perldoc']
   else
-    return type(g:ref_perldoc_cmd) == type('')
+    return type(g:ref_perldoc_cmd) == type('') ?
     \      split(g:ref_perldoc_cmd, '\s\+') : g:ref_perldoc_cmd
   endif
 endfunction
