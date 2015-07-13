@@ -117,7 +117,9 @@ endfunction
 
 function! s:source.option(opt)
   if a:opt ==# 'manpath'
-    return ref#system('manpath').stdout
+    return exists('g:ref_man_manpath') ? g:ref_man_manpath :
+    \	            $MANPATH !=# '' ? $MANPATH :
+    \	            ref#system('manpath').stdout
   endif
   return g:ref_man_{a:opt}
 endfunction
