@@ -48,6 +48,10 @@ g:ref_man_lang					*g:ref_man_lang*
 			It is used for the value of $LANG when it is not empty
 			string.
 
+g:ref_man_manpath				*g:ref_man_manpath*
+			Specifies the list of directories to search for man
+			pages.  Separate directories with colons.
+
 
 
 ==============================================================================
