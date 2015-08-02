@@ -13,7 +13,7 @@ if !exists('g:ref_open')
 endif
 
 if !exists('g:ref_cache_dir')
-  let g:ref_cache_dir = expand('~/.vim_ref_cache')
+  let g:ref_cache_dir = expand('~/.cache/vim-ref')
 endif
 
 if !exists('g:ref_use_vimproc')
