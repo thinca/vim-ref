@@ -11,7 +11,9 @@ scriptencoding utf-8
 
 " config. {{{1
 if !exists('g:ref_man_cmd')  " {{{2
-  let g:ref_man_cmd = executable('man') ? 'man' : ''
+  " '-Tutf8' option is workaround for multi-byte environment.
+  " The option might be unnecessary someday.
+  let g:ref_man_cmd = executable('man') ? 'man -Tutf8' : ''
 endif
 
 if !exists('g:ref_man_lang')  " {{{2

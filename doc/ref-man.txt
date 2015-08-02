@@ -36,8 +36,10 @@ CUSTOMIZING					*ref-man-customizing*
 g:ref_man_cmd					*g:ref_man_cmd*
 			Specifies the man command.  This allows a |List| that
 			includes command and arguments.
-			The default value is "man" if it is executable.
-			Otherwise, it is "".
+			The default value is "man -Tutf8" if it is executable.
+			Otherwise, it is "".  "-Tutf8" option is workaround
+			for multi-byte environment.  The option might be
+			unnecessary someday.
 			Note: If you are a MacVim user, you may want to
 			specify a dummy pager of man command with the
 			following line in your ~/.vimrc. >
