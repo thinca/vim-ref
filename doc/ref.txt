@@ -34,7 +34,14 @@ Following sources are included in this plugin:
 - perldoc	(|ref-perldoc.txt|)
 - phpmanual	(|ref-phpmanual.txt|)
 - pydoc		(|ref-pydoc.txt|)
+- redis
 - refe		(|ref-refe.txt|)
+- rfc
+- webdict	(|ref-webdict.txt|)
+
+Other interfaces are also available:
+- ku-ref	(|ku-ref.txt|)
+- unite-ref	(|unite-ref.txt|)
 
 Requirements:
 - Vim 7.2 or later
@@ -165,7 +172,7 @@ ref#system({expr} [, {input}])			*ref#system()*
 ref#to_list({expr}, ...)			*ref#to_list()*
 			Convert {expr} into a |List|.
 			If {expr} is a |List|, return {expr}.
-			If {expr} is a string, splitted by |split()|.
+			If {expr} is a string, split by |split()|.
 			Otherwise, return a |List| which contains {expr}.
 			When two or more arguments are passed, the one that
 			all the arguments were converted is joined and

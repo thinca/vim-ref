@@ -10,14 +10,13 @@ CONTENTS					*ref-man-contents*
 
 INTRODUCTION			|ref-man-introduction|
 CUSTOMIZING			|ref-man-customizing|
-BUGS				|ref-man-bugs|
 CHANGELOG			|ref-man-changelog|
 
 
 ==============================================================================
 INTRODUCTION					*ref-man-introduction*
 
-*ref-man* is a source for |ref| to man command.  man is a command to view
+*ref-man* is a source for |ref.vim| to man command.  man is a command to view
 manual pages on UNIX-like operating systems.
 
 You can use [count] when you use |<Plug>(ref-keyword)|.
@@ -26,7 +25,7 @@ function will be opened.
 
 
 Requirements:
-- |ref| 0.4.0 or later
+- |ref.vim| 0.4.0 or later
 - man
 
 
@@ -68,7 +67,7 @@ CHANGELOG					*ref-man-changelog*
 	- C language uses ref-man by default.
 
 0.4.0	2010-05-31
-	- Updated for |ref| 0.4.0.
+	- Updated for |ref.vim| 0.4.0.
 	- Don't use |vimproc|.
 	  - As for man command, setuid might be applied, but vimproc doesn't
 	    correspond setuid.
@@ -80,14 +79,14 @@ CHANGELOG					*ref-man-changelog*
 	- Some multi byte signs were replaced with ASCII character.
 
 0.3.1	2010-05-07
-	- Updated for |ref| 0.3.2.
+	- Updated for |ref.vim| 0.3.2.
 
 0.3.0	2010-04-15
-	- Updated for |ref| 0.3.0.
+	- Updated for |ref.vim| 0.3.0.
 	- Added |g:ref_man_lang| option.
 
 0.2.0	2010-01-28
-	- Updated for |ref| 0.2.0.
+	- Updated for |ref.vim| 0.2.0.
 	- Fixed a bug that doesn't work when |g:ref_man_cmd| is a |List|.
 
 0.1.3	2010-01-18

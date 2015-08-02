@@ -34,7 +34,14 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 - perldoc	(|ref-perldoc.txt|)
 - phpmanual	(|ref-phpmanual.txt|)
 - pydoc		(|ref-pydoc.txt|)
+- redis
 - refe		(|ref-refe.txt|)
+- rfc
+- webdict	(|ref-webdict.txt|)
+
+他のインターフェースも利用できます:
+- ku-ref	(|ku-ref.txt|)
+- unite-ref	(|unite-ref.txt|)
 
 要件:
 - Vim 7.2 以降

@@ -17,10 +17,10 @@ License: zlib License
 ==============================================================================
 概要						*ref-webdict-introduction*
 
-*ref-webdict* は Web 上にある辞書を扱うための |ref| ソースです。
+*ref-webdict* は Web 上にある辞書を扱うための |ref.vim| ソースです。
 
 要件:
-- |ref| 0.3.2 以降
+- |ref.vim| 0.3.2 以降
 - 任意のテキストブラウザ
   - elinks
   - w3m
