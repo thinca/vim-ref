@@ -17,13 +17,13 @@ CHANGELOG			|ref-erlang-changelog|
 ==============================================================================
 INTRODUCTION					*ref-erlang-introduction*
 
-*ref-erlang* is a source for |ref| to Erlang's man(erl -man).  Erlang's man
-works only on UNIX-like operating system.  So, this source supports similarly
-only UNIX-like operating system.
+*ref-erlang* is a source for |ref.vim| to Erlang's man(erl -man).  Erlang's
+man works only on UNIX-like operating system.  So, this source supports
+similarly only UNIX-like operating system.
 
 
 Requirements:
-- |ref| 0.4.1 or later
+- |ref.vim| 0.4.1 or later
 - |ref-man| 0.4.1 or later
 - UNIX-like operating system
 

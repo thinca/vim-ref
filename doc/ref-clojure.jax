@@ -16,10 +16,10 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 ==============================================================================
 概要						*ref-clojure-introduction*
 
-*ref-clojure* は clojure 用の |ref| のソースです。
+*ref-clojure* は clojure 用の |ref.vim| のソースです。
 
-Requirements:
-- |ref| 0.4.1 以降
+要件:
+- |ref.vim| 0.4.1 以降
 - clojure
 
 

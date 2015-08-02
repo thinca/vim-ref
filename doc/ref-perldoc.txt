@@ -9,6 +9,8 @@ License: Creative Commons Attribution 2.1 Japan License
 CONTENTS					*ref-perldoc-contents*
 
 INTRODUCTION			|ref-perldoc-introduction|
+INTERFACE			|ref-perldoc-interface|
+  KEY MAPPINGS			  |ref-perldoc-key-mappings|
 CUSTOMIZING			|ref-perldoc-customizing|
 ARGUMENTS			|ref-perldoc-arguments|
 VARIABLES			|ref-perldoc-variables|
@@ -19,12 +21,12 @@ CHANGELOG			|ref-perldoc-changelog|
 ==============================================================================
 INTRODUCTION					*ref-perldoc-introduction*
 
-*ref-perldoc* is a source for |ref| to perldoc command.  perldoc is a command
-line tool to view the reference manual on Perl.
+*ref-perldoc* is a source for |ref.vim| to perldoc command.  perldoc is a
+command line tool to view the reference manual on Perl.
 
 
 Requirements:
-- |ref| 0.3.2 or later
+- |ref.vim| 0.3.2 or later
 - perldoc
 
 
@@ -132,14 +134,14 @@ CHANGELOG					*ref-perldoc-changelog*
 	- Look for the module also that the completion candidate doesn't have.
 
 0.3.1	2010-05-07
-	- Updated for |ref| 0.3.2.
+	- Updated for |ref.vim| 0.3.2.
 
 0.3.0	2010-04-18
-	- Updated for |ref| 0.3.0.
+	- Updated for |ref.vim| 0.3.0.
 	- Added |g:ref_perldoc_complete_head| option.
 
 0.2.0	2010-01-28
-	- Updated for |ref| 0.2.0.
+	- Updated for |ref.vim| 0.2.0.
 	- Fixed a bug that doesn't work the -f option.
 	- Fixed a bug that doesn't work when |g:ref_perldoc_cmd| is a |List|.
 

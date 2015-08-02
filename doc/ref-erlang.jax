@@ -17,13 +17,13 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 ==============================================================================
 概要						*ref-erlang-introduction*
 
-*ref-erlang* は Erlang の man(erl -man) を閲覧するための |ref| のソースです。
-Erlang の man は Unix 系 OS でのみ動作します。よって、このソースも Unix 系 OS
-のみをサポートします。
+*ref-erlang* は Erlang の man(erl -man) を閲覧するための |ref.vim| のソースで
+す。Erlang の man は Unix 系 OS でのみ動作します。よって、このソースも Unix 系
+OSのみをサポートします。
 
 
 要件:
-- |ref| 0.4.1 以降
+- |ref.vim| 0.4.1 以降
 - |ref-man| 0.4.1 or later
 - UNIX 系 OS
 

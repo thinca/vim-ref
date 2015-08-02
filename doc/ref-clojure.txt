@@ -16,10 +16,10 @@ CHANGELOG			|ref-clojure-changelog|
 ==============================================================================
 INTRODUCTION					*ref-clojure-introduction*
 
-*ref-clojure* is a source for |ref| to clojure.
+*ref-clojure* is a source for |ref.vim| to clojure.
 
 Requirements:
-- |ref| 0.4.1 or later
+- |ref.vim| 0.4.1 or later
 - clojure
 
 
@@ -54,17 +54,17 @@ b:ref_clojure_classpath				*b:ref_clojure_classpath*
 			Specifies the $CLASSPATH by string or |List|.
 			|b:ref_clojure_classpath| is added ahead of the
 			|g:ref_clojure_classpath|.
-			When none of them are given ref-clojure automatically
-			adds the following line in order to enable using
-			doc and find-doc. >
-			(ns vim-ref (:use [clojure.repl :only (doc find-doc)]))
 
 g:ref_clojure_precode				*g:ref_clojure_precode*
 b:ref_clojure_precode				*b:ref_clojure_precode*
 			Specifies the code executed before searching.
 			It is assumed that "use" and "require" are specified.
-			|b:ref_clojure_classpath| is added after the value of
-			the |g:ref_clojure_classpath|.
+			|b:ref_clojure_precode| is added after the value of
+			the |g:ref_clojure_precode|.
+			When none of them are given ref-clojure automatically
+			adds the following line in order to enable using
+			doc and find-doc. >
+			(ns vim-ref (:use [clojure.repl :only (doc find-doc)]))
 
 g:ref_clojure_overview				*g:ref_clojure_overview*
 			If true, each function of the search result is

@@ -17,12 +17,12 @@ CHANGELOG			|unite-ref-changelog|
 ==============================================================================
 INTRODUCTION					*unite-ref-introduction*
 
-*unite-ref* is a source and a kind for |unite| to use |ref|.
+*unite-ref* is a source and a kind for |unite| to use |ref.vim|.
 
 Requirements:
 - Vim 7.2 or later
 - |unite| 1.0 or later
-- |ref| 0.4.2 or later
+- |ref.vim| 0.4.2 or later
 
 
 
@@ -43,7 +43,7 @@ FOR REF SOURCES					*unite-ref-for-ref-sources*
 
 If a source of ref has an attribute named "unite" and it is a |Dictionary|, it
 is extended to a source of unite.  As a result, the attribute of the source of
-unite can be overwrited.
+unite can be overwritten.
 If "unite" attribute exists, the unite source has "source__original"
 attribute.  This is useful to change a bit the default behavior.
 

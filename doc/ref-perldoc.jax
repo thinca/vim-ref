@@ -9,6 +9,8 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 目次						*ref-perldoc-contents*
 
 概要				|ref-perldoc-introduction|
+インターフェース		|ref-perldoc-interface|
+  キーマッピング		  |ref-perldoc-key-mappings|
 カスタマイズ			|ref-perldoc-customizing|
 引数				|ref-perldoc-arguments|
 変数				|ref-perldoc-variables|
@@ -19,12 +21,12 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 ==============================================================================
 概要						*ref-perldoc-introduction*
 
-*ref-perldoc* は perldoc コマンド用の |ref| のソースです。perldoc は Perl のリ
-ファレンスマニュアルを見るためのコマンドラインツールです。
+*ref-perldoc* は perldoc コマンド用の |ref.vim| のソースです。perldoc は Perl
+のリファレンスマニュアルを見るためのコマンドラインツールです。
 
 
 要件:
-- |ref| 0.3.2 以降
+- |ref.vim| 0.3.2 以降
 - perldoc
 
 
@@ -128,14 +130,14 @@ b:ref_perldoc_word				*b:ref_perldoc_word*
 	- 補完候補にないモジュールも探すようにした。
 
 0.3.1	2010-05-07
-	- |ref| 0.3.2 に対応。
+	- |ref.vim| 0.3.2 に対応。
 
 0.3.0	2010-04-18
-	- |ref| 0.3.0 に対応。
+	- |ref.vim| 0.3.0 に対応。
 	- |g:ref_perldoc_complete_head| オプションを追加。
 
 0.2.0	2010-01-28
-	- |ref| 0.2.0 に対応。
+	- |ref.vim| 0.2.0 に対応。
 	- -f オプションが使えないバグを修正。
 	- |g:ref_perldoc_cmd| が |List| だと動作しないバグを修正。
 

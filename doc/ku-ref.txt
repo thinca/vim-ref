@@ -18,7 +18,7 @@ CHANGELOG			|ku-ref-changelog|
 ==============================================================================
 INTRODUCTION					*ku-ref-introduction*
 
-*ku-ref* is a source for |ku| to treat the completion list of |ref|.
+*ku-ref* is a source for |ku| to treat the completion list of |ref.vim|.
 
 - There is a heavy possibility according to |ref-sources|.
 
@@ -26,7 +26,7 @@ INTRODUCTION					*ku-ref-introduction*
 Requirements:
 - Vim 7.2 or later
 - |ku| 0.2.0 or later (vimscript#2337)
-- |ref| 0.3.3 or later
+- |ref.vim| 0.3.3 or later
 
 
 ==============================================================================
@@ -68,10 +68,10 @@ on_source_leave()			|ku#{source}#on_source_leave()|
 CHANGELOG					*ku-ref-changelog*
 
 0.2.1	2010-05-18
-	- Updated for |ref| 0.3.3.
+	- Updated for |ref.vim| 0.3.3.
 
 0.2.0	2010-04-07
-	- Updated for |ref| 0.3.0.
+	- Updated for |ref.vim| 0.3.0.
 
 0.1.0	2009-08-20
 	- Initial version.
