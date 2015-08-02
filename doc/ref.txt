@@ -270,7 +270,7 @@ g:ref_open					*g:ref_open*
 
 g:ref_cache_dir					*g:ref_cache_dir*
 	The directory for caching.  Some sources uses this via |ref#cache()|.
-	The default value is "~/.vim_ref_cache".  ~ means home directory.
+	The default value is "~/.cache/vim-ref".  ~ means home directory.
 
 g:ref_use_vimproc				*g:ref_use_vimproc*
 	When true, |ref#system()| use |vimproc|.  When |vimproc#system()|
