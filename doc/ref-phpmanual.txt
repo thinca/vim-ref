@@ -21,7 +21,7 @@ INTRODUCTION					*ref-phpmanual-introduction*
 
 Requirements:
 - |ref.vim| 0.3.2 or later
-- PHP Manual (Many HTML files) (http://php.benscom.com/download-docs.php)
+- PHP Manual (Many HTML files) (http://www.php.net/download-docs.php)
 
 
 
