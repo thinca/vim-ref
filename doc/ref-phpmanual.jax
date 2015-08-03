@@ -37,6 +37,7 @@ g:ref_phpmanual_cmd				*g:ref_phpmanual_cmd*
 			に置き換えられます。コマンドとその引数を含む |List| も
 			指定できます。
 			デフォルト値は以下の物でコマンドが実行可能なものです。
+			実行可能なものがない場合は "" です。
 			- 'elinks -dump -no-numbering -no-references %s'
 			- 'w3m -dump %s'
 			- 'links -dump %s'

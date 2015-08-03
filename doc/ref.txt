@@ -39,6 +39,9 @@ Following sources are included in this plugin:
 - rfc
 - webdict	(|ref-webdict.txt|)
 
+External sources list (Japanese):
+https://github.com/thinca/vim-ref/wiki/sources
+
 Other interfaces are also available:
 - ku-ref	(|ku-ref.txt|)
 - unite-ref	(|unite-ref.txt|)
