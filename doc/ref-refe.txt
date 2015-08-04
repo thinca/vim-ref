@@ -23,7 +23,7 @@ tool to view the reference manual of Ruby.
 
 Requirements:
 - |ref.vim| 0.4.0 or later
-- ReFe (http://i.loveruby.net/en/projects/refe/)
+- ReFe (http://docs.ruby-lang.org/ja/2.2.0/doc/ReFe.html)
 
 Optional:
 - |ref-man|

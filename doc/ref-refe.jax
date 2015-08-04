@@ -23,7 +23,7 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 
 要件:
 - |ref.vim| 0.4.0 以降
-- ReFe (http://i.loveruby.net/ja/prog/refe.html)
+- ReFe (http://docs.ruby-lang.org/ja/2.2.0/doc/ReFe.html)
 
 オプション:
 - |ref-man|
