@@ -44,8 +44,10 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 g:ref_clojure_cmd				*g:ref_clojure_cmd*
 			clojure のコマンドを指定します。コマンドとその引数を含
 			む|List| も指定できます。
-			デフォルト値は、実行可能ならば "clj" です。そうでなけ
-			れば "" です。
+			デフォルト値は以下の物でコマンドが実行可能なものです。
+			実行可能なものがない場合は "" です。
+			- 'clj'
+			- 'clojure-1.5'
 			設定例: >
 			['java', '-cp', 'clojure.jar' 'clojure.main']
 

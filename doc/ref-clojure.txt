@@ -44,8 +44,10 @@ CUSTOMIZING					*ref-clojure-customizing*
 g:ref_clojure_cmd				*g:ref_clojure_cmd*
 			Specifies the clojure command.  This allows a |List|
 			that includes command and arguments.
-			The default value is "clj" if it is executable.
-			Otherwise, it is "".
+			The default value is the executable one of the
+			following.  If no executable one, it is "".
+			- 'clj'
+			- 'clojure-1.5'
 			Example: >
 			['java', '-cp', 'clojure.jar' 'clojure.main']
 

@@ -39,6 +39,9 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 - rfc
 - webdict	(|ref-webdict.txt|)
 
+標準添付以外のソースの一覧:
+https://github.com/thinca/vim-ref/wiki/sources
+
 他のインターフェースも利用できます:
 - ku-ref	(|ku-ref.txt|)
 - unite-ref	(|unite-ref.txt|)

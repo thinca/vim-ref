@@ -26,6 +26,7 @@ License: zlib License
   - w3m
   - links
   - lynx
+  - wwwrenderer-vim (https://github.com/mattn/wwwrenderer-vim)
 
 
 
@@ -77,11 +78,13 @@ g:ref_source_webdict_sites		*g:ref_source_webdict_sites*
 g:ref_source_webdict_cmd		*g:ref_source_webdict_cmd*
 	Webページを表示するためのコマンドです。%s はキーワードを引くための url
 	に置き換えられます。コマンドとその引数を含む |List| も指定できます。
-	デフォルト値は以下の物でコマンドが実行可能なものです。
+	デフォルト値は以下の物でコマンドが実行可能なものです。実行可能なものが
+	ない場合は "" です。
 	- 'elinks -dump -no-numbering -no-references %s'
 	- 'w3m -dump %s'
 	- 'links -dump %s'
 	- 'lynx -dump -nonumbers %s'
+	- '=wwwrenderer#render("%s")'
 
 g:ref_source_webdict_encoding		*g:ref_source_webdict_encoding*
 	|g:ref_source_webdict_cmd| で指定したコマンドの出力のエンコードを指定
