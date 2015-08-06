@@ -21,7 +21,7 @@ if !exists('g:ref_redis_cmd')  " {{{2
   \ executable('links')  ? 'links -dump %s' :
   \ executable('lynx')   ? 'lynx -dump -nonumbers %s' :
   \ len(globpath(&rtp, 'autoload/wwwrenderer.vim')) > 0
-  \   ? ':wwwrenderer#render("%s")' :
+  \   ? '=wwwrenderer#render("%s")' :
   \ ''
 endif
 
@@ -77,8 +77,12 @@ function! s:source.get_body(query)
 
   let url = 'http://redis.io/commands/' . str
   call map(cmd, 'substitute(v:val, "%s", url, "g")')
-  if len(cmd) > 0 && cmd[0] =~ '^:'
-    return eval(join(cmd, ' ')[1:])
+  if len(cmd) > 0 && cmd[0] =~ '^='
+    let res = eval(join(cmd, ' ')[1:])
+  elseif len(cmd) > 0 && cmd[0] =~ '^:'
+    redir => res
+    silent! exe join(cmd, ' ')[1:]
+    redir END
   elseif g:ref_redis_use_cache
     let expr = 'ref#system(' . string(cmd) . ').stdout'
     let res = join(ref#cache('redis', str, expr), "\n")
