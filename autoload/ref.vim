@@ -372,15 +372,26 @@ function! ref#system(args, ...)
     " By occasion of above, the command should be converted to fullpath.
     let args[0] = s:cmdpath(args[0])
     let q = '"'
-    let cmd = q . join(map(args,
-    \   'q . substitute(escape(v:val, q), "[<>^|&]", "^\\0", "g") . q'),
-    \   ' ') . q
+    if exists('+shellxescape') && &shellxquote ==# '('
+      let esc_chars = &shellxescape
+      let save_shellxescape = &shellxescape
+      let &shellxescape = ''
+    else
+      let esc_chars = '"&|<>()@^'
+    endif
+    let esc_pat = '[' . escape(esc_chars, '\]') . ']'
+    let cmd = join(map(args,
+    \   'q . substitute(v:val, esc_pat, "^\\0", "g") . q'),
+    \   ' ')
+    if !exists('+shellxquote') || &shellxquote ==# ''
+      let cmd = '( ' . cmd . ' )'
+    endif
   else
     let cmd = join(map(args, 'shellescape(v:val)'))
   endif
   let save_shellredir = &shellredir
   let stderr_file = tempname()
-  let &shellredir = '>%s 2>' . shellescape(stderr_file)
+  let &shellredir = '>%s 2>' . shellescape(stderr_file) . ' '
   let stdout = ''
   try
     let stdout = a:0 ? system(cmd, a:1) : system(cmd)
@@ -392,6 +403,9 @@ function! ref#system(args, ...)
       let stderr = ''
     endif
     let &shellredir = save_shellredir
+    if exists('save_shellxescape')
+      let &shellxescape = save_shellxescape
+    endif
   endtry
 
   return {
