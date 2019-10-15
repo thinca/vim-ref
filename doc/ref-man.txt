@@ -52,6 +52,15 @@ g:ref_man_lang					*g:ref_man_lang*
 g:ref_man_manpath				*g:ref_man_manpath*
 			Specifies the list of directories to search for man
 			pages.  Separate directories with colons.
+			The $ MANPATH environment variable is set as the
+			default value.
+			If `g:ref_man_manpath` is prefixed by a colon, then
+			the value of the system's manpath is inserted at the
+			beginning of the list. If the colon comes at the end
+			of the list, then the value of the system's manpath is
+			appended to the end of the list. If the list contains
+			a double colon (::), then the value of the system's
+			manpath is inserted between the two colons.
 
 
 
