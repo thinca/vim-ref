@@ -127,7 +127,7 @@ function! s:source.option(opt)
       let manpath = substitute(manpath, '::', '\=sys_manpath', 'g')
       let manpath = substitute(manpath, '^:\+\|:\{2,}\|:\+$', '', 'g')
     endif
-    let g:ref_man_manpath = manpath
+    return manpath
   endif
   return g:ref_man_{a:opt}
 endfunction
