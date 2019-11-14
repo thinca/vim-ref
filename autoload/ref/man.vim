@@ -119,9 +119,15 @@ endfunction
 
 function! s:source.option(opt)
   if a:opt ==# 'manpath'
-    return exists('g:ref_man_manpath') ? g:ref_man_manpath :
-    \	            $MANPATH !=# '' ? $MANPATH :
-    \	            ref#system('manpath').stdout
+    let manpath = exists('g:ref_man_manpath') ? g:ref_man_manpath : $MANPATH
+    let manpath = ':' . manpath . ':'
+    if manpath =~# '::'
+      let sys_manpath = ref#system('manpath').stdout
+      let sys_manpath = ':' . substitute(sys_manpath, '\n.*', '', '') . ':'
+      let manpath = substitute(manpath, '::', '\=sys_manpath', 'g')
+      let manpath = substitute(manpath, '^:\+\|:\{2,}\|:\+$', '', 'g')
+    endif
+    return manpath
   endif
   return g:ref_man_{a:opt}
 endfunction
