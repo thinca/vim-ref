@@ -20,7 +20,11 @@ vnoremap <silent> <Plug>(ref-keyword) :<C-u>call ref#K('visual')<CR>
 
 if !exists('g:ref_no_default_key_mappings') || !g:ref_no_default_key_mappings
   silent! nmap <silent> <unique> K <Plug>(ref-keyword)
-  silent! vmap <silent> <unique> K <Plug>(ref-keyword)
+  if exists(':xmap') == 2
+    silent! xmap <silent> <unique> K <Plug>(ref-keyword)
+  else
+    silent! vmap <silent> <unique> K <Plug>(ref-keyword)
+  endif
 endif
 
 
