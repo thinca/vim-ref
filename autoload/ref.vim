@@ -99,12 +99,14 @@ endfunction
 function! ref#K(mode)
   try
     call ref#jump(a:mode)
-  catch /^ref:/
+  catch /^ref: The source is not registered:/
     if a:mode ==# 'visual'
       call feedkeys('gvK', 'n')
     else
       call feedkeys('K', 'n')
     endif
+  catch /^ref:/
+    call s:echoerr(v:exception)
   endtry
 endfunction
 
