@@ -337,6 +337,8 @@ get_keyword()				*ref-source-attr-get_keyword()*
 			[{source-name}, {keyword}] の形式のリストを返すことも
 			できます。この場合指定されたソースでキーワードが開かれ
 			ます。
+			キーワードが見つからない場合はエラーメッセージと共に例
+			外を投げます。
 
 complete({query})			*ref-source-attr-complete()*
 			任意。コマンドラインの補完リストを返します。

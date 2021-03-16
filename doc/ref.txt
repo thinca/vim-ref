@@ -342,6 +342,8 @@ get_keyword()				*ref-source-attr-get_keyword()*
 			The list of the form of [{source-name}, {keyword}] can
 			be returned.  In this case, the keyword is opened by
 			the specified source.
+			Throws an exception with an error message if keyword
+			is not found.
 
 complete({query})			*ref-source-attr-complete()*
 			Optional.  Return the completion list for command-line.

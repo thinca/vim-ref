@@ -99,12 +99,14 @@ endfunction
 function! ref#K(mode)
   try
     call ref#jump(a:mode)
-  catch /^ref:/
+  catch /^ref: The source is not registered:/
     if a:mode ==# 'visual'
       call feedkeys('gvK', 'n')
     else
       call feedkeys('K', 'n')
     endif
+  catch /^ref:/
+    call s:echoerr(v:exception)
   endtry
 endfunction
 
@@ -524,9 +526,18 @@ endfunction
 function! s:get_query(mode, source)
   let [source, query] = [a:source, '']
   if a:mode ==# 'normal'
-    let pos = getpos('.')
-    let res = s:sources[source].get_keyword()
-    call setpos('.', pos)
+    try
+      let pos = getpos('.')
+      let res = s:sources[source].get_keyword()
+    catch
+      let mes = v:exception
+      if mes =~# '^Vim'
+        let mes .= "\n" . v:throwpoint
+      endif
+      throw printf('ref: %s: %s', source, mes)
+    finally
+      call setpos('.', pos)
+    endtry
     if type(res) == s:T.list && len(res) == 2
       let [source, query] = res
     else
